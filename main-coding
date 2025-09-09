@@ -1,3 +1,4 @@
-int 5 = 0; 
-String x = "Hellooo";
+import java.util*; 
+String y = "Hellooo";
 int x = 5; 
+println(x);
