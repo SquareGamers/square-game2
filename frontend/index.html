@@ -25,12 +25,10 @@
 <p id="rand"></p>
 
 <script>
-	let randomWords = [];
-    let listEasyBasicWords = ["Brick", "Jump", "Cloud", "Flame", "Stone", "Crisp", "Glow", "Blink", "Grin", "Sketch"]
-    let listMediumBasicWords = ["Adventure", "Cathedral", "Whisper", "Paradox", "Melody", "Science", "Circus", "Radiant", "Horizon", "Vibration"];
-    let listHardBasicWords = ["California", "Opportunity", "Imagination", "Uncontrollability", "Celebration", "Responsibility", "Himalayas", "Individuality", "Information", "Misinterpretation"];
-
-	for (let i = 0; i < 10; i++) {
+	
+  function startGameEasyBasic() {
+    randomWords = [];
+    for (let i = 0; i < 10; i++) {
        randomWords.push(listEasyBasicWords[i]);
     }
     
@@ -41,9 +39,53 @@
     	return rWord;
     }
     document.getElementById("rand").innerText = printWord();
+
+  }
+
+  function startGameMediumBasic() {
+    randomWords = [];
+    for (let i = 0; i < 10; i++) {
+       randomWords.push(listMediumBasicWords[i]);
+    }
+    
+    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
+   
+    
+    function printWord() {
+    	return rWord;
+    }
+    document.getElementById("rand").innerText = printWord();
+  }
+
+  function startGameHardBasic() {
+    randomWords = [];
+    for (let i = 0; i < 10; i++) {
+       randomWords.push(listHardBasicWords[i]);
+    }
+    
+    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
+   
+    
+    function printWord() {
+    	return rWord;
+    }
+    document.getElementById("rand").innerText = printWord();
+  }
+  
+  
+
+  let randomWords = [];
+  let listEasyBasicWords = ["Brick", "Jump", "Cloud", "Flame", "Stone", "Crisp", "Glow", "Blink", "Grin", "Sketch"]
+  let listMediumBasicWords = ["Adventure", "Cathedral", "Whisper", "Paradox", "Melody", "Science", "Circus", "Radiant", "Horizon", "Vibration"];
+  let listHardBasicWords = ["California", "Opportunity", "Imagination", "Uncontrollability", "Celebration", "Responsibility", "Himalayas", "Individuality", "Information", "Misinterpretation"];
+
+	
     
 </script>
 
+<button onclick="startGameEasyBasic()">Easy (Basic)</button>
+<button onclick="startGameMediumBasic()">Medium (Basic)</button>
+<button onclick="startGameHardBasic()">Hard (Basic)</button>
 
 
 </body>
