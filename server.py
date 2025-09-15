@@ -88,14 +88,5 @@ class MiniFlask:
 # create app
 app = MiniFlask(static_folder='frontend')
 
-@app.route('/api/hello', methods=['GET'])
-def hello(environ):
-    return {"message": "Hello from MiniFlask!"}
-
-@app.route('/api/echo', methods=['POST'])
-def echo(environ):
-    data = app.parse_json(environ)
-    return {"you_sent": data}
-
 if __name__ == '__main__':
     app.run()
