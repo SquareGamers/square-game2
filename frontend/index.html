@@ -2,19 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>MiniFlask Demo</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
-<body>
-  <h1>MiniFlask + Frontend Demo</h1>
-
-  <button id="btn-get">Generate new word</button>
-  <button id="btn-post">Refresh</button>
-
-  <pre id="out"></pre>
-
-  <script src="/app.js"></script>
-</body>
 </html>
 
 <!DOCTYPE html>
@@ -89,4 +78,100 @@
 
 
 </body>
+
+<head>
+  <title>Game Round</title>
+</head>
+<body>
+  <button id="redBtn">End Round RED</button>
+  <p id="scoresRed"></p>
+
+  <button id="blackBtn">End Round BLACK</button>
+  <p id="scoresBlack"></p>
+
+  <button id="resetBtn">Reset</button>
+  <p id="scoresReset"></p>
+
+  <input type="text" id="username" placeholder="Enter your name">
+  <button onclick="addName()">Submit</button>
+
+  <input type="text" id="gamemode" placeholder="4 player or 8 player?">
+  <button onclick="chooseGamemode()">Enter</button>
+
+<p id="output"></p>
+
+  <script>
+
+    document.getElementById("redBtn").addEventListener("click", () => {
+      players.guesserRed.score += 5;
+      players.explainerRed.score += 5;
+
+      document.getElementById("scoresRed").innerText = 
+        `${players.guesserRed.name}: ${players.guesserRed.score} | ${players.explainerRed.name}: ${players.explainerRed.score}`;
+    });
+
+    document.getElementById("blackBtn").addEventListener("click", () => {
+      players.guesserBlack.score += 5;
+      players.explainerBlack.score += 5;
+
+      document.getElementById("scoresBlack").innerText = 
+        `${players.guesserBlack.name}: ${players.guesserBlack.score} | ${players.explainerBlack.name}: ${players.explainerBlack.score}`;
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      players.guesserBlack.score = 0;
+      players.explainerBlack.score = 0;
+      players.guesserRed.score = 0;
+      players.explainerRed.score = 0;
+
+      document.getElementById("scoresRed").innerText = 
+        `${players.guesserRed.name}: ${players.guesserRed.score} | ${players.explainerRed.name}: ${players.explainerRed.score}`;
+      document.getElementById("scoresBlack").innerText = 
+        `${players.guesserBlack.name}: ${players.guesserBlack.score} | ${players.explainerBlack.name}: ${players.explainerBlack.score}`;
+  
+    });
+
+let players = {
+  guesserRed: { name: null, score: 0 },
+  explainerRed: { name: null, score: 0 },
+  guesserBlack: { name: null, score: 0 },
+  explainerBlack: { name: null, score: 0 }
+};
+
+const emptyArray = [];
+let i = 0; 
+function addName(){
+  const name = document.getElementById("username").value;
+  emptyArray.push(name);
+  i++; 
+  document.getElementById("output").innerText = emptyArray.join(", ");
+      if (i===1){
+        players.guesserRed = { name: name, score: 0 };
+        }
+      else if (i===2){
+      players.explainerRed = { name: name, score: 0 };
+        }
+      else if (i===3){
+      players.guesserBlack = { name: name, score: 0 };
+        }
+      else{
+      players.explainerBlack = { name: name, score: 0 };
+        }
+    };
+
+    function chooseGamemode(){
+      const gamemode = document.getElementById("gamemode").value;
+      if (gamemode === "4 player"){
+        return 4;
+      }
+      else if (gamemode === "8 player"){
+        return 8;
+      }
+      else{
+        alert("Please enter either '4 player' or '8 player'.");
+      }
+    }
+  </script>
+</body>
+
 </html>
