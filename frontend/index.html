@@ -95,71 +95,146 @@
   <input type="text" id="username" placeholder="Enter your name">
   <button onclick="addName()">Submit</button>
 
-  <input type="text" id="gamemode" placeholder="4 player or 8 player?">
-  <button onclick="chooseGamemode()">Enter</button>
+  <button id="pickBtn" onclick="chooseGamemode()">4 player</button>
+  <p id = "4playerText"></p>
 
 <p id="output"></p>
 
   <script>
 
     document.getElementById("redBtn").addEventListener("click", () => {
-      players.guesserRed.score += 5;
-      players.explainerRed.score += 5;
-
-      document.getElementById("scoresRed").innerText = 
-        `${players.guesserRed.name}: ${players.guesserRed.score} | ${players.explainerRed.name}: ${players.explainerRed.score}`;
+      increaseRed(); 
+      document.getElementById("scoresRed").innerText = displayRed();
     });
 
     document.getElementById("blackBtn").addEventListener("click", () => {
-      players.guesserBlack.score += 5;
-      players.explainerBlack.score += 5;
-
-      document.getElementById("scoresBlack").innerText = 
-        `${players.guesserBlack.name}: ${players.guesserBlack.score} | ${players.explainerBlack.name}: ${players.explainerBlack.score}`;
+      increaseBlack();
+      document.getElementById("scoresBlack").innerText = displayBlack();
     });
 
     document.getElementById("resetBtn").addEventListener("click", () => {
-      players.guesserBlack.score = 0;
-      players.explainerBlack.score = 0;
-      players.guesserRed.score = 0;
-      players.explainerRed.score = 0;
-
-      document.getElementById("scoresRed").innerText = 
-        `${players.guesserRed.name}: ${players.guesserRed.score} | ${players.explainerRed.name}: ${players.explainerRed.score}`;
-      document.getElementById("scoresBlack").innerText = 
-        `${players.guesserBlack.name}: ${players.guesserBlack.score} | ${players.explainerBlack.name}: ${players.explainerBlack.score}`;
-  
+      resetRed();
+      resetBlack();
+      document.getElementById("scoresRed").innerText = displayRed();
+      document.getElementById("scoresBlack").innerText = displayBlack();  
     });
 
-let players = {
-  guesserRed: { name: null, score: 0 },
-  explainerRed: { name: null, score: 0 },
-  guesserBlack: { name: null, score: 0 },
-  explainerBlack: { name: null, score: 0 }
-};
+function increaseRed(){
+  if (chooseGamemode() === 4){
+  players.guesserRed.score += 5;
+  players.explainerRed.score += 5;
+  }
+  else{
+    players.guesserRed.score += 5;
+    players.explainerRed.score += 5;
+    players.guesserRed2.score += 5;
+    players.explainerRed2.score += 5;
+  }
+}
 
-const emptyArray = [];
-let i = 0; 
-function addName(){
-  const name = document.getElementById("username").value;
-  emptyArray.push(name);
-  i++; 
-  document.getElementById("output").innerText = emptyArray.join(", ");
-      if (i===1){
-        players.guesserRed = { name: name, score: 0 };
-        }
-      else if (i===2){
-      players.explainerRed = { name: name, score: 0 };
-        }
-      else if (i===3){
-      players.guesserBlack = { name: name, score: 0 };
-        }
-      else{
-      players.explainerBlack = { name: name, score: 0 };
-        }
-    };
+function increaseBlack(){
+  if (chooseGamemode() === 4){
+  players.guesserBlack.score += 5;
+  players.explainerBlack.score += 5;
+  }
+  else{
+    players.guesserBlack.score += 5;
+    players.explainerBlack.score += 5;
+    players.guesserBlack2.score += 5;
+    players.explainerBlack2.score += 5;
+  }
+}
 
-    function chooseGamemode(){
+function resetRed(){
+  if (chooseGamemode() === 4){
+    players.guesserRed.score = 0;
+    players.explainerRed.score = 0;
+  }
+  else{
+    players.guesserRed.score = 0;
+    players.explainerRed.score = 0;
+    players.guesserRed2.score = 0;
+    players.explainerRed2.score = 0;
+  }
+}
+
+function resetBlack(){
+  if (chooseGamemode() === 4){
+    players.guesserBlack.score = 0;
+    players.explainerBlack.score = 0;
+  }
+  else{
+    players.guesserBlack.score = 0;
+    players.explainerBlack.score = 0;
+    players.guesserBlack2.score = 0;
+    players.explainerBlack2.score = 0;
+  }
+}
+
+function displayRed(){
+  if (players.length === 4){
+    return `${players.guesserRed.name}: ${players.guesserRed.score} | ${players.explainerRed.name}: ${players.explainerRed.score}`;
+
+  }
+  else{
+    return `${players.guesserRed.name}: ${players.guesserRed.score} | ${players.explainerRed.name}: ${players.explainerRed.score} || ${players.guesserRed2.name}: ${players.guesserRed2.score} | ${players.explainerRed2.name}: ${players.explainerRed2.score}`;
+  }
+}
+
+function displayBlack(){
+  if (players.length === 4){
+    return `${players.guesserBlack.name}: ${players.guesserBlack.score} | ${players.explainerBlack.name}: ${players.explainerBlack.score}`;
+  }
+  else{
+    return `${players.guesserBlack.name}: ${players.guesserBlack.score} | ${players.explainerBlack.name}: ${players.explainerBlack.score} || ${players.guesserBlack2.name}: ${players.guesserBlack2.score} | ${players.explainerBlack2.name}: ${players.explainerBlack2.score}`;
+  }
+}
+
+if (chooseGamemode() === 4){
+  let players = [
+  { role: "guesserRed", name: null, score: 0 },
+  { role: "explainerRed", name: null, score: 0 },
+  { role: "guesserBlack", name: null, score: 0 },
+  { role: "explainerBlack", name: null, score: 0 }
+];
+}
+else{
+  let players = [
+  { role: "guesserRed",   name: null, score: 0 },
+  { role: "explainerRed", name: null, score: 0 },
+  { role: "guesserBlack", name: null, score: 0 },
+  { role: "explainerBlack", name: null, score: 0 },
+  { role: "guesserRed2",   name: null, score: 0 },
+  { role: "explainerRed2", name: null, score: 0 },
+  { role: "guesserBlack2", name: null, score: 0 },
+  { role: "explainerBlack2", name: null, score: 0 }
+];
+
+}
+
+    function askQuestions() {
+  let gamemode = prompt("4 player or 8 player?");
+  
+  if (gamemode==="4") {  // only continue if answered
+    for (i = 0; i < 4; i++) {
+      let name = prompt("Enter name for player " + i);
+      alert("Got it: Player " + i + " is " + name + ".");
+      players[i].name = name; 
+    }
+  } 
+  else if (gamemmode==="8"){
+    for (i = 0; i < 8; i++) {
+      let name = prompt("Enter name for player " + i);
+      alert("Got it: Player " + i + " is " + name + ".");
+      players[i].name = name;
+    }
+  }
+  else {
+    alert("Please enter either '4 player' or '8 player'.");
+  }
+}
+
+    /*function chooseGamemode(){
       const gamemode = document.getElementById("gamemode").value;
       if (gamemode === "4 player"){
         return 4;
@@ -168,9 +243,15 @@ function addName(){
         return 8;
       }
       else{
-        alert("Please enter either '4 player' or '8 player'.");
+        return "Please enter either '4 player' or '8 player'."
       }
+    }*/
+
+    function chooseGamemode(){
+      return 4; 
     }
+
+    askQuestions(); 
   </script>
 </body>
 

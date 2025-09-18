@@ -74,3 +74,28 @@ pre { background:#f5f5f5; padding:1rem; border-radius:6px; margin-top:1rem; }
   #resetBtn:hover {
     background-color: rgb(55, 55, 55);
   }
+
+  #pickBtn {
+    background-color: rgb(106, 106, 106);   /* button background */
+    color: rgb(255, 255, 255);             /* text color */
+    font-size: 18px;          /* bigger text */
+    padding: 10px 20px;       /* space inside button */
+    border: none;             /* remove border */
+    border-radius: 8px;       /* rounded corners */
+    cursor: pointer;          /* cursor changes on hover */
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%); /* adjust to center exactly */
+    width: 300px;             /* width of the button */
+    height: 100px;            /* same as width to make it a circle */
+    body {
+        text-align: center;
+      }
+      
+  }
+  
+  /* Optional hover effect */
+  #pickBtn:hover {
+    background-color: rgb(55, 55, 55);
+  }
