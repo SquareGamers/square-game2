@@ -8,15 +8,6 @@ assignees: ''
 ---
 
 ---
-name: Communicate with Mentor
-about: This will be used for all Mentor Communication
-title: Update
-labels: ''
-assignees: MsZHHS
-
----
-
----
 name: Student Update for Mentor
 about: Use this template to update your mentor on progress and questions
 title: "Update: [Student Name] - [Date]"
