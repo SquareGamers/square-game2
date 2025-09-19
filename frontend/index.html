@@ -22,13 +22,15 @@
 <body>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<p id="output"></p>
 <p id="rand"></p>
 
 <script>
 	
+   
   function startGameEasyBasic() {
     randomWords = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < listEasyBasicWords.length; i++) {
        randomWords.push(listEasyBasicWords[i]);
     }
     
@@ -44,7 +46,7 @@
 
   function startGameMediumBasic() {
     randomWords = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < listMediumBasicWords.length; i++) {
        randomWords.push(listMediumBasicWords[i]);
     }
     
@@ -59,7 +61,7 @@
 
   function startGameHardBasic() {
     randomWords = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < listHardBasicWords.length; i++) {
        randomWords.push(listHardBasicWords[i]);
     }
     
@@ -72,20 +74,66 @@
     document.getElementById("rand").innerText = printWord();
   }
   
-  
 
   let randomWords = [];
-  let listEasyBasicWords = ["Brick", "Jump", "Cloud", "Flame", "Stone", "Crisp", "Glow", "Blink", "Grin", "Sketch"]
+  let listEasyBasicWords = ["Brick", "Jump", "Cloud", "Flame", "Stone", "Crisp", "Glow", "Blink", "Grin", "Sketch"];
   let listMediumBasicWords = ["Adventure", "Cathedral", "Whisper", "Paradox", "Melody", "Science", "Circus", "Radiant", "Horizon", "Vibration"];
   let listHardBasicWords = ["California", "Opportunity", "Imagination", "Uncontrollability", "Celebration", "Responsibility", "Himalayas", "Individuality", "Information", "Misinterpretation"];
-
+    
 	
+
+/*
+async function loadTextFileAsArray(filePath) {
+    try {
+      const response = await fetch(filePath);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const textContent = await response.text();
+      const resultArray = textContent.split('\n'); // Splits by line
+      console.log('Loaded array:', resultArray);
+      return resultArray;
+    } catch (error) {
+      console.error('Error loading or processing file:', error);
+      return []; // Return an empty array on error
+    }
+}
+
+let words = new FileReader();
+words.readAsText('EasyBasicWordList.txt');
+*/
+
+
+  
     
 </script>
 
 <button onclick="startGameEasyBasic()">Easy (Basic)</button>
 <button onclick="startGameMediumBasic()">Medium (Basic)</button>
 <button onclick="startGameHardBasic()">Hard (Basic)</button>
+<br>
+<p>Or, create your own list! (Separated by commas and spaces)</p>
+<input type="text" id="customList">
+<p id="custRand"></p>
+
+<script>
+  function processCustomList() {
+    const custListElement = document.getElementById('customList');
+    const custListValue = custListElement.value;
+    const custListLength = custListValue.length;
+    randomWords = []
+    randomWords = custListValue.split(", ");
+    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
+   
+    function printWord() {
+    	return rWord;
+    }
+    document.getElementById("custRand").innerText = printWord();
+  }
+
+</script>
+
+<button onclick="processCustomList()">Generate Word</button>
 
 
 </body>
