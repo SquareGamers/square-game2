@@ -83,17 +83,14 @@
   <title>Game Round</title>
 </head>
 <body>
-  <button id="redBtn">End Round RED</button>
+  <button id="redBtn">RED WIN</button>
   <p id="scoresRed"></p>
 
-  <button id="blackBtn">End Round BLACK</button>
+  <button id="blackBtn">BLACK WIN</button>
   <p id="scoresBlack"></p>
 
-  <button id="resetBtn">Reset</button>
+  <button id="resetBtn">RESET</button>
   <p id="scoresReset"></p>
-
-  <input type="text" id="username" placeholder="Enter your name">
-  <button onclick="addName()">Submit</button>
 
   <!--<button id="pickBtn" onclick="chooseGamemode()">4 player</button>-->
   <!--<p id = "4playerText"></p>-->
@@ -101,45 +98,39 @@
 <p id="output"></p>
 
   <script>
-    type = ""; 
     button = ""; 
-    function clickButton(type, button){
-      if (type === "increase"){
-        if (button === "redBtn"){
-          document.getElementById("redBtn").addEventListener("click", () => {
-            updateScores(type, button); 
-          document.getElementById("scoresRed").innerText = display(button);
-          });
-        }
-        else{
-          document.getElementById("blackBtn").addEventListener("click", () => {
-            updateScores(type, button);
-          document.getElementById("scoresBlack").innerText = display(button);
-           });
-        }
+    function clickButton(button){
+      if (button === "redBtn"){
+        document.getElementById("redBtn").addEventListener("click", () => {
+        updateScores(button); 
+        display(button);
+        });
+      }
+      else if (button === "blackBtn"){
+        document.getElementById("blackBtn").addEventListener("click", () => {
+        updateScores(button);
+        display(button);
+        });
       }
       else{
         document.getElementById("resetBtn").addEventListener("click", () => {
-          updateScores(type, button);
-          updateScores(type, button);
-        document.getElementById("scoresRed").innerText = display(button);
-        document.getElementById("scoresBlack").innerText = display(button);  
-    });
+        updateScores(button);
+        display("redBtn");
+        display("blackBtn");
+        });
       }
     }
 
-function updateScores(type, button){
-  if (type === "increase"){
-    if (button === "redBtn"){
-      for (let player of players.red){
-        player.score += 5;
-      };
-    }
-    else{
-      for (let player of players.black){
-        player.score += 5;
-      };
-    }
+function updateScores(button){
+  if (button === "redBtn"){
+    for (let player of players.red){
+      player.score += 5;
+    };
+  }
+  else if (button === "blackBtn"){
+    for (let player of players.black){
+      player.score += 5;
+    };
   }
   else{
     for (let player of players.red){
@@ -153,64 +144,41 @@ function updateScores(type, button){
 
 function display(button){
   if (button === "redBtn"){
-    return `${players.red[0].name}: ${players.red[0].score} | ${players.red[1].name}: ${players.red[1].score}`;
+    document.getElementById("scoresRed").innerText = `${players.red[0].name}: ${players.red[0].score} | ${players.red[1].name}: ${players.red[1].score}`;
   }
   else{
-    return `${players.black[0].name}: ${players.black[0].score} | ${players.black[1].name}: ${players.black[1].score}`;
+    document.getElementById("scoresBlack").innerText = `${players.black[0].name}: ${players.black[0].score} | ${players.black[1].name}: ${players.black[1].score}`;
   }
 }
 
-let players = {
-red: [
-  { role: "guesser", name: null, score: 0 },
-  { role: "explainer", name: null, score: 0 }
-  ],
-black: [
-  { role: "guesser", name: null, score: 0 },
-  { role: "explainer", name: null, score: 0 }
-]};
-
-clickButton("increase", "redBtn")
-clickButton("reset", "redBtn")
-clickButton("increase", "blackBtn")
-clickButton("reset", "blackBtn")
-
-function askQuestions() {
-  let gamemode = prompt("enter names for red team: ");
-  
-    for (i = 0; i < 4; i++) {
-      let name = prompt("Enter name for player " + i);
-      alert("Got it: Player " + i + " is " + name + ".");
-      players[i].name = name; 
-    } 
-
-    let gamemode = prompt("enter names for red team: ");
-  
-    for (i = 0; i < 4; i++) {
-      let name = prompt("Enter name for player " + i);
-      alert("Got it: Player " + i + " is " + name + ".");
-      players[i].name = name; 
+function askQuestions() {  
+    for (i = 0; i < 2; i++) {
+      let nameCurr = prompt("Enter name for red player " + i);
+      players.red[i].name = nameCurr; 
+    }   
+    for (i = 0; i < 2; i++) {
+      let nameCurr2 = prompt("Enter name for black player " + i);
+      players.black[i].name = nameCurr2; 
     } 
 }
 
-    function chooseGamemode(){
-      const gamemode = document.getElementById("gamemode").value;
-      if (gamemode === "4 player"){
-        return 4;
-      }
-      else if (gamemode === "8 player"){
-        return 8;
-      }
-      else{
-        return "Please enter either '4 player' or '8 player'."
-      }
-    }
+  let players = {
+    red: [
+      { role: "guesser", name: null, score: 0 },
+      { role: "explainer", name: null, score: 0 }
+      ],
+    black: [
+      { role: "guesser", name: null, score: 0 },
+      { role: "explainer", name: null, score: 0 }
+    ]};
+  
+  askQuestions();     
+  display("redBtn");
+  display("blackBtn");
+  clickButton("redBtn")
+  clickButton("blackBtn")
+  clickButton("resetBtn")
 
-    function chooseGamemode(){
-      return 4; 
-    }
-
-    askQuestions(); 
     
   </script>
 </body>
