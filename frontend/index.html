@@ -100,6 +100,26 @@
   }
 
   let randomWords = [];
+
+  let listEasyBasicWords = ["Brick", "Jump", "Cloud", "Flame", "Stone", "Crisp", "Glow", "Blink", "Grin", "Sketch"]
+  let listMediumBasicWords = ["Adventure", "Cathedral", "Whisper", "Paradox", "Melody", "Science", "Circus", "Radiant", "Horizon", "Vibration"];
+  let listHardBasicWords = ["California", "Opportunity", "Imagination", "Uncontrollability", "Celebration", "Responsibility", "Himalayas", "Individuality", "Information", "Misinterpretation"];
+
+  function numDisp(num) {
+    document.getElementById("rand").innerText = num;
+  }
+  
+  function countdown() {
+    for (let i = 5; i > 0; i--) {
+      setTimeout(function() { numDisp(i); }, (5 - i) * 1000);
+    }
+    setTimeout(function() { start(); }, 5000);
+  }
+  
+  function start() {
+    setTimeout(startGameHardBasic, 0);
+  }
+
   let listEasyBasicWords = ["Blade", "Crush", "Drill", "Flame", "Grasp", "Jump", "Kick", "Lift", "Mash", "Neck",
   "Pluck", "Quirk", "Snub", "Thump", "Vault", "Wrench", "Zap", "Bark", "Cling", "Dusk",
   "Glint", "Hush", "Lump", "Mirth", "Numb", "Plop", "Quake", "Scamp", "Throb", "Vex",
@@ -206,6 +226,9 @@
 <button onclick="startGameEasyBasic()">Easy (Basic)</button>
 <button onclick="startGameMediumBasic()">Medium (Basic)</button>
 <button onclick="startGameHardBasic()">Hard (Basic)</button>
+
+<button onclick="countdown()">Begin Game (Basic)</button>
+
 <button onclick="startGameAthletes()">Athletes</button>
 <button onclick="startGameFoods()">Food & Drink</button>
 
@@ -233,6 +256,7 @@
 </script>
 
 <button onclick="processCustomList()">Generate Word</button>
+
 
 
 </body>
