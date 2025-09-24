@@ -98,36 +98,36 @@
 <p id="output"></p>
 
   <script>
-    button = ""; 
-    function clickButton(button){
-      if (button === "redBtn"){
+    color = ""; 
+    function clickButton(color){
+      if (color === "red"){
         document.getElementById("redBtn").addEventListener("click", () => {
-        updateScores(button); 
-        display(button);
+        updateScores(color); 
+        display(color);
         });
       }
-      else if (button === "blackBtn"){
+      else if (color === "black"){
         document.getElementById("blackBtn").addEventListener("click", () => {
-        updateScores(button);
-        display(button);
+        updateScores(color);
+        display(color);
         });
       }
       else{
         document.getElementById("resetBtn").addEventListener("click", () => {
-        updateScores(button);
-        display("redBtn");
-        display("blackBtn");
+        updateScores(color);
+        display(color);
+        display(color);
         });
       }
     }
 
-function updateScores(button){
-  if (button === "redBtn"){
+function updateScores(color){
+  if (color === "red"){
     for (let player of players.red){
       player.score += 5;
     };
   }
-  else if (button === "blackBtn"){
+  else if (color === "black"){
     for (let player of players.black){
       player.score += 5;
     };
@@ -142,41 +142,66 @@ function updateScores(button){
   }
 }
 
-function display(button){
-  if (button === "redBtn"){
-    document.getElementById("scoresRed").innerText = `${players.red[0].name}: ${players.red[0].score} | ${players.red[1].name}: ${players.red[1].score}`;
+function display(color){
+  if (color === "red"){
+    for (let n = 0; n < players.length / 2; n++){
+      document.getElementById("scoresRed").innerText = `${players.color[n].name}: ${players.color[n].role}: ${players.color[n].score}`; 
+    }
   }
   else{
-    document.getElementById("scoresBlack").innerText = `${players.black[0].name}: ${players.black[0].score} | ${players.black[1].name}: ${players.black[1].score}`;
+    for (let n = 0; n < players.length / 2; n++){
+      document.getElementById("scoresBlack").innerText = `${players.color[n].name}: ${players.color[n].role}: ${players.color[n].score}`; 
+    }
   }
 }
 
 function askQuestions() {  
-    for (i = 0; i < 2; i++) {
-      let nameCurr = prompt("Enter name for red player " + (i + 1));
-      players.red[i].name = nameCurr; 
+  let num = prompt("Enter number of players: ");
+  if (num % 4 === 0){
+    for (let i = 0; i < num / 2; i++) {
+      if (i % 2 === 0){
+        let nameCurr = prompt("Enter name for red player " + (i + 1));
+        addPlayer("red", "guesser", nameCurr); 
+      }
+      else{
+        let nameCurr = prompt("Enter name for red player " + (i + 1));
+        addPlayer("red", "explainer", nameCurr); 
+      }
     }   
-    for (i = 0; i < 2; i++) {
-      let nameCurr2 = prompt("Enter name for black player " + (i + 1));
-      players.black[i].name = nameCurr2; 
+    for (let k = 0; k < num / 2; k++) {
+      if (k % 2 === 0){
+        let nameCurr2 = prompt("Enter name for black player " + (k + 1));
+        addPlayer("black", "guesser", nameCurr2); 
+      }
+      else{
+        let nameCurr2 = prompt("Enter name for black player " + (k + 1));
+        addPlayer("black", "explainer", nameCurr2); 
+      }
     } 
+  }
+  else{
+    alert("Enter 4, 8, or 12");
+  }
+}
+
+function addPlayer(team, role, name) {
+  players[team].push({
+    role: role,
+    name: name,
+    score: 0
+  });
 }
 
   let players = {
-    red: [
-      { role: "guesser", name: null, score: 0 },
-      { role: "explainer", name: null, score: 0 }
-      ],
-    black: [
-      { role: "guesser", name: null, score: 0 },
-      { role: "explainer", name: null, score: 0 }
-    ]};
+  red: [],
+  black: []
+};
   
   askQuestions();     
-  display("redBtn");
-  display("blackBtn");
-  clickButton("redBtn")
-  clickButton("blackBtn")
+  display("red");
+  display("black");
+  clickButton("red")
+  clickButton("black")
   clickButton("resetBtn")
 
     
