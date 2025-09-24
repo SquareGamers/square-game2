@@ -153,11 +153,11 @@ function display(button){
 
 function askQuestions() {  
     for (i = 0; i < 2; i++) {
-      let nameCurr = prompt("Enter name for red player " + i);
+      let nameCurr = prompt("Enter name for red player " + (i + 1));
       players.red[i].name = nameCurr; 
     }   
     for (i = 0; i < 2; i++) {
-      let nameCurr2 = prompt("Enter name for black player " + i);
+      let nameCurr2 = prompt("Enter name for black player " + (i + 1));
       players.black[i].name = nameCurr2; 
     } 
 }
