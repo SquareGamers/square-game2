@@ -76,14 +76,27 @@
   let listMediumBasicWords = ["Adventure", "Cathedral", "Whisper", "Paradox", "Melody", "Science", "Circus", "Radiant", "Horizon", "Vibration"];
   let listHardBasicWords = ["California", "Opportunity", "Imagination", "Uncontrollability", "Celebration", "Responsibility", "Himalayas", "Individuality", "Information", "Misinterpretation"];
 
-	
+  function numDisp(num) {
+    document.getElementById("rand").innerText = num;
+  }
+  
+  function countdown() {
+    for (let i = 5; i > 0; i--) {
+      setTimeout(function() { numDisp(i); }, (5 - i) * 1000);
+    }
+    setTimeout(function() { start(); }, 5000);
+  }
+  
+  function start() {
+    setTimeout(startGameHardBasic, 0);
+  }
     
 </script>
 
 <button onclick="startGameEasyBasic()">Easy (Basic)</button>
 <button onclick="startGameMediumBasic()">Medium (Basic)</button>
 <button onclick="startGameHardBasic()">Hard (Basic)</button>
-
+<button onclick="countdown()">Begin Game (Basic)</button>
 
 </body>
 </html>
