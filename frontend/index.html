@@ -2,11 +2,11 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>MiniFlask Demo</title>
+  <title>Square Game Simulator</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <h1>MiniFlask + Frontend Demo</h1>
+  <h1>Square Game Simulator</h1>
 
   <pre id="out"></pre>
 
@@ -19,13 +19,15 @@
 <body>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<p id="output"></p>
 <p id="rand"></p>
 
 <script>
 	
+   
   function startGameEasyBasic() {
     randomWords = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < listEasyBasicWords.length; i++) {
        randomWords.push(listEasyBasicWords[i]);
     }
     
@@ -41,7 +43,7 @@
 
   function startGameMediumBasic() {
     randomWords = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < listMediumBasicWords.length; i++) {
        randomWords.push(listMediumBasicWords[i]);
     }
     
@@ -56,7 +58,7 @@
 
   function startGameHardBasic() {
     randomWords = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < listHardBasicWords.length; i++) {
        randomWords.push(listHardBasicWords[i]);
     }
     
@@ -68,10 +70,37 @@
     }
     document.getElementById("rand").innerText = printWord();
   }
-  
-  
+  function startGameAthletes() {
+    randomWords = [];
+    for (let i = 0; i < listAthletes.length; i++) {
+       randomWords.push(listAthletes[i]);
+    }
+    
+    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
+   
+    
+    function printWord() {
+    	return rWord;
+    }
+    document.getElementById("rand").innerText = printWord();
+  }
+  function startGameFoods() {
+    randomWords = [];
+    for (let i = 0; i < listFoods.length; i++) {
+       randomWords.push(listFoods[i]);
+    }
+    
+    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
+   
+    
+    function printWord() {
+    	return rWord;
+    }
+    document.getElementById("rand").innerText = printWord();
+  }
 
   let randomWords = [];
+
   let listEasyBasicWords = ["Brick", "Jump", "Cloud", "Flame", "Stone", "Crisp", "Glow", "Blink", "Grin", "Sketch"]
   let listMediumBasicWords = ["Adventure", "Cathedral", "Whisper", "Paradox", "Melody", "Science", "Circus", "Radiant", "Horizon", "Vibration"];
   let listHardBasicWords = ["California", "Opportunity", "Imagination", "Uncontrollability", "Celebration", "Responsibility", "Himalayas", "Individuality", "Information", "Misinterpretation"];
@@ -90,13 +119,145 @@
   function start() {
     setTimeout(startGameHardBasic, 0);
   }
+
+  let listEasyBasicWords = ["Blade", "Crush", "Drill", "Flame", "Grasp", "Jump", "Kick", "Lift", "Mash", "Neck",
+  "Pluck", "Quirk", "Snub", "Thump", "Vault", "Wrench", "Zap", "Bark", "Cling", "Dusk",
+  "Glint", "Hush", "Lump", "Mirth", "Numb", "Plop", "Quake", "Scamp", "Throb", "Vex",
+  "Whisk", "Brag", "Crib", "Damp", "Fleck", "Grin", "Hatch", "Jolt", "Knob", "Lace",
+  "Munch", "Nip", "Pouch", "Quilt", "Scrub", "Tusk", "Vast", "Wisp", "Yelp", "Zing",
+  "Blink", "Brisk", "Chop", "Drip", "Flick", "Grit", "Hump", "Jerk", "Kick", "Loom",
+  "Groan", "Nab", "Prance", "Quash", "Rust", "Slam", "Twitch", "Vibe", "Wag", "Yawn",
+  "Zest", "Blast", "Broke", "Chirp", "Drop", "Frown", "Grub", "Honk", "Jet", "Knot",
+  "Lush", "Mop", "Nest", "Pond", "Quiz", "Rasp", "Smack", "Tread", "Veil", "Warp",
+  "Yolk", "Zip", "Bark", "Boil", "Clasp", "Ditch", "Fang", "Gasp", "Hitch", "Jam",
+  "Keel", "Leaf", "Mirth", "Net", "Peck", "Rant", "Slink", "Tramp", "Vouch", "Whip",
+  "Yap", "Buzz", "Brick", "Chalk", "Dent", "Flick", "Glimpse", "Halt", "Jab", "Knit",
+  "Lump", "Meek", "Nudge", "Patch", "Ridge", "Skimp", "Tilt", "Vein", "Wreck", "Yank",
+  "Zoom", "Brim", "Crop", "Drank", "Fleck", "Gush", "Harp", "Jack", "Keen", "Lid",
+  "Moss", "Neck", "Plead", "Quip", "Rook", "Spook", "Thrift", "Vault", "Wane", "Yank",
+  "Zap", "Blip", "Bask", "Clunk", "Dusk", "Fist", "Glimpse", "Hack", "Jet", "Keep",
+  "Luck", "Moat", "Nook", "Pitch", "Quest", "Romp", "Stomp", "Tug", "Vim", "Wink",
+  "Yarn", "Zing", "Bloat", "Bunch", "Cheek", "Dodge", "Froth", "Grim", "Hush", "Junk",
+  "Knot", "Lurk", "Mesh", "Numb", "Pint", "Rant", "Snag", "Trap", "Vast", "Wane",
+  "Whack", "Yap", "Zoom", "Brick", "Chomp", "Drill", "Freak", "Glum", "Honk", "Jab",
+  "Dink", "Ledge", "Mold", "Nip", "Plop", "Rug", "Stack", "Trim", "Vibe", "Whiff"];
+  let listMediumBasicWords = ["Apple", "Bunny", "Candle", "Dinner", "Echo", "Flower", "Giant", "Happy", "Igloo", "Jelly",
+  "Kitten", "Lemon", "Monkey", "Nugget", "Ocean", "Pencil", "Quiet", "Rocket", "Summer", "Trophy",
+  "Uncle", "Velvet", "Window", "Yellow", "Zebra", "Artist", "Bishop", "Clover", "Dancer", "Evening",
+  "Falcon", "Garden", "Hammer", "Icebox", "Jacket", "Keeper", "Ladder", "Mango", "Napkin", "Orange",
+  "Pilot", "Quiver", "River", "Soccer", "Target", "Uptown", "Valley", "Waffle", "Yogurt", "Zephyr",
+  "Basket", "Button", "Canyon", "Donkey", "Engine", "Fossil", "Goblin", "Hunter", "Insect", "Jungle",
+  "Kitten", "Lantern", "Magnet", "Necklace", "Oyster", "Puppet", "Quasar", "Rumble", "Sunset", "Turtle",
+  "Upbeat", "Vapor", "Whisper", "Yonder", "Zipper", "Anchor", "Beetle", "Cotton", "Dinner", "Elbow",
+  "Fiddle", "Gutter", "Hammer", "Igloo", "Jester", "Kettle", "Locket", "Marble", "Nickel", "Office",
+  "Parrot", "Quiver", "Rocket", "Saddle", "Tinsel", "Update", "Village", "Wagon", "Yankee", "Zodiac",
+  "Armor", "Bison", "Cactus", "Doctor", "Eagle", "Fellow", "Glider", "Hammer", "Inward", "Jumper",
+  "Ketchup", "Mustard", "Muffin", "Number", "Oven", "Puzzle", "Quaint", "Raven", "Signal", "Tunnel",
+  "Unwind", "Vulture", "Warden", "Yogurt", "Zealot", "Blazer", "Bitter", "Clumsy", "Dizzy", "Eager",
+  "Famous", "Gloomy", "Hollow", "Idle", "Jumble", "Kidney", "Loopy", "Mellow", "Nutmeg", "Optic",
+  "Plenty", "Quirky", "Razor", "Shiver", "Timber", "Unseen", "Violet", "Witty", "Yearly", "Zigzag",
+  "Almond", "Borrow", "Cocoa", "Dagger", "Empty", "Frosty", "Gravel", "Humid", "Island", "Jargon",
+  "Karma", "Lesson", "Muffin", "Notice", "Oboe", "Pillow", "Quickly", "Rumble", "Simple", "Ticket",
+  "Unrest", "Vermin", "Warden", "Yellow", "Zipper", "Artist", "Barren", "Clever", "Danger", "Effort",
+  "Fossil", "Gallop", "Happen", "Inside", "Jacket", "Kindle", "Lonely", "Market", "Nation", "Outfit",
+  "Poetry", "Quiver", "Rescue", "Sample", "Tangle", "Update", "Voyage", "Waffle", "Yonder", "Zebra"];
+  let listHardBasicWords = ["Adventure", "Beautiful", "Calculator", "Delicately", "Electricity",
+  "Fascinate", "Generation", "Helicopter", "Imagination", "Judgmental",
+  "Kindergarten", "Literature", "Motivation", "Negotiate", "Opportunity",
+  "Photography", "Questionable", "Revolution", "Significant", "Territory",
+  "Umbrella", "Vocabulary", "Wonderful", "Xylophone", "Yesterday",
+  "Appreciate", "Banana", "Celebration", "Definition", "Elevator",
+  "Fantastic", "Geography", "Happiness", "Intelligent", "Justifiable",
+  "Kaleidoscope", "Lullaby", "Memorable", "Necessary", "Observation",
+  "Participate", "Qualification", "Realization", "Situation", "Translation",
+  "Unbelievable", "Verification", "Whimsical",
+  "Architecture", "Beneficial", "Consequence", "Disciplinary", "Entertainment",
+  "Facilitate", "Genuine", "Hallucinate", "Incredible", "Jurisdiction",
+  "Knowledgeable", "Limitation", "Manipulate", "Navigation", "Occupation",
+  "Preparation", "Questionnaire", "Recommendation", "Substitute", "Transportation",
+  "Universal", "Victorious", "Wilderness", "Xenophobia",
+  "Apprehension", "Breakable", "Controversy", "Decoration", "Electrician",
+  "Frustration", "Gratitude", "Hospitality", "Inspiration", "Justification",
+  "Kangaroo", "Linguistics", "Manufacture", "Negotiation", "Observation",
+  "Publication", "Qualification", "Reservation", "Specification", "Termination",
+  "Unification", "Visualization", "Watermelon", "Youngster",
+  "Aspiration", "Behavioral", "Conversation", "Determination", "Establishment",
+  "Foreigner", "Guitarist", "Hesitation", "Illustration", "Jeopardize",
+  "Kaleidoscope", "Liberation", "Meaningful", "Notification", "Opposition",
+  "Perspective", "Questioning", "Reputation", "Satisfaction", "Television",
+  "Understanding", "Vegetarian", "Yielding",
+  "Acceptance", "Biologist", "Celebratory", "Destination", "Environmental",
+  "Forgiveness", "Governmental", "Hieroglyph", "Identification", "Jurisdictional",
+  "Knowledgeable", "Legislation", "Maintenance", "Negotiable", "Organization",
+  "Participation", "Qualification", "Responsibility", "Sustainability", "Transformation",
+  "Utilization", "Volunteering", "Whistleblower", "Youthfulness",
+  "Anticipation", "Beneficiary", "Classification", "Deliberation", "Efficiency",
+  "Fundamental", "Grammatical", "Hypothesis", "Intellectual", "Justifiably",
+  "Kinesthetic", "Legitimacy", "Memorization", "Noteworthy", "Overestimate",
+  "Productivity", "Questionably", "Rehabilitation", "Simplification", "Traditional",
+  "Unpredictable", "Verification", "Willingness",
+  "Articulation", "Background", "Caffeinated", "Democratic", "Elasticity",
+  "Friendliness", "Generosity", "Helplessness", "Idealistic", "Journalistic"];
+  let listAthletes = ["Herbert Jones", "Cristiano Ronaldo", "Stephen Curry", "Tyson Fury", "Dak Prescott", "LeBron James", "Kevin Durant", "Khabib Nurmagomedov", "Jon Jones", "Conor McGregor", "Israel Adesanya", "Francis Ngannou", "Kamaru Usman", "Stipe Miocic", "Daniel Cormier", "Dustin Poirier", "Charles Oliveira", "Jorge Masvidal", "Justin Herbert", "Patrick Mahomes", "Josh Allen", "Aaron Rodgers", "Tom Brady", "Russell Wilson", "Kyler Murray", "Dak Prescott", "Justin Jefferson", "CeeDee Lamb", "Saquon Barkley", "Christian McCaffrey", "Derrick Henry", 
+  "Alvin Kamara", "Stefon Diggs", "Davante Adams", "Ja'Marr Chase", "Joe Burrow", "Jalen Hurts", "Matthew Stafford", "Deshaun Watson", "Baker Mayfield", "Tua Tagovailoa", "Josh Jacobs", "Nick Chubb", "Mark Andrews", "Travis Kelce", "George Kittle", "Dalvin Cook", "Aaron Donald", "Myles Garrett", "T.J. Watt", "Khalil Mack", "Joey Bosa", "Von Miller", "Chase Young", "Micah Parsons", "Leonard Floyd", "DeForest Buckner", "J.J. Watt", "Bobby Wagner", "Darius Leonard", "Fred Warner", "Xavien Howard", "Minkah Fitzpatrick", "Marlon Humphrey", "Jalen Ramsey", "Patrick Peterson", 
+  "Stephon Gilmore", "Justin Simmons", "Budda Baker", "Minkah Fitzpatrick", "Aaron Judge", "Mike Trout", "Shohei Ohtani", "Mookie Betts", "Fernando Tatis Jr.", "Juan Soto", "Freddie Freeman", "Jacob deGrom", "Max Scherzer", "Bryce Harper", "Clayton Kershaw", "Nolan Arenado", "Jose Altuve", "Xander Bogaerts", "Carlos Correa", "J.D. Martinez", "Anthony Rizzo", "Tim Anderson", "Jose Ramirez", "Ketel Marte", "Aaron Nola", "Luis Castillo", "Gerrit Cole", "Walker Buehler", "Tiger Woods", "Brooks Koepka", "Dustin Johnson", "Rory McIlroy", "Justin Thomas", "Jordan Spieth", "Phil Mickelson", 
+  "Jon Rahm", "Patrick Reed", "Bubba Watson", "Billy Horschel", "Collin Morikawa", "Tiger Woods", "Serena Williams", "Venus Williams", "Naomi Osaka", "Roger Federer", "Rafael Nadal", "Novak Djokovic", "Simone Biles", "Sha'Carri Richardson", "Katie Ledecky", "Michael Phelps", "LeBron James", "Kevin Durant", "Kyrie Irving", "Jimmy Butler", "Joel Embiid", "Nikola Jokić", "Anthony Davis", "Kawhi Leonard", "Paul George", "Jayson Tatum", "Damian Lillard", "Russell Westbrook", "Trae Young", "Devin Booker", "Bradley Beal", "Chris Paul", "Kemba Walker", "Klay Thompson", "Draymond Green", 
+  "Andrew Wiggins", "Ben Simmons", "Zion Williamson", "Ja Morant", "Karl-Anthony Towns", "De'Aaron Fox", "Jamal Murray", "CJ McCollum", "Clint Capela", "John Wall", "LaMelo Ball", "Shai Gilgeous-Alexander", "Fred VanVleet", "Pascal Siakam", "Mikael Bridges", "Tyler Herro", "D'Angelo Russell", "Julius Randle", "Zach LaVine", "DeMar DeRozan", "Mike Conley", "Eric Bledsoe", "Myles Turner", "Jonas Valančiūnas", "Rudy Gobert", "Nikola Vučević", "Jarrett Allen", "Jarrett Allen", "Fred VanVleet", "Mikal Bridges", "Jalen Green", "Anthony Edwards", "Cole Anthony", "Evan Mobley", "Jaren Jackson Jr."];
+	let listFoods = ["Apple", "Avocado", "Bagel", "Banana", "Barley", "Basil", "Beans", "Beetroot", "Bellpepper", "Berry",
+  "Biscuit", "Blackberry", "Blueberry", "Bread", "Broccoli", "Brownie", "Burger", "Butter", "Cabbage", "Cake",
+  "Caramel", "Carrot", "Cauliflower", "Celery", "Cheddar", "Cheese", "Chickpea", "Chili", "Chive", "Chocolate",
+  "Cilantro", "Cinnamon", "Clove", "Coconut", "Coffee", "Cookie", "Corn", "Cream", "Cucumber",
+  "Curry", "Donut", "Dragonfruit", "Dressing", "Egg", "Eggplant", "Endive", "Fennel", "Fig", "Fish",
+  "Flan", "Flour", "Frenchfries", "Fritter", "Garlic", "Ginger", "Gouda", "Granola", "Grape",
+  "Grapefruit", "Greenbean", "Guacamole", "Guava", "Ham", "Hazelnut", "Herbs", "Honey", "Honeydew", "Hotdog",
+  "Hummus", "Icecream", "Jam", "Jelly", "Jerky", "Juice", "Kale", "Ketchup", "Kiwi", "Lamb",
+  "Lasagna", "Leek", "Lemon", "Lentil", "Lettuce", "Lime", "Loaf", "Macaroni", "Mango", "Maplesyrup",
+  "Melon", "Milk", "Milkshake", "Mint", "Muffin", "Mushroom", "Mustard", "Nectarine", "Noodles",
+  "Nutmeg", "Nuts", "Oatmeal", "Olive", "Onion", "Orange", "Oregano", "Papaya", "Parsley", "Parsnip",
+  "Passionfruit", "Pasta", "Pastry", "Peach", "Peanut", "Pear", "Peas", "Pecan", "Pepper", "Pickle",
+  "Pie", "Pineapple", "Pita", "Pizza", "Plum", "Pomegranate", "Popcorn", "Potato", "Pretzel", "Pumpkin",
+  "Quiche", "Radish", "Raisin", "Ramen", "Raspberry", "Rice", "Rosemary", "Salad", "Salmon", "Salsa",
+  "Salt", "Sandwich", "Sausage", "Scallion", "Smoothie", "Sorbet", "Soup", "Soybean", "Spinach", "Squash",
+  "Strawberry", "Sugar", "Sushi", "Sweetcorn", "Syrup", "Taco", "Tahini", "Tangerine", "Tea",
+  "Thyme", "Tofu", "Tomato", "Truffle", "Tuna", "Turnip", "Vanilla", "Walnut", "Water"];  
     
 </script>
 
 <button onclick="startGameEasyBasic()">Easy (Basic)</button>
 <button onclick="startGameMediumBasic()">Medium (Basic)</button>
 <button onclick="startGameHardBasic()">Hard (Basic)</button>
+
 <button onclick="countdown()">Begin Game (Basic)</button>
+
+<button onclick="startGameAthletes()">Athletes</button>
+<button onclick="startGameFoods()">Food & Drink</button>
+
+
+<br>
+<p>Or, create your own list! (Separated by commas and spaces)</p>
+<input type="text" id="customList">
+<p id="custRand"></p>
+
+<script>
+  function processCustomList() {
+    const custListElement = document.getElementById('customList');
+    const custListValue = custListElement.value;
+    const custListLength = custListValue.length;
+    randomWords = []
+    randomWords = custListValue.split(", ");
+    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
+   
+    function printWord() {
+    	return rWord;
+    }
+    document.getElementById("custRand").innerText = printWord();
+  }
+
+</script>
+
+<button onclick="processCustomList()">Generate Word</button>
+
+
 
 </body>
 </html>
