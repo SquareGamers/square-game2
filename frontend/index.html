@@ -1,89 +1,109 @@
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <title>MiniFlask Demo</title>
-  <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
-  <h1>MiniFlask + Frontend Demo</h1>
-
-  <pre id="out"></pre>
-
-  <script src="/app.js"></script>
-</body>
-</html>
-
 <!DOCTYPE html>
 <html>
+  <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Square Game :D</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+  button {
+    margin: 5px;
+    padding: 10px;
+    font-size:16px;
+  }
+  </style>
+  <script src="/app.js"></script>
+</head>
+
 <body>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <p id="rand"></p>
 
-<script>
-	
-  function startGameEasyBasic() {
-    randomWords = [];
-    for (let i = 0; i < 10; i++) {
-       randomWords.push(listEasyBasicWords[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
+<!--buttons-->
 
+<div id = "button-container">
+  <p>Select Difficulty:</p>
+  <button id="Easy (Basic)">Easy (Basic)</button>
+  <button id="Medium (Basic)">Medium (Basic)</button>
+  <button id="Hard (Basic)">Hard (Basic)</button>
+</div>
+<style>
+  #button-container {
+    position: absolute;
+    top: 400px;
+    left:300px
+    
   }
+</style>
 
-  function startGameMediumBasic() {
-    randomWords = [];
-    for (let i = 0; i < 10; i++) {
-       randomWords.push(listMediumBasicWords[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
-  }
-
-  function startGameHardBasic() {
-    randomWords = [];
-    for (let i = 0; i < 10; i++) {
-       randomWords.push(listHardBasicWords[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
-  }
-  
-  
-
-  let randomWords = [];
+<div id="width"></div>
+<script>	//main code
   let listEasyBasicWords = ["Brick", "Jump", "Cloud", "Flame", "Stone", "Crisp", "Glow", "Blink", "Grin", "Sketch"]
   let listMediumBasicWords = ["Adventure", "Cathedral", "Whisper", "Paradox", "Melody", "Science", "Circus", "Radiant", "Horizon", "Vibration"];
   let listHardBasicWords = ["California", "Opportunity", "Imagination", "Uncontrollability", "Celebration", "Responsibility", "Himalayas", "Individuality", "Information", "Misinterpretation"];
 
-	
+
+  function startGame(){
+      let word=null;
+      const hardButton=document.getElementById('Hard (Basic)');
+      const medButton=document.getElementById('Medium (Basic)');
+      const easyButton=document.getElementById('Easy (Basic)');
+
+    function removeWord(){
+      const existing=document.getElementById('myWord');
+      if (existing) existing.remove();
+    }
     
+    function displayWord(){
+      removeWord();
+
+      const wordEl = document.createElement('span');
+      
+      
+
+      wordEl.id = 'myWord';
+      wordEl.textContent = word;
+      wordEl.style.position = 'absolute';
+      wordEl.style.top = '200px';
+      wordEl.style.fontSize='60px';
+      wordEl.style.transition = 'all 0.5s ease';
+
+      document.body.appendChild(wordEl);
+
+      const screenWidth=window.innerWidth;
+      const elementWidth = wordEl.offsetWidth;
+      wordEl.style.left = (screenWidth/2)-(elementWidth/2) + "px";
+          function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+          }
+          async function moveWord() {
+            await delay(2000); // wait 2 seconds
+            wordEl.style.top = "20px";
+            wordEl.style.fontSize='16px';
+            wordEl.style.left = "500px";
+          }
+          moveWord();
+      }
+
+  hardButton.addEventListener('click',()=>{
+      //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
+        word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
+        displayWord();
+      });
+      
+    medButton.addEventListener('click',()=>{
+        word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
+        displayWord();
+      });
+      
+      easyButton.addEventListener('click',()=>{
+        word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
+        displayWord();
+      });
+  }
+
+  window.addEventListener('DOMContentLoaded', startGame);
 </script>
-
-<button onclick="startGameEasyBasic()">Easy (Basic)</button>
-<button onclick="startGameMediumBasic()">Medium (Basic)</button>
-<button onclick="startGameHardBasic()">Hard (Basic)</button>
-
-
 </body>
 </html>
