@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
@@ -144,13 +144,13 @@ function updateScores(color){
 
 function display(color){
   if (color === "red"){
-    for (let n = 0; n < players.length / 2; n++){
-      document.getElementById("scoresRed").innerText = `${players.color[n].name}: ${players.color[n].role}: ${players.color[n].score}`; 
+    for (let n = 0; n < players[color].length / 2; n++){
+      document.getElementById("scoresRed").innerText = `${players[color][n].name}: ${players[color][n].role}: ${players[color][n].score}`; 
     }
   }
   else{
-    for (let n = 0; n < players.length / 2; n++){
-      document.getElementById("scoresBlack").innerText = `${players.color[n].name}: ${players.color[n].role}: ${players.color[n].score}`; 
+    for (let n = 0; n < players[color].length / 2; n++){
+      document.getElementById("scoresBlack").innerText = `${players[color][n].name}: ${players[color][n].role}: ${players[color][n].score}`; 
     }
   }
 }
@@ -169,6 +169,7 @@ function askQuestions() {
       }
     }   
     for (let k = 0; k < num / 2; k++) {
+
       if (k % 2 === 0){
         let nameCurr2 = prompt("Enter name for black player " + (k + 1));
         addPlayer("black", "guesser", nameCurr2); 
