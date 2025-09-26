@@ -116,72 +116,69 @@
         document.getElementById("resetBtn").addEventListener("click", () => {
         updateScores(color);
         display(color);
-        display(color);
         });
       }
     }
 
-function updateScores(color){
-  if (color === "red"){
-    for (let player of players.red){
-      player.score += 5;
-    };
-  }
-  else if (color === "black"){
-    for (let player of players.black){
-      player.score += 5;
-    };
-  }
-  else{
-    for (let player of players.red){
-      player.score = 0;
-    };
-    for (let player of players.black){
-      player.score = 0;
-    };
+function updateScores(color) {
+  if (color === "red") {
+    players.red.forEach(p => p.score += 5);
+    display("red");
+  } else if (color === "black") {
+    players.black.forEach(p => p.score += 5);
+    display("black");
+  } else if (color === "reset") {
+    players.red.forEach(p => p.score = 0);
+    players.black.forEach(p => p.score = 0);
+    display("red");
+    display("black");
   }
 }
 
-function display(color){
-  if (color === "red"){
-    for (let n = 0; n < players[color].length / 2; n++){
-      document.getElementById("scoresRed").innerText = `${players[color][n].name}: ${players[color][n].role}: ${players[color][n].score}`; 
-    }
-  }
-  else{
-    for (let n = 0; n < players[color].length / 2; n++){
-      document.getElementById("scoresBlack").innerText = `${players[color][n].name}: ${players[color][n].role}: ${players[color][n].score}`; 
-    }
-  }
+
+function display(color) {
+  const container = color === "red"
+    ? document.getElementById("scoresRed")
+    : color === "black"
+      ? document.getElementById("scoresBlack")
+      : null;
+
+  if (!container) return; // bail if color invalid
+
+  container.innerHTML = ""; // clear
+
+  const team = players[color];
+  if (!Array.isArray(team)) return;
+
+  team.forEach((player, index) => {
+    const p = document.createElement("p");
+    p.id = `${color}-player-${index}`;
+    p.textContent = `${color} ${player.role} ${player.name}: ${player.score}`;
+    container.appendChild(p);
+  });
 }
 
 function askQuestions() {  
   let num = prompt("Enter number of players: ");
-  if (num % 4 === 0){
-    for (let i = 0; i < num / 2; i++) {
-      if (i % 2 === 0){
-        let nameCurr = prompt("Enter name for red player " + (i + 1));
-        addPlayer("red", "guesser", nameCurr); 
-      }
-      else{
-        let nameCurr = prompt("Enter name for red player " + (i + 1));
-        addPlayer("red", "explainer", nameCurr); 
-      }
-    }   
-    for (let k = 0; k < num / 2; k++) {
-
-      if (k % 2 === 0){
-        let nameCurr2 = prompt("Enter name for black player " + (k + 1));
-        addPlayer("black", "guesser", nameCurr2); 
-      }
-      else{
-        let nameCurr2 = prompt("Enter name for black player " + (k + 1));
-        addPlayer("black", "explainer", nameCurr2); 
-      }
-    } 
+  let half = Math.floor(num / 2); // integer division
+  for (let i = 0; i < half; i++) {
+    if (i < Math.floor(half / 2)) {
+      let nameCurr = prompt("Enter name for red player " + (i + 1));
+      addPlayer("red", "guesser", nameCurr);
+    } else {
+      let nameCurr1 = prompt("Enter name for red player " + (i + 1));
+      addPlayer("red", "explainer", nameCurr1);
+    }
   }
-  else{
-    alert("Enter 4, 8, or 12");
+
+  for (let k = 0; k < num - half; k++) { // the remaining players go to black
+    if (k < Math.floor((num - half) / 2)) {
+      let nameCurr2 = prompt("Enter name for black player " + (k + 1));
+      addPlayer("black", "guesser", nameCurr2);
+    } else {
+      let nameCurr3 = prompt("Enter name for black player " + (k + 1));
+      addPlayer("black", "explainer", nameCurr3);
+    }
   }
 }
 
@@ -203,7 +200,7 @@ function addPlayer(team, role, name) {
   display("black");
   clickButton("red")
   clickButton("black")
-  clickButton("resetBtn")
+  clickButton("reset")
 
     
   </script>
