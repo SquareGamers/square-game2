@@ -1,7 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
+
+  <link rel="stylesheet" href="/styles.css">
+</head>
+=======
   <title>Square Game Simulator</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
@@ -12,6 +16,7 @@
 
   <script src="/app.js"></script>
 </body>
+
 </html>
 
 <!DOCTYPE html>
@@ -260,4 +265,136 @@
 
 
 </body>
+
+
+<head>
+  <title>Game Round</title>
+</head>
+<body>
+  <button id="redBtn">RED WIN</button>
+  <p id="scoresRed"></p>
+
+  <button id="blackBtn">BLACK WIN</button>
+  <p id="scoresBlack"></p>
+
+  <button id="resetBtn">RESET</button>
+  <p id="scoresReset"></p>
+
+  <!--<button id="pickBtn" onclick="chooseGamemode()">4 player</button>-->
+  <!--<p id = "4playerText"></p>-->
+
+<p id="output"></p>
+
+  <script>
+    color = ""; 
+    function clickButton(color){
+      if (color === "red"){
+        document.getElementById("redBtn").addEventListener("click", () => {
+        updateScores(color); 
+        display(color);
+        });
+      }
+      else if (color === "black"){
+        document.getElementById("blackBtn").addEventListener("click", () => {
+        updateScores(color);
+        display(color);
+        });
+      }
+      else{
+        document.getElementById("resetBtn").addEventListener("click", () => {
+        updateScores(color);
+        display(color);
+        });
+      }
+    }
+
+function updateScores(color) {
+  if (color === "red") {
+    players.red.forEach(p => p.score += 5);
+    display("red");
+  } else if (color === "black") {
+    players.black.forEach(p => p.score += 5);
+    display("black");
+  } else if (color === "reset") {
+    players.red.forEach(p => p.score = 0);
+    players.black.forEach(p => p.score = 0);
+    display("red");
+    display("black");
+  }
+}
+
+
+function display(color) {
+  const container = color === "red"
+    ? document.getElementById("scoresRed")
+    : color === "black"
+      ? document.getElementById("scoresBlack")
+      : null;
+
+  if (!container) return; // bail if color invalid
+
+  container.innerHTML = ""; // clear
+
+  const team = players[color];
+  if (!Array.isArray(team)) return;
+
+  team.forEach((player, index) => {
+    const p = document.createElement("p");
+    p.id = `${color}-player-${index}`;
+    p.textContent = `${color} ${player.role} ${player.name}: ${player.score}`;
+    container.appendChild(p);
+  });
+}
+
+function askQuestions() {  
+  let num = prompt("Enter number of players: ");
+  let half = Math.floor(num / 2); // integer division
+  for (let i = 0; i < half; i++) {
+    if (i < Math.floor(half / 2)) {
+      let nameCurr = prompt("Enter name for red player " + (i + 1));
+      addPlayer("red", "guesser", nameCurr);
+    } else {
+      let nameCurr1 = prompt("Enter name for red player " + (i + 1));
+      addPlayer("red", "explainer", nameCurr1);
+    }
+  }
+
+  for (let k = 0; k < num - half; k++) { // the remaining players go to black
+    if (k < Math.floor((num - half) / 2)) {
+      let nameCurr2 = prompt("Enter name for black player " + (k + 1));
+      addPlayer("black", "guesser", nameCurr2);
+    } else {
+      let nameCurr3 = prompt("Enter name for black player " + (k + 1));
+      addPlayer("black", "explainer", nameCurr3);
+    }
+  }
+}
+
+function addPlayer(team, role, name) {
+  players[team].push({
+    role: role,
+    name: name,
+    score: 0
+  });
+}
+
+  let players = {
+  red: [],
+  black: []
+};
+  
+  askQuestions();     
+  display("red");
+  display("black");
+  clickButton("red")
+  clickButton("black")
+  clickButton("reset")
+
+    
+  </script>
+</body>
+
 </html>
+=======
+</html>
+
