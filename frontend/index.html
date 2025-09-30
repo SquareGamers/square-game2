@@ -25,9 +25,11 @@
 
 <div id = "button-container">
   <p>Select Difficulty:</p>
-  <button id="Easy (Basic)">Easy (Basic)</button>
-  <button id="Medium (Basic)">Medium (Basic)</button>
-  <button id="Hard (Basic)">Hard (Basic)</button>
+  <button id="Easy">Easy</button>
+  <button id="Medium">Medium</button>
+  <button id="Hard">Hard</button>
+  <button id="Athletes">Athletes</button>
+  <button id="Food&Drink">Food&Drink</button>
 </div>
 <style>
   #button-container {
@@ -40,77 +42,14 @@
 
 <div id="width"></div>
 <script>	//main code
-  function startGameMediumBasic() {
-    randomWords = [];
-    for (let i = 0; i < listMediumBasicWords.length; i++) {
-       randomWords.push(listMediumBasicWords[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
-  }
-
-  function startGameHardBasic() {
-    randomWords = [];
-    for (let i = 0; i < listHardBasicWords.length; i++) {
-       randomWords.push(listHardBasicWords[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
-  }
-  function startGameAthletes() {
-    randomWords = [];
-    for (let i = 0; i < listAthletes.length; i++) {
-       randomWords.push(listAthletes[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
-  }
-  function startGameFoods() {
-    randomWords = [];
-    for (let i = 0; i < listFoods.length; i++) {
-       randomWords.push(listFoods[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
-  }
 
   let randomWords = [];
-
-  let listEasyBasicWords = ["Brick", "Jump", "Cloud", "Flame", "Stone", "Crisp", "Glow", "Blink", "Grin", "Sketch"]
-  let listMediumBasicWords = ["Adventure", "Cathedral", "Whisper", "Paradox", "Melody", "Science", "Circus", "Radiant", "Horizon", "Vibration"];
-  let listHardBasicWords = ["California", "Opportunity", "Imagination", "Uncontrollability", "Celebration", "Responsibility", "Himalayas", "Individuality", "Information", "Misinterpretation"];
-
-
-  function startGame(){
       let word=null;
-      const hardButton=document.getElementById('Hard (Basic)');
-      const medButton=document.getElementById('Medium (Basic)');
-      const easyButton=document.getElementById('Easy (Basic)');
-
+      const hardButton=document.getElementById('Hard');
+      const medButton=document.getElementById('Medium');
+      const easyButton=document.getElementById('Easy');
+      const foodDrinkButton=document.getElementById('Food&Drink');
+      const athleteButton=document.getElementById('Athletes');
     function removeWord(){
       const existing=document.getElementById('myWord');
       if (existing) existing.remove();
@@ -236,7 +175,6 @@
 
       const wordEl = document.createElement('span');
       
-      
 
       wordEl.id = 'myWord';
       wordEl.textContent = word;
@@ -255,9 +193,9 @@
           }
           async function moveWord() {
             await delay(2000); // wait 2 seconds
-            wordEl.style.top = "20px";
+            wordEl.style.top = '20px';
             wordEl.style.fontSize='16px';
-            wordEl.style.left = "500px";
+            wordEl.style.left = (screenWidth/2)-(elementWidth/2) + "px";
           }
           moveWord();
       }
@@ -277,20 +215,20 @@
         word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
         displayWord();
       });
-  }
+    athleteButton.addEventListener('click',()=>{
+      word=listAthletes[Math.floor(Math.random() * listAthletes.length)]
+      displayWord();
+    })
+    foodDrinkButton.addEventListener('click',()=>{
+      word=listFoods[Math.floor(Math.random() * listFoods.length)]
+      displayWord();
+    })
+
+
 
   window.addEventListener('DOMContentLoaded', startGame);
+
 </script>
-
-<button onclick="startGameEasyBasic()">Easy (Basic)</button>
-<button onclick="startGameMediumBasic()">Medium (Basic)</button>
-<button onclick="startGameHardBasic()">Hard (Basic)</button>
-
-<button onclick="countdown()">Begin Game (Basic)</button>
-
-<button onclick="startGameAthletes()">Athletes</button>
-<button onclick="startGameFoods()">Food & Drink</button>
-
 
 <br>
 <p>Or, create your own list! (Separated by commas and spaces)</p>
