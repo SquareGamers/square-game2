@@ -110,15 +110,15 @@
     document.getElementById("rand").innerText = num;
   }
   
-  function countdown() {
+  function countdown(mode) {
     for (let i = 5; i > 0; i--) {
       setTimeout(function() { numDisp(i); }, (5 - i) * 1000);
     }
-    setTimeout(function() { start(); }, 5000);
+    setTimeout(function() { start(mode); }, 5000);
   }
   
-  function start() {
-    setTimeout(startGameHardBasic, 0);
+  function start(mode) {
+    setTimeout(mode, 0);
   }
 
   let listEasyBasicWords = ["Blade", "Crush", "Drill", "Flame", "Grasp", "Jump", "Kick", "Lift", "Mash", "Neck",
@@ -224,14 +224,12 @@
     
 </script>
 
-<button onclick="startGameEasyBasic()">Easy (Basic)</button>
-<button onclick="startGameMediumBasic()">Medium (Basic)</button>
-<button onclick="startGameHardBasic()">Hard (Basic)</button>
+<button onclick="countdown(startGameEasyBasic)">Easy (Basic)</button>
+<button onclick="countdown(startGameMediumBasic)">Medium (Basic)</button>
+<button onclick="countdown(startGameHardBasic)">Hard (Basic)</button>
 
-<button onclick="countdown()">Begin Game (Basic)</button>
-
-<button onclick="startGameAthletes()">Athletes</button>
-<button onclick="startGameFoods()">Food & Drink</button>
+<button onclick="countdown(startGameAthletes)">Athletes</button>
+<button onclick="countdown(startGameFoods)">Food & Drink</button>
 
 
 <br>
