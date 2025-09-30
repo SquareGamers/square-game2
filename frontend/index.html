@@ -279,6 +279,18 @@
   <!--<button id="pickBtn" onclick="chooseGamemode()">4 player</button>-->
   <!--<p id = "4playerText"></p>-->
 
+  <head>
+    <meta charset="utf-8">
+    <title>Square Game</title>
+  </head>
+  <body>
+    <!-- Step 1: ask how many players -->
+    <input type="number" id="numPlayers" placeholder="Enter number of players">
+    <button onclick="setupPlayerInputs()">Set Players</button>
+  
+    <!-- Step 2: dynamic input fields will go here -->
+    <div id="playerInputs"></div>
+    <button id="submitPlayers" style="display:none;" onclick="askQuestions()">Submit Players</button>
 <p id="output"></p>
 
   <script>
@@ -342,29 +354,53 @@ function display(color) {
   });
 }
 
-function askQuestions() {  
-  let num = prompt("Enter number of players: ");
-  let half = Math.floor(num / 2); // integer division
-  for (let i = 0; i < half; i++) {
-    if (i < Math.floor(half / 2)) {
-      let nameCurr = prompt("Enter name for red player " + (i + 1));
-      addPlayer("red", "guesser", nameCurr);
-    } else {
-      let nameCurr1 = prompt("Enter name for red player " + (i + 1));
-      addPlayer("red", "explainer", nameCurr1);
-    }
-  }
+    let num = 0;
 
-  for (let k = 0; k < num - half; k++) { // the remaining players go to black
-    if (k < Math.floor((num - half) / 2)) {
-      let nameCurr2 = prompt("Enter name for black player " + (k + 1));
-      addPlayer("black", "guesser", nameCurr2);
-    } else {
-      let nameCurr3 = prompt("Enter name for black player " + (k + 1));
-      addPlayer("black", "explainer", nameCurr3);
+    function setupPlayerInputs() {
+      num = parseInt(document.getElementById("numPlayers").value, 10);
+      if (isNaN(num) || num < 2) {
+        alert("Please enter a valid number of players (at least 2).");
+        return;
+      }
+
+      const container = document.getElementById("playerInputs");
+      container.innerHTML = ""; // clear previous inputs
+
+      // create input fields
+      for (let i = 0; i < num; i++) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.id = "player" + i;
+        input.placeholder = "Enter name for player " + (i + 1);
+        container.appendChild(input);
+        container.appendChild(document.createElement("br"));
+      }
+
+      // show submit button
+      document.getElementById("submitPlayers").style.display = "inline-block";
     }
-  }
-}
+
+    function askQuestions() {
+      let half = Math.floor(num / 2); // integer division
+
+      for (let i = 0; i < half; i++) {
+        const nameCurr = document.getElementById("player" + i).value.trim();
+        if (i < Math.floor(half / 2)) {
+          addPlayer("red", "guesser", nameCurr);
+        } else {
+          addPlayer("red", "explainer", nameCurr);
+        }
+      }
+
+      for (let k = 0; k < num - half; k++) {
+        const nameCurr = document.getElementById("player" + (half + k)).value.trim();
+        if (k < Math.floor((num - half) / 2)) {
+          addPlayer("black", "guesser", nameCurr);
+        } else {
+          addPlayer("black", "explainer", nameCurr);
+        }
+      }
+    }
 
 function addPlayer(team, role, name) {
   players[team].push({
