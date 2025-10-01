@@ -1,7 +1,7 @@
 body { font-family: system-ui, sans-serif; padding: 1.5rem; }
-<<<<<<< HEAD
+HEAD
 button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; }
-=======
+
 button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; }
 pre { background:#f5f5f5; padding:1rem; border-radius:6px; margin-top:1rem; }
 #blackBtn {
@@ -102,4 +102,3 @@ pre { background:#f5f5f5; padding:1rem; border-radius:6px; margin-top:1rem; }
   #pickBtn:hover {
     background-color: rgb(55, 55, 55);
   }
->>>>>>> a0b5f3379a540004f62430b9562269806072b96b
