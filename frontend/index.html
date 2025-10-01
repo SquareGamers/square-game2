@@ -59,11 +59,15 @@
     document.getElementById("rand").innerText = num;
   }
   
-  function countdown() {
+  function countdown(mode) {
     for (let i = 5; i > 0; i--) {
       setTimeout(function() { numDisp(i); }, (5 - i) * 1000);
     }
-    setTimeout(function() { start(); }, 5000);
+    setTimeout(function() { start(mode); }, 5000);
+  }
+
+  function start(mode) {
+    setTimeout(mode, 0);
   }
 
   let listEasyBasicWords = ["Blade", "Crush", "Drill", "Flame", "Grasp", "Jump", "Kick", "Lift", "Mash", "Neck",
@@ -220,6 +224,8 @@
       word=listFoods[Math.floor(Math.random() * listFoods.length)]
       displayWord();
     })
+
+
 
 </script>
 
