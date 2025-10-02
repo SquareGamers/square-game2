@@ -5,12 +5,51 @@
   <title>Square Game Simulator</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
-<body>
+<body style="background-color:purple;">
   <h1>Square Game Simulator</h1>
 
   <pre id="out"></pre>
 
   <script src="/app.js"></script>
+
+  <style>
+    .default-button {
+      background-color: pink;
+      color: black;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .highlighted-button {
+	    background-color: #F5278B;
+    	color: black;
+    	padding: 8px 15px;
+    	border: none;
+    	border-radius: 5px;
+    	font-weight: bold;
+    }
+
+    .red-button {
+      background-color: red;
+      color: black;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .highlighted-red-button {
+	    background-color: rgba(228, 7, 7, 0.525);
+    	color: black;
+    	padding: 8px 15px;
+    	border: none;
+    	border-radius: 5px;
+    	font-weight: bold;
+    }
+
+  </style>
 </body>
 </html>
 
@@ -223,14 +262,14 @@
     
 </script>
 
-<button onclick="startGameEasyBasic()">Easy (Basic)</button>
-<button onclick="startGameMediumBasic()">Medium (Basic)</button>
-<button onclick="startGameHardBasic()">Hard (Basic)</button>
+<button id="startEasy" onclick="startGameEasyBasic()">Easy (Basic)</button>
+<button id="startMedium" onclick="startGameMediumBasic()">Medium (Basic)</button>
+<button id="startHard" onclick="startGameHardBasic()">Hard (Basic)</button>
 
-<button onclick="countdown()">Begin Game (Basic)</button>
+<button id="countDown" onclick="countdown()">Begin Game (Basic)</button>
 
-<button onclick="startGameAthletes()">Athletes</button>
-<button onclick="startGameFoods()">Food & Drink</button>
+<button id="startAthlete" onclick="startGameAthletes()">Athletes</button>
+<button id="startFood" onclick="startGameFoods()">Food & Drink</button>
 
 
 <br>
@@ -255,9 +294,122 @@
 
 </script>
 
-<button onclick="processCustomList()">Generate Word</button>
+<button id="displayInstructions">Instructions</button>
+<button id="xButton">X</button>
+<p id="displayText"></p>
+  
+<script>
+  const displayInstructions =  document.getElementById('displayInstructions');
+  const displayText = document.getElementById('displayText');
+  xButton.style.display = 'none';
+  
+  displayInstructions.addEventListener('click', function() {
+    xButton.style.display = 'block';
+    displayText.style.display = 'block';
+    displayText.textContent = 'First put in your group size and put all the names in of people playing - Once you got all your players in you will be seperated in to two teams = You can then select the difficulty to play, the harder the difficulty the harder the words are to guess - After you select the difficulty you can press the start game button to start the game - The two teams will compete to guess the word with their teammates help(If agreeded on by both teams you can skip a word) - Whichever team guesses the word correctly first gets a point that you can assign by the button corresponding to your team located on the right hand side of the screen(you can see which team your on by your name on the left hand side) - You can keep on playing however long you want - After each point the teams switch creating new teams for each word - Once you are done you can press the end game button and the person with the most points wins - You get one point for each time your team guesses a correct word - Good luck and have fun playing';
+  })
 
+  xButton.addEventListener('click', function() {
+    displayText.style.display = 'none';
+    xButton.style.display = 'none';
+  })
+</script>
 
+<button id="pCL" onclick="processCustomList()">Generate Word</button>
+
+<script>
+  const customListBtn = document.getElementById("pCL");
+  const startFoodsBtn = document.getElementById("startFood");
+  const startAthleteBtn = document.getElementById("startAthlete");
+  const countDownBtn = document.getElementById("countDown");
+  const hardBtn = document.getElementById("startHard");
+  const mediumBtn = document.getElementById("startMedium");
+  const easyBtn = document.getElementById("startEasy");
+  const instructButton = document.getElementById("displayInstructions");
+  const xBtn = document.getElementById("xButton");
+  
+  customListBtn.className = 'default-button';
+  startFoodsBtn.className = 'default-button';
+  startAthleteBtn.className = 'default-button';
+  countDownBtn.className = 'default-button';
+  hardBtn.className = 'default-button';
+  mediumBtn.className = 'default-button';
+  easyBtn.className = 'default-button';
+  instructButton.className = 'default-button';
+  xBtn.className = 'red-button';
+
+  customListBtn.addEventListener('mouseover', () => {
+ 	    customListBtn.className = 'highlighted-button';
+  });
+
+  customListBtn.addEventListener('mouseout', () => {
+      customListBtn.className = 'default-button';
+  });
+
+  startFoodsBtn.addEventListener('mouseover', () => {
+ 	    startFoodsBtn.className = 'highlighted-button';
+  });
+
+  startFoodsBtn.addEventListener('mouseout', () => {
+      startFoodsBtn.className = 'default-button';
+  });
+
+  startAthleteBtn.addEventListener('mouseover', () => {
+ 	    startAthleteBtn.className = 'highlighted-button';
+  });
+
+  startAthleteBtn.addEventListener('mouseout', () => {
+      startAthleteBtn.className = 'default-button';
+  });
+
+  countDownBtn.addEventListener('mouseover', () => {
+ 	    countDownBtn.className = 'highlighted-button';
+  });
+
+  countDownBtn.addEventListener('mouseout', () => {
+      countDownBtn.className = 'default-button';
+  });
+
+  hardBtn.addEventListener('mouseover', () => {
+ 	    hardBtn.className = 'highlighted-button';
+  });
+
+  hardBtn.addEventListener('mouseout', () => {
+      hardBtn.className = 'default-button';
+  });
+
+  mediumBtn.addEventListener('mouseover', () => {
+ 	    mediumBtn.className = 'highlighted-button';
+  });
+
+  mediumBtn.addEventListener('mouseout', () => {
+      mediumBtn.className = 'default-button';
+  });
+  
+  easyBtn.addEventListener('mouseover', () => {
+ 	    easyBtn.className = 'highlighted-button';
+  });
+
+  easyBtn.addEventListener('mouseout', () => {
+      easyBtn.className = 'default-button';
+  });
+
+  instructButton.addEventListener('mouseover', () => {
+    instructButton.className = 'highlighted-button';
+  });
+
+  instructButton.addEventListener('mouseout', () => {
+    instructButton.className = 'default-button';
+  });
+
+  xBtn.addEventListener('mouseover', () => {
+ 	    xBtn.className = 'highlighted-red-button';
+  });
+
+  xBtn.addEventListener('mouseout', () => {
+      xBtn.className = 'red-button';
+  });
+</script>
 
 </body>
 </html>
