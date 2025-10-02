@@ -1,9 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
+  <head>
   <meta charset="utf-8" />
-  <title>Square Game Simulator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Square Game :D</title>
   <link rel="stylesheet" href="/styles.css">
+
 </head>
 <body style="background-color:purple;">
   <h1>Square Game Simulator</h1>
@@ -52,111 +54,70 @@
   </style>
 </body>
 </html>
+=======
+  <style>
+  button {
+    margin: 5px;
+    padding: 10px;
+    font-size:16px;
+  }
+  </style>
+  <script src="/app.js"></script>
 
-<!DOCTYPE html>
-<html>
+</head>
 <body>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <p id="output"></p>
 <p id="rand"></p>
 
-<script>
-	
-   
-  function startGameEasyBasic() {
-    randomWords = [];
-    for (let i = 0; i < listEasyBasicWords.length; i++) {
-       randomWords.push(listEasyBasicWords[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
+<!--buttons-->
 
+<div id = "button-container">
+  <p>Select Difficulty:</p>
+  <button id="Easy">Easy</button>
+  <button id="Medium">Medium</button>
+  <button id="Hard">Hard</button>
+  <button id="Athletes">Athletes</button>
+  <button id="Food&Drink">Food&Drink</button>
+</div>
+<style>
+  #button-container {
+    position: absolute;
+    top: 400px;
+    left:300px
+    
   }
+</style>
 
-  function startGameMediumBasic() {
-    randomWords = [];
-    for (let i = 0; i < listMediumBasicWords.length; i++) {
-       randomWords.push(listMediumBasicWords[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
-  }
-
-  function startGameHardBasic() {
-    randomWords = [];
-    for (let i = 0; i < listHardBasicWords.length; i++) {
-       randomWords.push(listHardBasicWords[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
-  }
-  function startGameAthletes() {
-    randomWords = [];
-    for (let i = 0; i < listAthletes.length; i++) {
-       randomWords.push(listAthletes[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
-  }
-  function startGameFoods() {
-    randomWords = [];
-    for (let i = 0; i < listFoods.length; i++) {
-       randomWords.push(listFoods[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
-  }
+<div id="width"></div>
+<script>	//main code
 
   let randomWords = [];
-
-  let listEasyBasicWords = ["Brick", "Jump", "Cloud", "Flame", "Stone", "Crisp", "Glow", "Blink", "Grin", "Sketch"]
-  let listMediumBasicWords = ["Adventure", "Cathedral", "Whisper", "Paradox", "Melody", "Science", "Circus", "Radiant", "Horizon", "Vibration"];
-  let listHardBasicWords = ["California", "Opportunity", "Imagination", "Uncontrollability", "Celebration", "Responsibility", "Himalayas", "Individuality", "Information", "Misinterpretation"];
-
+      let word=null;
+      const hardButton=document.getElementById('Hard');
+      const medButton=document.getElementById('Medium');
+      const easyButton=document.getElementById('Easy');
+      const foodDrinkButton=document.getElementById('Food&Drink');
+      const athleteButton=document.getElementById('Athletes');
+    function removeWord(){
+      const existing=document.getElementById('myWord');
+      if (existing) existing.remove();
+    }
   function numDisp(num) {
     document.getElementById("rand").innerText = num;
   }
   
-  function countdown() {
+  function countdown(mode) {
     for (let i = 5; i > 0; i--) {
       setTimeout(function() { numDisp(i); }, (5 - i) * 1000);
     }
-    setTimeout(function() { start(); }, 5000);
+    setTimeout(function() { start(mode); }, 5000);
   }
-  
-  function start() {
-    setTimeout(startGameHardBasic, 0);
+
+  function start(mode) {
+    setTimeout(mode, 0);
   }
 
   let listEasyBasicWords = ["Blade", "Crush", "Drill", "Flame", "Grasp", "Jump", "Kick", "Lift", "Mash", "Neck",
@@ -260,7 +221,12 @@
   "Strawberry", "Sugar", "Sushi", "Sweetcorn", "Syrup", "Taco", "Tahini", "Tangerine", "Tea",
   "Thyme", "Tofu", "Tomato", "Truffle", "Tuna", "Turnip", "Vanilla", "Walnut", "Water"];  
     
-</script>
+    function displayWord(){
+      removeWord();
+
+      const wordEl = document.createElement('span');
+      
+
 
 <button id="startEasy" onclick="startGameEasyBasic()">Easy (Basic)</button>
 <button id="startMedium" onclick="startGameMediumBasic()">Medium (Basic)</button>
@@ -270,7 +236,59 @@
 
 <button id="startAthlete" onclick="startGameAthletes()">Athletes</button>
 <button id="startFood" onclick="startGameFoods()">Food & Drink</button>
+=======
+      wordEl.id = 'myWord';
+      wordEl.textContent = word;
+      wordEl.style.position = 'absolute';
+      wordEl.style.top = '200px';
+      wordEl.style.fontSize='60px';
+      wordEl.style.transition = 'all 0.5s ease';
 
+      document.body.appendChild(wordEl);
+
+      const screenWidth=window.innerWidth;
+      const elementWidth = wordEl.offsetWidth;
+      wordEl.style.left = (screenWidth/2)-(elementWidth/2) + "px";
+          function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+          }
+          async function moveWord() {
+            await delay(2000); // wait 2 seconds
+            wordEl.style.top = '20px';
+            wordEl.style.fontSize='16px';
+            wordEl.style.left = (screenWidth/2)-(elementWidth/2) + "px";
+          }
+          moveWord();
+      }
+
+
+  hardButton.addEventListener('click',()=>{
+      //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
+        word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
+        displayWord();
+      });
+      
+    medButton.addEventListener('click',()=>{
+        word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
+        displayWord();
+      });
+      
+      easyButton.addEventListener('click',()=>{
+        word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
+        displayWord();
+      });
+    athleteButton.addEventListener('click',()=>{
+      word=listAthletes[Math.floor(Math.random() * listAthletes.length)]
+      displayWord();
+    })
+    foodDrinkButton.addEventListener('click',()=>{
+      word=listFoods[Math.floor(Math.random() * listFoods.length)]
+      displayWord();
+    })
+
+
+
+</script>
 
 <br>
 <p>Or, create your own list! (Separated by commas and spaces)</p>
@@ -412,4 +430,169 @@
 </script>
 
 </body>
+
+
+<head>
+  <title>Game Round</title>
+</head>
+<body>
+  <button id="redBtn">RED WIN</button>
+  <p id="scoresRed"></p>
+
+  <button id="blackBtn">BLACK WIN</button>
+  <p id="scoresBlack"></p>
+
+  <button id="resetBtn">RESET</button>
+  <p id="scoresReset"></p>
+
+  <!--<button id="pickBtn" onclick="chooseGamemode()">4 player</button>-->
+  <!--<p id = "4playerText"></p>-->
+
+  <head>
+    <meta charset="utf-8">
+    <title>Square Game</title>
+  </head>
+  <body>
+    <!-- Step 1: ask how many players -->
+    <input type="number" id="numPlayers" placeholder="Enter number of players">
+    <button onclick="setupPlayerInputs()">Set Players</button>
+  
+    <!-- Step 2: dynamic input fields will go here -->
+    <div id="playerInputs"></div>
+    <button id="submitPlayers" style="display:none;" onclick="askQuestions()">Submit Players</button>
+<p id="output"></p>
+
+  <script>
+    color = ""; 
+    function clickButton(color){
+      if (color === "red"){
+        document.getElementById("redBtn").addEventListener("click", () => {
+        updateScores(color); 
+        display(color);
+        });
+      }
+      else if (color === "black"){
+        document.getElementById("blackBtn").addEventListener("click", () => {
+        updateScores(color);
+        display(color);
+        });
+      }
+      else{
+        document.getElementById("resetBtn").addEventListener("click", () => {
+        updateScores(color);
+        display(color);
+        });
+      }
+    }
+
+function updateScores(color) {
+  if (color === "red") {
+    players.red.forEach(p => p.score += 5);
+    display("red");
+  } else if (color === "black") {
+    players.black.forEach(p => p.score += 5);
+    display("black");
+  } else if (color === "reset") {
+    players.red.forEach(p => p.score = 0);
+    players.black.forEach(p => p.score = 0);
+    display("red");
+    display("black");
+  }
+}
+
+
+function display(color) {
+  const container = color === "red"
+    ? document.getElementById("scoresRed")
+    : color === "black"
+      ? document.getElementById("scoresBlack")
+      : null;
+
+  if (!container) return; // bail if color invalid
+
+  container.innerHTML = ""; // clear
+
+  const team = players[color];
+  if (!Array.isArray(team)) return;
+
+  team.forEach((player, index) => {
+    const p = document.createElement("p");
+    p.id = `${color}-player-${index}`;
+    p.textContent = `${color} ${player.role} ${player.name}: ${player.score}`;
+    container.appendChild(p);
+  });
+}
+
+    let num = 0;
+
+    function setupPlayerInputs() {
+      num = parseInt(document.getElementById("numPlayers").value, 10);
+      if (isNaN(num) || num < 2) {
+        alert("Please enter a valid number of players (at least 2).");
+        return;
+      }
+
+      const container = document.getElementById("playerInputs");
+      container.innerHTML = ""; // clear previous inputs
+
+      // create input fields
+      for (let i = 0; i < num; i++) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.id = "player" + i;
+        input.placeholder = "Enter name for player " + (i + 1);
+        container.appendChild(input);
+        container.appendChild(document.createElement("br"));
+      }
+
+      // show submit button
+      document.getElementById("submitPlayers").style.display = "inline-block";
+    }
+
+    function askQuestions() {
+      let half = Math.floor(num / 2); // integer division
+
+      for (let i = 0; i < half; i++) {
+        const nameCurr = document.getElementById("player" + i).value.trim();
+        if (i < Math.floor(half / 2)) {
+          addPlayer("red", "guesser", nameCurr);
+        } else {
+          addPlayer("red", "explainer", nameCurr);
+        }
+      }
+
+      for (let k = 0; k < num - half; k++) {
+        const nameCurr = document.getElementById("player" + (half + k)).value.trim();
+        if (k < Math.floor((num - half) / 2)) {
+          addPlayer("black", "guesser", nameCurr);
+        } else {
+          addPlayer("black", "explainer", nameCurr);
+        }
+      }
+    }
+
+function addPlayer(team, role, name) {
+  players[team].push({
+    role: role,
+    name: name,
+    score: 0
+  });
+}
+
+  let players = {
+  red: [],
+  black: []
+};
+  
+  askQuestions();     
+  display("red");
+  display("black");
+  clickButton("red")
+  clickButton("black")
+  clickButton("reset")
+
+    
+  </script>
+</body>
+
 </html>
