@@ -1,118 +1,123 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Square Game :D</title>
+  <link rel="stylesheet" href="/styles.css">
 
-  <link rel="stylesheet" href="/styles.css">
 </head>
-=======
-  <title>Square Game Simulator</title>
-  <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
+<body style="background-color:purple;">
   <h1>Square Game Simulator</h1>
 
   <pre id="out"></pre>
 
+  <script src="/app.js"></script>
+
+  <style>
+    .default-button {
+      background-color: pink;
+      color: black;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .highlighted-button {
+	    background-color: #F5278B;
+    	color: black;
+    	padding: 8px 15px;
+    	border: none;
+    	border-radius: 5px;
+    	font-weight: bold;
+    }
+
+    .red-button {
+      background-color: red;
+      color: black;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .highlighted-red-button {
+	    background-color: rgba(228, 7, 7, 0.525);
+    	color: black;
+    	padding: 8px 15px;
+    	border: none;
+    	border-radius: 5px;
+    	font-weight: bold;
+    }
+
+  </style>
 </body>
+</html>
+=======
+  <style>
+  button {
+    margin: 5px;
+    padding: 10px;
+    font-size:16px;
+  }
+  </style>
+  <script src="/app.js"></script>
+
+</head>
 <body>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <p id="output"></p>
 <p id="rand"></p>
 
-<script>
-	
-   
-  function startGameEasyBasic() {
-    randomWords = [];
-    for (let i = 0; i < listEasyBasicWords.length; i++) {
-       randomWords.push(listEasyBasicWords[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
+<!--buttons-->
 
+<div id = "button-container">
+  <p>Select Difficulty:</p>
+  <button id="Easy">Easy</button>
+  <button id="Medium">Medium</button>
+  <button id="Hard">Hard</button>
+  <button id="Athletes">Athletes</button>
+  <button id="Food&Drink">Food&Drink</button>
+</div>
+<style>
+  #button-container {
+    position: absolute;
+    top: 400px;
+    left:300px
+    
   }
+</style>
 
-  function startGameMediumBasic() {
-    randomWords = [];
-    for (let i = 0; i < listMediumBasicWords.length; i++) {
-       randomWords.push(listMediumBasicWords[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
-  }
-
-  function startGameHardBasic() {
-    randomWords = [];
-    for (let i = 0; i < listHardBasicWords.length; i++) {
-       randomWords.push(listHardBasicWords[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
-  }
-  function startGameAthletes() {
-    randomWords = [];
-    for (let i = 0; i < listAthletes.length; i++) {
-       randomWords.push(listAthletes[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
-  }
-  function startGameFoods() {
-    randomWords = [];
-    for (let i = 0; i < listFoods.length; i++) {
-       randomWords.push(listFoods[i]);
-    }
-    
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
-    
-    function printWord() {
-    	return rWord;
-    }
-    document.getElementById("rand").innerText = printWord();
-  }
+<div id="width"></div>
+<script>	//main code
 
   let randomWords = [];
-
+      let word=null;
+      const hardButton=document.getElementById('Hard');
+      const medButton=document.getElementById('Medium');
+      const easyButton=document.getElementById('Easy');
+      const foodDrinkButton=document.getElementById('Food&Drink');
+      const athleteButton=document.getElementById('Athletes');
+    function removeWord(){
+      const existing=document.getElementById('myWord');
+      if (existing) existing.remove();
+    }
   function numDisp(num) {
     document.getElementById("rand").innerText = num;
   }
   
-  function countdown() {
+  function countdown(mode) {
     for (let i = 5; i > 0; i--) {
       setTimeout(function() { numDisp(i); }, (5 - i) * 1000);
     }
-    setTimeout(function() { start(); }, 5000);
+    setTimeout(function() { start(mode); }, 5000);
   }
-  
-  function start() {
-    setTimeout(startGameHardBasic, 0);
+
+  function start(mode) {
+    setTimeout(mode, 0);
   }
 
   let listEasyBasicWords = ["Blade", "Crush", "Drill", "Flame", "Grasp", "Jump", "Kick", "Lift", "Mash", "Neck",
@@ -216,6 +221,73 @@
   "Strawberry", "Sugar", "Sushi", "Sweetcorn", "Syrup", "Taco", "Tahini", "Tangerine", "Tea",
   "Thyme", "Tofu", "Tomato", "Truffle", "Tuna", "Turnip", "Vanilla", "Walnut", "Water"];  
     
+    function displayWord(){
+      removeWord();
+
+      const wordEl = document.createElement('span');
+      
+
+
+<button id="startEasy" onclick="startGameEasyBasic()">Easy (Basic)</button>
+<button id="startMedium" onclick="startGameMediumBasic()">Medium (Basic)</button>
+<button id="startHard" onclick="startGameHardBasic()">Hard (Basic)</button>
+
+<button id="countDown" onclick="countdown()">Begin Game (Basic)</button>
+
+<button id="startAthlete" onclick="startGameAthletes()">Athletes</button>
+<button id="startFood" onclick="startGameFoods()">Food & Drink</button>
+=======
+      wordEl.id = 'myWord';
+      wordEl.textContent = word;
+      wordEl.style.position = 'absolute';
+      wordEl.style.top = '200px';
+      wordEl.style.fontSize='60px';
+      wordEl.style.transition = 'all 0.5s ease';
+
+      document.body.appendChild(wordEl);
+
+      const screenWidth=window.innerWidth;
+      const elementWidth = wordEl.offsetWidth;
+      wordEl.style.left = (screenWidth/2)-(elementWidth/2) + "px";
+          function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+          }
+          async function moveWord() {
+            await delay(2000); // wait 2 seconds
+            wordEl.style.top = '20px';
+            wordEl.style.fontSize='16px';
+            wordEl.style.left = (screenWidth/2)-(elementWidth/2) + "px";
+          }
+          moveWord();
+      }
+
+
+  hardButton.addEventListener('click',()=>{
+      //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
+        word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
+        displayWord();
+      });
+      
+    medButton.addEventListener('click',()=>{
+        word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
+        displayWord();
+      });
+      
+      easyButton.addEventListener('click',()=>{
+        word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
+        displayWord();
+      });
+    athleteButton.addEventListener('click',()=>{
+      word=listAthletes[Math.floor(Math.random() * listAthletes.length)]
+      displayWord();
+    })
+    foodDrinkButton.addEventListener('click',()=>{
+      word=listFoods[Math.floor(Math.random() * listFoods.length)]
+      displayWord();
+    })
+
+
+
 </script>
 <head>
 <link rel="stylesheet" href="/styles.css">
@@ -254,7 +326,122 @@
 
 </script>
 
-<button onclick="processCustomList()">Generate Word</button>
+<button id="displayInstructions">Instructions</button>
+<button id="xButton">X</button>
+<p id="displayText"></p>
+  
+<script>
+  const displayInstructions =  document.getElementById('displayInstructions');
+  const displayText = document.getElementById('displayText');
+  xButton.style.display = 'none';
+  
+  displayInstructions.addEventListener('click', function() {
+    xButton.style.display = 'block';
+    displayText.style.display = 'block';
+    displayText.textContent = 'First put in your group size and put all the names in of people playing - Once you got all your players in you will be seperated in to two teams = You can then select the difficulty to play, the harder the difficulty the harder the words are to guess - After you select the difficulty you can press the start game button to start the game - The two teams will compete to guess the word with their teammates help(If agreeded on by both teams you can skip a word) - Whichever team guesses the word correctly first gets a point that you can assign by the button corresponding to your team located on the right hand side of the screen(you can see which team your on by your name on the left hand side) - You can keep on playing however long you want - After each point the teams switch creating new teams for each word - Once you are done you can press the end game button and the person with the most points wins - You get one point for each time your team guesses a correct word - Good luck and have fun playing';
+  })
+
+  xButton.addEventListener('click', function() {
+    displayText.style.display = 'none';
+    xButton.style.display = 'none';
+  })
+</script>
+
+<button id="pCL" onclick="processCustomList()">Generate Word</button>
+
+<script>
+  const customListBtn = document.getElementById("pCL");
+  const startFoodsBtn = document.getElementById("startFood");
+  const startAthleteBtn = document.getElementById("startAthlete");
+  const countDownBtn = document.getElementById("countDown");
+  const hardBtn = document.getElementById("startHard");
+  const mediumBtn = document.getElementById("startMedium");
+  const easyBtn = document.getElementById("startEasy");
+  const instructButton = document.getElementById("displayInstructions");
+  const xBtn = document.getElementById("xButton");
+  
+  customListBtn.className = 'default-button';
+  startFoodsBtn.className = 'default-button';
+  startAthleteBtn.className = 'default-button';
+  countDownBtn.className = 'default-button';
+  hardBtn.className = 'default-button';
+  mediumBtn.className = 'default-button';
+  easyBtn.className = 'default-button';
+  instructButton.className = 'default-button';
+  xBtn.className = 'red-button';
+
+  customListBtn.addEventListener('mouseover', () => {
+ 	    customListBtn.className = 'highlighted-button';
+  });
+
+  customListBtn.addEventListener('mouseout', () => {
+      customListBtn.className = 'default-button';
+  });
+
+  startFoodsBtn.addEventListener('mouseover', () => {
+ 	    startFoodsBtn.className = 'highlighted-button';
+  });
+
+  startFoodsBtn.addEventListener('mouseout', () => {
+      startFoodsBtn.className = 'default-button';
+  });
+
+  startAthleteBtn.addEventListener('mouseover', () => {
+ 	    startAthleteBtn.className = 'highlighted-button';
+  });
+
+  startAthleteBtn.addEventListener('mouseout', () => {
+      startAthleteBtn.className = 'default-button';
+  });
+
+  countDownBtn.addEventListener('mouseover', () => {
+ 	    countDownBtn.className = 'highlighted-button';
+  });
+
+  countDownBtn.addEventListener('mouseout', () => {
+      countDownBtn.className = 'default-button';
+  });
+
+  hardBtn.addEventListener('mouseover', () => {
+ 	    hardBtn.className = 'highlighted-button';
+  });
+
+  hardBtn.addEventListener('mouseout', () => {
+      hardBtn.className = 'default-button';
+  });
+
+  mediumBtn.addEventListener('mouseover', () => {
+ 	    mediumBtn.className = 'highlighted-button';
+  });
+
+  mediumBtn.addEventListener('mouseout', () => {
+      mediumBtn.className = 'default-button';
+  });
+  
+  easyBtn.addEventListener('mouseover', () => {
+ 	    easyBtn.className = 'highlighted-button';
+  });
+
+  easyBtn.addEventListener('mouseout', () => {
+      easyBtn.className = 'default-button';
+  });
+
+  instructButton.addEventListener('mouseover', () => {
+    instructButton.className = 'highlighted-button';
+  });
+
+  instructButton.addEventListener('mouseout', () => {
+    instructButton.className = 'default-button';
+  });
+
+  xBtn.addEventListener('mouseover', () => {
+ 	    xBtn.className = 'highlighted-red-button';
+  });
+
+  xBtn.addEventListener('mouseout', () => {
+      xBtn.className = 'red-button';
+  });
+</script>
 
 </body>
 
