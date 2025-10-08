@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/styles.css">
 
 </head>
-<body style="background-color:purple;">
+<body style="background-color:rgb(80 231 173);">
   <h1>Square Game Simulator</h1>
 
   <pre id="out"></pre>
@@ -54,7 +54,6 @@
   </style>
 </body>
 </html>
-
   <style>
   button {
     margin: 5px;
@@ -76,12 +75,13 @@
 
 <div id = "button-container">
   <p>Select Difficulty:</p>
-  <button id="Easy">Easy</button>
-  <button id="Medium">Medium</button>
-  <button id="Hard">Hard</button>
-  <button id="Athletes">Athletes</button>
-  <button id="Food&Drink">Food&Drink</button>
+  <button class = "default-button" id="Easy">Easy</button>
+  <button class = "default-button" id="Medium">Medium</button>
+  <button class = "default-button" id="Hard">Hard</button>
+  <button class = "default-button" id="Athletes">Athletes</button>
+  <button class = "default-button" id="Food&Drink">Food&Drink</button>
 </div>
+</body>
 <style>
   #button-container {
     position: absolute;
@@ -306,8 +306,8 @@
 
 </script>
 
-<button id="displayInstructions">Instructions</button>
-<button id="xButton">X</button>
+<button class = "default-button" id="displayInstructions">Instructions</button>
+<button class = "red-button" id="xButton">X</button>
 <p id="displayText"></p>
   
 <script>
@@ -327,101 +327,8 @@
   })
 </script>
 
-<button id="pCL" onclick="processCustomList()">Generate Word</button>
+<button class = "default-button" id="pCL" onclick="processCustomList()">Generate Word</button>
 
-<script>
-  const customListBtn = document.getElementById("pCL");
-  const startFoodsBtn = document.getElementById("startFood");
-  const startAthleteBtn = document.getElementById("startAthlete");
-  const countDownBtn = document.getElementById("countDown");
-  const hardBtn = document.getElementById("startHard");
-  const mediumBtn = document.getElementById("startMedium");
-  const easyBtn = document.getElementById("startEasy");
-  const instructButton = document.getElementById("displayInstructions");
-  const xBtn = document.getElementById("xButton");
-  
-  customListBtn.className = 'default-button';
-  startFoodsBtn.className = 'default-button';
-  startAthleteBtn.className = 'default-button';
-  countDownBtn.className = 'default-button';
-  hardBtn.className = 'default-button';
-  mediumBtn.className = 'default-button';
-  easyBtn.className = 'default-button';
-  instructButton.className = 'default-button';
-  xBtn.className = 'red-button';
-
-  customListBtn.addEventListener('mouseover', () => {
- 	    customListBtn.className = 'highlighted-button';
-  });
-
-  customListBtn.addEventListener('mouseout', () => {
-      customListBtn.className = 'default-button';
-  });
-
-  startFoodsBtn.addEventListener('mouseover', () => {
- 	    startFoodsBtn.className = 'highlighted-button';
-  });
-
-  startFoodsBtn.addEventListener('mouseout', () => {
-      startFoodsBtn.className = 'default-button';
-  });
-
-  startAthleteBtn.addEventListener('mouseover', () => {
- 	    startAthleteBtn.className = 'highlighted-button';
-  });
-
-  startAthleteBtn.addEventListener('mouseout', () => {
-      startAthleteBtn.className = 'default-button';
-  });
-
-  countDownBtn.addEventListener('mouseover', () => {
- 	    countDownBtn.className = 'highlighted-button';
-  });
-
-  countDownBtn.addEventListener('mouseout', () => {
-      countDownBtn.className = 'default-button';
-  });
-
-  hardBtn.addEventListener('mouseover', () => {
- 	    hardBtn.className = 'highlighted-button';
-  });
-
-  hardBtn.addEventListener('mouseout', () => {
-      hardBtn.className = 'default-button';
-  });
-
-  mediumBtn.addEventListener('mouseover', () => {
- 	    mediumBtn.className = 'highlighted-button';
-  });
-
-  mediumBtn.addEventListener('mouseout', () => {
-      mediumBtn.className = 'default-button';
-  });
-  
-  easyBtn.addEventListener('mouseover', () => {
- 	    easyBtn.className = 'highlighted-button';
-  });
-
-  easyBtn.addEventListener('mouseout', () => {
-      easyBtn.className = 'default-button';
-  });
-
-  instructButton.addEventListener('mouseover', () => {
-    instructButton.className = 'highlighted-button';
-  });
-
-  instructButton.addEventListener('mouseout', () => {
-    instructButton.className = 'default-button';
-  });
-
-  xBtn.addEventListener('mouseover', () => {
- 	    xBtn.className = 'highlighted-red-button';
-  });
-
-  xBtn.addEventListener('mouseout', () => {
-      xBtn.className = 'red-button';
-  });
-</script>
 
 </body>
 
@@ -430,13 +337,13 @@
 </head>
 <body>
   <link rel="stylesheet" href="/styles.css">
-  <button id="redBtn">RED WIN</button>
+  <button class = "default-button" id="redBtn">RED WIN</button>
   <p id="scoresRed"></p>
 
-  <button id="blackBtn">BLACK WIN</button>
+  <button class = "default-button" id="blackBtn">BLACK WIN</button>
   <p id="scoresBlack"></p>
 
-  <button id="resetBtn">RESET</button>
+  <button class = "default-button" id="resetBtn">RESET</button>
   <p id="scoresReset"></p>
 
   <!--<button id="pickBtn" onclick="chooseGamemode()">4 player</button>-->
@@ -449,11 +356,11 @@
   <body>
     <!-- Step 1: ask how many players -->
     <input type="number" id="numPlayers" placeholder="Enter number of players">
-    <button onclick="setupPlayerInputs()">Set Players</button>
+    <button class = "default-button" id="setPlayers" onclick="setupPlayerInputs()">Set Players</button>
   
     <!-- Step 2: dynamic input fields will go here -->
     <div id="playerInputs"></div>
-    <button id="submitPlayers" style="display:none;" onclick="askQuestions()">Submit Players</button>
+    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="askQuestions()">Submit Players</button>
 <p id="output"></p>
 
   <script>
@@ -596,6 +503,130 @@ function addPlayer(team, role, name) {
 
     
   </script>
+
+<script>
+  const food = document.getElementById("Food&Drink");
+  const easy = document.getElementById("Easy");
+  const medium = document.getElementById("Medium");
+  const hard = document.getElementById("Hard");
+  const athlete = document.getElementById("Athletes");
+  const instruct = document.getElementById("displayInstructions");
+  const wordBtn = document.getElementById("pCL");
+  const redBtn = document.getElementById("redBtn");
+  const blackBtn = document.getElementById("blackBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const setBtn = document.getElementById("setPlayers");
+  const submitBtn = document.getElementById("submitPlayers");
+
+  food.addEventListener('click', () => {
+    food.classList.remove('default-button');
+    food.classList.add('highlighted-button');
+    setTimeout(() => {
+      food.classList.remove('highlighted-button');
+      food.classList.add('default-button');
+    }, 250);
+  })
+
+  easy.addEventListener('click', () => {
+    easy.classList.remove('default-button');
+    easy.classList.add('highlighted-button');
+    setTimeout(() => {
+      easy.classList.remove('highlighted-button');
+      easy.classList.add('default-button');
+    }, 250);
+  })
+
+  medium.addEventListener('click', () => {
+    medium.classList.remove('default-button');
+    medium.classList.add('highlighted-button');
+    setTimeout(() => {
+      medium.classList.remove('highlighted-button');
+      medium.classList.add('default-button');
+    }, 250);
+  })
+
+  hard.addEventListener('click', () => {
+    hard.classList.remove('default-button');
+    hard.classList.add('highlighted-button');
+    setTimeout(() => {
+      hard.classList.remove('highlighted-button');
+      hard.classList.add('default-button');
+    }, 250);
+  })
+    
+  athlete.addEventListener('click', () => {
+    athlete.classList.remove('default-button');
+    athlete.classList.add('highlighted-button');
+    setTimeout(() => {
+      athlete.classList.remove('highlighted-button');
+      athlete.classList.add('default-button');
+    }, 250);
+  })
+
+  instruct.addEventListener('click', () => {
+    instruct.classList.remove('default-button');
+    instruct.classList.add('highlighted-button');
+    setTimeout(() => {
+      instruct.classList.remove('highlighted-button');
+      instruct.classList.add('default-button');
+    }, 250);
+  })
+
+  wordBtn.addEventListener('click', () => {
+    wordBtn.classList.remove('default-button');
+    wordBtn.classList.add('highlighted-button');
+    setTimeout(() => {
+      wordBtn.classList.remove('highlighted-button');
+      wordBtn.classList.add('default-button');
+    }, 250);
+  })
+
+  redBtn.addEventListener('click', () => {
+    redBtn.classList.remove('default-button');
+    redBtn.classList.add('highlighted-button');
+    setTimeout(() => {
+      redBtn.classList.remove('highlighted-button');
+      redBtn.classList.add('default-button');
+    }, 250);
+  })
+
+  blackBtn.addEventListener('click', () => {
+    blackBtn.classList.remove('default-button');
+    blackBtn.classList.add('highlighted-button');
+    setTimeout(() => {
+      blackBtn.classList.remove('highlighted-button');
+      blackBtn.classList.add('default-button');
+    }, 250);
+  })
+  
+  resetBtn.addEventListener('click', () => {
+    resetBtn.classList.remove('default-button');
+    resetBtn.classList.add('highlighted-button');
+    setTimeout(() => {
+      resetBtn.classList.remove('highlighted-button');
+      resetBtn.classList.add('default-button');
+    }, 250);
+  })
+
+  setBtn.addEventListener('click', () => {
+    setBtn.classList.remove('default-button');
+    setBtn.classList.add('highlighted-button');
+    setTimeout(() => {
+      setBtn.classList.remove('highlighted-button');
+      setBtn.classList.add('default-button');
+    }, 250);
+  })
+  
+  submitBtn.addEventListener('click', () => {
+    submitBtn.classList.remove('default-button');
+    submitBtn.classList.add('highlighted-button');
+    setTimeout(() => {
+      submitBtn.classList.remove('highlighted-button');
+      submitBtn.classList.add('default-button');
+    }, 250);
+  })
+  
+</script>
 </body>
 
 </html>
