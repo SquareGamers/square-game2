@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="/styles.css">
 
 </head>
-<body style="background-color:purple;">
+
+<body style="background-color:rgb(80 231 173);">
   <h1>Square Game Simulator</h1>
 
   <pre id="out"></pre>
@@ -54,7 +55,6 @@
   </style>
 </body>
 </html>
-=======
   <style>
   button {
     margin: 5px;
@@ -75,12 +75,13 @@
 
 <div id = "button-container">
   <p>Select Difficulty:</p>
-  <button id="Easy">Easy</button>
-  <button id="Medium">Medium</button>
-  <button id="Hard">Hard</button>
-  <button id="Athletes">Athletes</button>
-  <button id="Food&Drink">Food&Drink</button>
+  <button class = "default-button" id="Easy">Easy</button>
+  <button class = "default-button" id="Medium">Medium</button>
+  <button class = "default-button" id="Hard">Hard</button>
+  <button class = "default-button" id="Athletes">Athletes</button>
+  <button class = "default-button" id="Food&Drink">Food&Drink</button>
 </div>
+</body>
 <style>
   #button-container {
     position: absolute;
@@ -197,11 +198,11 @@
   "Unpredictable", "Verification", "Willingness",
   "Articulation", "Background", "Caffeinated", "Democratic", "Elasticity",
   "Friendliness", "Generosity", "Helplessness", "Idealistic", "Journalistic"];
-  let listAthletes = ["Herbert Jones", "Cristiano Ronaldo", "Stephen Curry", "Tyson Fury", "Dak Prescott", "LeBron James", "Kevin Durant", "Khabib Nurmagomedov", "Jon Jones", "Conor McGregor", "Israel Adesanya", "Francis Ngannou", "Kamaru Usman", "Stipe Miocic", "Daniel Cormier", "Dustin Poirier", "Charles Oliveira", "Jorge Masvidal", "Justin Herbert", "Patrick Mahomes", "Josh Allen", "Aaron Rodgers", "Tom Brady", "Russell Wilson", "Kyler Murray", "Dak Prescott", "Justin Jefferson", "CeeDee Lamb", "Saquon Barkley", "Christian McCaffrey", "Derrick Henry", 
+  let listAthletes = ["Michael Jordan", "Herbert Jones", "Cristiano Ronaldo", "Stephen Curry", "Tyson Fury", "Dak Prescott", "Kevin Durant", "Khabib Nurmagomedov", "Jon Jones", "Conor McGregor", "Israel Adesanya", "Francis Ngannou", "Kamaru Usman", "Stipe Miocic", "Daniel Cormier", "Dustin Poirier", "Charles Oliveira", "Jorge Masvidal", "Justin Herbert", "Patrick Mahomes", "Josh Allen", "Aaron Rodgers", "Tom Brady", "Russell Wilson", "Kyler Murray", "Dak Prescott", "Justin Jefferson", "CeeDee Lamb", "Saquon Barkley", "Christian McCaffrey", "Derrick Henry", 
   "Alvin Kamara", "Stefon Diggs", "Davante Adams", "Ja'Marr Chase", "Joe Burrow", "Jalen Hurts", "Matthew Stafford", "Deshaun Watson", "Baker Mayfield", "Tua Tagovailoa", "Josh Jacobs", "Nick Chubb", "Mark Andrews", "Travis Kelce", "George Kittle", "Dalvin Cook", "Aaron Donald", "Myles Garrett", "T.J. Watt", "Khalil Mack", "Joey Bosa", "Von Miller", "Chase Young", "Micah Parsons", "Leonard Floyd", "DeForest Buckner", "J.J. Watt", "Bobby Wagner", "Darius Leonard", "Fred Warner", "Xavien Howard", "Minkah Fitzpatrick", "Marlon Humphrey", "Jalen Ramsey", "Patrick Peterson", 
   "Stephon Gilmore", "Justin Simmons", "Budda Baker", "Minkah Fitzpatrick", "Aaron Judge", "Mike Trout", "Shohei Ohtani", "Mookie Betts", "Fernando Tatis Jr.", "Juan Soto", "Freddie Freeman", "Jacob deGrom", "Max Scherzer", "Bryce Harper", "Clayton Kershaw", "Nolan Arenado", "Jose Altuve", "Xander Bogaerts", "Carlos Correa", "J.D. Martinez", "Anthony Rizzo", "Tim Anderson", "Jose Ramirez", "Ketel Marte", "Aaron Nola", "Luis Castillo", "Gerrit Cole", "Walker Buehler", "Tiger Woods", "Brooks Koepka", "Dustin Johnson", "Rory McIlroy", "Justin Thomas", "Jordan Spieth", "Phil Mickelson", 
-  "Jon Rahm", "Patrick Reed", "Bubba Watson", "Billy Horschel", "Collin Morikawa", "Tiger Woods", "Serena Williams", "Venus Williams", "Naomi Osaka", "Roger Federer", "Rafael Nadal", "Novak Djokovic", "Simone Biles", "Sha'Carri Richardson", "Katie Ledecky", "Michael Phelps", "LeBron James", "Kevin Durant", "Kyrie Irving", "Jimmy Butler", "Joel Embiid", "Nikola Jokić", "Anthony Davis", "Kawhi Leonard", "Paul George", "Jayson Tatum", "Damian Lillard", "Russell Westbrook", "Trae Young", "Devin Booker", "Bradley Beal", "Chris Paul", "Kemba Walker", "Klay Thompson", "Draymond Green", 
-  "Andrew Wiggins", "Ben Simmons", "Zion Williamson", "Ja Morant", "Karl-Anthony Towns", "De'Aaron Fox", "Jamal Murray", "CJ McCollum", "Clint Capela", "John Wall", "LaMelo Ball", "Shai Gilgeous-Alexander", "Fred VanVleet", "Pascal Siakam", "Mikael Bridges", "Tyler Herro", "D'Angelo Russell", "Julius Randle", "Zach LaVine", "DeMar DeRozan", "Mike Conley", "Eric Bledsoe", "Myles Turner", "Jonas Valančiūnas", "Rudy Gobert", "Nikola Vučević", "Jarrett Allen", "Jarrett Allen", "Fred VanVleet", "Mikal Bridges", "Jalen Green", "Anthony Edwards", "Cole Anthony", "Evan Mobley", "Jaren Jackson Jr."];
+  "Jon Rahm", "Bubba Watson", "Tiger Woods", "Serena Williams", "Venus Williams", "Naomi Osaka", "Roger Federer", "Rafael Nadal", "Novak Djokovic", "Simone Biles", "Sha'Carri Richardson", "Katie Ledecky", "Michael Phelps", "LeBron James", "Kevin Durant", "Kyrie Irving", "Jimmy Butler", "Joel Embiid", "Nikola Jokić", "Anthony Davis", "Kawhi Leonard", "Paul George", "Jayson Tatum", "Damian Lillard", "Russell Westbrook", "Trae Young", "Devin Booker", "Bradley Beal", "Chris Paul", "Kemba Walker", "Klay Thompson", "Draymond Green", 
+  "Andrew Wiggins", "Ben Simmons", "Zion Williamson", "Ja Morant", "Karl-Anthony Towns", "De'Aaron Fox", "Jamal Murray", "Jeff Teague", "CJ McCollum", "Clint Capela", "John Wall", "LaMelo Ball", "Shai Gilgeous-Alexander", "Fred VanVleet", "Pascal Siakam", "Mikael Bridges", "Tyler Herro", "D'Angelo Russell", "Julius Randle", "Zach LaVine", "DeMar DeRozan", "Mike Conley", "Eric Bledsoe", "Myles Turner", "Jonas Valančiūnas", "Rudy Gobert", "Nikola Vučević", "Jarrett Allen", "Jarrett Allen", "Fred VanVleet", "Mikal Bridges", "Jalen Green", "Anthony Edwards", "Cole Anthony", "Evan Mobley", "Jaren Jackson Jr."];
 	let listFoods = ["Apple", "Avocado", "Bagel", "Banana", "Barley", "Basil", "Beans", "Beetroot", "Bellpepper", "Berry",
   "Biscuit", "Blackberry", "Blueberry", "Bread", "Broccoli", "Brownie", "Burger", "Butter", "Cabbage", "Cake",
   "Caramel", "Carrot", "Cauliflower", "Celery", "Cheddar", "Cheese", "Chickpea", "Chili", "Chive", "Chocolate",
@@ -291,13 +292,14 @@
     function printWord() {
     	return rWord;
     }
-    document.getElementById("custRand").innerText = printWord();
+    word=rWord;
+    displayWord();
   }
 
 </script>
 
-<button id="displayInstructions">Instructions</button>
-<button id="xButton">X</button>
+<button class = "default-button" id="displayInstructions">Instructions</button>
+<button class = "red-button" id="xButton">X</button>
 <p id="displayText"></p>
   
 <script>
@@ -317,101 +319,8 @@
   })
 </script>
 
-<button id="pCL" onclick="processCustomList()">Generate Word</button>
+<button class = "default-button" id="pCL" onclick="processCustomList()">Generate Word</button>
 
-<script>
-  const customListBtn = document.getElementById("pCL");
-  const startFoodsBtn = document.getElementById("startFood");
-  const startAthleteBtn = document.getElementById("startAthlete");
-  const countDownBtn = document.getElementById("countDown");
-  const hardBtn = document.getElementById("startHard");
-  const mediumBtn = document.getElementById("startMedium");
-  const easyBtn = document.getElementById("startEasy");
-  const instructButton = document.getElementById("displayInstructions");
-  const xBtn = document.getElementById("xButton");
-  
-  customListBtn.className = 'default-button';
-  startFoodsBtn.className = 'default-button';
-  startAthleteBtn.className = 'default-button';
-  countDownBtn.className = 'default-button';
-  hardBtn.className = 'default-button';
-  mediumBtn.className = 'default-button';
-  easyBtn.className = 'default-button';
-  instructButton.className = 'default-button';
-  xBtn.className = 'red-button';
-
-  customListBtn.addEventListener('mouseover', () => {
- 	    customListBtn.className = 'highlighted-button';
-  });
-
-  customListBtn.addEventListener('mouseout', () => {
-      customListBtn.className = 'default-button';
-  });
-
-  startFoodsBtn.addEventListener('mouseover', () => {
- 	    startFoodsBtn.className = 'highlighted-button';
-  });
-
-  startFoodsBtn.addEventListener('mouseout', () => {
-      startFoodsBtn.className = 'default-button';
-  });
-
-  startAthleteBtn.addEventListener('mouseover', () => {
- 	    startAthleteBtn.className = 'highlighted-button';
-  });
-
-  startAthleteBtn.addEventListener('mouseout', () => {
-      startAthleteBtn.className = 'default-button';
-  });
-
-  countDownBtn.addEventListener('mouseover', () => {
- 	    countDownBtn.className = 'highlighted-button';
-  });
-
-  countDownBtn.addEventListener('mouseout', () => {
-      countDownBtn.className = 'default-button';
-  });
-
-  hardBtn.addEventListener('mouseover', () => {
- 	    hardBtn.className = 'highlighted-button';
-  });
-
-  hardBtn.addEventListener('mouseout', () => {
-      hardBtn.className = 'default-button';
-  });
-
-  mediumBtn.addEventListener('mouseover', () => {
- 	    mediumBtn.className = 'highlighted-button';
-  });
-
-  mediumBtn.addEventListener('mouseout', () => {
-      mediumBtn.className = 'default-button';
-  });
-  
-  easyBtn.addEventListener('mouseover', () => {
- 	    easyBtn.className = 'highlighted-button';
-  });
-
-  easyBtn.addEventListener('mouseout', () => {
-      easyBtn.className = 'default-button';
-  });
-
-  instructButton.addEventListener('mouseover', () => {
-    instructButton.className = 'highlighted-button';
-  });
-
-  instructButton.addEventListener('mouseout', () => {
-    instructButton.className = 'default-button';
-  });
-
-  xBtn.addEventListener('mouseover', () => {
- 	    xBtn.className = 'highlighted-red-button';
-  });
-
-  xBtn.addEventListener('mouseout', () => {
-      xBtn.className = 'red-button';
-  });
-</script>
 
 </body>
 
@@ -420,13 +329,13 @@
 </head>
 <body>
   <link rel="stylesheet" href="/styles.css">
-  <button id="redBtn">RED WIN</button>
+  <button class = "default-button" id="redBtn">RED WIN</button>
   <p id="scoresRed"></p>
 
-  <button id="blackBtn">BLACK WIN</button>
+  <button class = "default-button" id="blackBtn">BLACK WIN</button>
   <p id="scoresBlack"></p>
 
-  <button id="resetBtn">RESET</button>
+  <button class = "default-button" id="resetBtn">RESET</button>
   <p id="scoresReset"></p>
 
   <!--<button id="pickBtn" onclick="chooseGamemode()">4 player</button>-->
@@ -439,11 +348,11 @@
   <body>
     <!-- Step 1: ask how many players -->
     <input type="number" id="numPlayers" placeholder="Enter number of players">
-    <button onclick="setupPlayerInputs()">Set Players</button>
+    <button class = "default-button" id="setPlayers" onclick="setupPlayerInputs()">Set Players</button>
   
     <!-- Step 2: dynamic input fields will go here -->
     <div id="playerInputs"></div>
-    <button id="submitPlayers" style="display:none;" onclick="askQuestions()">Submit Players</button>
+    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="askQuestions()">Submit Players</button>
 <p id="output"></p>
 
   <script>
@@ -468,13 +377,22 @@
         });
       }
     }
-
+let streakCountRed = 0;
+let streakCountBlack = 0;
 function updateScores(color) {
   if (color === "red") {
-    players.red.forEach(p => p.score += 5);
+    if (streakCountRed < 5) {
+      streakCountRed++;
+    }
+    streakCountBlack = 0;
+    players.red.forEach(p => p.score += (3 * streakCountRed));
     display("red");
   } else if (color === "black") {
-    players.black.forEach(p => p.score += 5);
+    if (streakCountBlack < 5) {
+      streakCountBlack++;
+    }
+    streakCountRed = 0;
+    players.black.forEach(p => p.score += (3 * streakCountBlack));
     display("black");
   } else if (color === "reset") {
     players.red.forEach(p => p.score = 0);
@@ -577,6 +495,130 @@ function addPlayer(team, role, name) {
 
     
   </script>
+
+<script>
+  const food = document.getElementById("Food&Drink");
+  const easy = document.getElementById("Easy");
+  const medium = document.getElementById("Medium");
+  const hard = document.getElementById("Hard");
+  const athlete = document.getElementById("Athletes");
+  const instruct = document.getElementById("displayInstructions");
+  const wordBtn = document.getElementById("pCL");
+  const redBtn = document.getElementById("redBtn");
+  const blackBtn = document.getElementById("blackBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const setBtn = document.getElementById("setPlayers");
+  const submitBtn = document.getElementById("submitPlayers");
+
+  food.addEventListener('click', () => {
+    food.classList.remove('default-button');
+    food.classList.add('highlighted-button');
+    setTimeout(() => {
+      food.classList.remove('highlighted-button');
+      food.classList.add('default-button');
+    }, 250);
+  })
+
+  easy.addEventListener('click', () => {
+    easy.classList.remove('default-button');
+    easy.classList.add('highlighted-button');
+    setTimeout(() => {
+      easy.classList.remove('highlighted-button');
+      easy.classList.add('default-button');
+    }, 250);
+  })
+
+  medium.addEventListener('click', () => {
+    medium.classList.remove('default-button');
+    medium.classList.add('highlighted-button');
+    setTimeout(() => {
+      medium.classList.remove('highlighted-button');
+      medium.classList.add('default-button');
+    }, 250);
+  })
+
+  hard.addEventListener('click', () => {
+    hard.classList.remove('default-button');
+    hard.classList.add('highlighted-button');
+    setTimeout(() => {
+      hard.classList.remove('highlighted-button');
+      hard.classList.add('default-button');
+    }, 250);
+  })
+    
+  athlete.addEventListener('click', () => {
+    athlete.classList.remove('default-button');
+    athlete.classList.add('highlighted-button');
+    setTimeout(() => {
+      athlete.classList.remove('highlighted-button');
+      athlete.classList.add('default-button');
+    }, 250);
+  })
+
+  instruct.addEventListener('click', () => {
+    instruct.classList.remove('default-button');
+    instruct.classList.add('highlighted-button');
+    setTimeout(() => {
+      instruct.classList.remove('highlighted-button');
+      instruct.classList.add('default-button');
+    }, 250);
+  })
+
+  wordBtn.addEventListener('click', () => {
+    wordBtn.classList.remove('default-button');
+    wordBtn.classList.add('highlighted-button');
+    setTimeout(() => {
+      wordBtn.classList.remove('highlighted-button');
+      wordBtn.classList.add('default-button');
+    }, 250);
+  })
+
+  redBtn.addEventListener('click', () => {
+    redBtn.classList.remove('default-button');
+    redBtn.classList.add('highlighted-button');
+    setTimeout(() => {
+      redBtn.classList.remove('highlighted-button');
+      redBtn.classList.add('default-button');
+    }, 250);
+  })
+
+  blackBtn.addEventListener('click', () => {
+    blackBtn.classList.remove('default-button');
+    blackBtn.classList.add('highlighted-button');
+    setTimeout(() => {
+      blackBtn.classList.remove('highlighted-button');
+      blackBtn.classList.add('default-button');
+    }, 250);
+  })
+  
+  resetBtn.addEventListener('click', () => {
+    resetBtn.classList.remove('default-button');
+    resetBtn.classList.add('highlighted-button');
+    setTimeout(() => {
+      resetBtn.classList.remove('highlighted-button');
+      resetBtn.classList.add('default-button');
+    }, 250);
+  })
+
+  setBtn.addEventListener('click', () => {
+    setBtn.classList.remove('default-button');
+    setBtn.classList.add('highlighted-button');
+    setTimeout(() => {
+      setBtn.classList.remove('highlighted-button');
+      setBtn.classList.add('default-button');
+    }, 250);
+  })
+  
+  submitBtn.addEventListener('click', () => {
+    submitBtn.classList.remove('default-button');
+    submitBtn.classList.add('highlighted-button');
+    setTimeout(() => {
+      submitBtn.classList.remove('highlighted-button');
+      submitBtn.classList.add('default-button');
+    }, 250);
+  })
+  
+</script>
 </body>
 
 </html>
