@@ -62,7 +62,6 @@
     font-size:16px;
   }
   </style>
-  <script src="/app.js"></script>
 
 </head>
 <body>
@@ -213,16 +212,8 @@
   "Hummus", "Icecream", "Jam", "Jelly", "Jerky", "Juice", "Kale", "Ketchup", "Kiwi", "Lamb",
   "Lasagna", "Leek", "Lemon", "Lentil", "Lettuce", "Lime", "Loaf", "Macaroni", "Mango", "Maplesyrup",
   "Melon", "Milk", "Milkshake", "Mint", "Muffin", "Mushroom", "Mustard", "Nectarine", "Noodles",
-  "Nutmeg", "Nuts", "Oatmeal", "Olive", "Onion", "Orange", "Oregano", "Papaya", "Parsley", "Parsnip",
-  "Passionfruit", "Pasta", "Pastry", "Peach", "Peanut", "Pear", "Peas", "Pecan", "Pepper", "Pickle",
-  "Pie", "Pineapple", "Pita", "Pizza", "Plum", "Pomegranate", "Popcorn", "Potato", "Pretzel", "Pumpkin",
-  "Quiche", "Radish", "Raisin", "Ramen", "Raspberry", "Rice", "Rosemary", "Salad", "Salmon", "Salsa",
-  "Salt", "Sandwich", "Sausage", "Scallion", "Smoothie", "Sorbet", "Soup", "Soybean", "Spinach", "Squash",
-  "Strawberry", "Sugar", "Sushi", "Sweetcorn", "Syrup", "Taco", "Tahini", "Tangerine", "Tea",
-  "Thyme", "Tofu", "Tomato", "Truffle", "Tuna", "Turnip", "Vanilla", "Walnut", "Water"];  
-    
-    function displayWord(){
-      removeWord();
+  "Nutmeg", "Nuts", "Oatmeal", "Olive", "Onion", "Orange", "Oregano", "Papaya", "Parsley", "Parsnip"]
+
 
       const wordEl = document.createElement('span');
 
@@ -248,7 +239,7 @@
             wordEl.style.left = (screenWidth/2)-(elementWidth/2) + "px";
           }
           moveWord();
-      }
+      
 
 
   hardButton.addEventListener('click',()=>{
