@@ -570,6 +570,7 @@ function addPlayer(team, role, name) {
   </script>
 
 <script>
+  const basic = document.getElementById("Basic");
   const food = document.getElementById("Food&Drink");
   const easy = document.getElementById("Easy");
   const medium = document.getElementById("Medium");
@@ -582,6 +583,8 @@ function addPlayer(team, role, name) {
   const resetBtn = document.getElementById("resetBtn");
   const setBtn = document.getElementById("setPlayers");
   const submitBtn = document.getElementById("submitPlayers");
+  const newWordBtn = document.getElementById("newWord");
+
 
   food.addEventListener('click', () => {
     food.classList.remove('default-button');
