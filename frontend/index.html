@@ -99,8 +99,9 @@
 </style>
 
 <div id="width"></div>
+<button class = "default-button" id="newWord" >New Word</button>
 <script>	//main code
-
+  let wordId = 0;
   let randomWords = [];
       let word=null;
       const basicButton=document.getElementById('Basic');
@@ -109,24 +110,35 @@
       const easyButton=document.getElementById('Easy');
       const foodDrinkButton=document.getElementById('Food&Drink');
       const athleteButton=document.getElementById('Athletes');
-    function removeWord(){
-      const existing=document.getElementById('myWord');
+    function removeEl(el){
+      const existing=document.getElementById(el);
       if (existing) existing.remove();
     }
-  function numDisp(num) {
-    document.getElementById("rand").innerText = num;
+  function dispNum(num) {
+    removeEl('myNum');
+    const numEl = document.createElement('span');
+
+    numEl.id = 'myNum';
+    numEl.textContent = num;
+    numEl.style.position = 'absolute';
+    numEl.style.top = '200px';
+    numEl.style.fontSize='60px';
+    numEl.style.transition = 'all 0.5s ease';
+
+    document.body.appendChild(numEl);
+
+      const screenWidth=window.innerWidth;
+      const elementWidth = numEl.offsetWidth;
+      numEl.style.left = (screenWidth/2)-(elementWidth/2) + "px";
   }
   
-  function countdown(mode) {
+  function countdown() {
     for (let i = 5; i > 0; i--) {
-      setTimeout(function() { numDisp(i); }, (5 - i) * 1000);
+      setTimeout(function() { dispNum(i); }, (5 - i) * 1000);
     }
-    setTimeout(function() { start(mode); }, 5000);
+    setTimeout(function() { displayWord(); }, 5000);
   }
 
-  function start(mode) {
-    setTimeout(mode, 0);
-  }
 
   let listEasyBasicWords = ["Blade", "Crush", "Drill", "Flame", "Grasp", "Jump", "Kick", "Lift", "Mash", "Neck",
   "Pluck", "Quirk", "Snub", "Thump", "Vault", "Wrench", "Zap", "Bark", "Cling", "Dusk",
@@ -230,7 +242,8 @@
   "Thyme", "Tofu", "Tomato", "Truffle", "Tuna", "Turnip", "Vanilla", "Walnut", "Water"];  
     
     function displayWord(){
-      removeWord();
+      removeEl('myWord');
+      removeEl('myNum');
 
       const wordEl = document.createElement('span');
 
@@ -276,29 +289,55 @@
     
       hardButton.addEventListener('click',()=>{
       //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
+        wordId=1;
         word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
-        displayWord();
+        countdown();
       });
       
     medButton.addEventListener('click',()=>{
+        wordId=2;
         word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
-        displayWord();
+        countdown();
       });
       
       easyButton.addEventListener('click',()=>{
+        wordId=3;
         word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
-        displayWord();
+        countdown();
       });
     athleteButton.addEventListener('click',()=>{
+      wordId=4;
       word=listAthletes[Math.floor(Math.random() * listAthletes.length)]
-      displayWord();
+      countdown();
     })
     foodDrinkButton.addEventListener('click',()=>{
+      wordId=5;
       word=listFoods[Math.floor(Math.random() * listFoods.length)]
-      displayWord();
+      countdown();
     })
 
+    const newButton=document.getElementById('newWord');
 
+    newButton.addEventListener('click',()=>{
+      if (wordId == 1){
+        word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
+        displayWord();
+      } else if (wordId == 2){
+        word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
+        displayWord();
+      } else if (wordId == 3){
+        word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
+        displayWord();
+      } else if (wordId == 4){
+        word=listAthletes[Math.floor(Math.random() * listAthletes.length)]
+        displayWord();
+      } else if (wordId == 5){
+        word=listFoods[Math.floor(Math.random() * listFoods.length)]
+        displayWord();
+      } else if (wordId == 6){
+        processCustomList();
+      }
+    });
 
 </script>
 <head>
@@ -324,6 +363,7 @@
     	return rWord;
     }
     word=rWord;
+    wordId=6
     displayWord();
   }
 
@@ -542,8 +582,6 @@ function addPlayer(team, role, name) {
   const resetBtn = document.getElementById("resetBtn");
   const setBtn = document.getElementById("setPlayers");
   const submitBtn = document.getElementById("submitPlayers");
-  const basic = document.getElementById("Basic");
-
 
   food.addEventListener('click', () => {
     food.classList.remove('default-button');
@@ -659,6 +697,15 @@ function addPlayer(team, role, name) {
     setTimeout(() => {
       submitBtn.classList.remove('highlighted-button');
       submitBtn.classList.add('default-button');
+    }, 250);
+  })
+
+  newWordBtn.addEventListener('click', () => {
+    newWordBtn.classList.remove('default-button');
+    newWordBtn.classList.add('highlighted-button');
+    setTimeout(() => {
+      newWordBtn.classList.remove('highlighted-button');
+      newWordBtn.classList.add('default-button');
     }, 250);
   })
   
