@@ -106,7 +106,16 @@
 </style>
 
 <div id="width"></div>
-<button class = "default-button" id="newWord" >New Word</button>
+<div id = "newWordBtnFormat">
+  <button class = "default-button" id="newWord" >New Word</button>
+</div>
+<style>
+  #newWordBtnFormat {
+    position: absolute;
+    top: 500px;
+    left: 50%;
+  }
+</style>
 <script>	//main code
   let wordId = 0;
   let randomWords = [];
@@ -402,16 +411,16 @@
     
       hardButton.addEventListener('click',()=>{
       //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
-        wordId=1;
-        word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
-        countdown();
-      });
+      wordId=1;
+      word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
+      displayWord();
+    });
       
     medButton.addEventListener('click',()=>{
-        wordId=2;
-        word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
-        countdown();
-      });
+      wordId=2;
+      word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
+      displayWord();
+    });
       
       easyButton.addEventListener('click',()=>{
         wordId=3;
