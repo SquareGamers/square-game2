@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/styles.css">
 
 </head>
+
 <body style="background-color:rgb(80 231 173);">
   <h1>Square Game Simulator</h1>
 
@@ -74,12 +75,18 @@
 <!--buttons-->
 
 <div id = "button-container">
-  <p>Select Difficulty:</p>
-  <button class = "default-button" id="Easy">Easy</button>
+  <p>Select Category:</p>
+  <!--<button class = "default-button" id="Easy">Easy</button>
   <button class = "default-button" id="Medium">Medium</button>
   <button class = "default-button" id="Hard">Hard</button>
+  !-->
+  <button class = "default-button" id="Basic">Basic</button>
   <button class = "default-button" id="Athletes">Athletes</button>
   <button class = "default-button" id="Food&Drink">Food&Drink</button>
+  <button class = "default-button" id="Easy" style="display:none;">Easy</button>
+  <button class = "default-button" id="Medium" style="display:none;">Medium</button>
+  <button class = "default-button" id="Hard" style="display:none;">Hard</button>
+
 </div>
 </body>
 <style>
@@ -106,29 +113,41 @@
   let wordId = 0;
   let randomWords = [];
       let word=null;
+      const basicButton=document.getElementById('Basic');
       const hardButton=document.getElementById('Hard');
       const medButton=document.getElementById('Medium');
       const easyButton=document.getElementById('Easy');
       const foodDrinkButton=document.getElementById('Food&Drink');
       const athleteButton=document.getElementById('Athletes');
-    function removeWord(){
-      const existing=document.getElementById('myWord');
+    function removeEl(el){
+      const existing=document.getElementById(el);
       if (existing) existing.remove();
     }
-  function numDisp(num) {
-    document.getElementById("rand").innerText = num;
+  function dispNum(num) {
+    removeEl('myNum');
+    const numEl = document.createElement('span');
+
+    numEl.id = 'myNum';
+    numEl.textContent = num;
+    numEl.style.position = 'absolute';
+    numEl.style.top = '200px';
+    numEl.style.fontSize='60px';
+    numEl.style.transition = 'all 0.5s ease';
+
+    document.body.appendChild(numEl);
+
+      const screenWidth=window.innerWidth;
+      const elementWidth = numEl.offsetWidth;
+      numEl.style.left = (screenWidth/2)-(elementWidth/2) + "px";
   }
   
-  function countdown(mode) {
+  function countdown() {
     for (let i = 5; i > 0; i--) {
-      setTimeout(function() { numDisp(i); }, (5 - i) * 1000);
+      setTimeout(function() { dispNum(i); }, (5 - i) * 1000);
     }
-    setTimeout(function() { start(mode); }, 5000);
+    setTimeout(function() { displayWord(); }, 5000);
   }
 
-  function start(mode) {
-    setTimeout(mode, 0);
-  }
 
   let listEasyBasicWords = ["Blade", "Crush", "Drill", "Flame", "Grasp", "Jump", "Kick", "Lift", "Mash", "Neck",
   "Pluck", "Quirk", "Snub", "Thump", "Vault", "Wrench", "Zap", "Bark", "Cling", "Dusk",
@@ -210,7 +229,7 @@
   "Friendliness", "Generosity", "Helplessness", "Idealistic", "Journalistic"];
   let listAthletes = ["Michael Jordan", "Herbert Jones", "Cristiano Ronaldo", "Stephen Curry", "Tyson Fury", "Dak Prescott", "Kevin Durant", "Khabib Nurmagomedov", "Jon Jones", "Conor McGregor", "Israel Adesanya", "Francis Ngannou", "Kamaru Usman", "Stipe Miocic", "Daniel Cormier", "Dustin Poirier", "Charles Oliveira", "Jorge Masvidal", "Justin Herbert", "Patrick Mahomes", "Josh Allen", "Aaron Rodgers", "Tom Brady", "Russell Wilson", "Kyler Murray", "Dak Prescott", "Justin Jefferson", "CeeDee Lamb", "Saquon Barkley", "Christian McCaffrey", "Derrick Henry", 
   "Alvin Kamara", "Stefon Diggs", "Davante Adams", "Ja'Marr Chase", "Joe Burrow", "Jalen Hurts", "Matthew Stafford", "Deshaun Watson", "Baker Mayfield", "Tua Tagovailoa", "Josh Jacobs", "Nick Chubb", "Mark Andrews", "Travis Kelce", "George Kittle", "Dalvin Cook", "Aaron Donald", "Myles Garrett", "T.J. Watt", "Khalil Mack", "Joey Bosa", "Von Miller", "Chase Young", "Micah Parsons", "Leonard Floyd", "DeForest Buckner", "J.J. Watt", "Bobby Wagner", "Darius Leonard", "Fred Warner", "Xavien Howard", "Minkah Fitzpatrick", "Marlon Humphrey", "Jalen Ramsey", "Patrick Peterson", 
-  "Stephon Gilmore", "Justin Simmons", "Budda Baker", "Minkah Fitzpatrick", "Aaron Judge", "Mike Trout", "Shohei Ohtani", "Mookie Betts", "Fernando Tatis Jr.", "Juan Soto", "Freddie Freeman", "Jacob deGrom", "Max Scherzer", "Bryce Harper", "Clayton Kershaw", "Nolan Arenado", "Jose Altuve", "Xander Bogaerts", "Carlos Correa", "J.D. Martinez", "Anthony Rizzo", "Tim Anderson", "Jose Ramirez", "Ketel Marte", "Aaron Nola", "Luis Castillo", "Gerrit Cole", "Walker Buehler", "Tiger Woods", "Brooks Koepka", "Dustin Johnson", "Rory McIlroy", "Justin Thomas", "Jordan Spieth", "Phil Mickelson", 
+  "Stephon Gilmore", "Justin Simmons", "Budda Baker", "Minkah Fitzpatrick", "Aaron Judge", "Mike Trout", "Shohei Ohtani", "Mookie Betts", "Fernando Tatis Jr.", "Juan Soto", "Freddie Freeman", "Jacob deGrom", "Max Scherzer", "Bryce Harper", "Clayton Kershaw", "Nolan Arenado", "Jose Altuve", "Xander Bogaerts", "Carlos Correa", "J.D. Martinez", "Anthony Rizzo", "Tim Anderson", "Jose Ramirez", "Ketel Marte", "Aaron Nola", "Luis Castillo", "Gerrit Cole", "Walker Buehler", "Tiger Woods", "Rory McIlroy", "Jordan Spieth", "Phil Mickelson", 
   "Jon Rahm", "Bubba Watson", "Tiger Woods", "Serena Williams", "Venus Williams", "Naomi Osaka", "Roger Federer", "Rafael Nadal", "Novak Djokovic", "Simone Biles", "Sha'Carri Richardson", "Katie Ledecky", "Michael Phelps", "LeBron James", "Kevin Durant", "Kyrie Irving", "Jimmy Butler", "Joel Embiid", "Nikola Jokić", "Anthony Davis", "Kawhi Leonard", "Paul George", "Jayson Tatum", "Damian Lillard", "Russell Westbrook", "Trae Young", "Devin Booker", "Bradley Beal", "Chris Paul", "Kemba Walker", "Klay Thompson", "Draymond Green", 
   "Andrew Wiggins", "Ben Simmons", "Zion Williamson", "Ja Morant", "Karl-Anthony Towns", "De'Aaron Fox", "Jamal Murray", "Jeff Teague", "CJ McCollum", "Clint Capela", "John Wall", "LaMelo Ball", "Shai Gilgeous-Alexander", "Fred VanVleet", "Pascal Siakam", "Mikael Bridges", "Tyler Herro", "D'Angelo Russell", "Julius Randle", "Zach LaVine", "DeMar DeRozan", "Mike Conley", "Eric Bledsoe", "Myles Turner", "Jonas Valančiūnas", "Rudy Gobert", "Nikola Vučević", "Jarrett Allen", "Jarrett Allen", "Fred VanVleet", "Mikal Bridges", "Jalen Green", "Anthony Edwards", "Cole Anthony", "Evan Mobley", "Jaren Jackson Jr."];
 	let listFoods = ["Apple", "Avocado", "Bagel", "Banana", "Barley", "Basil", "Beans", "Beetroot", "Bellpepper", "Berry",
@@ -232,7 +251,8 @@
   "Thyme", "Tofu", "Tomato", "Truffle", "Tuna", "Turnip", "Vanilla", "Walnut", "Water"];  
     
     function displayWord(){
-      removeWord();
+      removeEl('myWord');
+      removeEl('myNum');
 
       const wordEl = document.createElement('span');
 
@@ -259,10 +279,26 @@
           }
           moveWord();
       }
-
-
-  hardButton.addEventListener('click',()=>{
+      
+      basicButton.addEventListener('click',()=>{
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'none';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'none';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'none';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'inline-block';
+        const med = document.getElementById('Medium');
+        med.style.display = 'inline-block';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'inline-block';
+      })
+    
+    
+      hardButton.addEventListener('click',()=>{
       //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
+<<<<<<< HEAD
       wordId=1;
       word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
       displayWord();
@@ -279,15 +315,33 @@
       word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
       displayWord();
     });
+=======
+        wordId=1;
+        word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
+        countdown();
+      });
+      
+    medButton.addEventListener('click',()=>{
+        wordId=2;
+        word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
+        countdown();
+      });
+      
+      easyButton.addEventListener('click',()=>{
+        wordId=3;
+        word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
+        countdown();
+      });
+>>>>>>> main
     athleteButton.addEventListener('click',()=>{
       wordId=4;
       word=listAthletes[Math.floor(Math.random() * listAthletes.length)]
-      displayWord();
+      countdown();
     })
     foodDrinkButton.addEventListener('click',()=>{
       wordId=5;
       word=listFoods[Math.floor(Math.random() * listFoods.length)]
-      displayWord();
+      countdown();
     })
 
     const newButton=document.getElementById('newWord');
@@ -440,6 +494,8 @@ function updateScores(color) {
     players.black.forEach(p => p.score += (3 * streakCountBlack));
     display("black");
   } else if (color === "reset") {
+    streakCountRed = 0;
+    streakCountBlack = 0;
     players.red.forEach(p => p.score = 0);
     players.black.forEach(p => p.score = 0);
     display("red");
@@ -542,6 +598,7 @@ function addPlayer(team, role, name) {
   </script>
 
 <script>
+  const basic = document.getElementById("Basic");
   const food = document.getElementById("Food&Drink");
   const easy = document.getElementById("Easy");
   const medium = document.getElementById("Medium");
@@ -555,6 +612,7 @@ function addPlayer(team, role, name) {
   const setBtn = document.getElementById("setPlayers");
   const submitBtn = document.getElementById("submitPlayers");
   const newWordBtn = document.getElementById("newWord");
+
 
   food.addEventListener('click', () => {
     food.classList.remove('default-button');
@@ -598,6 +656,15 @@ function addPlayer(team, role, name) {
     setTimeout(() => {
       athlete.classList.remove('highlighted-button');
       athlete.classList.add('default-button');
+    }, 250);
+  })
+
+  basic.addEventListener('click', () => {
+    basic.classList.remove('default-button');
+    basic.classList.add('highlighted-button');
+    setTimeout(() => {
+      basic.classList.remove('highlighted-button');
+      basic.classList.add('default-button');
     }, 250);
   })
 

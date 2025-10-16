@@ -3,7 +3,7 @@ HEAD
 button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; }
 
 button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; }
-pre { background:#f5f5f5; padding:1rem; border-radius:6px; margin-top:1rem; }
+pre { background:#f5f5f5; padding:1rem; border-radius:3px; margin-top:1rem; }
 #blackBtn {
     background-color: rgb(0, 0, 0);   /* button background */
     color: white;             /* text color */
@@ -13,10 +13,10 @@ pre { background:#f5f5f5; padding:1rem; border-radius:6px; margin-top:1rem; }
     border-radius: 8px;       /* rounded corners */
     cursor: pointer;          /* cursor changes on hover */
     position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 200px;             /* width of the button */
-    height: 200px;            /* same as width to make it a circle */
+    bottom: 10%;
+    right: -5px;
+    width: 100px;             /* width of the button */
+    height: 100px;            /* same as width to make it a circle */
     border-radius: 50%;    
     body {
         text-align: center;
@@ -26,7 +26,7 @@ pre { background:#f5f5f5; padding:1rem; border-radius:6px; margin-top:1rem; }
   
   /* Optional hover effect */
   #blackBtn:hover {
-    background-color: rgb(45, 45, 45);
+    background-color: rgb(0, 0, 0);
   }
   #redBtn {
     background-color: rgb(255, 0, 0);   /* button background */
@@ -34,13 +34,13 @@ pre { background:#f5f5f5; padding:1rem; border-radius:6px; margin-top:1rem; }
     font-size: 18px;          /* bigger text */
     padding: 10px 20px;       /* space inside button */
     border: none;             /* remove border */
-    border-radius: 8px;       /* rounded corners */
+    border-radius: 0px;       /* rounded corners */
     cursor: pointer;          /* cursor changes on hover */
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 200px;             /* width of the button */
-    height: 200px;            /* same as width to make it a circle */
+    bottom: 10%;
+    right: 100px;
+    width: 100px;             /* width of the button */
+    height: 100px;            /* same as width to make it a circle */
     border-radius: 50%;    
     body {
         text-align: center;
@@ -62,11 +62,11 @@ pre { background:#f5f5f5; padding:1rem; border-radius:6px; margin-top:1rem; }
     border-radius: 8px;       /* rounded corners */
     cursor: pointer;          /* cursor changes on hover */
     position: fixed;
-    bottom: 70px;
-    left: 50%;
+    bottom: 0%;
+    right: -50px;
     transform: translateX(-50%); /* adjust to center exactly */
-    width: 300px;             /* width of the button */
-    height: 100px;            /* same as width to make it a circle */
+    width: 150px;             /* width of the button */
+    height: 50px;            /* same as width to make it a circle */
     body {
         text-align: center;
       }
@@ -87,7 +87,7 @@ pre { background:#f5f5f5; padding:1rem; border-radius:6px; margin-top:1rem; }
     border-radius: 8px;       /* rounded corners */
     cursor: pointer;          /* cursor changes on hover */
     position: fixed;
-    top: 50px;
+    bottom: 50px;
     right: 50%;
     transform: translateX(-50%); /* adjust to center exactly */
     width: 300px;             /* width of the button */
