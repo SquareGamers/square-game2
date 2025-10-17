@@ -91,6 +91,7 @@
   <button class = "default-button" id="MLB" style="display:none;">MLB</button>
   <button class = "default-button" id="MMA" style="display:none;">MMA</button>
   <button class = "default-button" id="Soccer" style="display:none;">Soccer</button>
+  <button class = "default-button" id="Return" style="display:none;">Return to Menu</button>
 
 
 
@@ -106,16 +107,7 @@
 </style>
 
 <div id="width"></div>
-<div id = "newWordBtnFormat">
-  <button class = "default-button" id="newWord" >New Word</button>
-</div>
-<style>
-  #newWordBtnFormat {
-    position: absolute;
-    top: 500px;
-    left: 50%;
-  }
-</style>
+<button class = "default-button" id="newWord" >New Word</button>
 <script>	//main code
   let wordId = 0;
   let randomWords = [];
@@ -129,8 +121,9 @@
       const mlbButton= document.getElementById('MLB');
       const nbaButton = document.getElementById('NBA');
       const nflButton = document.getElementById('NFL');
-      const mmaButton= document.getElementById('MMA');
-      const soccerButton= document.getElementById('Soccer');
+      const mmaButton = document.getElementById('MMA');
+      const soccerButton = document.getElementById('Soccer');
+      const backButton = document.getElementById('Return');
     function removeEl(el){
       const existing=document.getElementById(el);
       if (existing) existing.remove();
@@ -240,11 +233,11 @@
   "Articulation", "Background", "Caffeinated", "Democratic", "Elasticity",
   "Friendliness", "Generosity", "Helplessness", "Idealistic", "Journalistic"];
   let listAthletesNBA = ["Herbert Jones", "LeBron James", "Stephen Curry", "Luka Dončić", "Nikola Jokić", "Giannis Antetokounmpo", 
-  "Jayson Tatum", "Joel Embiid", "Kawhi Leonard", "Devin Booker", "Shai Gilgeous‑Alexander", "Damian Lillard", 
+  "Jayson Tatum", "Joel Embiid", "Kawhi Leonard", "Devin Booker", "Shai Gilgeous-Alexander", "Damian Lillard", 
   "Trae Young", "Ja Morant", "Anthony Davis", "Rudy Gobert", "Karl-Anthony Towns", "Kawhi Leonard", 
   "Jimmy Butler", "Kyrie Irving", "Klay Thompson", "Donovan Mitchell", "DeMar DeRozan", "Brandon Ingram", 
   "Zion Williamson", "Pascal Siakam", "Deandre Ayton", "Bam Adebayo", "Draymond Green", "Khris Middleton", 
-  "Chris Paul", "Jrue Holiday", "Fred VanVleet", "Jaylen Brown", "PJ Washington", "De’Aaron Fox", 
+  "Chris Paul", "Jrue Holiday", "Fred VanVleet", "Jaylen Brown", "PJ Washington", "De'Aaron Fox", 
   "Tyrese Haliburton", "Josh Giddey", "Chet Holmgren", "Victor Wembanyama", "Scottie Barnes", "Anthony Edwards", 
   "Lauri Markkanen", "Donovan Mitchell", "Clint Capela", "Jonas Valančiūnas", "John Collins", "Tyler Herro", 
   "Nickeil Alexander-Walker", "RJ Barrett", "Alec Burks", "Malcolm Brogdon", "OG Anunoby", "Mikal Bridges", 
@@ -387,6 +380,8 @@
         med.style.display = 'inline-block';
         const hard = document.getElementById('Hard');
         hard.style.display = 'inline-block';
+        const back = document.getElementById('Return');
+        back.style.display = 'inline-block';
       })
       
       athleteButton.addEventListener('click',()=>{
@@ -406,27 +401,56 @@
         soccer.style.display = 'inline-block';
         const mma = document.getElementById('MMA');
         mma.style.display = 'inline-block';
+        const back = document.getElementById('Return');
+        back.style.display = 'inline-block';
       })
     
     
+      backButton.addEventListener('click',()=>{
+        const back = document.getElementById('Return');
+        back.style.display = 'none';
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'inline-block';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'inline-block';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'inline-block';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+      })
+
       hardButton.addEventListener('click',()=>{
       //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
-      wordId=1;
-      word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
-      displayWord();
-    });
-      
-    medButton.addEventListener('click',()=>{
-      wordId=2;
-      word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
-      displayWord();
-    });
-      
-      easyButton.addEventListener('click',()=>{
-        wordId=3;
-        word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
+        wordId=1;
+        word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
         countdown();
       });
+      
+    medButton.addEventListener('click',()=>{
+        wordId=2;
+        word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
+        countdown();
+      });
+      
+    easyButton.addEventListener('click',()=>{
+      wordId=3;
+      word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
+      countdown();
+    });
     nbaButton.addEventListener('click',()=>{
       wordId=4;
       word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
@@ -730,6 +754,7 @@ function addPlayer(team, role, name) {
   const setBtn = document.getElementById("setPlayers");
   const submitBtn = document.getElementById("submitPlayers");
   const newWordBtn = document.getElementById("newWord");
+  const backBtn = document.getElementById("Return");
 
 
   food.addEventListener('click', () => {
@@ -742,6 +767,15 @@ function addPlayer(team, role, name) {
   })
 
   easy.addEventListener('click', () => {
+    easy.classList.remove('default-button');
+    easy.classList.add('highlighted-button');
+    setTimeout(() => {
+      easy.classList.remove('highlighted-button');
+      easy.classList.add('default-button');
+    }, 250);
+  })
+
+  backBtn.addEventListener('click', () => {
     easy.classList.remove('default-button');
     easy.classList.add('highlighted-button');
     setTimeout(() => {
