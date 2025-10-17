@@ -382,6 +382,8 @@
         hard.style.display = 'inline-block';
         const back = document.getElementById('Return');
         back.style.display = 'inline-block';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'none';
       })
       
       athleteButton.addEventListener('click',()=>{
@@ -435,22 +437,42 @@
 
       hardButton.addEventListener('click',()=>{
       //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
-        wordId=1;
-        word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
-        countdown();
-      });
+      wordId=1;
+      word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
+      const easy = document.getElementById('Easy');
+      easy.style.display = 'none';
+      const med = document.getElementById('Medium');
+      med.style.display = 'none';
+      const hard = document.getElementById('Hard');
+      hard.style.display = 'none';
+      countdown();
+    });
       
     medButton.addEventListener('click',()=>{
-        wordId=2;
-        word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
-        countdown();
-      });
+      wordId=2;
+      word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
+      const easy = document.getElementById('Easy');
+      easy.style.display = 'none';
+      const med = document.getElementById('Medium');
+      med.style.display = 'none';
+      const hard = document.getElementById('Hard');
+      hard.style.display = 'none';
+      countdown();
+    });
       
+
     easyButton.addEventListener('click',()=>{
       wordId=3;
       word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
+      const easy = document.getElementById('Easy');
+      easy.style.display = 'none';
+      const med = document.getElementById('Medium');
+      med.style.display = 'none';
+      const hard = document.getElementById('Hard');
+      hard.style.display = 'none';
       countdown();
     });
+
     nbaButton.addEventListener('click',()=>{
       wordId=4;
       word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
@@ -479,6 +501,14 @@
     foodDrinkButton.addEventListener('click',()=>{
       wordId=9;
       word=listFoods[Math.floor(Math.random() * listFoods.length)]
+      const ath = document.getElementById('Athletes');
+      ath.style.display = 'none';
+      const food = document.getElementById('Food&Drink');
+      food.style.display = 'none';
+      const basic = document.getElementById('Basic');
+      basic.style.display = 'none';
+      const custom = document.getElementById('pCL');
+      custom.style.display = 'none';
       countdown();
     })
 
@@ -487,20 +517,52 @@
     newButton.addEventListener('click',()=>{
       if (wordId == 1){
         word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
+        removeEl('myWord');
+        removeEl('myNum');
         displayWord();
       } else if (wordId == 2){
         word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
-        displayWord();
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
       } else if (wordId == 3){
         word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
-        displayWord();
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
       } else if (wordId == 4){
-        word=listAthletes[Math.floor(Math.random() * listAthletes.length)]
-        displayWord();
+        word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
       } else if (wordId == 5){
-        word=listFoods[Math.floor(Math.random() * listFoods.length)]
-        displayWord();
+        word=listAthletesNFL[Math.floor(Math.random() * listAthletesNFL.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
       } else if (wordId == 6){
+        word=listAthletesMLB[Math.floor(Math.random() * listAthletesMLB.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
+      } else if (wordId == 7){
+        word=listAthletesSoccer[Math.floor(Math.random() * listAthletesSoccer.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
+      } else if (wordId == 8){
+        word=listAthletesMMA[Math.floor(Math.random() * listAthletesMMA.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
+      } else if (wordId == 9){
+        word=listFoods[Math.floor(Math.random() * listFoods.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
+      } else if (wordId == 10){
+        removeEl('myWord');
+        removeEl('myNum');
         processCustomList();
       }
     });
@@ -529,8 +591,14 @@
     	return rWord;
     }
     word=rWord;
-    wordId=6
-    displayWord();
+    wordId=10
+    const ath = document.getElementById('Athletes');
+    ath.style.display = 'none';
+    const food = document.getElementById('Food&Drink');
+    food.style.display = 'none';
+    const basic = document.getElementById('Basic');
+    basic.style.display = 'none';
+    countdown();
   }
 
 </script>
@@ -611,6 +679,22 @@
         document.getElementById("resetBtn").addEventListener("click", () => {
         updateScores(color);
         display(color);
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'inline-block';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'inline-block';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'inline-block';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'inline-block';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        removeEl('myWord');
+        removeEl('myNum');
         });
       }
     }
