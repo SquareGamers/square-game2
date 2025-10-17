@@ -443,8 +443,8 @@ function display(color) {
         return;
       }
 
-      const container = document.getElementById("playerInputs");
-      container.innerHTML = ""; // clear previous inputs
+      const container1 = document.getElementById("playerInputs");
+      container1.innerHTML = ""; // clear previous inputs
 
       // create input fields
       for (let i = 0; i < num; i++) {
@@ -452,12 +452,21 @@ function display(color) {
         input.type = "text";
         input.id = "player" + i;
         input.placeholder = "Enter name for player " + (i + 1);
-        container.appendChild(input);
-        container.appendChild(document.createElement("br"));
+        container1.appendChild(input);
+        container1.appendChild(document.createElement("br"));
       }
 
       // show submit button
       document.getElementById("submitPlayers").style.display = "inline-block";
+      const numPlayers = document.getElementById("numPlayers")
+      document.getElementById("submitPlayers").addEventListener("click", () => {
+        container1.style.display = 'none';
+        numPlayers.style.display = 'none';
+        display("red");
+        display("black");
+        submitBtn.style.display = 'none';
+        setBtn.style.display = 'none';
+  })
     }
 
     function askQuestions() {
@@ -495,12 +504,10 @@ function addPlayer(team, role, name) {
   black: []
 };
   
-  askQuestions();     
-  display("red");
-  display("black");
-  clickButton("red")
-  clickButton("black")
-  clickButton("reset")
+askQuestions();     
+clickButton("red");
+clickButton("black");
+clickButton("reset");
 
     
   </script>
