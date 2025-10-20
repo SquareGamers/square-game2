@@ -85,10 +85,13 @@
 </body>
 <style>
   #button-container {
+    width: 100px;
+    height: 300px;
+    border-radius: 20px;
+    padding: 10px;
     position: absolute;
-    top: 400px;
-    left:300px
-    
+    bottom: 150px;
+    right: 50px;
   }
 </style>
 
@@ -383,6 +386,34 @@
         document.getElementById("resetBtn").addEventListener("click", () => {
         updateScores(color);
         display(color);
+        const setplayers = document.getElementById('setPlayers');
+        setplayers.style.display = 'inline-block';
+        const container1 = document.getElementById("playerInputs");
+        const submitplayers = document.getElementById("submitPlayers");
+        submitplayers.style.display = "inline-block";
+        container1.style.display = 'inline-block';
+        const numPlayers = document.getElementById("numPlayers")
+        numPlayers.style.display = 'inline-block';
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'inline-block';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'inline-block';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'inline-block';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'inline-block';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        removeEl('myWord');
+        removeEl('myNum');
+        const red = document.getElementById("scoresRed");
+        red.innerHTML = "";
+        const black = document.getElementById("scoresBlack");
+        black.innerHTML = "";
         });
       }
     }
@@ -426,12 +457,17 @@ function display(color) {
   const team = players[color];
   if (!Array.isArray(team)) return;
 
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    team = null;
+  });
+
   team.forEach((player, index) => {
     const p = document.createElement("p");
     p.id = `${color}-player-${index}`;
     p.textContent = `${color} ${player.role} ${player.name}: ${player.score}`;
     container.appendChild(p);
   });
+
 }
 
     let num = 0;
