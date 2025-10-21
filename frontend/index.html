@@ -64,7 +64,7 @@
   </style>
   <script src="/app.js"></script>
 
-</head>
+</head> <!--LINE 67-->
 <body>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -75,12 +75,28 @@
 <!--buttons-->
 
 <div id = "button-container">
-  <p>Select Difficulty:</p>
-  <button class = "default-button" id="Easy">Easy</button>
+  <p>Select Category:</p>
+  <!--<button class = "default-button" id="Easy">Easy</button>
   <button class = "default-button" id="Medium">Medium</button>
   <button class = "default-button" id="Hard">Hard</button>
+  !-->
+  <button class = "default-button" id="Basic">Basic</button>
   <button class = "default-button" id="Athletes">Athletes</button>
   <button class = "default-button" id="Food&Drink">Food&Drink</button>
+  <button class = "default-button" id="Food" style="display:none;">Food</button>
+  <button class = "default-button" id="Drink" style="display:none;">Drink</button>
+  <button class = "default-button" id="Easy" style="display:none;">Easy</button>
+  <button class = "default-button" id="Medium" style="display:none;">Medium</button>
+  <button class = "default-button" id="Hard" style="display:none;">Hard</button>
+  <button class = "default-button" id="NFL" style="display:none;">NFL</button>
+  <button class = "default-button" id="NBA" style="display:none;">NBA</button>
+  <button class = "default-button" id="MLB" style="display:none;">MLB</button>
+  <button class = "default-button" id="MMA" style="display:none;">MMA</button>
+  <button class = "default-button" id="Soccer" style="display:none;">Soccer</button>
+  <button class = "default-button" id="Return" style="display:none;">Return to Menu</button>
+
+
+
 </div>
 </body>
 <style>
@@ -93,15 +109,25 @@
 </style>
 
 <div id="width"></div>
+<button class = "default-button" id="newWord" >New Word</button>
 <script>	//main code
-
+  let wordId = 0;
   let randomWords = [];
       let word=null;
-      const hardButton=document.getElementById('Hard');
-      const medButton=document.getElementById('Medium');
-      const easyButton=document.getElementById('Easy');
-      const foodDrinkButton=document.getElementById('Food&Drink');
-      const athleteButton=document.getElementById('Athletes');
+      const basicButton= document.getElementById('Basic');
+      const hardButton= document.getElementById('Hard');
+      const medButton= document.getElementById('Medium');
+      const easyButton= document.getElementById('Easy');
+      const foodDrinkButton= document.getElementById('Food&Drink');
+      const drinkButton = document.getElementById('Drink');
+      const foodButton = document.getElementById('Food');
+      const athleteButton= document.getElementById('Athletes');
+      const mlbButton= document.getElementById('MLB');
+      const nbaButton = document.getElementById('NBA');
+      const nflButton = document.getElementById('NFL');
+      const mmaButton = document.getElementById('MMA');
+      const soccerButton = document.getElementById('Soccer');
+      const backButton = document.getElementById('Return');
     function removeEl(el){
       const existing=document.getElementById(el);
       if (existing) existing.remove();
@@ -210,28 +236,106 @@
   "Unpredictable", "Verification", "Willingness",
   "Articulation", "Background", "Caffeinated", "Democratic", "Elasticity",
   "Friendliness", "Generosity", "Helplessness", "Idealistic", "Journalistic"];
-  let listAthletes = ["Michael Jordan", "Herbert Jones", "Cristiano Ronaldo", "Stephen Curry", "Tyson Fury", "Dak Prescott", "Kevin Durant", "Khabib Nurmagomedov", "Jon Jones", "Conor McGregor", "Israel Adesanya", "Francis Ngannou", "Kamaru Usman", "Stipe Miocic", "Daniel Cormier", "Dustin Poirier", "Charles Oliveira", "Jorge Masvidal", "Justin Herbert", "Patrick Mahomes", "Josh Allen", "Aaron Rodgers", "Tom Brady", "Russell Wilson", "Kyler Murray", "Dak Prescott", "Justin Jefferson", "CeeDee Lamb", "Saquon Barkley", "Christian McCaffrey", "Derrick Henry", 
-  "Alvin Kamara", "Stefon Diggs", "Davante Adams", "Ja'Marr Chase", "Joe Burrow", "Jalen Hurts", "Matthew Stafford", "Deshaun Watson", "Baker Mayfield", "Tua Tagovailoa", "Josh Jacobs", "Nick Chubb", "Mark Andrews", "Travis Kelce", "George Kittle", "Dalvin Cook", "Aaron Donald", "Myles Garrett", "T.J. Watt", "Khalil Mack", "Joey Bosa", "Von Miller", "Chase Young", "Micah Parsons", "Leonard Floyd", "DeForest Buckner", "J.J. Watt", "Bobby Wagner", "Darius Leonard", "Fred Warner", "Xavien Howard", "Minkah Fitzpatrick", "Marlon Humphrey", "Jalen Ramsey", "Patrick Peterson", 
-  "Stephon Gilmore", "Justin Simmons", "Budda Baker", "Minkah Fitzpatrick", "Aaron Judge", "Mike Trout", "Shohei Ohtani", "Mookie Betts", "Fernando Tatis Jr.", "Juan Soto", "Freddie Freeman", "Jacob deGrom", "Max Scherzer", "Bryce Harper", "Clayton Kershaw", "Nolan Arenado", "Jose Altuve", "Xander Bogaerts", "Carlos Correa", "J.D. Martinez", "Anthony Rizzo", "Tim Anderson", "Jose Ramirez", "Ketel Marte", "Aaron Nola", "Luis Castillo", "Gerrit Cole", "Walker Buehler", "Tiger Woods", "Brooks Koepka", "Dustin Johnson", "Rory McIlroy", "Justin Thomas", "Jordan Spieth", "Phil Mickelson", 
-  "Jon Rahm", "Bubba Watson", "Tiger Woods", "Serena Williams", "Venus Williams", "Naomi Osaka", "Roger Federer", "Rafael Nadal", "Novak Djokovic", "Simone Biles", "Sha'Carri Richardson", "Katie Ledecky", "Michael Phelps", "LeBron James", "Kevin Durant", "Kyrie Irving", "Jimmy Butler", "Joel Embiid", "Nikola Jokić", "Anthony Davis", "Kawhi Leonard", "Paul George", "Jayson Tatum", "Damian Lillard", "Russell Westbrook", "Trae Young", "Devin Booker", "Bradley Beal", "Chris Paul", "Kemba Walker", "Klay Thompson", "Draymond Green", 
-  "Andrew Wiggins", "Ben Simmons", "Zion Williamson", "Ja Morant", "Karl-Anthony Towns", "De'Aaron Fox", "Jamal Murray", "Jeff Teague", "CJ McCollum", "Clint Capela", "John Wall", "LaMelo Ball", "Shai Gilgeous-Alexander", "Fred VanVleet", "Pascal Siakam", "Mikael Bridges", "Tyler Herro", "D'Angelo Russell", "Julius Randle", "Zach LaVine", "DeMar DeRozan", "Mike Conley", "Eric Bledsoe", "Myles Turner", "Jonas Valančiūnas", "Rudy Gobert", "Nikola Vučević", "Jarrett Allen", "Jarrett Allen", "Fred VanVleet", "Mikal Bridges", "Jalen Green", "Anthony Edwards", "Cole Anthony", "Evan Mobley", "Jaren Jackson Jr."];
-	let listFoods = ["Apple", "Avocado", "Bagel", "Banana", "Barley", "Basil", "Beans", "Beetroot", "Bellpepper", "Berry",
-  "Biscuit", "Blackberry", "Blueberry", "Bread", "Broccoli", "Brownie", "Burger", "Butter", "Cabbage", "Cake",
-  "Caramel", "Carrot", "Cauliflower", "Celery", "Cheddar", "Cheese", "Chickpea", "Chili", "Chive", "Chocolate",
-  "Cilantro", "Cinnamon", "Clove", "Coconut", "Coffee", "Cookie", "Corn", "Cream", "Cucumber",
-  "Curry", "Donut", "Dragonfruit", "Dressing", "Egg", "Eggplant", "Endive", "Fennel", "Fig", "Fish",
-  "Flan", "Flour", "Frenchfries", "Fritter", "Garlic", "Ginger", "Gouda", "Granola", "Grape",
-  "Grapefruit", "Greenbean", "Guacamole", "Guava", "Ham", "Hazelnut", "Herbs", "Honey", "Honeydew", "Hotdog",
-  "Hummus", "Icecream", "Jam", "Jelly", "Jerky", "Juice", "Kale", "Ketchup", "Kiwi", "Lamb",
-  "Lasagna", "Leek", "Lemon", "Lentil", "Lettuce", "Lime", "Loaf", "Macaroni", "Mango", "Maplesyrup",
-  "Melon", "Milk", "Milkshake", "Mint", "Muffin", "Mushroom", "Mustard", "Nectarine", "Noodles",
-  "Nutmeg", "Nuts", "Oatmeal", "Olive", "Onion", "Orange", "Oregano", "Papaya", "Parsley", "Parsnip",
-  "Passionfruit", "Pasta", "Pastry", "Peach", "Peanut", "Pear", "Peas", "Pecan", "Pepper", "Pickle",
-  "Pie", "Pineapple", "Pita", "Pizza", "Plum", "Pomegranate", "Popcorn", "Potato", "Pretzel", "Pumpkin",
-  "Quiche", "Radish", "Raisin", "Ramen", "Raspberry", "Rice", "Rosemary", "Salad", "Salmon", "Salsa",
-  "Salt", "Sandwich", "Sausage", "Scallion", "Smoothie", "Sorbet", "Soup", "Soybean", "Spinach", "Squash",
-  "Strawberry", "Sugar", "Sushi", "Sweetcorn", "Syrup", "Taco", "Tahini", "Tangerine", "Tea",
-  "Thyme", "Tofu", "Tomato", "Truffle", "Tuna", "Turnip", "Vanilla", "Walnut", "Water"];  
+  let listAthletesNBA = ["Herbert Jones", "LeBron James", "Stephen Curry", "Luka Dončić", "Nikola Jokić", "Giannis Antetokounmpo", 
+  "Jayson Tatum", "Joel Embiid", "Kawhi Leonard", "Devin Booker", "Shai Gilgeous-Alexander", "Damian Lillard", 
+  "Trae Young", "Ja Morant", "Anthony Davis", "Rudy Gobert", "Karl-Anthony Towns", "Kawhi Leonard", 
+  "Jimmy Butler", "Kyrie Irving", "Klay Thompson", "Donovan Mitchell", "DeMar DeRozan", "Brandon Ingram", 
+  "Zion Williamson", "Pascal Siakam", "Deandre Ayton", "Bam Adebayo", "Draymond Green", "Khris Middleton", 
+  "Chris Paul", "Jrue Holiday", "Fred VanVleet", "Jaylen Brown", "PJ Washington", "De'Aaron Fox", 
+  "Tyrese Haliburton", "Josh Giddey", "Chet Holmgren", "Victor Wembanyama", "Scottie Barnes", "Anthony Edwards", 
+  "Lauri Markkanen", "Donovan Mitchell", "Clint Capela", "Jonas Valančiūnas", "John Collins", "Tyler Herro", 
+  "Nickeil Alexander-Walker", "RJ Barrett", "Alec Burks", "Malcolm Brogdon", "OG Anunoby", "Mikal Bridges", 
+  "Dejounte Murray", "Collin Sexton", "Jusuf Nurkić", "Kemba Walker", "Derrick White", "Jordan Clarkson", 
+  "Bogdan Bogdanović", "Bojan Bogdanović", "Deni Avdija", "Kentavious Caldwell-Pope", "Tim Hardaway Jr.", "Norman Powell", "Gary Trent Jr.", "Josh Hart", "Reggie Jackson", "Isaiah Hartenstein", "Daniel Theis", 
+  "JaVale McGee", "Dwight Howard", "DeMarcus Cousins", "Serge Ibaka", "P.J. Tucker", "Rudy Gay", 
+  "Kyle Lowry", "Jamal Murray", "Klay Thompson", "Isaiah Thomas"];
+  let listAthletesNFL = ["Caleb Williams", "Patrick Mahomes", "Josh Allen", "Jalen Hurts", "Joe Burrow", "Kirk Cousins",
+  "Dak Prescott", "Justin Herbert", "Lamar Jackson", "Tua Tagovailoa", "Daniel Jones",
+  "Christian McCaffrey", "Derrick Henry", "Austin Ekeler", "Jonathan Taylor", "Saquon Barkley",
+  "Bijan Robinson", "Nick Chubb", "Josh Jacobs", "Tony Pollard", "Aaron Jones",
+  "Davante Adams", "Tyreek Hill", "Stefon Diggs", "Justin Jefferson", "CeeDee Lamb",
+  "A.J. Brown", "Mike Evans", "Chris Olave", "Tee Higgins", "Garrett Wilson",
+  "Travis Kelce", "George Kittle", "Mark Andrews", "Dallas Goedert", "David Njoku",
+  "Kyle Pitts", "Drake London", "Deebo Samuel", "Kadarius Toney", "Jerry Jeudy",
+  "Christian Watson", "Puka Nacua", "Jalen Reagor", "Zay Jones", "DK Metcalf",
+  "Jaylen Waddle", "Stefon Diggs", "Michael Pittman Jr.", "Diontae Johnson", "Amari Cooper",
+  "Micah Parsons", "Nick Bosa", "Myles Garrett", "Chase Young", "Nick Chubb",
+  "Aaron Donald", "Chris Jones", "Jonathan Allen", "DeForest Buckner",
+  "T.J. Watt", "Haason Reddick", "Shaquille Leonard", "Roquan Smith", "Fred Warner",
+  "Darius Leonard", "Bobby Wagner", "Minkah Fitzpatrick", "Derwin James", "Jalen Ramsey",
+  "Stephon Gilmore", "Marcus Peters", "Tre'Davious White", "Byron Jones", "Marshon Lattimore",
+  "Jaire Alexander", "Patrick Peterson", "Ezekiel Elliott", "Saquon Barkley", "Alvin Kamara",
+  "Travis Etienne", "Joe Mixon", "James Conner", "Dalvin Cook",
+  "Josh Allen", "Kyler Murray", "Joe Flacco", "Baker Mayfield", "Deshaun Watson", "Russell Wilson"];
+  let listAthletesMLB = ["Aaron Judge", "Shohei Ohtani", "Juan Soto", "Mookie Betts", "Freddie Freeman", 
+  "Vladimir Guerrero Jr.", "Bryce Harper", "Pete Alonso", "Matt Olson", "Paul Goldschmidt", 
+  "José Ramírez", "Francisco Lindor", "Trea Turner", "Bobby Witt Jr.", "Wander Franco", 
+  "Ketel Marte", "Jazz Chisholm Jr.", "Ozzie Albies", "Marcus Semien", "Nico Hoerner", 
+  "Gleyber Torres", "Brandon Lowe", "Xander Bogaerts", "Bo Bichette", "Corey Seager", 
+  "Tim Anderson", "Javier Báez", "Carlos Correa", "Dansby Swanson", "Willie Adames", 
+  "Jorge Polanco", "J.D. Martinez", "Kyle Schwarber", "Jorge Soler", 
+  "Yordan Álvarez", "Randy Arozarena", "Julio Rodríguez", "Steven Kwan", "Byron Buxton", 
+  "Adolis García", "Eloy Jiménez", "Luis Robert Jr.", "Michael Harris II", "Triston Casas", 
+  "Spencer Torkelson", "Vinnie Pasquantino", "Jonathan Aranda", "Matt Chapman", "Austin Riley", 
+  "José Ramírez", "Nolan Arenado", "Manny Machado", "Alex Bregman", "Rafael Devers", 
+  "Ryan McMahon", "Josh Donaldson", "Javier Báez", "Willie Calhoun", "Salvador Pérez", 
+  "Will Smith", "J.T. Realmuto", "Yasmani Grandal", "Sean Murphy", "Willson Contreras", 
+  "Christian Vázquez", "Gary Sánchez", "Travis d'Arnaud", "Jonah Heim", "Kurt Suzuki", 
+  "Jacob deGrom", "Max Scherzer", "Gerrit Cole", "Clayton Kershaw", "Zack Wheeler", 
+  "Corbin Burnes", "Shane Bieber", "Luis Castillo", "Kevin Gausman", 
+  "José Berríos", "Chris Sale", "Tarik Skubal", "Paul Skenes", "Spencer Strider", 
+  "Max Fried", "Charlie Morton", "Kyle Wright", "Bryce Elder", "Hunter Brown", 
+  "Framber Valdez", "Cristian Javier", "Luis García", "José Urquidy", "Cristian Pache", 
+  "Aroldis Chapman", "Josh Hader", "Edwin Díaz", "Kenley Jansen", "Brad Hand", "Will Smith", 
+  "Ryan Pressly", "Emmanuel Clase", "Jordan Romano", "Gregory Soto", "Taylor Rogers"];
+  let listAthletesMMA = ["Francis Ngannou", "Jon Jones", "Israel Adesanya", "Kamaru Usman", "Alexander Volkanovski",
+  "Charles Oliveira", "Islam Makhachev", "Aljamain Sterling", "Jiri Prochazka", "Zhang Weili",
+  "Valentina Shevchenko", "Amanda Nunes", "Rose Namajunas", "Sean O'Malley",
+  "Petr Yan", "Brandon Moreno", "Aljamain Sterling", "Cory Sandhagen", "Colby Covington",
+  "Leon Edwards", "Dustin Poirier", "Justin Gaethje", "Tony Ferguson", "Beneil Dariush",
+  "Gilbert Burns", "Michael Chandler", "Rafael dos Anjos", "Jan Blachowicz", "Glover Teixeira",
+  "Jorge Masvidal", "Nate Diaz", "Michael Bisping", "Stipe Miocic", "Curtis Blaydes",
+  "Ciryl Gane", "Tai Tuivasa", "Alexander Gustafsson", "Rafael Fiziev", "Sean Strickland",
+  "Jack Hermansson", "Vicente Luque", "Stephen Thompson", "Neil Magny", "Michael Chiesa",
+  "Joaquin Buckley", "Robert Whittaker", "Marvin Vettori", "Paulo Costa", "Kevin Holland",
+  "Shane Burgos", "Josh Emmett", "Dan Hooker", "Arnold Allen", "Magomed Ankalaev",
+  "Jan Blachowicz", "Ricky Simon", "Merab Dvalishvili", "Song Yadong",
+  "Rob Font", "Dominick Cruz", "Marlon Vera", "Yair Rodriguez", "Alexandre Pantoja", "Joseph Benavidez", "Mackenzie Dern",
+  "Tatiana Suarez", "Jessica Andrade", "Yan Xiaonan", "Viviane Araujo", "Amanda Ribas", "Amanda Lemos"];
+  let listAthletesSoccer = ["Lionel Messi", "Cristiano Ronaldo", "Kylian Mbappé", "Neymar Jr.", "Kevin De Bruyne",
+  "Robert Lewandowski", "Karim Benzema", "Mohamed Salah", "Erling Haaland", "Harry Kane",
+  "Sadio Mané", "Luka Modrić", "Virgil van Dijk", "Alisson Becker", "Jan Oblak",
+  "Thibaut Courtois", "Ederson Moraes", "Marc-André ter Stegen", "Trent Alexander-Arnold", "Andrew Robertson",
+  "Jadon Sancho", "Phil Foden", "Raheem Sterling", "Son Heung-min", "Mason Mount",
+  "Bruno Fernandes", "Frenkie de Jong", "Joshua Kimmich", "Toni Kroos", "N'Golo Kanté",
+  "Paul Pogba", "Marco Verratti", "Bernardo Silva", "Jorginho", "Jack Grealish",
+  "Riyad Mahrez", "Ciro Immobile", "Antoine Griezmann", "Luis Suárez", "Paulo Dybala",
+  "Sergio Agüero", "Ángel Di María", "Gerard Piqué", "Thiago Silva", "Kalidou Koulibaly",
+  "Raphaël Varane", "Aymeric Laporte", "Jules Koundé", "Mats Hummels", "Leonardo Bonucci",
+  "David Alaba", "Marquinhos", "Presnel Kimpembe", "Achraf Hakimi", "Lucas Hernández",
+  "Jude Bellingham", "Eduardo Camavinga", "Pedri", "Vinícius Júnior", "Rodrygo",
+  "Philippe Coutinho", "Dominik Szoboszlai", "Mikel Oyarzabal", "Bukayo Saka", "Gabriel Martinelli",
+  "Héctor Bellerín", "Fábio Vieira", "Wilfred Ndidi", "Kalvin Phillips", "James Maddison",
+  "Dusan Vlahović", "Ousmane Dembélé", "Marco Asensio", "Christian Pulisic", "Callum Hudson-Odoi",
+  "Mikel Merino", "Denzel Dumfries", "José Giménez", "Lucas Paquetá", "Rodrigo De Paul",
+  "Leandro Paredes", "Angel Correa", "Nicolò Barella", "Federico Chiesa", "Matthijs de Ligt",
+  "Donny van de Beek", "Gini Wijnaldum", "Georginio Wijnaldum", "Edinson Cavani", "Álvaro Morata",
+  "Ángel Correa", "Erik ten Hag", "Diego Carlos", "César Azpilicueta", "Thomas Müller",
+  "Joshua Kimmich", "Kingsley Coman", "Serge Gnabry", "Leroy Sané", "Leon Goretzka"];
+	let listFoods = ["Bread", "Rice", "Pasta", "Eggs", "Milk", "Cheese", "Butter", "Yogurt", "Chicken", "Beef",
+  "Pork", "Lamb", "Fish", "Shrimp", "Tofu", "Tempeh", "Lentils", "Chickpeas", "Black Beans", "Kidney Beans",
+  "Potatoes", "Sweet Potatoes", "Carrots", "Broccoli", "Cauliflower", "Spinach", "Lettuce", "Kale", "Tomatoes", "Cucumbers",
+  "Bell Peppers", "Onions", "Garlic", "Mushrooms", "Zucchini", "Eggplant", "Green Beans", "Corn", "Peas", "Cabbage",
+  "Apples", "Bananas", "Oranges", "Grapes", "Strawberries", "Blueberries", "Raspberries", "Watermelon", "Pineapple", "Mango",
+  "Peaches", "Pears", "Plums", "Avocados", "Lemons", "Limes", "Nuts", "Almonds", "Walnuts", "Peanuts",
+  "Cashews", "Sunflower Seeds", "Pumpkin Seeds", "Oats", "Granola", "Cereal", "Flour", "Sugar", "Salt", "Pepper",
+  "Honey", "Maple Syrup", "Jam", "Soup", "Salad"];
+  let listDrink = ["Water", "Sparkling Water", "Mineral Water", "Coconut Water", "Milk", "Almond Milk", "Soy Milk", "Oat Milk", "Rice Milk", "Chocolate Milk",
+  "Hot Coffee", "Iced Coffee", "Espresso", "Latte", "Cappuccino", "Tea", "Iced Tea", "Green Tea", "Black Tea", "Herbal Tea",
+  "Orange Juice", "Apple Juice", "Grape Juice", "Cranberry Juice", "Pineapple Juice", "Lemonade", "Fruit Punch", "Carrot Juice", "Beet Juice",
+  "Gatorade", "Protein Shake", "Smoothie", "Milkshake", "Kombucha", "Buttermilk", "Chai", "Hot Chocolate",
+  "Coca-Cola", "Pepsi", "Sprite", "Fanta", "Dr Pepper", "7UP", "Mountain Dew", "Root Beer", "Ginger Ale", "Cream Soda"];
+  
     
     function displayWord(){
       removeEl('myWord');
@@ -262,50 +366,280 @@
           }
           moveWord();
       }
-    function easyWord() {
-      word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)];
-      countdown();
-    }
+      
+      basicButton.addEventListener('click',()=>{
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'none';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'none';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'none';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'inline-block';
+        const med = document.getElementById('Medium');
+        med.style.display = 'inline-block';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'inline-block';
+        const back = document.getElementById('Return');
+        back.style.display = 'inline-block';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'none';
+      })
+      
+      athleteButton.addEventListener('click',()=>{
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'none';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'none';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'none';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'inline-block';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'inline-block';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'inline-block';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'inline-block';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'inline-block';
+        const back = document.getElementById('Return');
+        back.style.display = 'inline-block';
+      })
+    
+      foodDrinkButton.addEventListener('click',()=>{
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'none';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'none';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'none';
+        const drinkB = document.getElementById('Drink');
+        drinkB.style.display = 'inline-block';
+        const foodB = document.getElementById('Food');
+        foodB.style.display = 'inline-block';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        const back = document.getElementById('Return');
+        back.style.display = 'inline-block';
+      })
+    
+      backButton.addEventListener('click',()=>{
+        const back = document.getElementById('Return');
+        back.style.display = 'none';
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'inline-block';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'inline-block';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'inline-block';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        const foodB = document.getElementById('Food');
+        foodB.style.display = 'none';
+        const drinkB = document.getElementById('Drink');
+        drinkB.style.display = 'none';
+      })
 
-    function mediumWord() {
-      word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)];
+      hardButton.addEventListener('click',()=>{
+      //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
+      wordId=1;
+      word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
+      const easy = document.getElementById('Easy');
+      easy.style.display = 'none';
+      const med = document.getElementById('Medium');
+      med.style.display = 'none';
+      const hard = document.getElementById('Hard');
+      hard.style.display = 'none';
       countdown();
-    }
-
-    function hardWord() {
-      word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)];
-      countdown();
-    }
-
-    function athleteWord() {
-      word=listAthletes[Math.floor(Math.random() * listAthletes.length)];
-      countdown();
-    }
-
-    function foodDrinkWord() {
-      word=listFoods[Math.floor(Math.random() * listFoods.length)];
-      countdown();
-    }
+    });
       
     medButton.addEventListener('click',()=>{
-        word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
-        countdown();
-      });
+      wordId=2;
+      word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
+      const easy = document.getElementById('Easy');
+      easy.style.display = 'none';
+      const med = document.getElementById('Medium');
+      med.style.display = 'none';
+      const hard = document.getElementById('Hard');
+      hard.style.display = 'none';
+      countdown();
+    });
       
-      easyButton.addEventListener('click',()=>{
-        word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
-        countdown();
-      });
-    athleteButton.addEventListener('click',()=>{
-      word=listAthletes[Math.floor(Math.random() * listAthletes.length)]
+
+    easyButton.addEventListener('click',()=>{
+      wordId=3;
+      word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
+      const easy = document.getElementById('Easy');
+      easy.style.display = 'none';
+      const med = document.getElementById('Medium');
+      med.style.display = 'none';
+      const hard = document.getElementById('Hard');
+      hard.style.display = 'none';
+      countdown();
+    });
+
+    nbaButton.addEventListener('click',()=>{
+      wordId=4;
+      word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
       countdown();
     })
-    foodDrinkButton.addEventListener('click',()=>{
+    nflButton.addEventListener('click',()=>{
+      wordId=5;
+      word=listAthletesNFL[Math.floor(Math.random() * listAthletesNFL.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
+      countdown();
+    })
+    mlbButton.addEventListener('click',()=>{
+      wordId=6;
+      word=listAthletesMLB[Math.floor(Math.random() * listAthletesMLB.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
+      countdown();
+    })
+    soccerButton.addEventListener('click',()=>{
+      wordId=7;
+      word=listAthletesSoccer[Math.floor(Math.random() * listAthletesSoccer.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
+      countdown();
+    })
+    mmaButton.addEventListener('click',()=>{
+      wordId=8;
+      word=listAthletesMMA[Math.floor(Math.random() * listAthletesMMA.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
+      countdown();
+    })
+    foodButton.addEventListener('click',()=>{
+      wordId=9;
       word=listFoods[Math.floor(Math.random() * listFoods.length)]
       countdown();
     })
+    drinkButton.addEventListener('click',()=>{
+      wordId=10;
+      word=listDrink[Math.floor(Math.random() * listDrink.length)]
+      countdown();
+    })
+    const newButton=document.getElementById('newWord');
 
-
+    newButton.addEventListener('click',()=>{
+      if (wordId == 1){
+        word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
+      } else if (wordId == 2){
+        word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
+      } else if (wordId == 3){
+        word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
+      } else if (wordId == 4){
+        word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
+      } else if (wordId == 5){
+        word=listAthletesNFL[Math.floor(Math.random() * listAthletesNFL.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
+      } else if (wordId == 6){
+        word=listAthletesMLB[Math.floor(Math.random() * listAthletesMLB.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
+      } else if (wordId == 7){
+        word=listAthletesSoccer[Math.floor(Math.random() * listAthletesSoccer.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
+      } else if (wordId == 8){
+        word=listAthletesMMA[Math.floor(Math.random() * listAthletesMMA.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
+      } else if (wordId == 9){
+        word=listFoods[Math.floor(Math.random() * listFoods.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        countdown();
+      } else if (wordId == 10){
+        removeEl('myWord');
+        removeEl('myNum');
+        processCustomList();
+      }
+    });
 
 </script>
 <head>
@@ -330,7 +664,14 @@
     	return rWord;
     }
     word=rWord;
-    displayWord();
+    wordId=10
+    const ath = document.getElementById('Athletes');
+    ath.style.display = 'none';
+    const food = document.getElementById('Food&Drink');
+    food.style.display = 'none';
+    const basic = document.getElementById('Basic');
+    basic.style.display = 'none';
+    countdown();
   }
 
 </script>
@@ -411,6 +752,22 @@
         document.getElementById("resetBtn").addEventListener("click", () => {
         updateScores(color);
         display(color);
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'inline-block';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'inline-block';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'inline-block';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'inline-block';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        removeEl('myWord');
+        removeEl('myNum');
         });
       }
     }
@@ -536,11 +893,16 @@ function addPlayer(team, role, name) {
   </script>
 
 <script>
+  const basic = document.getElementById("Basic");
   const food = document.getElementById("Food&Drink");
   const easy = document.getElementById("Easy");
   const medium = document.getElementById("Medium");
   const hard = document.getElementById("Hard");
-  const athlete = document.getElementById("Athletes");
+  const nba = document.getElementById("NBA");
+  const nfl = document.getElementById("NFL");
+  const mma = document.getElementById("MMA");
+  const mlb = document.getElementById("MLB");
+  const soccer = document.getElementById("Soccer");
   const instruct = document.getElementById("displayInstructions");
   const wordBtn = document.getElementById("pCL");
   const redBtn = document.getElementById("redBtn");
@@ -548,6 +910,9 @@ function addPlayer(team, role, name) {
   const resetBtn = document.getElementById("resetBtn");
   const setBtn = document.getElementById("setPlayers");
   const submitBtn = document.getElementById("submitPlayers");
+  const newWordBtn = document.getElementById("newWord");
+  const backBtn = document.getElementById("Return");
+
 
   function startRoundA(numWords, categ){
     categ();
@@ -593,6 +958,15 @@ function addPlayer(team, role, name) {
     }, 250);
   })
 
+  backBtn.addEventListener('click', () => {
+    easy.classList.remove('default-button');
+    easy.classList.add('highlighted-button');
+    setTimeout(() => {
+      easy.classList.remove('highlighted-button');
+      easy.classList.add('default-button');
+    }, 250);
+  })
+
   medium.addEventListener('click', () => {
     medium.classList.remove('default-button');
     medium.classList.add('highlighted-button');
@@ -611,12 +985,48 @@ function addPlayer(team, role, name) {
     }, 250);
   })
     
-  athlete.addEventListener('click', () => {
-    athlete.classList.remove('default-button');
-    athlete.classList.add('highlighted-button');
+  nfl.addEventListener('click', () => {
+    nfl.classList.remove('default-button');
+    nfl.classList.add('highlighted-button');
     setTimeout(() => {
-      athlete.classList.remove('highlighted-button');
-      athlete.classList.add('default-button');
+      nfl.classList.remove('highlighted-button');
+      nfl.classList.add('default-button');
+    }, 250);
+  })
+
+  nba.addEventListener('click', () => {
+    nba.classList.remove('default-button');
+    nba.classList.add('highlighted-button');
+    setTimeout(() => {
+      nba.classList.remove('highlighted-button');
+      nba.classList.add('default-button');
+    }, 250);
+  })
+
+  mma.addEventListener('click', () => {
+    mma.classList.remove('default-button');
+    mma.classList.add('highlighted-button');
+    setTimeout(() => {
+      mma.classList.remove('highlighted-button');
+      mma.classList.add('default-button');
+    }, 250);
+  })
+
+  mlb.addEventListener('click', () => {
+    mlb.classList.remove('default-button');
+    mlb.classList.add('highlighted-button');
+    setTimeout(() => {
+      mlb.classList.remove('highlighted-button');
+      mlb.classList.add('default-button');
+    }, 250);
+  })
+
+  basic.addEventListener('click', () => {
+    basic.classList.remove('default-button');
+    basic.classList.add('highlighted-button');
+    setTimeout(() => {
+      basic.classList.remove('highlighted-button');
+      basic.classList.add('default-button');
     }, 250);
   })
 
@@ -680,6 +1090,15 @@ function addPlayer(team, role, name) {
     setTimeout(() => {
       submitBtn.classList.remove('highlighted-button');
       submitBtn.classList.add('default-button');
+    }, 250);
+  })
+
+  newWordBtn.addEventListener('click', () => {
+    newWordBtn.classList.remove('default-button');
+    newWordBtn.classList.add('highlighted-button');
+    setTimeout(() => {
+      newWordBtn.classList.remove('highlighted-button');
+      newWordBtn.classList.add('default-button');
     }, 250);
   })
   
