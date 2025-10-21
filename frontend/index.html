@@ -63,7 +63,7 @@
   }
   </style>
 
-</head>
+</head> <!--LINE 67-->
 <body>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -82,6 +82,8 @@
   <button class = "default-button" id="Basic">Basic</button>
   <button class = "default-button" id="Athletes">Athletes</button>
   <button class = "default-button" id="Food&Drink">Food&Drink</button>
+  <button class = "default-button" id="Food" style="display:none;">Food</button>
+  <button class = "default-button" id="Drink" style="display:none;">Drink</button>
   <button class = "default-button" id="Easy" style="display:none;">Easy</button>
   <button class = "default-button" id="Medium" style="display:none;">Medium</button>
   <button class = "default-button" id="Hard" style="display:none;">Hard</button>
@@ -90,6 +92,7 @@
   <button class = "default-button" id="MLB" style="display:none;">MLB</button>
   <button class = "default-button" id="MMA" style="display:none;">MMA</button>
   <button class = "default-button" id="Soccer" style="display:none;">Soccer</button>
+  <button class = "default-button" id="Return" style="display:none;">Return to Menu</button>
 
 
 
@@ -105,16 +108,7 @@
 </style>
 
 <div id="width"></div>
-<div id = "newWordBtnFormat">
-  <button class = "default-button" id="newWord" >New Word</button>
-</div>
-<style>
-  #newWordBtnFormat {
-    position: absolute;
-    top: 500px;
-    left: 50%;
-  }
-</style>
+<button class = "default-button" id="newWord" >New Word</button>
 <script>	//main code
   let wordId = 0;
   let randomWords = [];
@@ -124,12 +118,15 @@
       const medButton= document.getElementById('Medium');
       const easyButton= document.getElementById('Easy');
       const foodDrinkButton= document.getElementById('Food&Drink');
+      const drinkButton = document.getElementById('Drink');
+      const foodButton = document.getElementById('Food');
       const athleteButton= document.getElementById('Athletes');
       const mlbButton= document.getElementById('MLB');
       const nbaButton = document.getElementById('NBA');
       const nflButton = document.getElementById('NFL');
-      const mmaButton= document.getElementById('MMA');
-      const soccerButton= document.getElementById('Soccer');
+      const mmaButton = document.getElementById('MMA');
+      const soccerButton = document.getElementById('Soccer');
+      const backButton = document.getElementById('Return');
     function removeEl(el){
       const existing=document.getElementById(el);
       if (existing) existing.remove();
@@ -239,11 +236,11 @@
   "Articulation", "Background", "Caffeinated", "Democratic", "Elasticity",
   "Friendliness", "Generosity", "Helplessness", "Idealistic", "Journalistic"];
   let listAthletesNBA = ["Herbert Jones", "LeBron James", "Stephen Curry", "Luka Dončić", "Nikola Jokić", "Giannis Antetokounmpo", 
-  "Jayson Tatum", "Joel Embiid", "Kawhi Leonard", "Devin Booker", "Shai Gilgeous‑Alexander", "Damian Lillard", 
+  "Jayson Tatum", "Joel Embiid", "Kawhi Leonard", "Devin Booker", "Shai Gilgeous-Alexander", "Damian Lillard", 
   "Trae Young", "Ja Morant", "Anthony Davis", "Rudy Gobert", "Karl-Anthony Towns", "Kawhi Leonard", 
   "Jimmy Butler", "Kyrie Irving", "Klay Thompson", "Donovan Mitchell", "DeMar DeRozan", "Brandon Ingram", 
   "Zion Williamson", "Pascal Siakam", "Deandre Ayton", "Bam Adebayo", "Draymond Green", "Khris Middleton", 
-  "Chris Paul", "Jrue Holiday", "Fred VanVleet", "Jaylen Brown", "PJ Washington", "De’Aaron Fox", 
+  "Chris Paul", "Jrue Holiday", "Fred VanVleet", "Jaylen Brown", "PJ Washington", "De'Aaron Fox", 
   "Tyrese Haliburton", "Josh Giddey", "Chet Holmgren", "Victor Wembanyama", "Scottie Barnes", "Anthony Edwards", 
   "Lauri Markkanen", "Donovan Mitchell", "Clint Capela", "Jonas Valančiūnas", "John Collins", "Tyler Herro", 
   "Nickeil Alexander-Walker", "RJ Barrett", "Alec Burks", "Malcolm Brogdon", "OG Anunoby", "Mikal Bridges", 
@@ -262,7 +259,7 @@
   "Christian Watson", "Puka Nacua", "Jalen Reagor", "Zay Jones", "DK Metcalf",
   "Jaylen Waddle", "Stefon Diggs", "Michael Pittman Jr.", "Diontae Johnson", "Amari Cooper",
   "Micah Parsons", "Nick Bosa", "Myles Garrett", "Chase Young", "Nick Chubb",
-  "Aaron Donald", "Chris Jones", "Jonathan Allen", "DeForest Buckner", "Jeffery Simmons",
+  "Aaron Donald", "Chris Jones", "Jonathan Allen", "DeForest Buckner",
   "T.J. Watt", "Haason Reddick", "Shaquille Leonard", "Roquan Smith", "Fred Warner",
   "Darius Leonard", "Bobby Wagner", "Minkah Fitzpatrick", "Derwin James", "Jalen Ramsey",
   "Stephon Gilmore", "Marcus Peters", "Tre'Davious White", "Byron Jones", "Marshon Lattimore",
@@ -288,8 +285,7 @@
   "José Berríos", "Chris Sale", "Tarik Skubal", "Paul Skenes", "Spencer Strider", 
   "Max Fried", "Charlie Morton", "Kyle Wright", "Bryce Elder", "Hunter Brown", 
   "Framber Valdez", "Cristian Javier", "Luis García", "José Urquidy", "Cristian Pache", 
-  "Aroldis Chapman", "Josh Hader", "Edwin Díaz", "Kenley Jansen", "Liam Hendriks", 
-  "Raisel Iglesias", "Jeurys Familia", "Trevor Rosenthal", "Brad Hand", "Will Smith", 
+  "Aroldis Chapman", "Josh Hader", "Edwin Díaz", "Kenley Jansen", "Brad Hand", "Will Smith", 
   "Ryan Pressly", "Emmanuel Clase", "Jordan Romano", "Gregory Soto", "Taylor Rogers"];
   let listAthletesMMA = ["Francis Ngannou", "Jon Jones", "Israel Adesanya", "Kamaru Usman", "Alexander Volkanovski",
   "Charles Oliveira", "Islam Makhachev", "Aljamain Sterling", "Jiri Prochazka", "Zhang Weili",
@@ -325,17 +321,24 @@
   "Donny van de Beek", "Gini Wijnaldum", "Georginio Wijnaldum", "Edinson Cavani", "Álvaro Morata",
   "Ángel Correa", "Erik ten Hag", "Diego Carlos", "César Azpilicueta", "Thomas Müller",
   "Joshua Kimmich", "Kingsley Coman", "Serge Gnabry", "Leroy Sané", "Leon Goretzka"];
-	let listFoods = ["Apple", "Avocado", "Bagel", "Banana", "Barley", "Basil", "Beans", "Beetroot", "Bellpepper", "Berry",
-  "Biscuit", "Blackberry", "Blueberry", "Bread", "Broccoli", "Brownie", "Burger", "Butter", "Cabbage", "Cake",
-  "Caramel", "Carrot", "Cauliflower", "Celery", "Cheddar", "Cheese", "Chickpea", "Chili", "Chive", "Chocolate",
-  "Cilantro", "Cinnamon", "Clove", "Coconut", "Coffee", "Cookie", "Corn", "Cream", "Cucumber",
-  "Curry", "Donut", "Dragonfruit", "Dressing", "Egg", "Eggplant", "Endive", "Fennel", "Fig", "Fish",
-  "Flan", "Flour", "Frenchfries", "Fritter", "Garlic", "Ginger", "Gouda", "Granola", "Grape",
-  "Grapefruit", "Greenbean", "Guacamole", "Guava", "Ham", "Hazelnut", "Herbs", "Honey", "Honeydew", "Hotdog",
-  "Hummus", "Icecream", "Jam", "Jelly", "Jerky", "Juice", "Kale", "Ketchup", "Kiwi", "Lamb",
-  "Lasagna", "Leek", "Lemon", "Lentil", "Lettuce", "Lime", "Loaf", "Macaroni", "Mango", "Maplesyrup",
-  "Melon", "Milk", "Milkshake", "Mint", "Muffin", "Mushroom", "Mustard", "Nectarine", "Noodles",
-  "Nutmeg", "Nuts", "Oatmeal", "Olive", "Onion", "Orange", "Oregano", "Papaya", "Parsley", "Parsnip"]
+	let listFoods = ["Bread", "Rice", "Pasta", "Eggs", "Milk", "Cheese", "Butter", "Yogurt", "Chicken", "Beef",
+  "Pork", "Lamb", "Fish", "Shrimp", "Tofu", "Tempeh", "Lentils", "Chickpeas", "Black Beans", "Kidney Beans",
+  "Potatoes", "Sweet Potatoes", "Carrots", "Broccoli", "Cauliflower", "Spinach", "Lettuce", "Kale", "Tomatoes", "Cucumbers",
+  "Bell Peppers", "Onions", "Garlic", "Mushrooms", "Zucchini", "Eggplant", "Green Beans", "Corn", "Peas", "Cabbage",
+  "Apples", "Bananas", "Oranges", "Grapes", "Strawberries", "Blueberries", "Raspberries", "Watermelon", "Pineapple", "Mango",
+  "Peaches", "Pears", "Plums", "Avocados", "Lemons", "Limes", "Nuts", "Almonds", "Walnuts", "Peanuts",
+  "Cashews", "Sunflower Seeds", "Pumpkin Seeds", "Oats", "Granola", "Cereal", "Flour", "Sugar", "Salt", "Pepper",
+  "Honey", "Maple Syrup", "Jam", "Soup", "Salad"];
+  let listDrink = ["Water", "Sparkling Water", "Mineral Water", "Coconut Water", "Milk", "Almond Milk", "Soy Milk", "Oat Milk", "Rice Milk", "Chocolate Milk",
+  "Hot Coffee", "Iced Coffee", "Espresso", "Latte", "Cappuccino", "Tea", "Iced Tea", "Green Tea", "Black Tea", "Herbal Tea",
+  "Orange Juice", "Apple Juice", "Grape Juice", "Cranberry Juice", "Pineapple Juice", "Lemonade", "Fruit Punch", "Carrot Juice", "Beet Juice",
+  "Gatorade", "Protein Shake", "Smoothie", "Milkshake", "Kombucha", "Buttermilk", "Chai", "Hot Chocolate",
+  "Coca-Cola", "Pepsi", "Sprite", "Fanta", "Dr Pepper", "7UP", "Mountain Dew", "Root Beer", "Ginger Ale", "Cream Soda"];
+  
+    
+    function displayWord(){
+      removeEl('myWord');
+      removeEl('myNum');
 
     function displayWord(){
       const wordEl = document.createElement('span');
@@ -362,10 +365,105 @@
             wordEl.style.left = (screenWidth/2)-(elementWidth/2) + "px";
           }
           moveWord();
-        }
+      }
+      
+      basicButton.addEventListener('click',()=>{
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'none';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'none';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'none';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'inline-block';
+        const med = document.getElementById('Medium');
+        med.style.display = 'inline-block';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'inline-block';
+        const back = document.getElementById('Return');
+        back.style.display = 'inline-block';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'none';
+      })
+      
+      athleteButton.addEventListener('click',()=>{
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'none';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'none';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'none';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'inline-block';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'inline-block';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'inline-block';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'inline-block';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'inline-block';
+        const back = document.getElementById('Return');
+        back.style.display = 'inline-block';
+      })
+    
+      foodDrinkButton.addEventListener('click',()=>{
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'none';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'none';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'none';
+        const drinkB = document.getElementById('Drink');
+        drinkB.style.display = 'inline-block';
+        const foodB = document.getElementById('Food');
+        foodB.style.display = 'inline-block';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        const back = document.getElementById('Return');
+        back.style.display = 'inline-block';
+      })
+    
+      backButton.addEventListener('click',()=>{
+        const back = document.getElementById('Return');
+        back.style.display = 'none';
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'inline-block';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'inline-block';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'inline-block';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        const foodB = document.getElementById('Food');
+        foodB.style.display = 'none';
+        const drinkB = document.getElementById('Drink');
+        drinkB.style.display = 'none';
+      })
 
-
-  hardButton.addEventListener('click',()=>{
+      hardButton.addEventListener('click',()=>{
       //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
       wordId=1;
       word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
@@ -478,20 +576,16 @@
       mma.style.display = 'none';
       countdown();
     })
-    foodDrinkButton.addEventListener('click',()=>{
+    foodButton.addEventListener('click',()=>{
       wordId=9;
       word=listFoods[Math.floor(Math.random() * listFoods.length)]
-      const ath = document.getElementById('Athletes');
-      ath.style.display = 'none';
-      const food = document.getElementById('Food&Drink');
-      food.style.display = 'none';
-      const basic = document.getElementById('Basic');
-      basic.style.display = 'none';
-      const custom = document.getElementById('pCL');
-      custom.style.display = 'none';
       countdown();
     })
-
+    drinkButton.addEventListener('click',()=>{
+      wordId=10;
+      word=listDrink[Math.floor(Math.random() * listDrink.length)]
+      countdown();
+    })
     const newButton=document.getElementById('newWord');
 
     newButton.addEventListener('click',()=>{
@@ -566,7 +660,6 @@
     randomWords = []
     randomWords = custListValue.split(", ");
     let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
     function printWord() {
     	return rWord;
     }
@@ -788,18 +881,13 @@ function addPlayer(team, role, name) {
   red: [],
   black: []
 };
-  
-  askQuestions();     
+  askQuestions();    
   display("red");
   display("black");
   clickButton("red")
   clickButton("black")
   clickButton("reset")
 
-    
-  </script>
-
-<script>
   const basic = document.getElementById("Basic");
   const food = document.getElementById("Food&Drink");
   const easy = document.getElementById("Easy");
@@ -818,8 +906,35 @@ function addPlayer(team, role, name) {
   const setBtn = document.getElementById("setPlayers");
   const submitBtn = document.getElementById("submitPlayers");
   const newWordBtn = document.getElementById("newWord");
+  const backBtn = document.getElementById("Return");
 
 
+  function startRoundA(numWords, categ){
+    categ();
+    let i = 1;
+    redBtn.addEventListener('click', function() {
+      if (i < numWords) {
+        categ(); 
+        i++;
+      }
+    });
+    blackBtn.addEventListener('click', function() {
+      if (i < numWords) {
+        categ();
+        i++;
+      }
+    });
+  }
+
+  function startRoundB(time_limit, categ) {
+    setTimeout(function() { });
+  }
+  
+  hard.addEventListener('click',()=>{
+    startRoundA(5, hardWord);
+  });
+  
+  
   food.addEventListener('click', () => {
     food.classList.remove('default-button');
     food.classList.add('highlighted-button');
@@ -830,6 +945,15 @@ function addPlayer(team, role, name) {
   })
 
   easy.addEventListener('click', () => {
+    easy.classList.remove('default-button');
+    easy.classList.add('highlighted-button');
+    setTimeout(() => {
+      easy.classList.remove('highlighted-button');
+      easy.classList.add('default-button');
+    }, 250);
+  })
+
+  backBtn.addEventListener('click', () => {
     easy.classList.remove('default-button');
     easy.classList.add('highlighted-button');
     setTimeout(() => {
@@ -972,3 +1096,5 @@ function addPlayer(team, role, name) {
       newWordBtn.classList.add('default-button');
     }, 250);
   })
+}
+
