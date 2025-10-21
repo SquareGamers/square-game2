@@ -262,13 +262,30 @@
           }
           moveWord();
       }
+    function easyWord() {
+      word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)];
+      countdown();
+    }
 
+    function mediumWord() {
+      word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)];
+      countdown();
+    }
 
-  hardButton.addEventListener('click',()=>{
-      //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
-        word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
-        countdown();
-      });
+    function hardWord() {
+      word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)];
+      countdown();
+    }
+
+    function athleteWord() {
+      word=listAthletes[Math.floor(Math.random() * listAthletes.length)];
+      countdown();
+    }
+
+    function foodDrinkWord() {
+      word=listFoods[Math.floor(Math.random() * listFoods.length)];
+      countdown();
+    }
       
     medButton.addEventListener('click',()=>{
         word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
@@ -309,7 +326,6 @@
     randomWords = []
     randomWords = custListValue.split(", ");
     let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
     function printWord() {
     	return rWord;
     }
@@ -533,6 +549,32 @@ function addPlayer(team, role, name) {
   const setBtn = document.getElementById("setPlayers");
   const submitBtn = document.getElementById("submitPlayers");
 
+  function startRoundA(numWords, categ){
+    categ();
+    let i = 1;
+    redBtn.addEventListener('click', function() {
+      if (i < numWords) {
+        categ(); 
+        i++;
+      }
+    });
+    blackBtn.addEventListener('click', function() {
+      if (i < numWords) {
+        categ();
+        i++;
+      }
+    });
+  }
+
+  function startRoundB(time_limit, categ) {
+    setTimeout(function() { });
+  }
+  
+  hard.addEventListener('click',()=>{
+    startRoundA(5, hardWord);
+  });
+  
+  
   food.addEventListener('click', () => {
     food.classList.remove('default-button');
     food.classList.add('highlighted-button');
