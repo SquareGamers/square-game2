@@ -660,7 +660,6 @@
     randomWords = []
     randomWords = custListValue.split(", ");
     let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-   
     function printWord() {
     	return rWord;
     }
@@ -915,6 +914,32 @@ function addPlayer(team, role, name) {
   const backBtn = document.getElementById("Return");
 
 
+  function startRoundA(numWords, categ){
+    categ();
+    let i = 1;
+    redBtn.addEventListener('click', function() {
+      if (i < numWords) {
+        categ(); 
+        i++;
+      }
+    });
+    blackBtn.addEventListener('click', function() {
+      if (i < numWords) {
+        categ();
+        i++;
+      }
+    });
+  }
+
+  function startRoundB(time_limit, categ) {
+    setTimeout(function() { });
+  }
+  
+  hard.addEventListener('click',()=>{
+    startRoundA(5, hardWord);
+  });
+  
+  
   food.addEventListener('click', () => {
     food.classList.remove('default-button');
     food.classList.add('highlighted-button');
