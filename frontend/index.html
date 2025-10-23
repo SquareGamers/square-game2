@@ -876,8 +876,6 @@
         }, 5000);
     })
     drinkButton.addEventListener('click',()=>{
-      startRoundA(5, drinkWord);
-    });
       wordId=0;
       removeEl('myWord');
       removeEl('myNum');
@@ -891,7 +889,6 @@
           wordId = 11;
         }, 5000);
     })
-    const newButton=document.getElementById('newWord');
 
     newButton.addEventListener('click',()=>{
       if (wordId == 1){
