@@ -62,29 +62,46 @@
     font-size:50px;
   } 
   </style>
-  <div id = "play-button-container">
+  <div id = "play-button-container" style="width">
+    
     <button class = "default-button" id="Play">Play</button>
+    <button class="default-button" id="Instructions">Instructions</button>
+    <button class="default-button" id="Stats">Stats</button>
+    <button class="default-button" id="Settings">Settings</button>
   </div>
   
 
 
   
 
-  <a href= http://127.0.0.1:5000>
-    <button>continue</button>
-  </a>
+ 
+    
 
   <script>
+    const playButton = document.getElementById('Play');
+      playButton.addEventListener('click', () => {
+        window.location.href = "http://127.0.0.1:5000"; // or your URL
+      });
+    const Instructions=document.getElementById('Instructions');
     const Play = document.getElementById('Play');
-  
+    const heading1=document.querySelector('h1');
+    const heading2=document.querySelector('h2');
 function displayInstructions(){
   const instr1 = document.createElement('span');
-  const instrList=['First put in your group size','put in all the names of the people playing'];
+  const instrList=['First put in your group size',
+                'Put in all the names of the people playing',
+                'Once you have all your players in, you will be separated into two teams(don\'t worry these teams will change)',
+                'You and the person on your team will be racing against the guesser and answerer on the opposing team',
+                'Choose a mode: timed or manual',
+                'Choose a difficulty, get ready, and generate word',
+                'Start explaining!',
+                ' '
+                ];
 
   instr1.id = 'instr1';
   //instr1.textContent = 'First put in your group size and put in all the names of the people playing - Once you got all your players in you will be seperated in to two teams = You can then select the difficulty to play, the harder the difficulty the harder the words are to guess - After you select the difficulty you can press the start game button to start the game - The two teams will compete to guess the word with their teammates help(If agreeded on by both teams you can skip a word) - Whichever team guesses the word correctly first gets a point that you can assign by the button corresponding to your team located on the right hand side of the screen(you can see which team your on by your name on the left hand side) - You can keep on playing however long you want - After each point the teams switch creating new teams for each word - Once you are done you can press the end game button and the person with the most points wins - You get one point for each time your team guesses a correct word - Good luck and have fun playing';
   instr1.style.position = 'absolute';
-  instr1.style.top = '200px';
+  instr1.style.top = '50%';
   instr1.style.fontSize='60px';
   instr1.style.transition = 'all 0.5s ease';
 
@@ -92,12 +109,13 @@ function displayInstructions(){
 
   const screenWidth=window.innerWidth;
   const elementWidth = instr1.offsetWidth;
-  instr1.style.left = (screenWidth/2)-(elementWidth/2) + "px";
+  instr1.style.left = '50%';
+  instr1.style.transform = 'translate(-50%, -50%)';
+
   
   
   let i=0;
     function showNextInstruction(){
-    
     instr1.style.opacity=0;
     setTimeout(()=>{
       instr1.textContent=instrList[i];
@@ -113,9 +131,14 @@ function displayInstructions(){
 
 
 
-Play.addEventListener('click',()=>{
-  Play.style.display=none;
+Instructions.addEventListener('click',()=>{
+  Instructions.style.display='none';
+  heading1.style.display='none';
+  heading2.style.display='none';
   displayInstructions();
+  playButton.style.top='200px';
+  playButton.style.left='50px';
+
 })
   </script>
 </script>
