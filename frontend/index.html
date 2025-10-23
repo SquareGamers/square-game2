@@ -9,7 +9,6 @@
 </head>
 
 <body style="background-color:rgb(80 231 173);">
-  <h1>Square Game Simulator</h1>
 
   <pre id="out"></pre>
 
@@ -367,6 +366,134 @@
           moveWord();
       }
       
+      function hardWord() {
+        wordId=1;
+        word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        countdown();
+      }
+
+      function mediumWord() {
+        wordId=2;
+        word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        countdown();
+      }
+
+      function easyWord() {
+        wordId=3;
+        word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        countdown();
+      }
+      
+      function nbaWord() {
+        wordId=4;
+        word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        countdown();
+      }
+
+      function nflWord() {
+        wordId=5;
+        word=listAthletesNFL[Math.floor(Math.random() * listAthletesNFL.length)]
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        countdown();
+      }
+
+      function mlbWord() {
+        wordId=6;
+        word=listAthletesMLB[Math.floor(Math.random() * listAthletesMLB.length)]
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        countdown();
+      }
+
+      function soccerWord() {
+        wordId=7;
+        word=listAthletesSoccer[Math.floor(Math.random() * listAthletesSoccer.length)]
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        countdown();
+      }
+
+      function mmaWord() {
+        wordId=8;
+        word=listAthletesMMA[Math.floor(Math.random() * listAthletesMMA.length)]
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        countdown();
+      }
+
+      function foodWord() {
+        wordId=9;
+        word=listFoods[Math.floor(Math.random() * listFoods.length)]
+        countdown();
+      }
+
+      function drinkWord() {
+        wordId=10;
+        word=listDrink[Math.floor(Math.random() * listDrink.length)]
+        countdown();
+      }
+
       basicButton.addEventListener('click',()=>{
         const ath = document.getElementById('Athletes');
         ath.style.display = 'none';
@@ -393,6 +520,8 @@
         food.style.display = 'none';
         const basic = document.getElementById('Basic');
         basic.style.display = 'none';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'none';
         const mlb = document.getElementById('MLB');
         mlb.style.display = 'inline-block';
         const nba = document.getElementById('NBA');
@@ -418,16 +547,6 @@
         drinkB.style.display = 'inline-block';
         const foodB = document.getElementById('Food');
         foodB.style.display = 'inline-block';
-        const mlb = document.getElementById('MLB');
-        mlb.style.display = 'none';
-        const nba = document.getElementById('NBA');
-        nba.style.display = 'none';
-        const nfl = document.getElementById('NFL');
-        nfl.style.display = 'none';
-        const soccer = document.getElementById('Soccer');
-        soccer.style.display = 'none';
-        const mma = document.getElementById('MMA');
-        mma.style.display = 'none';
         const back = document.getElementById('Return');
         back.style.display = 'inline-block';
       })
@@ -461,11 +580,15 @@
         foodB.style.display = 'none';
         const drinkB = document.getElementById('Drink');
         drinkB.style.display = 'none';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'inline-block';
       })
-
-      hardButton.addEventListener('click',()=>{
+// round functions for all categories
+    hardButton.addEventListener('click',()=>{
       //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
-      wordId=1;
+      wordId=0;
+      removeEl('myWord');
+      removeEl('myNum');
       word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
       const easy = document.getElementById('Easy');
       easy.style.display = 'none';
@@ -474,10 +597,15 @@
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
       countdown();
+      setTimeout(() => {
+          wordId = 1;
+        }, 5000);
     });
       
     medButton.addEventListener('click',()=>{
-      wordId=2;
+      wordId=0;
+      removeEl('myWord');
+      removeEl('myNum');
       word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
       const easy = document.getElementById('Easy');
       easy.style.display = 'none';
@@ -486,11 +614,15 @@
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
       countdown();
+      setTimeout(() => {
+          wordId = 2;
+        }, 5000);
     });
-      
-
+    
     easyButton.addEventListener('click',()=>{
-      wordId=3;
+      wordId=0;
+      removeEl('myWord');
+      removeEl('myNum');
       word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
       const easy = document.getElementById('Easy');
       easy.style.display = 'none';
@@ -499,10 +631,15 @@
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
       countdown();
+      setTimeout(() => {
+          wordId = 3;
+        }, 5000);
     });
 
     nbaButton.addEventListener('click',()=>{
-      wordId=4;
+      wordId=0;
+      removeEl('myWord');
+      removeEl('myNum');
       word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
       const mlb = document.getElementById('MLB');
       mlb.style.display = 'none';
@@ -515,9 +652,14 @@
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
       countdown();
+      setTimeout(() => {
+          wordId = 4;
+        }, 5000);
     })
     nflButton.addEventListener('click',()=>{
-      wordId=5;
+      wordId=0;
+      removeEl('myWord');
+      removeEl('myNum');
       word=listAthletesNFL[Math.floor(Math.random() * listAthletesNFL.length)]
       const mlb = document.getElementById('MLB');
       mlb.style.display = 'none';
@@ -530,9 +672,14 @@
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
       countdown();
+      setTimeout(() => {
+          wordId = 5;
+        }, 5000);
     })
     mlbButton.addEventListener('click',()=>{
-      wordId=6;
+      wordId=0;
+      removeEl('myWord');
+      removeEl('myNum');
       word=listAthletesMLB[Math.floor(Math.random() * listAthletesMLB.length)]
       const mlb = document.getElementById('MLB');
       mlb.style.display = 'none';
@@ -545,9 +692,14 @@
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
       countdown();
+      setTimeout(() => {
+          wordId = 6;
+        }, 5000);
     })
     soccerButton.addEventListener('click',()=>{
-      wordId=7;
+      wordId=0;
+      removeEl('myWord');
+      removeEl('myNum');
       word=listAthletesSoccer[Math.floor(Math.random() * listAthletesSoccer.length)]
       const mlb = document.getElementById('MLB');
       mlb.style.display = 'none';
@@ -560,9 +712,14 @@
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
       countdown();
+      setTimeout(() => {
+          wordId = 7;
+        }, 5000);
     })
     mmaButton.addEventListener('click',()=>{
-      wordId=8;
+      wordId=0;
+      removeEl('myWord');
+      removeEl('myNum');
       word=listAthletesMMA[Math.floor(Math.random() * listAthletesMMA.length)]
       const mlb = document.getElementById('MLB');
       mlb.style.display = 'none';
@@ -575,16 +732,37 @@
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
       countdown();
+      setTimeout(() => {
+          wordId = 8;
+        }, 5000);
     })
     foodButton.addEventListener('click',()=>{
-      wordId=9;
+      wordId=0;
+      removeEl('myWord');
+      removeEl('myNum');
       word=listFoods[Math.floor(Math.random() * listFoods.length)]
+      const drinkB = document.getElementById('Drink');
+      drinkB.style.display = 'none';
+      const foodB = document.getElementById('Food');
+      foodB.style.display = 'none';
       countdown();
+      setTimeout(() => {
+          wordId = 9;
+        }, 5000);
     })
     drinkButton.addEventListener('click',()=>{
-      wordId=10;
+      wordId=0;
+      removeEl('myWord');
+      removeEl('myNum');
       word=listDrink[Math.floor(Math.random() * listDrink.length)]
+      const drinkB = document.getElementById('Drink');
+      drinkB.style.display = 'none';
+      const foodB = document.getElementById('Food');
+      foodB.style.display = 'none';
       countdown();
+      setTimeout(() => {
+          wordId = 11;
+        }, 5000);
     })
     const newButton=document.getElementById('newWord');
 
@@ -593,51 +771,100 @@
         word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
         removeEl('myWord');
         removeEl('myNum');
+        wordId = 0;
         countdown();
+        setTimeout(() => {
+          wordId = 1;
+        }, 5000);
       } else if (wordId == 2){
         word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
         removeEl('myWord');
         removeEl('myNum');
+        wordId = 0;
         countdown();
+        setTimeout(() => {
+          wordId = 2;
+        }, 5000);
       } else if (wordId == 3){
         word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
         removeEl('myWord');
         removeEl('myNum');
+        wordId = 0;
         countdown();
+        setTimeout(() => {
+          wordId = 3;
+        }, 5000);
       } else if (wordId == 4){
         word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
         removeEl('myWord');
         removeEl('myNum');
+        wordId = 0;
         countdown();
+        setTimeout(() => {
+          wordId = 4;
+        }, 5000);
       } else if (wordId == 5){
         word=listAthletesNFL[Math.floor(Math.random() * listAthletesNFL.length)]
         removeEl('myWord');
         removeEl('myNum');
+        wordId = 0;
         countdown();
+        setTimeout(() => {
+          wordId = 5;
+        }, 5000);
       } else if (wordId == 6){
         word=listAthletesMLB[Math.floor(Math.random() * listAthletesMLB.length)]
         removeEl('myWord');
         removeEl('myNum');
+        wordId = 0;
         countdown();
+        setTimeout(() => {
+          wordId = 6;
+        }, 5000);
       } else if (wordId == 7){
         word=listAthletesSoccer[Math.floor(Math.random() * listAthletesSoccer.length)]
         removeEl('myWord');
         removeEl('myNum');
+        wordId = 0;
         countdown();
+        setTimeout(() => {
+          wordId = 7;
+        }, 5000);
       } else if (wordId == 8){
         word=listAthletesMMA[Math.floor(Math.random() * listAthletesMMA.length)]
         removeEl('myWord');
         removeEl('myNum');
+        wordId = 0;
         countdown();
+        setTimeout(() => {
+          wordId = 8;
+        }, 5000);
       } else if (wordId == 9){
         word=listFoods[Math.floor(Math.random() * listFoods.length)]
         removeEl('myWord');
         removeEl('myNum');
+        wordId = 0;
         countdown();
+        setTimeout(() => {
+          wordId = 9;
+        }, 5000);
       } else if (wordId == 10){
         removeEl('myWord');
         removeEl('myNum');
+        wordId = 0;
         processCustomList();
+        setTimeout(() => {
+          wordId = 10;
+        }, 5000);
+      } else if (wordId == 11){
+        word=listDrink[Math.floor(Math.random() * listDrink.length)]
+        removeEl('myWord');
+        removeEl('myNum');
+        wordId = 0;
+        countdown();
+        setTimeout(() => {
+          wordId = 11;
+        }, 5000);
       }
     });
 
@@ -664,14 +891,19 @@
     	return rWord;
     }
     word=rWord;
-    wordId=10
+    wordId=0
     const ath = document.getElementById('Athletes');
     ath.style.display = 'none';
     const food = document.getElementById('Food&Drink');
     food.style.display = 'none';
     const basic = document.getElementById('Basic');
     basic.style.display = 'none';
+    const custom = document.getElementById('pCL');
+    custom.style.display = 'none';
     countdown();
+    setTimeout(() => {
+          wordId = 10;
+        }, 5000);
   }
 
 </script>
@@ -766,6 +998,17 @@
         med.style.display = 'none';
         const hard = document.getElementById('Hard');
         hard.style.display = 'none';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        wordId=0;
         removeEl('myWord');
         removeEl('myNum');
         });
@@ -929,10 +1172,6 @@ function addPlayer(team, role, name) {
   function startRoundB(time_limit, categ) {
     setTimeout(function() { });
   }
-  
-  hard.addEventListener('click',()=>{
-    startRoundA(5, hardWord);
-  });
   
   
   food.addEventListener('click', () => {
