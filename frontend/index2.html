@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Square Game :D</title>
+  <link rel="stylesheet" href="/styles.css">
+
+</head>
+<body style="background-color:rgb(243, 134, 152);">
+  <h1>Square Game Simulator</h1>
+  <h2>Menu</h2>
+
+  <pre id="out"></pre>
+
+  <script src="/app.js"></script>
+
+  <style>
+    .default-button {
+      background-color: pink;
+      color: black;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .highlighted-button {
+	    background-color: #F5278B;
+    	color: black;
+    	padding: 8px 15px;
+    	border: none;
+    	border-radius: 5px;
+    	font-weight: bold;
+    }
+
+    .red-button {
+      background-color: red;
+      color: black;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .highlighted-red-button {
+	    background-color: rgba(228, 7, 7, 0.525);
+    	color: black;
+    	padding: 8px 15px;
+    	border: none;
+    	border-radius: 5px;
+    	font-weight: bold;
+    }
+
+  </style>
+</body>
+</html>
+  <style>
+  button {
+    margin: 10px;
+    padding: 20px;
+    font-size:50px;
+  } 
+  </style>
+  <div id = "play-button-container">
+    <button class = "default-button" id="Play">Play</button>
+  </div>
+  
+
+
+  
+
+  <a href= http://127.0.0.1:5000>
+    <button>continue</button>
+  </a>
+
+  <script>
+    const Play = document.getElementById('Play');
+  
+function displayInstructions(){
+  const instr1 = document.createElement('span');
+  const instrList=['First put in your group size','put in all the names of the people playing'];
+
+  instr1.id = 'instr1';
+  //instr1.textContent = 'First put in your group size and put in all the names of the people playing - Once you got all your players in you will be seperated in to two teams = You can then select the difficulty to play, the harder the difficulty the harder the words are to guess - After you select the difficulty you can press the start game button to start the game - The two teams will compete to guess the word with their teammates help(If agreeded on by both teams you can skip a word) - Whichever team guesses the word correctly first gets a point that you can assign by the button corresponding to your team located on the right hand side of the screen(you can see which team your on by your name on the left hand side) - You can keep on playing however long you want - After each point the teams switch creating new teams for each word - Once you are done you can press the end game button and the person with the most points wins - You get one point for each time your team guesses a correct word - Good luck and have fun playing';
+  instr1.style.position = 'absolute';
+  instr1.style.top = '200px';
+  instr1.style.fontSize='60px';
+  instr1.style.transition = 'all 0.5s ease';
+
+  document.body.appendChild(instr1);
+
+  const screenWidth=window.innerWidth;
+  const elementWidth = instr1.offsetWidth;
+  instr1.style.left = (screenWidth/2)-(elementWidth/2) + "px";
+  
+  
+  let i=0;
+    function showNextInstruction(){
+    
+    instr1.style.opacity=0;
+    setTimeout(()=>{
+      instr1.textContent=instrList[i];
+      instr1.style.opacity=1;
+      i++;
+      if (i < instrList.length) {
+        setTimeout(showNextInstruction, 2000); // next instruction after 2 seconds
+      }
+    }, 500);
+    }
+    showNextInstruction();
+  }
+
+
+
+Play.addEventListener('click',()=>{
+  Play.style.display=none;
+  displayInstructions();
+})
+  </script>
+</script>
+</body>
+
+</html>

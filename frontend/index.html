@@ -61,7 +61,6 @@
     font-size:16px;
   }
   </style>
-  <script src="/app.js"></script>
 
 </head> <!--LINE 67-->
 <body>
@@ -340,6 +339,7 @@
       removeEl('myWord');
       removeEl('myNum');
 
+    function displayWord(){
       const wordEl = document.createElement('span');
 
       wordEl.id = 'myWord';
@@ -1124,18 +1124,13 @@ function addPlayer(team, role, name) {
   red: [],
   black: []
 };
-  
-  askQuestions();     
+  askQuestions();    
   display("red");
   display("black");
   clickButton("red")
   clickButton("black")
   clickButton("reset")
 
-    
-  </script>
-
-<script>
   const basic = document.getElementById("Basic");
   const food = document.getElementById("Food&Drink");
   const easy = document.getElementById("Easy");
@@ -1340,10 +1335,5 @@ function addPlayer(team, role, name) {
       newWordBtn.classList.add('default-button');
     }, 250);
   })
-  
-</script>
-</body>
-
-</html>
-
+}
 
