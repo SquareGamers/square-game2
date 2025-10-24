@@ -484,12 +484,20 @@
       function foodWord() {
         wordId=9;
         word=listFoods[Math.floor(Math.random() * listFoods.length)]
+        const food = document.getElementById('Food');
+        food.style.display = 'none';
+        const drink = document.getElementById('Drink');
+        drink.style.display = 'none';
         countdown();
       }
 
       function drinkWord() {
         wordId=10;
         word=listDrink[Math.floor(Math.random() * listDrink.length)]
+        const food = document.getElementById('Food');
+        food.style.display = 'none';
+        const drink = document.getElementById('Drink');
+        drink.style.display = 'none';
         countdown();
       }
 
@@ -742,13 +750,12 @@
           wordId = 2;
         }, 5000);
     });
-      
 
     easyButton.addEventListener('click',()=>{
       wordId=0;
       removeEl('myWord');
       removeEl('myNum');
-      word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
+      word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
       const easy = document.getElementById('Easy');
       easy.style.display = 'none';
       const med = document.getElementById('Medium');
@@ -760,6 +767,40 @@
           wordId = 3;
         }, 5000);
     });
+    
+    easyButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+
+    nbaButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+
+    nflButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+
+    mlbButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+    
+    soccerButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+    
+    mmaButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+
+    foodButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+
+    drinkButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+
+      
 
     nbaButton.addEventListener('click',()=>{
       wordId=0;
@@ -891,9 +932,12 @@
     })
 
     newButton.addEventListener('click',()=>{
+      newWord();
+    });
+    function newWord(){
       if (wordId == 1){
-        word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
-        removeEl('myWord');
+      word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
+      removeEl('myWord');
         removeEl('myNum');
         wordId = 0;
         countdown();
@@ -990,7 +1034,8 @@
           wordId = 11;
         }, 5000);
       }
-    });
+    };
+      
 
 </script>
 <head>
@@ -1028,7 +1073,8 @@
     setTimeout(() => {
           wordId = 10;
         }, 5000);
-  }
+      }
+      
 
 </script>
 
@@ -1274,20 +1320,23 @@ function addPlayer(team, role, name) {
   const submitBtn = document.getElementById("submitPlayers");
   const newWordBtn = document.getElementById("newWord");
   const backBtn = document.getElementById("Return");
+  let tempId = 0;
 
-
-  function startRoundA(numWords, categ){
-    categ();
+  function startRoundA(numWords){
     let i = 1;
     redBtn.addEventListener('click', function() {
       if (i < numWords) {
-        categ(); 
+        removeEl('myWord');
+        removeEl('myNum');
+        newWord(); 
         i++;
       }
     });
     blackBtn.addEventListener('click', function() {
       if (i < numWords) {
-        categ();
+        removeEl('myWord');
+        removeEl('myNum');
+        newWord();
         i++;
       }
     });
