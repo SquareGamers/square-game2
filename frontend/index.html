@@ -99,10 +99,13 @@
 </body>
 <style>
   #button-container {
+    width: 100px;
+    height: 300px;
+    border-radius: 20px;
+    padding: 10px;
     position: absolute;
-    top: 400px;
-    left:300px
-    
+    bottom: 150px;
+    right: 50px;
   }
 </style>
 
@@ -1256,10 +1259,10 @@ function display(color) {
     p.textContent = `${color} ${player.role} ${player.name}: ${player.score}`;
     container.appendChild(p);
   });
+
 }
 
-    let num = 0;
-
+    let num = 0; 
     function setupPlayerInputs() {
       num = parseInt(document.getElementById("numPlayers").value, 10);
       if (isNaN(num) || num < 2) {
@@ -1267,8 +1270,8 @@ function display(color) {
         return;
       }
 
-      const container = document.getElementById("playerInputs");
-      container.innerHTML = ""; // clear previous inputs
+      const container1 = document.getElementById("playerInputs");
+      container1.innerHTML = ""; // clear previous inputs
 
       // create input fields
       for (let i = 0; i < num; i++) {
@@ -1276,12 +1279,22 @@ function display(color) {
         input.type = "text";
         input.id = "player" + i;
         input.placeholder = "Enter name for player " + (i + 1);
-        container.appendChild(input);
-        container.appendChild(document.createElement("br"));
+        container1.appendChild(input);
+        container1.appendChild(document.createElement("br"));
       }
 
       // show submit button
       document.getElementById("submitPlayers").style.display = "inline-block";
+      document.getElementById("submitPlayers").addEventListener("click", () => {
+        display("red");
+        display("black");
+        container1.style.display = 'none';
+        numPlayers.style.display = 'none';
+        display("red");
+        display("black");
+        submitBtn.style.display = 'none';
+        setBtn.style.display = 'none';
+  })
     }
 
     function askQuestions() {
@@ -1314,7 +1327,7 @@ function addPlayer(team, role, name) {
   });
 }
 
-  let players = {
+players = {
   red: [],
   black: []
 };
