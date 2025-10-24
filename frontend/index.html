@@ -410,12 +410,10 @@
         hard.style.display = 'none';
         removeEl('myWord');
         removeEl('myNum');
-        //const red = document.getElementById("scoresRed");
-        //red.innerHTML = "";
-        //const black = document.getElementById("scoresBlack");
-        //black.innerHTML = "";
-        players[color] = [];
-
+        const red = document.getElementById("scoresRed");
+        red.innerHTML = "";
+        const black = document.getElementById("scoresBlack");
+        black.innerHTML = "";
         });
       }
     }
@@ -468,8 +466,7 @@ function display(color) {
 
 }
 
-    let num = 0;
-    let count = 0; 
+    let num = 0; 
     function setupPlayerInputs() {
       num = parseInt(document.getElementById("numPlayers").value, 10);
       if (isNaN(num) || num < 2) {
@@ -492,26 +489,15 @@ function display(color) {
 
       // show submit button
       document.getElementById("submitPlayers").style.display = "inline-block";
-      const numPlayers = document.getElementById("numPlayers")
       document.getElementById("submitPlayers").addEventListener("click", () => {
         display("red");
         display("black");
-        /*submitBtnEl.replaceWith(submitBtnEl.cloneNode(true)); // removes old listeners
-        if (count == 1){
-          players = {
-            red: [],
-            black: []
-          };
-          count--; 
-      }
-        askQuestions();
         container1.style.display = 'none';
         numPlayers.style.display = 'none';
         display("red");
         display("black");
         submitBtn.style.display = 'none';
         setBtn.style.display = 'none';
-        count++;  */
   })
     }
 
@@ -545,9 +531,11 @@ function addPlayer(team, role, name) {
   });
 }
 
-
-askQuestions();    
-setupPlayerInputs();
+players = {
+  red: [],
+  black: []
+};
+askQuestions();
 clickButton("red");
 clickButton("black");
 clickButton("reset");
@@ -668,14 +656,14 @@ clickButton("reset");
     }, 250);
   })
   
-  /*submitBtn.addEventListener('click', () => {
+  submitBtn.addEventListener('click', () => {
     submitBtn.classList.remove('default-button');
     submitBtn.classList.add('highlighted-button');
     setTimeout(() => {
       submitBtn.classList.remove('highlighted-button');
       submitBtn.classList.add('default-button');
     }, 250);
-  })*/
+  })
   
 </script>
 </body>
