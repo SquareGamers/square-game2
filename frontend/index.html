@@ -768,6 +768,30 @@
         }, 5000);
     });
     
+    function startRoundA(numWords){
+    let i = 1;
+    redBtn.addEventListener('click', function() {
+      if (i < numWords) {
+        removeEl('myWord');
+        removeEl('myNum');
+        newWord(); 
+        i++;
+      }
+    });
+    blackBtn.addEventListener('click', function() {
+      if (i < numWords) {
+        removeEl('myWord');
+        removeEl('myNum');
+        newWord();
+        i++;
+      }
+    });
+  }
+
+  function startRoundB(time_limit, categ) {
+    setTimeout(function() { });
+  }
+
     easyButton.addEventListener('click',()=>{
       startRoundA(5);
     });
