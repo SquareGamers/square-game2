@@ -358,7 +358,7 @@
     <title>Square Game</title>
   </head>
   <body>
-    <!-- Step 1: ask how many players -->
+    <!-- Step 1: ask how many  -->
     <input type="number" id="numPlayers" placeholder="Enter number of players">
     <button class = "default-button" id="setPlayers" onclick="setupPlayerInputs()">Set Players</button>
   
@@ -466,6 +466,7 @@ function display(color) {
 
       // show submit button
       document.getElementById("submitPlayers").style.display = "inline-block";
+<<<<<<< Updated upstream
       document.getElementById("submitPlayers").addEventListener("click", () => {
         display("red");
         display("black");
@@ -475,6 +476,16 @@ function display(color) {
         document.getElementById("numPlayers").style.display = "none";
         
 
+=======
+      const numPlayers = document.getElementById("numPlayers")
+      document.getElementById("submitPlayers").addEventListener("click", () => {
+        container1.style.display = 'none';
+        numPlayers.style.display = 'none';
+        display("red");
+        display("black");
+        submitBtn.style.display = 'none';
+        setBtn.style.display = 'none';
+>>>>>>> Stashed changes
   })
     }
 
@@ -508,6 +519,7 @@ function addPlayer(team, role, name) {
   });
 }
 
+<<<<<<< Updated upstream
 function clearTeams() {
   players.red = [];
   players.black = [];
@@ -518,6 +530,13 @@ function clearTeams() {
 let players = { red: [], black: [] };
 
 clearTeams(); 
+=======
+  let players = {
+  red: [],
+  black: []
+};
+  
+>>>>>>> Stashed changes
 askQuestions();
 clickButton("red");
 clickButton("black");
