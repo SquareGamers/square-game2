@@ -386,34 +386,11 @@
         document.getElementById("resetBtn").addEventListener("click", () => {
         updateScores(color);
         display(color);
-        const setplayers = document.getElementById('setPlayers');
-        setplayers.style.display = 'inline-block';
-        const container1 = document.getElementById("playerInputs");
-        const submitplayers = document.getElementById("submitPlayers");
-        submitplayers.style.display = "inline-block";
-        container1.style.display = 'inline-block';
-        const numPlayers = document.getElementById("numPlayers")
-        numPlayers.style.display = 'inline-block';
-        const ath = document.getElementById('Athletes');
-        ath.style.display = 'inline-block';
-        const food = document.getElementById('Food&Drink');
-        food.style.display = 'inline-block';
-        const basic = document.getElementById('Basic');
-        basic.style.display = 'inline-block';
-        const custom = document.getElementById('pCL');
-        custom.style.display = 'inline-block';
-        const easy = document.getElementById('Easy');
-        easy.style.display = 'none';
-        const med = document.getElementById('Medium');
-        med.style.display = 'none';
-        const hard = document.getElementById('Hard');
-        hard.style.display = 'none';
-        removeEl('myWord');
-        removeEl('myNum');
-        const red = document.getElementById("scoresRed");
-        red.innerHTML = "";
-        const black = document.getElementById("scoresBlack");
-        black.innerHTML = "";
+        clearTeams(); 
+        document.getElementById("submitPlayers").style.display = "inline-block";
+        document.getElementById("setPlayers").style.display = "inline-block";
+        document.getElementById("playerInputs").style.display = "inline-block";
+        document.getElementById("numPlayers").style.display = "inline-block";
         });
       }
     }
@@ -469,8 +446,8 @@ function display(color) {
     let num = 0; 
     function setupPlayerInputs() {
       num = parseInt(document.getElementById("numPlayers").value, 10);
-      if (isNaN(num) || num < 2) {
-        alert("Please enter a valid number of players (at least 2).");
+      if (isNaN(num) || num < 4) {
+        alert("Please enter a valid number of players (at least 4).");
         return;
       }
 
@@ -492,12 +469,12 @@ function display(color) {
       document.getElementById("submitPlayers").addEventListener("click", () => {
         display("red");
         display("black");
-        container1.style.display = 'none';
-        numPlayers.style.display = 'none';
-        display("red");
-        display("black");
-        submitBtn.style.display = 'none';
-        setBtn.style.display = 'none';
+        document.getElementById("submitPlayers").style.display = "none";
+        document.getElementById("setPlayers").style.display = "none";
+        document.getElementById("playerInputs").style.display = "none";
+        document.getElementById("numPlayers").style.display = "none";
+        
+
   })
     }
 
@@ -531,10 +508,16 @@ function addPlayer(team, role, name) {
   });
 }
 
-players = {
-  red: [],
-  black: []
-};
+function clearTeams() {
+  players.red = [];
+  players.black = [];
+  display("red");
+  display("black");
+}
+
+let players = { red: [], black: [] };
+
+clearTeams(); 
 askQuestions();
 clickButton("red");
 clickButton("black");
