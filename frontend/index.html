@@ -61,7 +61,6 @@
     font-size:16px;
   }
   </style>
-  <script src="/app.js"></script>
 
 </head> <!--LINE 67-->
 <body>
@@ -100,10 +99,13 @@
 </body>
 <style>
   #button-container {
+    width: 100px;
+    height: 300px;
+    border-radius: 20px;
+    padding: 10px;
     position: absolute;
-    top: 400px;
-    left:300px
-    
+    bottom: 150px;
+    right: 50px;
   }
 </style>
 
@@ -325,24 +327,25 @@
   "Ángel Correa", "Erik ten Hag", "Diego Carlos", "César Azpilicueta", "Thomas Müller",
   "Joshua Kimmich", "Kingsley Coman", "Serge Gnabry", "Leroy Sané", "Leon Goretzka"];
 	let listFoods = ["Bread", "Rice", "Pasta", "Eggs", "Milk", "Cheese", "Butter", "Yogurt", "Chicken", "Beef",
-  "Pork", "Lamb", "Fish", "Shrimp", "Tofu", "Tempeh", "Lentils", "Chickpeas", "Black Beans", "Kidney Beans",
+  "Pork", "Lamb", "Fish", "Shrimp", "Tofu", "Lentils", "Chickpeas", "Black Beans", "Kidney Beans",
   "Potatoes", "Sweet Potatoes", "Carrots", "Broccoli", "Cauliflower", "Spinach", "Lettuce", "Kale", "Tomatoes", "Cucumbers",
   "Bell Peppers", "Onions", "Garlic", "Mushrooms", "Zucchini", "Eggplant", "Green Beans", "Corn", "Peas", "Cabbage",
   "Apples", "Bananas", "Oranges", "Grapes", "Strawberries", "Blueberries", "Raspberries", "Watermelon", "Pineapple", "Mango",
   "Peaches", "Pears", "Plums", "Avocados", "Lemons", "Limes", "Nuts", "Almonds", "Walnuts", "Peanuts",
   "Cashews", "Sunflower Seeds", "Pumpkin Seeds", "Oats", "Granola", "Cereal", "Flour", "Sugar", "Salt", "Pepper",
   "Honey", "Maple Syrup", "Jam", "Soup", "Salad"];
-  let listDrink = ["Water", "Sparkling Water", "Mineral Water", "Coconut Water", "Milk", "Almond Milk", "Soy Milk", "Oat Milk", "Rice Milk", "Chocolate Milk",
+  let listDrink = ["Spring Water", "Sparkling Water", "Mineral Water", "Whole Milk", "Almond Milk", "Soy Milk", "Oat Milk", "Chocolate Milk",
   "Hot Coffee", "Iced Coffee", "Espresso", "Latte", "Cappuccino", "Tea", "Iced Tea", "Green Tea", "Black Tea", "Herbal Tea",
   "Orange Juice", "Apple Juice", "Grape Juice", "Cranberry Juice", "Pineapple Juice", "Lemonade", "Fruit Punch", "Carrot Juice", "Beet Juice",
   "Gatorade", "Protein Shake", "Smoothie", "Milkshake", "Kombucha", "Buttermilk", "Chai", "Hot Chocolate",
   "Coca-Cola", "Pepsi", "Sprite", "Fanta", "Dr Pepper", "7UP", "Mountain Dew", "Root Beer", "Ginger Ale", "Cream Soda"];
   
-    
     function displayWord(){
       removeEl('myWord');
       removeEl('myNum');
+    
 
+      
       const wordEl = document.createElement('span');
 
       wordEl.id = 'myWord';
@@ -368,7 +371,6 @@
           }
           moveWord();
       }
-      
       function hardWord() {
         wordId=1;
         word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
@@ -522,6 +524,7 @@
         countdown();
       }
 
+      
       basicButton.addEventListener('click',()=>{
         const ath = document.getElementById('Athletes');
         ath.style.display = 'none';
@@ -616,6 +619,130 @@
 // round functions for all categories
     hardButton.addEventListener('click',()=>{
       //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
+      wordId=1;
+      word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
+      const easy = document.getElementById('Easy');
+      easy.style.display = 'none';
+      const med = document.getElementById('Medium');
+      med.style.display = 'none';
+      const hard = document.getElementById('Hard');
+      hard.style.display = 'none';
+      countdown();
+    });
+      
+    medButton.addEventListener('click',()=>{
+      wordId=2;
+      word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
+      const easy = document.getElementById('Easy');
+      easy.style.display = 'none';
+      const med = document.getElementById('Medium');
+      med.style.display = 'none';
+      const hard = document.getElementById('Hard');
+      hard.style.display = 'none';
+      countdown();
+    });
+      
+
+    easyButton.addEventListener('click',()=>{
+      wordId=3;
+      word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
+      const easy = document.getElementById('Easy');
+      easy.style.display = 'none';
+      const med = document.getElementById('Medium');
+      med.style.display = 'none';
+      const hard = document.getElementById('Hard');
+      hard.style.display = 'none';
+      countdown();
+    });
+
+    nbaButton.addEventListener('click',()=>{
+      wordId=4;
+      word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
+      countdown();
+    })
+    nflButton.addEventListener('click',()=>{
+      wordId=5;
+      word=listAthletesNFL[Math.floor(Math.random() * listAthletesNFL.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
+      countdown();
+    })
+    mlbButton.addEventListener('click',()=>{
+      wordId=6;
+      word=listAthletesMLB[Math.floor(Math.random() * listAthletesMLB.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
+      countdown();
+    })
+    soccerButton.addEventListener('click',()=>{
+      wordId=7;
+      word=listAthletesSoccer[Math.floor(Math.random() * listAthletesSoccer.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
+      countdown();
+    })
+    mmaButton.addEventListener('click',()=>{
+      wordId=8;
+      word=listAthletesMMA[Math.floor(Math.random() * listAthletesMMA.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
+      countdown();
+    })
+    foodButton.addEventListener('click',()=>{
+      wordId=9;
+      word=listFoods[Math.floor(Math.random() * listFoods.length)]
+      countdown();
+    })
+    drinkButton.addEventListener('click',()=>{
+      wordId=10;
+      word=listDrink[Math.floor(Math.random() * listDrink.length)]
+      countdown();
+    })
+    const newButton=document.getElementById('newWord');
+    hardButton.addEventListener('click',()=>{
+      //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
       wordId=0;
       removeEl('myWord');
       removeEl('myNum');
@@ -672,6 +799,30 @@
         }, 5000);
     });
     
+    function startRoundA(numWords){
+    let i = 1;
+    redBtn.addEventListener('click', function() {
+      if (i < numWords) {
+        removeEl('myWord');
+        removeEl('myNum');
+        newWord(); 
+        i++;
+      }
+    });
+    blackBtn.addEventListener('click', function() {
+      if (i < numWords) {
+        removeEl('myWord');
+        removeEl('myNum');
+        newWord();
+        i++;
+      }
+    });
+  }
+
+  function startRoundB(time_limit, categ) {
+    setTimeout(function() { });
+  }
+
     easyButton.addEventListener('click',()=>{
       startRoundA(5);
     });
@@ -848,7 +999,6 @@
           wordId = 11;
         }, 5000);
     })
-    const newButton=document.getElementById('newWord');
 
     newButton.addEventListener('click',()=>{
       newWord();
@@ -1170,10 +1320,10 @@ function display(color) {
     p.textContent = `${color} ${player.role} ${player.name}: ${player.score}`;
     container.appendChild(p);
   });
+
 }
 
-    let num = 0;
-
+    let num = 0; 
     function setupPlayerInputs() {
       num = parseInt(document.getElementById("numPlayers").value, 10);
       if (isNaN(num) || num < 2) {
@@ -1181,8 +1331,8 @@ function display(color) {
         return;
       }
 
-      const container = document.getElementById("playerInputs");
-      container.innerHTML = ""; // clear previous inputs
+      const container1 = document.getElementById("playerInputs");
+      container1.innerHTML = ""; // clear previous inputs
 
       // create input fields
       for (let i = 0; i < num; i++) {
@@ -1190,12 +1340,22 @@ function display(color) {
         input.type = "text";
         input.id = "player" + i;
         input.placeholder = "Enter name for player " + (i + 1);
-        container.appendChild(input);
-        container.appendChild(document.createElement("br"));
+        container1.appendChild(input);
+        container1.appendChild(document.createElement("br"));
       }
 
       // show submit button
       document.getElementById("submitPlayers").style.display = "inline-block";
+      document.getElementById("submitPlayers").addEventListener("click", () => {
+        display("red");
+        display("black");
+        container1.style.display = 'none';
+        numPlayers.style.display = 'none';
+        display("red");
+        display("black");
+        submitBtn.style.display = 'none';
+        setBtn.style.display = 'none';
+  })
     }
 
     function askQuestions() {
@@ -1228,22 +1388,17 @@ function addPlayer(team, role, name) {
   });
 }
 
-  let players = {
+players = {
   red: [],
   black: []
 };
-  
-  askQuestions();     
+  askQuestions();    
   display("red");
   display("black");
   clickButton("red")
   clickButton("black")
   clickButton("reset")
 
-    
-  </script>
-
-<script>
   const basic = document.getElementById("Basic");
   const food = document.getElementById("Food&Drink");
   const easy = document.getElementById("Easy");
@@ -1288,6 +1443,10 @@ function addPlayer(team, role, name) {
   function startRoundB(time_limit, categ) {
     setTimeout(function() { });
   }
+  
+  hard.addEventListener('click',()=>{
+    startRoundA(5, hardWord);
+  });
   
   
   food.addEventListener('click', () => {
@@ -1451,10 +1610,5 @@ function addPlayer(team, role, name) {
       newWordBtn.classList.add('default-button');
     }, 250);
   })
-  
-</script>
-</body>
-
-</html>
 
 
