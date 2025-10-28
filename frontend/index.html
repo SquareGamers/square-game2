@@ -74,7 +74,7 @@
 <!--buttons-->
 
 <div id = "button-container">
-  <p>Select Category:</p>
+  <p id = "selectCategory"></p>
   <!--<button class = "default-button" id="Easy">Easy</button>
   <button class = "default-button" id="Medium">Medium</button>
   <button class = "default-button" id="Hard">Hard</button>
@@ -93,7 +93,7 @@
   <button class = "default-button" id="MMA" style="display:none;">MMA</button>
   <button class = "default-button" id="Soccer" style="display:none;">Soccer</button>
   <button class = "default-button" id="Return" style="display:none;">Return to Menu</button>
-
+  <button class = "default-button" id="newWord" >New Word</button>
 
 
 </div>
@@ -108,7 +108,7 @@
 </style>
 
 <div id="width"></div>
-<button class = "default-button" id="newWord" >New Word</button>
+
 <script>	//main code
   let wordId = 0;
   let randomWords = [];
@@ -127,6 +127,9 @@
       const mmaButton = document.getElementById('MMA');
       const soccerButton = document.getElementById('Soccer');
       const backButton = document.getElementById('Return');
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'block';
+      select.textContent = "Select Category";
     function removeEl(el){
       const existing=document.getElementById(el);
       if (existing) existing.remove();
@@ -387,6 +390,7 @@
         med.style.display = 'none';
         const hard = document.getElementById('Hard');
         hard.style.display = 'none';
+        select.style.display = 'none';
         countdown();
       }
 
@@ -399,6 +403,8 @@
         med.style.display = 'none';
         const hard = document.getElementById('Hard');
         hard.style.display = 'none';
+        const select = document.getElementById('selectCategory');
+        select.style.display = 'none';
         countdown();
       }
       
@@ -415,6 +421,8 @@
         soccer.style.display = 'none';
         const mma = document.getElementById('MMA');
         mma.style.display = 'none';
+        const select = document.getElementById('selectCategory');
+        select.style.display = 'none';
         countdown();
       }
 
@@ -431,6 +439,8 @@
         soccer.style.display = 'none';
         const mma = document.getElementById('MMA');
         mma.style.display = 'none';
+        const select = document.getElementById('selectCategory');
+        select.style.display = 'none';
         countdown();
       }
 
@@ -447,6 +457,8 @@
         soccer.style.display = 'none';
         const mma = document.getElementById('MMA');
         mma.style.display = 'none';
+        const select = document.getElementById('selectCategory');
+        select.style.display = 'none';
         countdown();
       }
 
@@ -463,6 +475,8 @@
         soccer.style.display = 'none';
         const mma = document.getElementById('MMA');
         mma.style.display = 'none';
+        const select = document.getElementById('selectCategory');
+        select.style.display = 'none';
         countdown();
       }
 
@@ -479,6 +493,8 @@
         soccer.style.display = 'none';
         const mma = document.getElementById('MMA');
         mma.style.display = 'none';
+        const select = document.getElementById('selectCategory');
+        select.style.display = 'none';
         countdown();
       }
 
@@ -489,6 +505,8 @@
         food.style.display = 'none';
         const drink = document.getElementById('Drink');
         drink.style.display = 'none';
+        const select = document.getElementById('selectCategory');
+        select.style.display = 'none';
         countdown();
       }
 
@@ -499,6 +517,8 @@
         food.style.display = 'none';
         const drink = document.getElementById('Drink');
         drink.style.display = 'none';
+        const select = document.getElementById('selectCategory');
+        select.style.display = 'none';
         countdown();
       }
 
@@ -590,6 +610,8 @@
         drinkB.style.display = 'none';
         const custom = document.getElementById('pCL');
         custom.style.display = 'inline-block';
+        const select = document.getElementById('selectCategory');
+        select.style.display = 'block';
       })
 // round functions for all categories
     hardButton.addEventListener('click',()=>{
@@ -604,6 +626,8 @@
       med.style.display = 'none';
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
       countdown();
       setTimeout(() => {
           wordId = 1;
@@ -621,6 +645,8 @@
       med.style.display = 'none';
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
       countdown();
       setTimeout(() => {
           wordId = 2;
@@ -638,6 +664,8 @@
       med.style.display = 'none';
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
       countdown();
       setTimeout(() => {
           wordId = 3;
@@ -693,6 +721,8 @@
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
       countdown();
       setTimeout(() => {
           wordId = 4;
@@ -713,6 +743,8 @@
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
       countdown();
       setTimeout(() => {
           wordId = 5;
@@ -733,6 +765,8 @@
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
       countdown();
       setTimeout(() => {
           wordId = 6;
@@ -753,6 +787,8 @@
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
       countdown();
       setTimeout(() => {
           wordId = 7;
@@ -773,6 +809,8 @@
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
       countdown();
       setTimeout(() => {
           wordId = 8;
@@ -787,6 +825,8 @@
       drinkB.style.display = 'none';
       const foodB = document.getElementById('Food');
       foodB.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
       countdown();
       setTimeout(() => {
           wordId = 9;
@@ -801,6 +841,8 @@
       drinkB.style.display = 'none';
       const foodB = document.getElementById('Food');
       foodB.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
       countdown();
       setTimeout(() => {
           wordId = 11;
@@ -946,6 +988,10 @@
     basic.style.display = 'none';
     const custom = document.getElementById('pCL');
     custom.style.display = 'none';
+    const select = document.getElementById('selectCategory');
+    select.style.display = 'none';
+    const back = document.getElementById('Return');
+    back.style.display = 'inline-block';
     countdown();
     setTimeout(() => {
           wordId = 10;
@@ -954,15 +1000,26 @@
       
 
 </script>
-
-<button class = "default-button" id="displayInstructions">Instructions</button>
-<button class = "red-button" id="xButton">X</button>
+<div id = "Instruction-Buttons">
+  <button class = "default-button" id="displayInstructions">Instructions</button>
+  <button class = "red-button" id="xButton">X</button>
+</div>
 <p id="displayText"></p>
+<style>
+  #Instruction-Buttons {
+    position: absolute;
+    top: 0px;
+    right:10px
+    
+  }
+</style>
   
 <script>
   const displayInstructions =  document.getElementById('displayInstructions');
   const displayText = document.getElementById('displayText');
   xButton.style.display = 'none';
+
+  
   
   displayInstructions.addEventListener('click', function() {
     xButton.style.display = 'block';
@@ -1055,6 +1112,10 @@
         soccer.style.display = 'none';
         const mma = document.getElementById('MMA');
         mma.style.display = 'none';
+        const select = document.getElementById('selectCategory');
+        select.style.display = 'block';
+        const back = document.getElementById('Return');
+        back.style.display = 'none';
         wordId=0;
         removeEl('myWord');
         removeEl('myNum');
