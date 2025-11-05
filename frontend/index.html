@@ -67,12 +67,12 @@
 <body>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <!-- Step 1: ask how many players -->
- <input type="number" id="numPlayers" placeholder="Enter number of players">
- <button class = "default-button" id="setPlayers" onclick="setupPlayerInputs()">Set Players</button>
+ <!--<input type="number" id="numPlayers" placeholder="Enter number of players">
+ <button class = "default-button" id="setPlayers" onclick="setupPlayerInputs()">Set Players</button>-->
 
- <!-- Step 2: dynamic input fields will go here -->
+ <!-- Step 2: dynamic input fields will go here 
  <div id="playerInputs"></div>
- <button class = "default-button" id="submitPlayers" style="display:none;" onclick="askQuestions()">Submit Players</button>
+ <button class = "default-button" id="submitPlayers" style="display:none;" onclick="askQuestions()">Submit Players</button>-->
  
 <p id="output"></p>
 <p id="rand"></p>
@@ -831,7 +831,7 @@ function displayWord(){
   team.forEach((player, index) => {
     const p = document.createElement("p");
     p.id = `${color}-player-${index}`;
-    p.textContent = `${color} ${player.role} ${player.name}: ${player.score} ${player.id}`;
+    p.textContent = `${color} ${player.role} ${player.name}: ${player.score}`;
     container.appendChild(p);
   });
 
@@ -1263,27 +1263,35 @@ function newWord(){
     })
   }
 
-function addPlayer(team, role, name, i) {
+function addPlayer(team, role, name) {
   players[team].push({
     role: role,
-    name: team + name, 
+    name: name, 
     score: 0, 
-    id: players.indexOf(team)
   });
 }
   let num1 = 0
-    function askQuestions() {
-      let half = Math.floor(num1 / 2); // integer division
-      let j = 5; 
+ function askQuestions() {
+      let half = Math.floor(num / 2); // integer division
+
       for (let i = 0; i < half; i++) {
-        const nameCurr = document.getElementById("player" + i).value.trim();
-        addPlayer("red", "explainer", nameCurr, i);
+        //const nameCurr = document.getElementById("player" + i).value.trim();
+        if (i < Math.floor(half / 2)) {
+          //addPlayer("red", "guesser", nameCurr);
+        } else {
+          //addPlayer("red", "explainer", nameCurr);
+        }
+      }
+
+      for (let k = 0; k < num - half; k++) {
+        //const nameCurr = document.getElementById("player" + (half + k)).value.trim();
+        if (k < Math.floor((num - half) / 2)) {
+          //addPlayer("black", "guesser", nameCurr);
+        } else {
+          //addPlayer("black", "explainer", nameCurr);
+        }
+      }
     }
-  }
-function changeTeams(){
-
-}
-
 
 </script>
 
@@ -1464,3 +1472,39 @@ function changeTeams(){
   display("black"); 
   askQuestions();
   startRoundA(5);
+</script>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display List</title>
+</head>
+<body>
+    <input type="number" id="numPlayers" placeholder="Enter number of players">
+    <button class = "default-button" id="setPlayers" onclick="setupPlayerInputs()">Set Players</button>
+
+    <!-- Step 2: dynamic input fields will go here -->
+    <div id="playerInputs"></div>
+    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="hi()">Submit Players</button>
+    <h1>My Favorite Fruits</h1>
+    <ul id="myListContainer"></ul>
+
+    <script>
+        function hi(){
+        const myItems = [];
+        const listContainer = document.getElementById("myListContainer");
+        for (let j  = 0; j < num; j++){
+        const nameCurr1 = document.getElementById("player" + j).value.trim();
+        myItems.push(nameCurr1);
+        }
+
+        myItems.forEach(item => {
+            const listItem = document.createElement("li");
+            listItem.textContent = item;
+            listContainer.appendChild(listItem);
+        });
+      }
+    </script>
+</body>
+</html>
