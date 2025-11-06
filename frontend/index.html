@@ -607,13 +607,21 @@
   const team = players[color];
   if (!Array.isArray(team)) return;
 
+  let baseTop = 185;
   team.forEach((player, index) => {
     const p = document.createElement("p");
     p.id = `${color}-player-${index}`;
     p.textContent = `${color} ${player.role} ${player.name}: ${player.score}`;
+    p.style.position = "fixed";
+    p.style.left = "15px";
+    p.style.fontSize = "120%";
+    const lineHeight = 35;
+    if (color === "black") {
+      baseTop = 260;
+    }
+    p.style.top = `${baseTop + index * lineHeight}px`;
     container.appendChild(p);
   });
-
 }
 let streakCountRed = 0;
 let streakCountBlack = 0;
