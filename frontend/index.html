@@ -1487,24 +1487,57 @@ function addPlayer(team, role, name) {
     <!-- Step 2: dynamic input fields will go here -->
     <div id="playerInputs"></div>
     <button class = "default-button" id="submitPlayers" style="display:none;" onclick="hi()">Submit Players</button>
+    
     <h1>My Favorite Fruits</h1>
-    <ul id="myListContainer"></ul>
+    <ul id="fruitList"></ul>
 
-    <script>
-        function hi(){
-        const myItems = [];
-        const listContainer = document.getElementById("myListContainer");
-        for (let j  = 0; j < num; j++){
-        const nameCurr1 = document.getElementById("player" + j).value.trim();
-        myItems.push(nameCurr1);
-        }
+<script>
+  function hi(){
+    const myItems = {
+    playerone: {name: "name", score: "round"},
+    playertwo: {name: "name", score: "long"},
+    playerthree: {name: "name", score: "small"},
+    playerfour: {name: "name", score: "round"}
+  };
 
-        myItems.forEach(item => {
-            const listItem = document.createElement("li");
-            listItem.textContent = item;
-            listContainer.appendChild(listItem);
-        });
-      }
-    </script>
+  const myList = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
+  const keys = Object.keys(myItems);
+
+  // update the name values based on inputs
+  for (let j = 0; j < num; j++) {
+    const nameCurr = document.getElementById("player" + j).value.trim();
+    if(nameCurr) {
+      myItems[keys[j]].name = nameCurr;
+    }
+  }
+
+  // display the dictionary
+  const listContainer = document.getElementById("fruitList");
+  listContainer.innerHTML = ""; // clear old list
+
+  for (const key in myItems) {
+    const playerItem = document.createElement("li");
+    // instead of key, show the name value
+    playerItem.textContent = myItems[key].name + ":";
+
+    const innerList = document.createElement("ul");
+    for (const prop in myItems[key]) {
+      const valueItem = document.createElement("li");
+      valueItem.textContent = prop + ": " + myItems[key][prop]
+      innerList.appendChild(valueItem);
+    }
+
+    const innerList2 = document.createElement("ab");
+    for (const yay in myItems) {
+      const valueItem2 = document.createElement("ba");
+      valueItem2.textContent = yay + ": " + yay;
+      innerList2.appendChild(valueItem2);
+    }
+
+    playerItem.appendChild(innerList);
+    listContainer.appendChild(playerItem);
+  }
+}
+</script>
 </body>
 </html>
