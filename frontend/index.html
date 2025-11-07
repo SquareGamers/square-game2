@@ -99,7 +99,7 @@
   <button class = "default-button" id="MLB" style="display:none;">MLB</button>
   <button class = "default-button" id="MMA" style="display:none;">MMA</button>
   <button class = "default-button" id="Soccer" style="display:none;">Soccer</button>
-  <button class = "default-button" id="pCL" onclick="processCustomList()">Generate Word</button>
+  <button class = "default-button" id="pCL" onclick="processCustomList()" style="display:none;">Generate Word [Custom]</button>
   <button class = "default-button" id="Return" style="display:none;">Return to Menu</button>
 
 
@@ -133,6 +133,10 @@
 
 <div id="width"></div>
 <button class = "default-button" id="newWord" >Skip Word</button>
+<button class = "default-button" id="promptCustomList">Make a Custom List!</button>
+<p id="customPrint" style="display:none;"></p>
+
+
 <script>	//main code
   let wordId = 0;
   players = {
@@ -641,6 +645,7 @@
       const submitBtn = document.getElementById("submitPlayers");
       const newWordBtn = document.getElementById("newWord");
       const backBtn = document.getElementById("Return");
+      const promptCustomList = document.getElementById("promptCustomList");
       let tempId = 0;
 
 // round functions for all categories
@@ -767,6 +772,15 @@
       word=listDrink[Math.floor(Math.random() * listDrink.length)]
       countdown();
     })
+    const print = document.getElementById("customPrint");
+    print.textContent = "Enter a list of words in the area below, separated by commas and spaces."
+    promptCustomList.addEventListener('click',()=>{
+      const customEntry = document.getElementById("customList");
+      customEntry.style.display = "inline-block";
+      const process = document.getElementById("pCL");
+      process.style.display = "inline-block";
+      print.style.display = "block";
+    })
     const newButton=document.getElementById('newWord');
     hardButton.addEventListener('click',()=>{
       //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
@@ -780,6 +794,8 @@
       med.style.display = 'none';
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
+      const cust = document.getElementById('pCL');
+      cust.style.display = 'none';
       countdown();
       setTimeout(() => {
           wordId = 1;
@@ -797,6 +813,8 @@
       med.style.display = 'none';
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
+      const cust = document.getElementById('pCL');
+      cust.style.display = 'none';
       countdown();
       setTimeout(() => {
           wordId = 2;
@@ -814,6 +832,8 @@
       med.style.display = 'none';
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
+      const cust = document.getElementById('pCL');
+      cust.style.display = 'none';
       countdown();
       setTimeout(() => {
           wordId = 3;
@@ -946,7 +966,9 @@ function updateScores(color) {
     drinkButton.addEventListener('click',()=>{
       startRoundA(5);
     });
-
+    promptCustomList.addEventListener('click',()=>{
+      startRoundA(5);
+    });
       
 
     nbaButton.addEventListener('click',()=>{
@@ -1191,8 +1213,7 @@ function updateScores(color) {
 
 
 <br>
-<p>Or, create your own list! (Separated by commas and spaces)</p>
-<input type="text" id="customList">
+<input type="text" id="customList" style="display:none;">
 <p id="custRand"></p>
 
 <script>
