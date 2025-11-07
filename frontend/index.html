@@ -8,7 +8,7 @@
 
 </head>
 
-<body style="background-color:rgb(80 231 173);">
+<body style="background-color:rgb(80 231 173);" id="bodyId">
 
   <pre id="out"></pre>
 
@@ -42,16 +42,24 @@
       font-weight: bold;
     }
 
-    .highlighted-red-button {
-	    background-color: rgba(228, 7, 7, 0.525);
-    	color: black;
-    	padding: 8px 15px;
-    	border: none;
-    	border-radius: 5px;
-    	font-weight: bold;
-    }
-
   </style>
+    <label for="backroundColor">Select Backround Color:</label>
+    <input type="color" id="backroundColor" value="#ffffff">
+    <button class = "default-button" id="resetColor">Reset Color</button>
+  <script>
+    const colorPicker = document.getElementById('backroundColor');
+
+    colorPicker.addEventListener('input', function() {
+      document.body.style.backgroundColor = this.value;
+    });
+  </script>
+  <script>
+    const colorReset = document.getElementById('resetColor');
+
+    colorReset.addEventListener('click', () => {
+      document.getElementById('bodyId').style.background = "rgb(80 231 173)";
+    });
+  </script>
 </body>
 </html>
   <style>
@@ -81,7 +89,7 @@
 <!--buttons-->
 
 <div id = "button-container">
-  <p>Select Category:</p>
+  <p id = "selectCategory"></p>
   <!--<button class = "default-button" id="Easy">Easy</button>
   <button class = "default-button" id="Medium">Medium</button>
   <button class = "default-button" id="Hard">Hard</button>
@@ -101,7 +109,7 @@
   <button class = "default-button" id="Soccer" style="display:none;">Soccer</button>
   <button class = "default-button" id="pCL" onclick="processCustomList()" style="display:none;">Generate Word [Custom]</button>
   <button class = "default-button" id="Return" style="display:none;">Return to Menu</button>
-
+  <button class = "default-button" id="newWord" style="display:none;">New Word</button>
 
   <link rel="stylesheet" href="/styles.css">
   <button class = "default-button" id="redBtn">RED WIN</button>
@@ -159,6 +167,9 @@
       const mmaButton = document.getElementById('MMA');
       const soccerButton = document.getElementById('Soccer');
       const backButton = document.getElementById('Return');
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'block';
+      select.textContent = "Select Category";
       const custList = document.getElementById('CustomList');
     function removeEl(el){
       const existing=document.getElementById(el);
@@ -188,6 +199,7 @@
     }
     setTimeout(function() { displayWord(); }, 5000);
   }
+
 
 
   let listEasyBasicWords = ["Blade", "Crush", "Drill", "Flame", "Grasp", "Jump", "Kick", "Lift", "Mash", "Neck",
@@ -399,142 +411,7 @@
           }
           moveWord();
       }
-
-      function hardWord() {
-        wordId=1;
-        word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
-        const easy = document.getElementById('Easy');
-        easy.style.display = 'none';
-        const med = document.getElementById('Medium');
-        med.style.display = 'none';
-        const hard = document.getElementById('Hard');
-        hard.style.display = 'none';
-        countdown();
-      }
-
-      function mediumWord() {
-        wordId=2;
-        word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
-        const easy = document.getElementById('Easy');
-        easy.style.display = 'none';
-        const med = document.getElementById('Medium');
-        med.style.display = 'none';
-        const hard = document.getElementById('Hard');
-        hard.style.display = 'none';
-        countdown();
-      }
-
-      function easyWord() {
-        wordId=3;
-        word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
-        const easy = document.getElementById('Easy');
-        easy.style.display = 'none';
-        const med = document.getElementById('Medium');
-        med.style.display = 'none';
-        const hard = document.getElementById('Hard');
-        hard.style.display = 'none';
-        countdown();
-      }
       
-      function nbaWord() {
-        wordId=4;
-        word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
-        const mlb = document.getElementById('MLB');
-        mlb.style.display = 'none';
-        const nba = document.getElementById('NBA');
-        nba.style.display = 'none';
-        const nfl = document.getElementById('NFL');
-        nfl.style.display = 'none';
-        const soccer = document.getElementById('Soccer');
-        soccer.style.display = 'none';
-        const mma = document.getElementById('MMA');
-        mma.style.display = 'none';
-        countdown();
-      }
-
-      function nflWord() {
-        wordId=5;
-        word=listAthletesNFL[Math.floor(Math.random() * listAthletesNFL.length)]
-        const mlb = document.getElementById('MLB');
-        mlb.style.display = 'none';
-        const nba = document.getElementById('NBA');
-        nba.style.display = 'none';
-        const nfl = document.getElementById('NFL');
-        nfl.style.display = 'none';
-        const soccer = document.getElementById('Soccer');
-        soccer.style.display = 'none';
-        const mma = document.getElementById('MMA');
-        mma.style.display = 'none';
-        countdown();
-      }
-
-      function mlbWord() {
-        wordId=6;
-        word=listAthletesMLB[Math.floor(Math.random() * listAthletesMLB.length)]
-        const mlb = document.getElementById('MLB');
-        mlb.style.display = 'none';
-        const nba = document.getElementById('NBA');
-        nba.style.display = 'none';
-        const nfl = document.getElementById('NFL');
-        nfl.style.display = 'none';
-        const soccer = document.getElementById('Soccer');
-        soccer.style.display = 'none';
-        const mma = document.getElementById('MMA');
-        mma.style.display = 'none';
-        countdown();
-      }
-
-      function soccerWord() {
-        wordId=7;
-        word=listAthletesSoccer[Math.floor(Math.random() * listAthletesSoccer.length)]
-        const mlb = document.getElementById('MLB');
-        mlb.style.display = 'none';
-        const nba = document.getElementById('NBA');
-        nba.style.display = 'none';
-        const nfl = document.getElementById('NFL');
-        nfl.style.display = 'none';
-        const soccer = document.getElementById('Soccer');
-        soccer.style.display = 'none';
-        const mma = document.getElementById('MMA');
-        mma.style.display = 'none';
-        countdown();
-      }
-
-      function mmaWord() {
-        wordId=8;
-        word=listAthletesMMA[Math.floor(Math.random() * listAthletesMMA.length)]
-        const mlb = document.getElementById('MLB');
-        mlb.style.display = 'none';
-        const nba = document.getElementById('NBA');
-        nba.style.display = 'none';
-        const nfl = document.getElementById('NFL');
-        nfl.style.display = 'none';
-        const soccer = document.getElementById('Soccer');
-        soccer.style.display = 'none';
-        const mma = document.getElementById('MMA');
-        mma.style.display = 'none';
-        countdown();
-      }
-
-      function foodWord() {
-        wordId=9;
-        word=listFoods[Math.floor(Math.random() * listFoods.length)]
-        const food = document.getElementById('Food');
-        food.style.display = 'none';
-        const drink = document.getElementById('Drink');
-        drink.style.display = 'none';
-        countdown();
-      }
-
-      function drinkWord() {
-        wordId=10;
-        word=listDrink[Math.floor(Math.random() * listDrink.length)]
-        const food = document.getElementById('Food');
-        food.style.display = 'none';
-        const drink = document.getElementById('Drink');
-        drink.style.display = 'none';
-        countdown();
-      }
 
       
       basicButton.addEventListener('click',()=>{
@@ -625,6 +502,8 @@
         drinkB.style.display = 'none';
         const custom = document.getElementById('pCL');
         custom.style.display = 'inline-block';
+        const select = document.getElementById('selectCategory');
+        select.style.display = 'block';
       })
       const basic = document.getElementById("Basic");
       const food = document.getElementById("Food&Drink");
@@ -649,31 +528,6 @@
       let tempId = 0;
 
 // round functions for all categories
-    hardButton.addEventListener('click',()=>{
-      //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
-      wordId=1;
-      word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
-      const easy = document.getElementById('Easy');
-      easy.style.display = 'none';
-      const med = document.getElementById('Medium');
-      med.style.display = 'none';
-      const hard = document.getElementById('Hard');
-      hard.style.display = 'none';
-      countdown();
-    });
-      
-    medButton.addEventListener('click',()=>{
-      wordId=2;
-      word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
-      const easy = document.getElementById('Easy');
-      easy.style.display = 'none';
-      const med = document.getElementById('Medium');
-      med.style.display = 'none';
-      const hard = document.getElementById('Hard');
-      hard.style.display = 'none';
-      countdown();
-    });
-      
 
     easyButton.addEventListener('click',()=>{
       wordId=3;
@@ -796,7 +650,12 @@
       hard.style.display = 'none';
       const cust = document.getElementById('pCL');
       cust.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
+      const newBtn = document.getElementById('newWord');
+      newBtn.style.display= 'block';
       countdown();
+      startRoundA(5);
       setTimeout(() => {
           wordId = 1;
         }, 5000);
@@ -815,7 +674,12 @@
       hard.style.display = 'none';
       const cust = document.getElementById('pCL');
       cust.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
+      const newBtn = document.getElementById('newWord');
+      newBtn.style.display= 'block';
       countdown();
+      startRoundA(5);
       setTimeout(() => {
           wordId = 2;
         }, 5000);
@@ -834,7 +698,12 @@
       hard.style.display = 'none';
       const cust = document.getElementById('pCL');
       cust.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
+      const newBtn = document.getElementById('newWord');
+      newBtn.style.display= 'block';
       countdown();
+      startRoundA(5);
       setTimeout(() => {
           wordId = 3;
         }, 5000);
@@ -986,6 +855,11 @@ function updateScores(color) {
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
+      const newBtn = document.getElementById('newWord');
+      newBtn.style.display= 'block';
+      startRoundA(5);
       countdown();
       setTimeout(() => {
           wordId = 4;
@@ -1006,6 +880,11 @@ function updateScores(color) {
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
+      const newBtn = document.getElementById('newWord');
+      newBtn.style.display= 'block';
+      startRoundA(5);
       countdown();
       setTimeout(() => {
           wordId = 5;
@@ -1026,6 +905,11 @@ function updateScores(color) {
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
+      const newBtn = document.getElementById('newWord');
+      newBtn.style.display= 'block';
+      startRoundA(5);
       countdown();
       setTimeout(() => {
           wordId = 6;
@@ -1046,6 +930,11 @@ function updateScores(color) {
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
+      const newBtn = document.getElementById('newWord');
+      newBtn.style.display= 'block';
+      startRoundA(5);
       countdown();
       setTimeout(() => {
           wordId = 7;
@@ -1066,6 +955,11 @@ function updateScores(color) {
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
+      const newBtn = document.getElementById('newWord');
+      newBtn.style.display= 'block';
+      startRoundA(5);
       countdown();
       setTimeout(() => {
           wordId = 8;
@@ -1080,6 +974,11 @@ function updateScores(color) {
       drinkB.style.display = 'none';
       const foodB = document.getElementById('Food');
       foodB.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
+      const newBtn = document.getElementById('newWord');
+      newBtn.style.display= 'block';
+      startRoundA(5);
       countdown();
       setTimeout(() => {
           wordId = 9;
@@ -1094,6 +993,11 @@ function updateScores(color) {
       drinkB.style.display = 'none';
       const foodB = document.getElementById('Food');
       foodB.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
+      const newBtn = document.getElementById('newWord');
+      newBtn.style.display= 'block';
+      startRoundA(5);
       countdown();
       setTimeout(() => {
           wordId = 11;
@@ -1229,14 +1133,6 @@ function updateScores(color) {
     }
     word=rWord;
     wordId=0
-    const ath = document.getElementById('Athletes');
-    ath.style.display = 'none';
-    const food = document.getElementById('Food&Drink');
-    food.style.display = 'none';
-    const basic = document.getElementById('Basic');
-    basic.style.display = 'none';
-    const custom = document.getElementById('pCL');
-    custom.style.display = 'none';
     countdown();
     setTimeout(() => {
           wordId = 10;
@@ -1245,26 +1141,202 @@ function updateScores(color) {
       
 
 </script>
-
-<button class = "default-button" id="displayInstructions">Instructions</button>
-<button class = "red-button" id="xButton">X</button>
+<div id = "Instruction-Buttons">
+  <button class = "default-button" id="displayInstructions">Instructions</button>
+  <button class = "red-button" id="xButton">X</button>
+</div>
 <p id="displayText"></p>
+<style>
+  #Instruction-Buttons {
+    position: absolute;
+    top: 0px;
+    right:10px
+    
+  }
+</style>
   
 <script>
   const displayInstructions =  document.getElementById('displayInstructions');
   const displayText = document.getElementById('displayText');
   xButton.style.display = 'none';
+
+  
   
   displayInstructions.addEventListener('click', function() {
     xButton.style.display = 'block';
     displayText.style.display = 'block';
-    displayText.textContent = 'First put in your group size and put all the names in of people playing - Once you got all your players in you will be seperated in to two teams = You can then select the difficulty to play, the harder the difficulty the harder the words are to guess - After you select the difficulty you can press the start game button to start the game - The two teams will compete to guess the word with their teammates help(If agreeded on by both teams you can skip a word) - Whichever team guesses the word correctly first gets a point that you can assign by the button corresponding to your team located on the right hand side of the screen(you can see which team your on by your name on the left hand side) - You can keep on playing however long you want - After each point the teams switch creating new teams for each word - Once you are done you can press the end game button and the person with the most points wins - You get one point for each time your team guesses a correct word - Good luck and have fun playing';
+    displayText.textContent = 'Instructions Here';
   })
 
   xButton.addEventListener('click', function() {
     displayText.style.display = 'none';
     xButton.style.display = 'none';
   })
+</script>
+
+<button class = "default-button" id="pCL" onclick="hidePCL()">Generate Word</button>
+
+<script>
+  function hidePCL(){
+    const ath = document.getElementById('Athletes');
+    ath.style.display = 'none';
+    const food = document.getElementById('Food&Drink');
+    food.style.display = 'none';
+    const basic = document.getElementById('Basic');
+    basic.style.display = 'none';
+    const select = document.getElementById('selectCategory');
+    select.style.display = 'none';
+    const back = document.getElementById('Return');
+    back.style.display = 'inline-block';
+    const newBtn = document.getElementById('newWord');
+    newBtn.style.display= 'block';
+    const custom = document.getElementById('pCL');
+    custom.style.display = 'none';
+    startRoundA(5);
+    removeEl('myWord');
+    removeEl('myNum');
+    processCustomList();
+  }
+</script>
+
+</body>
+
+<head>
+  <title>Game Round</title>
+</head>
+<body>
+  <link rel="stylesheet" href="/styles.css">
+  <button class = "default-button" id="redBtn">RED WIN</button>
+  <p id="scoresRed"></p>
+
+  <button class = "default-button" id="blackBtn">BLACK WIN</button>
+  <p id="scoresBlack"></p>
+
+  <button class = "default-button" id="resetBtn">RESET</button>
+  <p id="scoresReset"></p>
+
+  <!--<button id="pickBtn" onclick="chooseGamemode()">4 player</button>-->
+  <!--<p id = "4playerText"></p>-->
+
+  <head>
+    <meta charset="utf-8">
+    <title>Square Game</title>
+  </head>
+  <body>
+    <!-- Step 1: ask how many players -->
+    <input type="number" id="numPlayers" placeholder="Enter number of players">
+    <button class = "default-button" id="setPlayers" onclick="setupPlayerInputs()">Set Players</button>
+  
+    <!-- Step 2: dynamic input fields will go here -->
+    <div id="playerInputs"></div>
+    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="askQuestions()">Submit Players</button>
+<p id="output"></p>
+
+  <script>
+    color = ""; 
+    function clickButton(color){
+      if (color === "red"){
+        document.getElementById("redBtn").addEventListener("click", () => {
+        updateScores(color); 
+        display(color);
+        });
+      }
+      else if (color === "black"){
+        document.getElementById("blackBtn").addEventListener("click", () => {
+        updateScores(color);
+        display(color);
+        });
+      }
+      else{
+        document.getElementById("resetBtn").addEventListener("click", () => {
+        updateScores(color);
+        display(color);
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'inline-block';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'inline-block';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'inline-block';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'inline-block';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        const select = document.getElementById('selectCategory');
+        select.style.display = 'block';
+        const back = document.getElementById('Return');
+        back.style.display = 'none';
+        const newBtn = document.getElementById('newWord');
+        newBtn.style.display= 'none';
+        wordId=0;
+        removeEl('myWord');
+        removeEl('myNum');
+        });
+      }
+    }
+let streakCountRed = 0;
+let streakCountBlack = 0;
+function updateScores(color) {
+  if (color === "red") {
+    if (streakCountRed < 5) {
+      streakCountRed++;
+    }
+    streakCountBlack = 0;
+    players.red.forEach(p => p.score += (3 * streakCountRed));
+    display("red");
+  } else if (color === "black") {
+    if (streakCountBlack < 5) {
+      streakCountBlack++;
+    }
+    streakCountRed = 0;
+    players.black.forEach(p => p.score += (3 * streakCountBlack));
+    display("black");
+  } else if (color === "reset") {
+    streakCountRed = 0;
+    streakCountBlack = 0;
+    players.red.forEach(p => p.score = 0);
+    players.black.forEach(p => p.score = 0);
+    display("red");
+    display("black");
+  }
+}
+
+
+function display(color) {
+  const container = color === "red"
+    ? document.getElementById("scoresRed")
+    : color === "black"
+      ? document.getElementById("scoresBlack")
+      : null;
+
+  if (!container) return; // bail if color invalid
+
+  container.innerHTML = ""; // clear
+
+  const team = players[color];
+  if (!Array.isArray(team)) return;
+
+  team.forEach((player, index) => {
+    const p = document.createElement("p");
+    p.id = `${color}-player-${index}`;
+    p.textContent = `${color} ${player.role} ${player.name}: ${player.score}`;
+    container.appendChild(p);
+  });
+
+}
 
   let num = 0; 
     function setupPlayerInputs() {
@@ -1330,116 +1402,32 @@ function addPlayer(team, role, name) {
     }
 
 
+players = {
+  red: [],
+  black: []
+};
+  askQuestions();    
+  display("red");
+  display("black");
+  clickButton("red")
+  clickButton("black")
+  clickButton("reset")
+
 </script>
 
+<script>
+
+  const instruct = document.getElementById("displayInstructions");
+  const wordBtn = document.getElementById("pCL");
+  const redBtn = document.getElementById("redBtn");
+  const blackBtn = document.getElementById("blackBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const setBtn = document.getElementById("setPlayers");
+  const newWordBtn = document.getElementById("newWord");
+  const submitBtn = document.getElementById("submitPlayers");
+  const resetColor = document.getElementById("resetColor");
 
 
-</body>
-
-<head>
-  <title>Game Round</title>
-</head>
-<body>
-  
-  <body>
-   
-  <script>
-    color = ""; 
-  
-  /*hard.addEventListener('click',()=>{
-    startRoundA(5, hardWord);
-  });*/
-  
-  
-  food.addEventListener('click', () => {
-    food.classList.remove('default-button');
-    food.classList.add('highlighted-button');
-    setTimeout(() => {
-      food.classList.remove('highlighted-button');
-      food.classList.add('default-button');
-    }, 250);
-  })
-
-  easy.addEventListener('click', () => {
-    easy.classList.remove('default-button');
-    easy.classList.add('highlighted-button');
-    setTimeout(() => {
-      easy.classList.remove('highlighted-button');
-      easy.classList.add('default-button');
-    }, 250);
-  })
-
-  backBtn.addEventListener('click', () => {
-    easy.classList.remove('default-button');
-    easy.classList.add('highlighted-button');
-    setTimeout(() => {
-      easy.classList.remove('highlighted-button');
-      easy.classList.add('default-button');
-    }, 250);
-  })
-
-  medium.addEventListener('click', () => {
-    medium.classList.remove('default-button');
-    medium.classList.add('highlighted-button');
-    setTimeout(() => {
-      medium.classList.remove('highlighted-button');
-      medium.classList.add('default-button');
-    }, 250);
-  })
-
-  hard.addEventListener('click', () => {
-    hard.classList.remove('default-button');
-    hard.classList.add('highlighted-button');
-    setTimeout(() => {
-      hard.classList.remove('highlighted-button');
-      hard.classList.add('default-button');
-    }, 250);
-  })
-    
-  nfl.addEventListener('click', () => {
-    nfl.classList.remove('default-button');
-    nfl.classList.add('highlighted-button');
-    setTimeout(() => {
-      nfl.classList.remove('highlighted-button');
-      nfl.classList.add('default-button');
-    }, 250);
-  })
-
-  nba.addEventListener('click', () => {
-    nba.classList.remove('default-button');
-    nba.classList.add('highlighted-button');
-    setTimeout(() => {
-      nba.classList.remove('highlighted-button');
-      nba.classList.add('default-button');
-    }, 250);
-  })
-
-  mma.addEventListener('click', () => {
-    mma.classList.remove('default-button');
-    mma.classList.add('highlighted-button');
-    setTimeout(() => {
-      mma.classList.remove('highlighted-button');
-      mma.classList.add('default-button');
-    }, 250);
-  })
-
-  mlb.addEventListener('click', () => {
-    mlb.classList.remove('default-button');
-    mlb.classList.add('highlighted-button');
-    setTimeout(() => {
-      mlb.classList.remove('highlighted-button');
-      mlb.classList.add('default-button');
-    }, 250);
-  })
-
-  basic.addEventListener('click', () => {
-    basic.classList.remove('default-button');
-    basic.classList.add('highlighted-button');
-    setTimeout(() => {
-      basic.classList.remove('highlighted-button');
-      basic.classList.add('default-button');
-    }, 250);
-  })
 
   instruct.addEventListener('click', () => {
     instruct.classList.remove('default-button');
@@ -1450,12 +1438,12 @@ function addPlayer(team, role, name) {
     }, 250);
   })
 
-  wordBtn.addEventListener('click', () => {
-    wordBtn.classList.remove('default-button');
-    wordBtn.classList.add('highlighted-button');
+  newWordBtn.addEventListener('click', () => {
+    newWordBtn.classList.remove('default-button');
+    newWordBtn.classList.add('highlighted-button');
     setTimeout(() => {
-      wordBtn.classList.remove('highlighted-button');
-      wordBtn.classList.add('default-button');
+      newWordBtn.classList.remove('highlighted-button');
+      newWordBtn.classList.add('default-button');
     }, 250);
   })
 
@@ -1500,15 +1488,6 @@ function addPlayer(team, role, name) {
       setBtn.classList.add('default-button');
     }, 250);
   })
-  
-  submitBtn.addEventListener('click', () => {
-    submitBtn.classList.remove('default-button');
-    submitBtn.classList.add('highlighted-button');
-    setTimeout(() => {
-      submitBtn.classList.remove('highlighted-button');
-      submitBtn.classList.add('default-button');
-    }, 250);
-  })
 
   newWordBtn.addEventListener('click', () => {
     newWordBtn.classList.remove('default-button');
@@ -1519,6 +1498,15 @@ function addPlayer(team, role, name) {
     }, 250);
   })
 
+  resetColor.addEventListener('click', () => {
+    resetColor.classList.remove('default-button');
+    resetColor.classList.add('highlighted-button');
+    setTimeout(() => {
+      resetColor.classList.remove('highlighted-button');
+      resetColor.classList.add('default-button');
+    }, 250);
+  })
+  </script>
 
   players.red = []; 
   players.black = []; 
