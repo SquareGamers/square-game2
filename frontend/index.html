@@ -66,13 +66,6 @@
 </head> <!--LINE 67-->
 <body>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <!-- Step 1: ask how many players -->
- <!--<input type="number" id="numPlayers" placeholder="Enter number of players">
- <button class = "default-button" id="setPlayers" onclick="setupPlayerInputs()">Set Players</button>-->
-
- <!-- Step 2: dynamic input fields will go here 
- <div id="playerInputs"></div>
- <button class = "default-button" id="submitPlayers" style="display:none;" onclick="askQuestions()">Submit Players</button>-->
  
 <p id="output"></p>
 <p id="rand"></p>
@@ -126,6 +119,97 @@
 
 <div id="width"></div>
 <button class = "default-button" id="newWord" >Skip Word</button>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display List</title>
+</head>
+<body>
+    <input type="number" id="numPlayers" placeholder="Enter number of players">
+    <button class = "default-button" id="setPlayers" onclick="setupPlayerInputs()">Set Players</button>
+
+    <!-- Step 2: dynamic input fields will go here -->
+    <div id="playerInputs"></div>
+    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams()">Submit Players</button>
+
+    
+    <button class = "default-button" id="hi" onclick="changeRoles(document.getElementById('rolesList'))">click me</button>
+
+
+    <div class="lists-container">
+      <div class="list-block">
+        <h1>PLAYERS</h1>
+        <ul id="playerList"></ul>
+      </div>
+      <div class="list-block">
+        <h1>ROLES</h1>
+        <ul id="rolesList"></ul>
+      </div>
+    </div>
+  
+<script>
+  let num = 0; 
+  const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
+  const allPlayers = {
+    playerone: {name: "name", score: 0},
+    playertwo: {name: "name", score: 0},
+    playerthree: {name: "name", score: 0},
+    playerfour: {name: "name", score: 0}
+  };
+
+  function displayTeams(){
+    const playerKeys = Object.keys(allPlayers);
+    const roleKeys = Object.keys(allRoles);
+
+    // update the name values based on inputs
+    for (let j = 0; j < num; j++) {
+      const nameCurr = document.getElementById("player" + j).value.trim();
+      if(nameCurr) {
+        allPlayers[playerKeys[j]].name = nameCurr;
+      }
+    }
+
+    // display the dictionary
+    const listContainer = document.getElementById("playerList");
+    listContainer.innerHTML = ""; // clear old list
+
+    for (q = 0; q < 4; q++) {
+      const playerItem = document.createElement("li");
+      // instead of key, show the name value
+      playerItem.textContent = allPlayers[playerKeys[q]].name + ", score: " + allPlayers[playerKeys[q]].score;
+      listContainer.appendChild(playerItem);
+    }
+    const rolesCont = document.getElementById("rolesList");
+    changeRoles(rolesCont);
+  } 
+
+ function changeRoles(container) {
+  container.innerHTML = ""; // clear old list
+
+  // Step 1: Increment all role values
+  for (let key in allRoles) {
+    allRoles[key] += 1;
+  }
+
+  // Step 2: Convert to array and sort by value % 4
+  const sortedRoles = Object.entries(allRoles)
+    .sort((a, b) => (a[1] % 4) - (b[1] % 4));
+
+  // Step 3: Display sorted roles
+  for (let i = 0; i < sortedRoles.length; i++) {
+    const miniRoles = document.createElement("li");
+    miniRoles.textContent = `${sortedRoles[i][0]}`;
+    container.appendChild(miniRoles);
+  }
+}
+
+
+</script>
+</body>
+</html>
+
 <script>	//main code
   let wordId = 0;
   players = {
@@ -838,14 +922,17 @@ function displayWord(){
 }
 let streakCountRed = 0;
 let streakCountBlack = 0;
+
 function updateScores(color) {
   if (color === "red") {
     if (streakCountRed < 5) {
       streakCountRed++;
     }
     streakCountBlack = 0;
-    players.red.forEach(p => p.score += (3 * streakCountRed));
-    display("red");
+    playerKeys.forEach((key) => {
+        allPlayers[key].score += 3 * streakCountRed;
+    });    
+    displayTeams();
   } else if (color === "black") {
     if (streakCountBlack < 5) {
       streakCountBlack++;
@@ -872,6 +959,7 @@ function updateScores(color) {
         newWord(); 
         i++;
         updateScores("red"); 
+        changeRoles(document.getElementById('rolesList'));
       }
     });
     blackBtn.addEventListener('click', function() {
@@ -881,6 +969,7 @@ function updateScores(color) {
         newWord();
         i++;
         updateScores("black")
+        changeRoles(document.getElementById('rolesList'));
       }
     });
     resetBtn.addEventListener('click', () => {
@@ -1230,7 +1319,6 @@ function newWord(){
     xButton.style.display = 'none';
   })
 
-  let num = 0; 
     function setupPlayerInputs() {
       num = parseInt(document.getElementById("numPlayers").value, 10);
       if (isNaN(num) || num < 4) {
@@ -1473,78 +1561,3 @@ function addPlayer(team, role, name) {
   askQuestions();
   startRoundA(5);
 </script>
-
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Display List</title>
-</head>
-<body>
-    <input type="number" id="numPlayers" placeholder="Enter number of players">
-    <button class = "default-button" id="setPlayers" onclick="setupPlayerInputs()">Set Players</button>
-
-    <!-- Step 2: dynamic input fields will go here -->
-    <div id="playerInputs"></div>
-    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="hi()">Submit Players</button>
-
-    <div class="lists-container">
-      <div class="list-block">
-        <h1>My Favorite Fruits</h1>
-        <ul id="fruitList"></ul>
-      </div>
-      <div class="list-block">
-        <h1>ROLES</h1>
-        <ul id="roleList"></ul>
-      </div>
-    </div>
-  
-<script>
-  function hi(){
-    const myItems = {
-    playerone: {name: "name", score: 0},
-    playertwo: {name: "name", score: 0},
-    playerthree: {name: "name", score: 0},
-    playerfour: {name: "name", score: 0}
-  };
-
-  const myList = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
-  const keys = Object.keys(myItems);
-  const newKeys = Object.keys(myList);
-
-  // update the name values based on inputs
-  for (let j = 0; j < num; j++) {
-    const nameCurr = document.getElementById("player" + j).value.trim();
-    if(nameCurr) {
-      myItems[keys[j]].name = nameCurr;
-    }
-  }
-
-  // display the dictionary
-  const listContainer = document.getElementById("fruitList");
-  listContainer.innerHTML = ""; // clear old list
-  const yayContainer = document.getElementById("roleList");
-  yayContainer.innerHTML = ""; // clear old list
-
-  roleList.innerHTML = ""; // clear existing items
-
-  for (q = 0; q < 4; q++) {
-    const playerItem = document.createElement("li");
-    // instead of key, show the name value
-    playerItem.textContent = myItems[keys[q]].name + ":";
-    const innerList = document.createElement("ul");
-    const valueItem = document.createElement("li");
-    const yay = document.createElement("ul");
-    const miniyay = document.createElement("li");
-    yay.textContent = myList[newKeys[q]]; 
-    miniyay.appendChild(yay);
-    yayContainer.appendChild(miniyay);
-    innerList.appendChild(valueItem);
-    valueItem.textContent = "score: " + myItems[keys[q]].score;
-    playerItem.appendChild(innerList);
-    listContainer.appendChild(playerItem);
-  }
-}
-</script>
-</body>
-</html>
