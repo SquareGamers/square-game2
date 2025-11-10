@@ -109,7 +109,7 @@
   <button class = "default-button" id="Soccer" style="display:none;">Soccer</button>
   <button class = "default-button" id="pCL" onclick="processCustomList()" style="display:none;">Generate Word [Custom]</button>
   <button class = "default-button" id="Return" style="display:none;">Return to Menu</button>
-  <button class = "default-button" id="newWord" style="display:none;">Skip Word</button>
+
 
   <link rel="stylesheet" href="/styles.css">
   <button class = "default-button" id="redBtn">RED WIN</button>
@@ -141,7 +141,9 @@
 
 <div id="width"></div>
 
-
+<button class = "default-button" id="newWord">Skip Word</button>
+<button class = "default-button" id="promptCustomList">Make a Custom List!</button>
+<p id="customPrint" style="display:none;"></p>
 <script>	//main code
 
   let wordId = 0;
@@ -169,6 +171,7 @@
       select.style.display = 'block';
       select.textContent = "Select Category";
       const custList = document.getElementById('CustomList');
+      
     function removeEl(el){
       const existing=document.getElementById(el);
       if (existing) existing.remove();
