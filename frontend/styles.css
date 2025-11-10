@@ -1,9 +1,9 @@
-body { font-family: system-ui, sans-serif; padding: 1.5rem; }
 HEAD
+body { font-family: system-ui, sans-serif; padding: 1.5rem; }
+
 button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; }
 
 button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; }
-pre { background:#f5f5f5; padding:1rem; border-radius:3px; margin-top:1rem; }
 #blackBtn {
     background-color: rgb(0, 0, 0);   /* button background */
     color: white;             /* text color */
