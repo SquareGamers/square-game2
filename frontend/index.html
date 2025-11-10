@@ -107,7 +107,7 @@
   <button class = "default-button" id="MLB" style="display:none;">MLB</button>
   <button class = "default-button" id="MMA" style="display:none;">MMA</button>
   <button class = "default-button" id="Soccer" style="display:none;">Soccer</button>
-  <button class = "default-button" id="pCL" onclick="processCustomList()">Generate Word</button>
+  <button class = "default-button" id="pCL" onclick="processCustomList()" style="display:none;">Generate Word [Custom]</button>
   <button class = "default-button" id="Return" style="display:none;">Return to Menu</button>
   <button class = "default-button" id="newWord" style="display:none;">Skip Word</button>
 
@@ -522,10 +522,117 @@
       const submitBtn = document.getElementById("submitPlayers");
       const newWordBtn = document.getElementById("newWord");
       const backBtn = document.getElementById("Return");
+      const promptCustomList = document.getElementById("promptCustomList");
       let tempId = 0;
 
 // round functions for all categories
 
+    easyButton.addEventListener('click',()=>{
+      wordId=3;
+      word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
+      const easy = document.getElementById('Easy');
+      easy.style.display = 'none';
+      const med = document.getElementById('Medium');
+      med.style.display = 'none';
+      const hard = document.getElementById('Hard');
+      hard.style.display = 'none';
+      countdown();
+    });
+
+    nbaButton.addEventListener('click',()=>{
+      wordId=4;
+      word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
+      countdown();
+    })
+    nflButton.addEventListener('click',()=>{
+      wordId=5;
+      word=listAthletesNFL[Math.floor(Math.random() * listAthletesNFL.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
+      countdown();
+    })
+    mlbButton.addEventListener('click',()=>{
+      wordId=6;
+      word=listAthletesMLB[Math.floor(Math.random() * listAthletesMLB.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
+      countdown();
+    })
+    soccerButton.addEventListener('click',()=>{
+      wordId=7;
+      word=listAthletesSoccer[Math.floor(Math.random() * listAthletesSoccer.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
+      countdown();
+    })
+    mmaButton.addEventListener('click',()=>{
+      wordId=8;
+      word=listAthletesMMA[Math.floor(Math.random() * listAthletesMMA.length)]
+      const mlb = document.getElementById('MLB');
+      mlb.style.display = 'none';
+      const nba = document.getElementById('NBA');
+      nba.style.display = 'none';
+      const nfl = document.getElementById('NFL');
+      nfl.style.display = 'none';
+      const soccer = document.getElementById('Soccer');
+      soccer.style.display = 'none';
+      const mma = document.getElementById('MMA');
+      mma.style.display = 'none';
+      countdown();
+    })
+    foodButton.addEventListener('click',()=>{
+      wordId=9;
+      word=listFoods[Math.floor(Math.random() * listFoods.length)]
+      countdown();
+    })
+    drinkButton.addEventListener('click',()=>{
+      wordId=10;
+      word=listDrink[Math.floor(Math.random() * listDrink.length)]
+      countdown();
+    })
+    const print = document.getElementById("customPrint");
+    print.textContent = "Enter a list of words in the area below, separated by commas and spaces."
+    promptCustomList.addEventListener('click',()=>{
+      const customEntry = document.getElementById("customList");
+      customEntry.style.display = "inline-block";
+      const process = document.getElementById("pCL");
+      process.style.display = "inline-block";
+      print.style.display = "block";
+    })
     const newButton=document.getElementById('newWord');
     hardButton.addEventListener('click',()=>{
       //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
@@ -539,6 +646,8 @@
       med.style.display = 'none';
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
+      const cust = document.getElementById('pCL');
+      cust.style.display = 'none';
       const select = document.getElementById('selectCategory');
       select.style.display = 'none';
       const newBtn = document.getElementById('newWord');
@@ -561,6 +670,8 @@
       med.style.display = 'none';
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
+      const cust = document.getElementById('pCL');
+      cust.style.display = 'none';
       const select = document.getElementById('selectCategory');
       select.style.display = 'none';
       const newBtn = document.getElementById('newWord');
@@ -583,6 +694,8 @@
       med.style.display = 'none';
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
+      const cust = document.getElementById('pCL');
+      cust.style.display = 'none';
       const select = document.getElementById('selectCategory');
       select.style.display = 'none';
       const newBtn = document.getElementById('newWord');
@@ -722,6 +835,41 @@ function updateScores(color) {
     setTimeout(function() { });
   }
 
+    easyButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+
+    nbaButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+
+    nflButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+
+    mlbButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+    
+    soccerButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+    
+    mmaButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+
+    foodButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+
+    drinkButton.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+    promptCustomList.addEventListener('click',()=>{
+      startRoundA(5);
+    });
+      
 
     nbaButton.addEventListener('click',()=>{
       wordId=0;
@@ -1000,8 +1148,7 @@ function updateScores(color) {
 
 
 <br>
-<p>Or, create your own list! (Separated by commas and spaces)</p>
-<input type="text" id="customList">
+<input type="text" id="customList" style="display:none;">
 <p id="custRand"></p>
 
 <script>
