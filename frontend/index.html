@@ -132,10 +132,10 @@
 
     <!-- Step 2: dynamic input fields will go here -->
     <div id="playerInputs"></div>
-    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams()">Submit Players</button>
+    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams('red')">Submit Players</button>
 
     
-    <button class = "default-button" id="hi" onclick="changeRoles(document.getElementById('rolesList'))">click me</button>
+    <button class = "default-button" id="hi" onclick="changeRoles(document.getElementById('rolesList')); displayTeams('red');">click me</button>
 
 
     <div class="lists-container">
@@ -152,22 +152,25 @@
 <script>
   let num = 0; 
   const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
+  let roleKeys = Object.keys(allRoles);
   const allPlayers = {
-    playerone: {name: "name", score: 0},
-    playertwo: {name: "name", score: 0},
-    playerthree: {name: "name", score: 0},
-    playerfour: {name: "name", score: 0}
+    playerone: {name: "name", score: 0, id: roleKeys[0]},
+    playertwo: {name: "name", score: 0, id: roleKeys[1]},
+    playerthree: {name: "name", score: 0, id: roleKeys[2]},
+    playerfour: {name: "name", score: 0, id: roleKeys[3]}
   };
+  let playerKeys = Object.keys(allPlayers);
 
-  function displayTeams(){
-    const playerKeys = Object.keys(allPlayers);
-    const roleKeys = Object.keys(allRoles);
+  function displayTeams(color){
+    playerKeys = Object.keys(allPlayers);
+    roleKeys = Object.keys(allRoles);
 
     // update the name values based on inputs
     for (let j = 0; j < num; j++) {
       const nameCurr = document.getElementById("player" + j).value.trim();
       if(nameCurr) {
         allPlayers[playerKeys[j]].name = nameCurr;
+        //allPlayers[playerKeys[j]].id = roleKeys[j];
       }
     }
 
@@ -175,15 +178,29 @@
     const listContainer = document.getElementById("playerList");
     listContainer.innerHTML = ""; // clear old list
 
-    for (q = 0; q < 4; q++) {
-      const playerItem = document.createElement("li");
-      // instead of key, show the name value
-      playerItem.textContent = allPlayers[playerKeys[q]].name + ", score: " + allPlayers[playerKeys[q]].score;
-      listContainer.appendChild(playerItem);
+    if (color === "red"){
+      for (q = 0; q < num; q++) {
+        const playerItem = document.createElement("li");
+        // instead of key, show the name value
+        playerItem.textContent = allPlayers[playerKeys[q]].name + ", score: " + allPlayers[playerKeys[q]].score + ' ' + allPlayers[playerKeys[q]].id;
+        listContainer.appendChild(playerItem);
+        if (allPlayers[playerKeys[q]].id === "RED GUESSER"){
+          allPlayers[playerKeys[q]].score++;
+        }
+      }
     }
-    const rolesCont = document.getElementById("rolesList");
-    changeRoles(rolesCont);
-  } 
+    else{
+      for (b = 0; b < num; b++) {
+        const playerItem = document.createElement("li");
+        // instead of key, show the name value
+        playerItem.textContent = allPlayers[playerKeys[b]].name + ", score: " + allPlayers[playerKeys[b]].score + ' ' + allPlayers[playerKeys[b]].id;
+        listContainer.appendChild(playerItem);
+        if (allPlayers[playerKeys[b]].id === "BLACK GUESSER"){
+          allPlayers[playerKeys[b]].score++;
+        }
+      }
+    } 
+  }
 
  function changeRoles(container) {
   container.innerHTML = ""; // clear old list
@@ -199,11 +216,13 @@
 
   // Step 3: Display sorted roles
   for (let i = 0; i < sortedRoles.length; i++) {
-    const miniRoles = document.createElement("li");
-    miniRoles.textContent = `${sortedRoles[i][0]}`;
-    container.appendChild(miniRoles);
+    //const miniRoles = document.createElement("li");
+    //miniRoles.textContent = `${sortedRoles[i][0]}`;
+    allPlayers[playerKeys[i]].id = sortedRoles[i][0];
+    //container.appendChild(miniRoles);
   }
 }
+
 
 
 </script>
@@ -444,8 +463,6 @@
 function displayWord(){
   removeEl('myWord');
   removeEl('myNum');
-
-
   
   const wordEl = document.createElement('span');
 
@@ -929,10 +946,9 @@ function updateScores(color) {
       streakCountRed++;
     }
     streakCountBlack = 0;
-    playerKeys.forEach((key) => {
-        allPlayers[key].score += 3 * streakCountRed;
-    });    
-    displayTeams();
+    const playerKey = Object.keys(allPlayers).find(key => allPlayers[key].id === "RED GUESSER");
+    allPlayers[playerKey].score++;
+    displayTeams("red");
   } else if (color === "black") {
     if (streakCountBlack < 5) {
       streakCountBlack++;
@@ -968,7 +984,7 @@ function updateScores(color) {
         removeEl('myNum');
         newWord();
         i++;
-        updateScores("black")
+        //updateScores("black")
         changeRoles(document.getElementById('rolesList'));
       }
     });
@@ -977,11 +993,8 @@ function updateScores(color) {
       document.getElementById("setPlayers").style.display = 'inline-block';
       document.getElementById("playerInputs").style.display = 'inline-block';
       document.getElementById("numPlayers").style.display = 'inline-block';
-      updateScores("reset");
-      players.red = []; 
-      players.black = []; 
-      display("red");
-      display("black");
+      //updateScores("reset");
+      displayTeams("red");
       });
   }
 
