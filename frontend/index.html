@@ -758,14 +758,13 @@ function updateScores(color) {
     streakCountRed = 0;
     players.black.forEach(p => p.score += (3 * streakCountBlack));
     display("black");
-  } else if (color === "reset") {
+  }
     streakCountRed = 0;
     streakCountBlack = 0;
     players.red.forEach(p => p.score = 0);
     players.black.forEach(p => p.score = 0);
     display("red");
     display("black");
-  }
 }
     
     function startRoundA(numWords){
