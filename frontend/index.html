@@ -80,8 +80,6 @@
  <button class = "default-button" id="setPlayers" onclick="setupPlayerInputs()">Set Players</button>
 
  <!-- Step 2: dynamic input fields will go here -->
- <div id="playerInputs"></div>
- <button class = "default-button" id="submitPlayers" style="display:none;" onclick="askQuestions()">Submit Players</button>
  
 <p id="output"></p>
 <p id="rand"></p>
@@ -141,12 +139,127 @@
 
 <div id="width"></div>
 
-<button class = "default-button" id="newWord">Skip Word</button>
-<button class = "default-button" id="promptCustomList">Make a Custom List!</button>
-<button class = "default-button" id="sNR">Submit Rounds</button>
-<input type="number" id="numRounds" placeholder="Enter number of Rounds">
-<p id="customPrint" style="display:none;"></p>
-<p id="roundsLeft" style="display:none;"></p>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display List</title>
+</head>
+<body>
+    <button class = "default-button" id="newWord">Skip Word</button>
+    <button class = "default-button" id="promptCustomList">Make a Custom List!</button>
+    <button class = "default-button" id="sNR">Submit Rounds</button>
+    <input type="number" id="numRounds" placeholder="Enter number of Rounds">
+    <p id="customPrint" style="display:none;"></p>
+    <p id="roundsLeft" style="display:none;"></p>
+    <!-- Step 2: dynamic input fields will go here -->
+    <div id="playerInputs"></div>
+    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams('red'); displayTeams('black')">Submit Players</button>
+
+    
+   
+
+
+    <div class="lists-container">
+      <div class="list-block">
+        <h1>PLAYERS</h1>
+        <ul id="playerList"></ul>
+      </div>
+      <div class="list-block">
+        <ul id="rolesList"></ul>
+      </div>
+    </div>
+  
+<script>
+  let nums = 0; 
+  const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
+  let roleKeys = Object.keys(allRoles);
+  const allPlayers = {
+    playerone: {name: "name", score: -1, id: roleKeys[0]},
+    playertwo: {name: "name", score: -1, id: roleKeys[1]},
+    playerthree: {name: "name", score: -1, id: roleKeys[2]},
+    playerfour: {name: "name", score: -1, id: roleKeys[3]}
+  };
+  let playerKeys = Object.keys(allPlayers);
+
+  function displayTeams(color){
+    playerKeys = Object.keys(allPlayers);
+    roleKeys = Object.keys(allRoles);
+
+    // update the name values based on inputs
+    for (let j = 0; j < nums; j++) {
+      const nameCurr = document.getElementById("player" + j).value.trim();
+      if(nameCurr) {
+        allPlayers[playerKeys[j]].name = nameCurr;
+        //allPlayers[playerKeys[j]].id = roleKeys[j];
+      }
+    }
+
+    // display the dictionary
+    const listContainer = document.getElementById("playerList");
+    listContainer.innerHTML = ""; // clear old list
+    for (let i = 0; i < playerKeys.length; i++) {
+  const key = playerKeys[i];
+  const player = allPlayers[key];
+
+  let prevIndex = i - 1;
+
+  // wrap around so player0's "previous" is the last player
+  if (prevIndex < 0) prevIndex = playerKeys.length - 1;
+
+  const previousPlayer = allPlayers[playerKeys[prevIndex]];
+
+  if (color === "red") {
+    if (player.id === "RED GUESSER" || player.id === "RED EXPLAINER") {
+      previousPlayer.score++;  // add to **previous**
+    }
+  } 
+  else if (color === "black") {
+    if (player.id === "BLACK GUESSER" || player.id === "BLACK EXPLAINER") {
+      previousPlayer.score++;  // add to **previous**
+    }
+  }
+}
+
+  // 2. Clear the list so we don't stack duplicate LI elements
+    listContainer.innerHTML = "";
+
+  // 3. Re-render the updated list
+    for (let key of playerKeys) {
+      const playerItem = document.createElement("li");
+      const player = allPlayers[key];
+      playerItem.textContent = `${player.name}, score: ${player.score} ${player.id}`;
+      listContainer.appendChild(playerItem);
+    }
+  } 
+
+ function changeRoles(container) {
+  container.innerHTML = ""; // clear old list
+
+  // Step 1: Increment all role values
+  for (let key in allRoles) {
+    allRoles[key] += 1;
+  }
+
+  // Step 2: Convert to array and sort by value % 4
+  const sortedRoles = Object.entries(allRoles)
+    .sort((a, b) => (a[1] % 4) - (b[1] % 4));
+
+  // Step 3: Display sorted roles
+  for (let i = 0; i < sortedRoles.length; i++) {
+    //const miniRoles = document.createElement("li");
+    //miniRoles.textContent = `${sortedRoles[i][0]}`;
+    allPlayers[playerKeys[i]].id = sortedRoles[i][0];
+    //container.appendChild(miniRoles);
+  }
+}
+
+
+
+</script>
+</body>
+</html>
+
 <script>	//main code
   let numRounds = 5;
   let wordId = 0;
@@ -798,49 +911,28 @@
 }
 let streakCountRed = 0;
 let streakCountBlack = 0;
-function updateScores(color) {
-  if (color === "red") {
-    if (streakCountRed < 5) {
-      streakCountRed++;
-    }
-    streakCountBlack = 0;
-    players.red.forEach(p => p.score += (3 * streakCountRed));
-    display("red");
-  } else if (color === "black") {
-    if (streakCountBlack < 5) {
-      streakCountBlack++;
-    }
-    streakCountRed = 0;
-    players.black.forEach(p => p.score += (3 * streakCountBlack));
-    display("black");
-  } else if (color === "reset") {
-    streakCountRed = 0;
-    streakCountBlack = 0;
-    players.red.forEach(p => p.score = 0);
-    players.black.forEach(p => p.score = 0);
-    display("red");
-    display("black");
-  }
-}
+
   function startRoundA(numWords){
     let i = 1;
     const round = document.getElementById("roundsLeft");
-    let num = numRounds - 2;
+    let numed = numRounds - 2;
     redBtn.addEventListener('click', function() {
       if (i < numRounds) {
         removeEl('myWord');
         removeEl('myNum');
         newWord(); 
         i++;
-        updateScores("red"); 
-        round.textContent = "Rounds Left: " + num;
+        changeRoles(document.getElementById('rolesList'));
+        displayTeams("red");
+        round.textContent = "Rounds Left: " + numed;
         round.style.display = "block";
-        num--;
+        numed--;
       } else if(i = numRounds) {
         removeEl('myWord');
         removeEl('myNum');
         i++;
-        updateScores("red");
+        changeRoles(document.getElementById('rolesList'));
+        displayTeams("red");
         const redBtns = document.getElementById("redBtn");
         redBtns.style.display = 'none';
         const blackBtns = document.getElementById("blackBtn");
@@ -854,15 +946,17 @@ function updateScores(color) {
         removeEl('myNum');
         newWord();
         i++;
-        updateScores("black")
-        round.textContent = "Rounds Left: " + num;
+        changeRoles(document.getElementById('rolesList'));
+        displayTeams("black");
+        round.textContent = "Rounds Left: " + numed;
         round.style.display = "block";
-        num--;
+        numed--;
       } else if(i = numRounds) {
         removeEl('myWord');
         removeEl('myNum');
         i++;
-        updateScores("black");
+        changeRoles(document.getElementById('rolesList'));
+        displayTeams("black");
         const blackBtns = document.getElementById("blackBtn");
         blackBtns.style.display = 'none';
         const redBtns = document.getElementById("redBtn");
@@ -876,12 +970,7 @@ function updateScores(color) {
       document.getElementById("setPlayers").style.display = 'inline-block';
       document.getElementById("playerInputs").style.display = 'inline-block';
       document.getElementById("numPlayers").style.display = 'inline-block';
-      updateScores("reset");
       startRoundA(0);
-      players.red = []; 
-      players.black = []; 
-      display("red");
-      display("black");
       const ath = document.getElementById('Athletes');
       ath.style.display = 'inline-block';
       const food = document.getElementById('Food&Drink');
@@ -931,6 +1020,10 @@ function updateScores(color) {
       removeEl('myWord');
       removeEl('myNum');
       round.style.display = "none";
+      for (let key of playerKeys) { 
+        const player = allPlayers[key]; 
+        player.score = -1;
+      }
     });
   }
 
@@ -1322,22 +1415,10 @@ function updateScores(color) {
     xButton.style.display = 'none';
   })
 </script>
-
-
-
-
 </body>
 
-
-
 <script>
-
-
-    color = ""; 
-    
-
-
-
+color = ""; 
 function display(color) {
   const container = color === "red"
     ? document.getElementById("scoresRed")
@@ -1422,29 +1503,6 @@ function addPlayer(team, role, name) {
     score: 0
   });
 }
-
-    function askQuestions() {
-      let half = Math.floor(num / 2); // integer division
-
-      for (let i = 0; i < half; i++) {
-        const nameCurr = document.getElementById("player" + i).value.trim();
-        if (i < Math.floor(half / 2)) {
-          addPlayer("red", "guesser", nameCurr);
-        } else {
-          addPlayer("red", "explainer", nameCurr);
-        }
-      }
-
-      for (let k = 0; k < num - half; k++) {
-        const nameCurr = document.getElementById("player" + (half + k)).value.trim();
-        if (k < Math.floor((num - half) / 2)) {
-          addPlayer("black", "guesser", nameCurr);
-        } else {
-          addPlayer("black", "explainer", nameCurr);
-        }
-      }
-    }
-
 
 
 </script>
