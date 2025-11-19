@@ -146,7 +146,7 @@
 
     <!-- Step 2: dynamic input fields will go here -->
     <div id="playerInputs"></div>
-    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams('red')">Submit Players</button>
+    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams('red'); displayTeams('black')">Submit Players</button>
 
     
     <button class = "default-button" id="hi" onclick="changeRoles(document.getElementById('rolesList')); displayTeams('red');">click me</button>
@@ -168,10 +168,10 @@
   const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
   let roleKeys = Object.keys(allRoles);
   const allPlayers = {
-    playerone: {name: "name", score: 0, id: roleKeys[0]},
-    playertwo: {name: "name", score: 0, id: roleKeys[1]},
-    playerthree: {name: "name", score: 0, id: roleKeys[2]},
-    playerfour: {name: "name", score: 0, id: roleKeys[3]}
+    playerone: {name: "name", score: -1, id: roleKeys[0]},
+    playertwo: {name: "name", score: -1, id: roleKeys[1]},
+    playerthree: {name: "name", score: -1, id: roleKeys[2]},
+    playerfour: {name: "name", score: -1, id: roleKeys[3]}
   };
   let playerKeys = Object.keys(allPlayers);
 
@@ -191,19 +191,28 @@
     // display the dictionary
     const listContainer = document.getElementById("playerList");
     listContainer.innerHTML = ""; // clear old list
-    for (let key of playerKeys) {
-      const player = allPlayers[key];
-      if (color === "red") {
-        if (player.id === "RED GUESSER" || player.id === "RED EXPLAINER") {
-          player.score++;
-        }
-      } 
-      else if (color === "black") {
-        if (player.id === "BLACK GUESSER" || player.id === "BLACK EXPLAINER") {
-          player.score++;
-        }
-      }
+    for (let i = 0; i < playerKeys.length; i++) {
+  const key = playerKeys[i];
+  const player = allPlayers[key];
+
+  let prevIndex = i - 1;
+
+  // wrap around so player0's "previous" is the last player
+  if (prevIndex < 0) prevIndex = playerKeys.length - 1;
+
+  const previousPlayer = allPlayers[playerKeys[prevIndex]];
+
+  if (color === "red") {
+    if (player.id === "RED GUESSER" || player.id === "RED EXPLAINER") {
+      previousPlayer.score++;  // add to **previous**
     }
+  } 
+  else if (color === "black") {
+    if (player.id === "BLACK GUESSER" || player.id === "BLACK EXPLAINER") {
+      previousPlayer.score++;  // add to **previous**
+    }
+  }
+}
 
   // 2. Clear the list so we don't stack duplicate LI elements
     listContainer.innerHTML = "";
@@ -973,7 +982,7 @@ function displayWord(){
 }
 let streakCountRed = 0;
 let streakCountBlack = 0;
-<<<<<<< HEAD
+
 function updateScores(color) {
   if (color === "red") {
     if (streakCountRed < 5) {
@@ -997,8 +1006,7 @@ function updateScores(color) {
     display("red");
     display("black");
 }
-=======
->>>>>>> beb4858baed5d5bdc1e5b54cfdd9684bf67e829d
+
     
     function startRoundA(numWords){
     let i = 1;
@@ -1028,45 +1036,11 @@ function updateScores(color) {
       document.getElementById("setPlayers").style.display = 'inline-block';
       document.getElementById("playerInputs").style.display = 'inline-block';
       document.getElementById("numPlayers").style.display = 'inline-block';
-      updateScores("reset");
-      players.red = []; 
-      players.black = []; 
-      display("red");
-      display("black");
-      const ath = document.getElementById('Athletes');
-      ath.style.display = 'inline-block';
-      const food = document.getElementById('Food&Drink');
-      food.style.display = 'inline-block';
-      const basic = document.getElementById('Basic');
-      basic.style.display = 'inline-block';
-      const custom = document.getElementById('pCL');
-      custom.style.display = 'inline-block';
-      const easy = document.getElementById('Easy');
-      easy.style.display = 'none';
-      const med = document.getElementById('Medium');
-      med.style.display = 'none';
-      const hard = document.getElementById('Hard');
-      hard.style.display = 'none';
-      const mlb = document.getElementById('MLB');
-      mlb.style.display = 'none';
-      const nba = document.getElementById('NBA');
-      nba.style.display = 'none';
-      const nfl = document.getElementById('NFL');
-      nfl.style.display = 'none';
-      const soccer = document.getElementById('Soccer');
-      soccer.style.display = 'none';
-      const mma = document.getElementById('MMA');
-      mma.style.display = 'none';
-      const select = document.getElementById('selectCategory');
-      select.style.display = 'block';
-      const returns = document.getElementById('Return');
-      returns.style.display = 'none';
-      const skip = document.getElementById('newWord');
-      skip.style.display = 'none';
-      wordId=0;
-      removeEl('myWord');
-      removeEl('myNum');
-    });
+      for (let key of playerKeys) { 
+        const player = allPlayers[key]; 
+        player.score = -1;
+      }
+      });
   }
 
   function startRoundB(time_limit, categ) {
@@ -1715,7 +1689,6 @@ function addPlayer(team, role, name) {
       resetColor.classList.add('default-button');
     }, 250);
   })
-<<<<<<< HEAD
 </script>
 
 
