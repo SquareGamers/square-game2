@@ -132,7 +132,7 @@
 
     <!-- Step 2: dynamic input fields will go here -->
     <div id="playerInputs"></div>
-    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams('red')">Submit Players</button>
+    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams('red'); displayTeams('black')">Submit Players</button>
 
     
     <button class = "default-button" id="hi" onclick="changeRoles(document.getElementById('rolesList')); displayTeams('red');">click me</button>
@@ -154,10 +154,10 @@
   const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
   let roleKeys = Object.keys(allRoles);
   const allPlayers = {
-    playerone: {name: "name", score: 0, id: roleKeys[0]},
-    playertwo: {name: "name", score: 0, id: roleKeys[1]},
-    playerthree: {name: "name", score: 0, id: roleKeys[2]},
-    playerfour: {name: "name", score: 0, id: roleKeys[3]}
+    playerone: {name: "name", score: -1, id: roleKeys[0]},
+    playertwo: {name: "name", score: -1, id: roleKeys[1]},
+    playerthree: {name: "name", score: -1, id: roleKeys[2]},
+    playerfour: {name: "name", score: -1, id: roleKeys[3]}
   };
   let playerKeys = Object.keys(allPlayers);
 
@@ -177,19 +177,28 @@
     // display the dictionary
     const listContainer = document.getElementById("playerList");
     listContainer.innerHTML = ""; // clear old list
-    for (let key of playerKeys) {
-      const player = allPlayers[key];
-      if (color === "red") {
-        if (player.id === "RED GUESSER" || player.id === "RED EXPLAINER") {
-          player.score++;
-        }
-      } 
-      else if (color === "black") {
-        if (player.id === "BLACK GUESSER" || player.id === "BLACK EXPLAINER") {
-          player.score++;
-        }
-      }
+    for (let i = 0; i < playerKeys.length; i++) {
+  const key = playerKeys[i];
+  const player = allPlayers[key];
+
+  let prevIndex = i - 1;
+
+  // wrap around so player0's "previous" is the last player
+  if (prevIndex < 0) prevIndex = playerKeys.length - 1;
+
+  const previousPlayer = allPlayers[playerKeys[prevIndex]];
+
+  if (color === "red") {
+    if (player.id === "RED GUESSER" || player.id === "RED EXPLAINER") {
+      previousPlayer.score++;  // add to **previous**
     }
+  } 
+  else if (color === "black") {
+    if (player.id === "BLACK GUESSER" || player.id === "BLACK EXPLAINER") {
+      previousPlayer.score++;  // add to **previous**
+    }
+  }
+}
 
   // 2. Clear the list so we don't stack duplicate LI elements
     listContainer.innerHTML = "";
@@ -993,6 +1002,10 @@ let streakCountBlack = 0;
       document.getElementById("setPlayers").style.display = 'inline-block';
       document.getElementById("playerInputs").style.display = 'inline-block';
       document.getElementById("numPlayers").style.display = 'inline-block';
+      for (let key of playerKeys) { 
+        const player = allPlayers[key]; 
+        player.score = -1;
+      }
       });
 
 
