@@ -940,59 +940,44 @@ function displayWord(){
 }
 let streakCountRed = 0;
 let streakCountBlack = 0;
-function updateScores(color) {
-  if (color === "red") {
-    if (streakCountRed < 5) {
-      streakCountRed++;
-    }
-    streakCountBlack = 0;
-    players.red.forEach(p => p.score += (3 * streakCountRed));
-    display("red");
-  } else if (color === "black") {
-    if (streakCountBlack < 5) {
-      streakCountBlack++;
-    }
-    streakCountRed = 0;
-    players.black.forEach(p => p.score += (3 * streakCountBlack));
-    display("black");
-  } else if (color === "reset") {
-    streakCountRed = 0;
-    streakCountBlack = 0;
-    players.red.forEach(p => p.score = 0);
-    players.black.forEach(p => p.score = 0);
-    display("red");
-    display("black");
-  }
-}
-    
+
+    function guessedWord(team) {
+      removeEl('myWord');
+      removeEl('myNum');
+      newWord();
+    }    
+
     function startRoundA(numWords){
-    let i = 1;
-    redBtn.addEventListener('click', function() {
-      if (i < numWords) {
-        removeEl('myWord');
-        removeEl('myNum');
-        newWord(); 
-        i++;
-        changeRoles(document.getElementById('rolesList'));
-        displayTeams("red"); 
-      }
-    });
-    blackBtn.addEventListener('click', function() {
-      if (i < numWords) {
-        guessedWord("black");
-        i++;
-        updateScores("black")
-      }
-    });
-  }
+      let i = 1;
+      redBtn.addEventListener('click', function() {
+        if (i < numWords) {
+          guessedWord("red"); 
+          i++;
+          changeRoles(document.getElementById('rolesList'));
+          displayTeams("red"); 
+        }
+      });
+      blackBtn.addEventListener('click', function() {
+        if (i < numWords) {
+          guessedWord("black");
+          i++;
+          changeRoles(document.getElementById('rolesList'));
+          displayTeams("black");
+        }
+      });
+    }
 
     function startRoundB(timeLimit){
       function onRedClick() {
         guessedWord("red");
+        changeRoles(document.getElementById('rolesList'));
+        displayTeams("red");
       }
 
       function onBlackClick() {
         guessedWord("black");
+        changeRoles(document.getElementById('rolesList'));
+        displayTeams("black");
       }
       
       redBtn.addEventListener('click', onRedClick);
