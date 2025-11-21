@@ -134,17 +134,12 @@
     <div id="playerInputs"></div>
     <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams('red'); displayTeams('black')">Submit Players</button>
 
-    
-    <button class = "default-button" id="hi" onclick="changeRoles(document.getElementById('rolesList')); displayTeams('red');">click me</button>
-
-
     <div class="lists-container">
       <div class="list-block">
         <h1>PLAYERS</h1>
         <ul id="playerList"></ul>
       </div>
       <div class="list-block">
-        <h1>ROLES</h1>
         <ul id="rolesList"></ul>
       </div>
     </div>
@@ -170,7 +165,6 @@
       const nameCurr = document.getElementById("player" + j).value.trim();
       if(nameCurr) {
         allPlayers[playerKeys[j]].name = nameCurr;
-        //allPlayers[playerKeys[j]].id = roleKeys[j];
       }
     }
 
@@ -226,10 +220,7 @@
 
   // Step 3: Display sorted roles
   for (let i = 0; i < sortedRoles.length; i++) {
-    //const miniRoles = document.createElement("li");
-    //miniRoles.textContent = `${sortedRoles[i][0]}`;
     allPlayers[playerKeys[i]].id = sortedRoles[i][0];
-    //container.appendChild(miniRoles);
   }
 }
 
@@ -990,7 +981,7 @@ let streakCountBlack = 0;
   }
 
     easyButton.addEventListener('click',()=>{
-      startRoundA(5);
+      startRoundA(30);
     });
 
     nbaButton.addEventListener('click',()=>{
@@ -1283,13 +1274,9 @@ function newWord(){
     word=rWord;
     wordId=0
     const ath = document.getElementById('Athletes');
-    ath.style.display = 'none';
     const food = document.getElementById('Food&Drink');
-    food.style.display = 'none';
     const basic = document.getElementById('Basic');
-    basic.style.display = 'none';
     const custom = document.getElementById('pCL');
-    custom.style.display = 'none';
     countdown();
     setTimeout(() => {
           wordId = 10;
@@ -1359,28 +1346,6 @@ function addPlayer(team, role, name) {
   });
 }
   let num1 = 0
- function askQuestions() {
-      let half = Math.floor(num / 2); // integer division
-
-      for (let i = 0; i < half; i++) {
-        //const nameCurr = document.getElementById("player" + i).value.trim();
-        if (i < Math.floor(half / 2)) {
-          //addPlayer("red", "guesser", nameCurr);
-        } else {
-          //addPlayer("red", "explainer", nameCurr);
-        }
-      }
-
-      for (let k = 0; k < num - half; k++) {
-        //const nameCurr = document.getElementById("player" + (half + k)).value.trim();
-        if (k < Math.floor((num - half) / 2)) {
-          //addPlayer("black", "guesser", nameCurr);
-        } else {
-          //addPlayer("black", "explainer", nameCurr);
-        }
-      }
-    }
-
 </script>
 
 
@@ -1558,6 +1523,5 @@ function addPlayer(team, role, name) {
   players.black = []; 
   display("red");
   display("black"); 
-  askQuestions();
   startRoundA(5);
 </script>
