@@ -4,6 +4,7 @@ body { font-family: system-ui, sans-serif; padding: 1.5rem; }
 button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; }
 
 button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; }
+
 #blackBtn {
     background-color: rgb(0, 0, 0);   /* button background */
     color: white;             /* text color */
@@ -113,3 +114,20 @@ button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; }
   #pickBtn:hover {
     background-color: rgb(55, 55, 55);
   }
+
+  .lists-container {
+    display: flex;           /* side by side */
+    justify-content: center; /* center horizontally */
+    gap: 50px;               /* space between the two blocks */
+    align-items: flex-start; /* top-align both lists */
+  }
+  
+  .list-block {
+    text-align: center;      /* center the heading and list in each block */
+  }
+  
+  ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  
