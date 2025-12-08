@@ -285,10 +285,10 @@
   }
   
   function countdown() {
-    for (let i = 5; i > 0; i--) {
+    for (let i = 5; i > -1; i--) {
       setTimeout(function() { dispNum(i); }, (5 - i) * 1000);
     }
-    setTimeout(function() { displayWord(); }, 5000);
+    setTimeout(function() { displayWord(); }, 6000);
   }
 
 
@@ -947,8 +947,10 @@ function displayWord(){
   });
 
 }
-let streakCountRed = 0;
-let streakCountBlack = 0;
+
+    function chooseRound() {
+      
+    }
 
     function guessedWord(team) {
       removeEl('myWord');
@@ -1011,6 +1013,14 @@ let streakCountBlack = 0;
 
     easyButton.addEventListener('click',()=>{
       startRoundB(20); 
+    });
+
+    medButton.addEventListener('click', ()=>{
+      startRoundA(5);
+    });
+
+    hardButton.addEventListener('click', ()=>{
+      startRoundA(5);
     });
 
     nbaButton.addEventListener('click',()=>{
@@ -1407,12 +1417,6 @@ function addPlayer(team, role, name) {
 
 </body>
 
-<head>
-  <title>Game Round</title>
-</head>
-<body>
-  
-  <body>
    
 <script>
     color = ""; 
