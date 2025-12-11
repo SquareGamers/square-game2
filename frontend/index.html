@@ -62,20 +62,24 @@
 </html>
   <style>
   button {
-    margin: 5px;
-    padding: 10px;
+    margin: 5px
+    padding 10px;
     font-size:16px;
   }
   </style>
 
 <body>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <!-- Step 1: ask how many players -->
+
+
+ <!-- Step 2: dynamic input fields will go here -->
  
 <p id="output"></p>
 <p id="rand"></p>
 
 <div id = "button-container">
-  <p>Select Category:</p>
+  <p id="selectCategory">Select Category:</p>
   <button class = "default-button" id="Basic">Basic</button>
   <button class = "default-button" id="Athletes">Athletes</button>
   <button class = "default-button" id="Food&Drink">Food&Drink</button>
@@ -94,14 +98,16 @@
 
 
   <link rel="stylesheet" href="/styles.css">
-  <button class = "default-button" id="redBtn">RED WIN</button>
+  <button class = "default-button" id="redBtn" style="display:none;">RED WIN</button>
   <p id="scoresRed"></p>
 
-  <button class = "default-button" id="blackBtn">BLACK WIN</button>
+  <button class = "default-button" id="blackBtn" style="display:none;">BLACK WIN</button>
   <p id="scoresBlack"></p>
 
   <button class = "default-button" id="resetBtn">RESET</button>
   <p id="scoresReset"></p>
+
+
 
   <head>
     <meta charset="utf-8">
@@ -125,6 +131,7 @@
 <div id="width"></div>
 <button class = "default-button" id="newWord" >Skip Word</button>
 
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -134,13 +141,20 @@
 <body>
     <input type="number" id="numPlayers" placeholder="Enter number of players">
     <button class = "default-button" id="setPlayers" onclick="setupPlayerInputs()">Set Players</button>
+   
+    <input type="number" id="numRounds" placeholder="Enter number of Rounds">
+    <button class = "default-button" id="sNR">Set Rounds</button>
+    <p id = roundsLeft>Rounds Left: 4</p>
 
+    <button class = "default-button" id="cCL" onclick="createCustomList()">Create Custom List</button>
+    <p id = "customPrint" style ="display:none;"></p>
+    <input type="text" id="customList" style="display:none;">
     <!-- Step 2: dynamic input fields will go here -->
     <div id="playerInputs"></div>
     <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams('red'); displayTeams('black')">Submit Players</button>
 
     
-    <button class = "default-button" id="hi" onclick="changeRoles(document.getElementById('rolesList')); displayTeams('red');">click me</button>
+
 
 
     <div class="lists-container">
@@ -302,6 +316,10 @@
       const soccerButton = document.getElementById('Soccer');
       const backButton = document.getElementById('Return');
       const custList = document.getElementById('CustomList');
+      const select = document.getElementById('selectCategory');
+      
+      
+      
     function removeEl(el){
       const existing=document.getElementById(el);
       if (existing) existing.remove();
@@ -823,6 +841,10 @@ function displayWord(){
       med.style.display = 'none';
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
+      const blackBtns = document.getElementById("blackBtn");
+      blackBtns.style.display = 'inline-block';
+      const redBtns = document.getElementById("redBtn");
+      redBtns.style.display = 'inline-block';
       countdown();
     });
 
@@ -839,6 +861,10 @@ function displayWord(){
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const blackBtns = document.getElementById("blackBtn");
+      blackBtns.style.display = 'inline-block';
+      const redBtns = document.getElementById("redBtn");
+      redBtns.style.display = 'inline-block';
       countdown();
     })
     nflButton.addEventListener('click',()=>{
@@ -854,6 +880,10 @@ function displayWord(){
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const blackBtns = document.getElementById("blackBtn");
+      blackBtns.style.display = 'inline-block';
+      const redBtns = document.getElementById("redBtn");
+      redBtns.style.display = 'inline-block';
       countdown();
     })
     mlbButton.addEventListener('click',()=>{
@@ -869,6 +899,10 @@ function displayWord(){
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const blackBtns = document.getElementById("blackBtn");
+      blackBtns.style.display = 'inline-block';
+      const redBtns = document.getElementById("redBtn");
+      redBtns.style.display = 'inline-block';
       countdown();
     })
     soccerButton.addEventListener('click',()=>{
@@ -884,6 +918,10 @@ function displayWord(){
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const blackBtns = document.getElementById("blackBtn");
+      blackBtns.style.display = 'inline-block';
+      const redBtns = document.getElementById("redBtn");
+      redBtns.style.display = 'inline-block';
       countdown();
     })
     mmaButton.addEventListener('click',()=>{
@@ -899,18 +937,32 @@ function displayWord(){
       soccer.style.display = 'none';
       const mma = document.getElementById('MMA');
       mma.style.display = 'none';
+      const blackBtns = document.getElementById("blackBtn");
+      blackBtns.style.display = 'inline-block';
+      const redBtns = document.getElementById("redBtn");
+      redBtns.style.display = 'inline-block';
       countdown();
     })
     foodButton.addEventListener('click',()=>{
       wordId=9;
       word=listFoods[Math.floor(Math.random() * listFoods.length)]
+      const blackBtns = document.getElementById("blackBtn");
+      blackBtns.style.display = 'inline-block';
+      const redBtns = document.getElementById("redBtn");
+      redBtns.style.display = 'inline-block';
       countdown();
     })
     drinkButton.addEventListener('click',()=>{
       wordId=10;
       word=listDrink[Math.floor(Math.random() * listDrink.length)]
+      const blackBtns = document.getElementById("blackBtn");
+      blackBtns.style.display = 'inline-block';
+      const redBtns = document.getElementById("redBtn");
+      redBtns.style.display = 'inline-block';
       countdown();
     })
+    
+    
     const newButton=document.getElementById('newWord');
     hardButton.addEventListener('click',()=>{
       //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
@@ -924,7 +976,18 @@ function displayWord(){
       med.style.display = 'none';
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
+      const cust = document.getElementById('pCL');
+      cust.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
+      const newBtn = document.getElementById('newWord');
+      newBtn.style.display= 'block';
+      const blackBtns = document.getElementById("blackBtn");
+      blackBtns.style.display = 'inline-block';
+      const redBtns = document.getElementById("redBtn");
+      redBtns.style.display = 'inline-block';
       countdown();
+      startRoundA(numRounds);
       setTimeout(() => {
           wordId = 1;
         }, 5000);
@@ -941,7 +1004,18 @@ function displayWord(){
       med.style.display = 'none';
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
+      const cust = document.getElementById('pCL');
+      cust.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
+      const newBtn = document.getElementById('newWord');
+      newBtn.style.display= 'block';
+      const blackBtns = document.getElementById("blackBtn");
+      blackBtns.style.display = 'inline-block';
+      const redBtns = document.getElementById("redBtn");
+      redBtns.style.display = 'inline-block';
       countdown();
+      startRoundA(numRounds);
       setTimeout(() => {
           wordId = 2;
         }, 5000);
@@ -958,11 +1032,29 @@ function displayWord(){
       med.style.display = 'none';
       const hard = document.getElementById('Hard');
       hard.style.display = 'none';
+      const cust = document.getElementById('pCL');
+      cust.style.display = 'none';
+      const select = document.getElementById('selectCategory');
+      select.style.display = 'none';
+      const newBtn = document.getElementById('newWord');
+      newBtn.style.display= 'block';
+      const blackBtns = document.getElementById("blackBtn");
+      blackBtns.style.display = 'inline-block';
+      const redBtns = document.getElementById("redBtn");
+      redBtns.style.display = 'inline-block';
       countdown();
+      startRoundA(numRounds);
       setTimeout(() => {
           wordId = 3;
         }, 5000);
     });
+  
+ 
+
+
+
+
+
 
     
   function display(color) {
@@ -989,38 +1081,76 @@ function displayWord(){
 }
 let streakCountRed = 0;
 let streakCountBlack = 0;
-    
-    function startRoundA(numWords){
+
+  function startRoundA(numWords){
     let i = 1;
+    const round = document.getElementById("roundsLeft");
+    let numed = numRounds - 2;
     redBtn.addEventListener('click', function() {
-      if (i < numWords) {
+      if (i < numRounds) {
         removeEl('myWord');
         removeEl('myNum');
         newWord(); 
         i++;
         changeRoles(document.getElementById('rolesList'));
-        displayTeams("red"); 
-        rotateColors();
-        changeCol()
+        displayTeams("red");
+        round.textContent = "Rounds Left: " + numed;
+        round.style.display = "block";
+        numed--;
+      } else if(i = numRounds) {
+        removeEl('myWord');
+        removeEl('myNum');
+        i++;
+        changeRoles(document.getElementById('rolesList'));
+        displayTeams("red");
+        const redBtns = document.getElementById("redBtn");
+        redBtns.style.display = 'none';
+        const blackBtns = document.getElementById("blackBtn");
+        blackBtns.style.display = 'none';
+        round.style.display = "none";
       }
     });
     blackBtn.addEventListener('click', function() {
-      if (i < numWords) {
+      if (i < numRounds) {
         removeEl('myWord');
         removeEl('myNum');
         newWord();
         i++;
         changeRoles(document.getElementById('rolesList'));
+        displayTeams("black");
+        round.textContent = "Rounds Left: " + numed;
+        round.style.display = "block";
+        numed--;
+      } else if(i = numRounds) {
+        removeEl('myWord');
+        removeEl('myNum');
+        i++;
+        changeRoles(document.getElementById('rolesList'));
+        displayTeams("black");
+        const blackBtns = document.getElementById("blackBtn");
+        blackBtns.style.display = 'none';
+        const redBtns = document.getElementById("redBtn");
+        redBtns.style.display = 'none';
+        round.style.display = "none";
+        changeRoles(document.getElementById('rolesList'));
         displayTeams("black")
         rotateColors();
         changeCol()
       }
+  
     });
     resetBtn.addEventListener('click', () => {
-      document.getElementById("submitPlayers").style.display = 'inline-block';
+      document.getElementById("submitPlayers").style.display = 'none';
       document.getElementById("setPlayers").style.display = 'inline-block';
-      document.getElementById("playerInputs").style.display = 'inline-block';
+      document.getElementById("playerInputs").style.display = 'none';
       document.getElementById("numPlayers").style.display = 'inline-block';
+      document.getElementById("Athletes").style.display = 'inline-block';
+      document.getElementById("Food&Drink").style.display = 'inline-block';
+      document.getElementById("Basic").style.display = 'inline-block';
+      document.getElementById("Return").style.display = 'none';
+      document.getElementById("numRounds").style.display = 'inline-block';
+      document.getElementById("sNR").style.display = 'inline-block';
+      i = 1;
       for (let key of playerKeys) { 
         const player = allPlayers[key]; 
         player.score = -1;
@@ -1032,45 +1162,35 @@ let streakCountBlack = 0;
     setTimeout(function() { });
   }
 
-    easyButton.addEventListener('click',()=>{
-      startRoundA(5);
-    });
-
-    medButton.addEventListener('click',()=>{
-      startRoundA(5);
-    });
-
-    hardButton.addEventListener('click',()=>{
-      startRoundA(5);
-    });
-
+  
     nbaButton.addEventListener('click',()=>{
-      startRoundA(5);
+      startRoundA(numRounds);
     });
 
     nflButton.addEventListener('click',()=>{
-      startRoundA(5);
+      startRoundA(numRounds);
     });
 
     mlbButton.addEventListener('click',()=>{
-      startRoundA(5);
+      startRoundA(numRounds);
     });
     
     soccerButton.addEventListener('click',()=>{
-      startRoundA(5);
+      startRoundA(numRounds);
     });
     
     mmaButton.addEventListener('click',()=>{
-      startRoundA(5);
+      startRoundA(numRounds);
     });
 
     foodButton.addEventListener('click',()=>{
-      startRoundA(5);
+      startRoundA(numRounds);
     });
 
     drinkButton.addEventListener('click',()=>{
-      startRoundA(5);
+      startRoundA(numRounds);
     });
+    
 
       
 
@@ -1289,10 +1409,11 @@ function newWord(){
       wordId = 9;
     }, 5000);
   } else if (wordId == 10){
+    word=randomWords[Math.floor(Math.random() * randomWords.length)];
     removeEl('myWord');
     removeEl('myNum');
     wordId = 0;
-    processCustomList();
+    countdown();
     setTimeout(() => {
       wordId = 10;
     }, 5000);
@@ -1321,13 +1442,42 @@ function newWord(){
 <p id="custRand"></p>
 
 <script>
+  
+  function createCustomList() {
+    const ccl = document.getElementById('cCL');
+    ccl.style.display = 'none';
+    const cL = document.getElementById('customList');
+    cL.style.display = 'block';
+    const printed = document.getElementById("customPrint");
+    printed.textContent = "Enter a list of words in the area below, separated by commas and spaces."
+    printed.style.display = 'block';
+    const pcl = document.getElementById('pCL');
+    pcl.style.display = 'block';
+  }
+
   function processCustomList() {
+    removeEl('myWord');
+    removeEl('myNum');
+
+    ath.style.display = 'none';
+    food.style.display = 'none';
+    basic.style.display = 'none';
+    custom.style.display = 'none';
+    const returns = document.getElementById('Return');
+    returns.style.display = 'inline-block';
+    const newBtn = document.getElementById('newWord');
+    newBtn.style.display= 'block';
+    const redBtns = document.getElementById('redBtn');
+    redBtns.style.display= 'block';
+    const blackBtns = document.getElementById('blackBtn');
+    blackBtns.style.display= 'block';
     const custListElement = document.getElementById('customList');
     const custListValue = custListElement.value;
     const custListLength = custListValue.length;
     randomWords = []
     randomWords = custListValue.split(", ");
     let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
+    startRoundA(numRounds);
     function printWord() {
     	return rWord;
     }
@@ -1345,7 +1495,7 @@ function newWord(){
     setTimeout(() => {
           wordId = 10;
         }, 5000);
-      }
+  }
       
 
 </script>
@@ -1368,8 +1518,36 @@ function newWord(){
     displayText.style.display = 'none';
     xButton.style.display = 'none';
   })
+</script>
+</body>
 
-    function setupPlayerInputs() {
+<script>
+color = ""; 
+function display(color) {
+  const container = color === "red"
+    ? document.getElementById("scoresRed")
+    : color === "black"
+      ? document.getElementById("scoresBlack")
+      : null;
+
+  if (!container) return; // bail if color invalid
+
+  container.innerHTML = ""; // clear
+
+  const team = players[color];
+  if (!Array.isArray(team)) return;
+
+  team.forEach((player, index) => {
+    const p = document.createElement("p");
+    p.id = `${color}-player-${index}`;
+    p.textContent = `${color} ${player.role} ${player.name}: ${player.score}`;
+    container.appendChild(p);
+  });
+
+}
+
+
+  function setupPlayerInputs() {
       num = parseInt(document.getElementById("numPlayers").value, 10);
       if (isNaN(num) || num < 4) {
         alert("Please enter a valid number of players (at least 4).");
@@ -1391,6 +1569,7 @@ function newWord(){
 
       // show submit button
       document.getElementById("submitPlayers").style.display = "inline-block";
+      document.getElementById("playerInputs").style.display = "inline-block";
       document.getElementById("submitPlayers").addEventListener("click", () => {
         display("red");
         display("black");
@@ -1400,6 +1579,29 @@ function newWord(){
         document.getElementById("numPlayers").style.display = "none";
     })
   }
+
+  let numR = 0;
+  function addRounds(){
+    numR = parseInt(document.getElementById("numRounds").value, 10);
+      if (isNaN(numR) || numR < 2) {
+        alert("Please enter a valid number of Rounds (at least 2).");
+        return;
+      } else {
+        numRounds = numR;
+        sNR.style.display="none";
+      }
+  }
+
+  sNR.addEventListener('click',()=>{
+      const round = document.getElementById("roundsLeft");
+      addRounds();
+      let numberRound = numRounds - 1;
+      round.textContent = "Rounds Left: " + numberRound;
+      round.style.display = "block";
+      const rounds = document.getElementById('numRounds');
+      rounds.style.display = 'none';
+  });
+
 
 function addPlayer(team, role, name) {
   players[team].push({
@@ -1431,15 +1633,26 @@ function addPlayer(team, role, name) {
       }
     }
 
+ 
 </script>
-  <title>Game Round</title>
-   
+
 <script>
-    color = ""; 
-  
-  food.addEventListener('click', () => {
-    food.classList.remove('default-button');
-    food.classList.add('highlighted-button');
+
+  const instructs = document.getElementById("displayInstructions");
+  const wordBtns = document.getElementById("pCL");
+  const redBtns = document.getElementById("redBtn");
+  const blackBtns = document.getElementById("blackBtn");
+  const resetBtns = document.getElementById("resetBtn");
+  const setBtns = document.getElementById("setPlayers");
+  const newWordBtns = document.getElementById("newWord");
+  const submitBtns = document.getElementById("submitPlayers");
+  const resetColor = document.getElementById("resetColor");
+  const generate = document.getElementById("pCL");
+
+
+  resetBtns.addEventListener('click', () => {
+    resetBtns.classList.remove('default-button');
+    resetBtns.classList.add('highlighted-button');
     setTimeout(() => {
       food.classList.remove('highlighted-button');
       food.classList.add('default-button');
@@ -1481,92 +1694,10 @@ function addPlayer(team, role, name) {
       hard.classList.add('default-button');
     }, 250);
   })
-    
-  nfl.addEventListener('click', () => {
-    nfl.classList.remove('default-button');
-    nfl.classList.add('highlighted-button');
-    setTimeout(() => {
-      nfl.classList.remove('highlighted-button');
-      nfl.classList.add('default-button');
-    }, 250);
-  })
 
-  nba.addEventListener('click', () => {
-    nba.classList.remove('default-button');
-    nba.classList.add('highlighted-button');
-    setTimeout(() => {
-      nba.classList.remove('highlighted-button');
-      nba.classList.add('default-button');
-    }, 250);
-  })
-
-  mma.addEventListener('click', () => {
-    mma.classList.remove('default-button');
-    mma.classList.add('highlighted-button');
-    setTimeout(() => {
-      mma.classList.remove('highlighted-button');
-      mma.classList.add('default-button');
-    }, 250);
-  })
-
-  mlb.addEventListener('click', () => {
-    mlb.classList.remove('default-button');
-    mlb.classList.add('highlighted-button');
-    setTimeout(() => {
-      mlb.classList.remove('highlighted-button');
-      mlb.classList.add('default-button');
-    }, 250);
-  })
-
-  basic.addEventListener('click', () => {
-    basic.classList.remove('default-button');
-    basic.classList.add('highlighted-button');
-    setTimeout(() => {
-      basic.classList.remove('highlighted-button');
-      basic.classList.add('default-button');
-    }, 250);
-  })
-
-  instruct.addEventListener('click', () => {
-    instruct.classList.remove('default-button');
-    instruct.classList.add('highlighted-button');
-    setTimeout(() => {
-      instruct.classList.remove('highlighted-button');
-      instruct.classList.add('default-button');
-    }, 250);
-  })
-
-  wordBtn.addEventListener('click', () => {
-    wordBtn.classList.remove('default-button');
-    wordBtn.classList.add('highlighted-button');
-    setTimeout(() => {
-      wordBtn.classList.remove('highlighted-button');
-      wordBtn.classList.add('default-button');
-    }, 250);
-  })
-
-  redBtn.addEventListener('click', () => {
-    redBtn.classList.remove('default-button');
-    redBtn.classList.add('highlighted-button');
-    setTimeout(() => {
-      redBtn.classList.remove('highlighted-button');
-      redBtn.classList.add('default-button');
-    }, 250);
-  })
-
-  blackBtn.addEventListener('click', () => {
-    blackBtn.classList.remove('default-button');
-    blackBtn.classList.add('highlighted-button');
-    setTimeout(() => {
-      blackBtn.classList.remove('highlighted-button');
-      blackBtn.classList.add('default-button');
-    }, 250);
-  })
-  
-
-  setBtn.addEventListener('click', () => {
-    setBtn.classList.remove('default-button');
-    setBtn.classList.add('highlighted-button');
+  setBtns.addEventListener('click', () => {
+    setBtns.classList.remove('default-button');
+    setBtns.classList.add('highlighted-button');
     setTimeout(() => {
       setBtn.classList.remove('highlighted-button');
       setBtn.classList.add('default-button');
@@ -1591,13 +1722,34 @@ function addPlayer(team, role, name) {
     }, 250);
   })
 
+  generate.addEventListener('click', () => {
+    generate.classList.remove('default-button');
+    generate.classList.add('highlighted-button');
+    setTimeout(() => {
+      generate.classList.remove('highlighted-button');
+      generate.classList.add('default-button');
+    }, 250);
+  })
 
-  players.red = []; 
-  players.black = []; 
-  display("red");
-  display("black");
-  askQuestions();
-  startRoundA(5);
 
+
+  wordBtns.addEventListener('click', () => {
+    wordBtns.classList.remove('default-button');
+    wordBtns.classList.add('highlighted-button');
+    setTimeout(() => {
+      wordBtns.classList.remove('highlighted-button');
+      wordBtns.classList.add('default-button');
+    }, 250);
+  })
+  
+  submitBtns.addEventListener('click', () => {
+    submitBtns.classList.remove('default-button');
+    submitBtns.classList.add('highlighted-button');
+    setTimeout(() => {
+      submitBtns.classList.remove('highlighted-button');
+      submitBtns.classList.add('default-button');
+    }, 250);
+  })
+
+  
 </script>
-</body>
