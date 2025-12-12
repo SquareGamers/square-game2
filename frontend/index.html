@@ -15,7 +15,6 @@
   <div id="matrix" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"></div>
   <pre id="out"></pre>
 
-  <script src="/app.js"></script>
 
   <style>
     .default-button {
@@ -154,11 +153,12 @@
     <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams('red'); displayTeams('black')">Submit Players</button>
 
     
-
+    <button class = "default-button" id="hi" onclick="changeRoles(); displayTeams('red');">click me</button>
 
 
     <div class="lists-container">
       <div class="list-block">
+        <h1 id = "players-heading">PLAYERS</h1>
         <ul id="playerList"></ul>
       </div>
       <div class="list-block">
