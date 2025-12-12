@@ -5,63 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Square Game :D</title>
   <link rel="stylesheet" href="/styles.css">
+  <p id="displayText1"></p>
 
 </head>
 
 <body style="background-color:rgb(80 231 173);">
+<div id="matrix" style ="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+</div>
 
-  <pre id="out"></pre>
+<pre id="out"></pre>
 
-
-  <style>
-    .default-button {
-      background-color: pink;
-      color: black;
-      padding: 8px 15px;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-
-    .highlighted-button {
-	    background-color: #F5278B;
-    	color: black;
-    	padding: 8px 15px;
-    	border: none;
-    	border-radius: 5px;
-    	font-weight: bold;
-    }
-
-    .red-button {
-      background-color: red;
-      color: black;
-      padding: 8px 15px;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-
-    .highlighted-red-button {
-	    background-color: rgba(228, 7, 7, 0.525);
-    	color: black;
-    	padding: 8px 15px;
-    	border: none;
-    	border-radius: 5px;
-    	font-weight: bold;
-    }
-
-  </style>
-</body>
-  <style>
-  button {
-    margin: 5px;
-    padding: 10px;
-    font-size:16px;
-  }
-  </style>
-
-
-</head> <!--LINE 67-->
+</head> 
 <body>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
  
@@ -69,7 +23,6 @@
 <p id="rand"></p>
 
 <div id = "button-container">
-  <p>Select Category:</p>
   <button class = "default-button" id="Basic">Basic</button>
   <button class = "default-button" id="Athletes">Athletes</button>
   <button class = "default-button" id="Food&Drink">Food&Drink</button>
@@ -85,8 +38,10 @@
   <button class = "default-button" id="Soccer" style="display:none;">Soccer</button>
   <button class = "default-button" id="pCL" onclick="processCustomList()">Generate Word</button>
   <button class = "default-button" id="Return" style="display:none;">Return to Menu</button>
+</div>
 
 
+<div id = "score-buttons">
   <link rel="stylesheet" href="/styles.css">
   <button class = "default-button" id="redBtn">RED WIN</button>
   <p id="scoresRed"></p>
@@ -96,24 +51,13 @@
 
   <button class = "default-button" id="resetBtn">RESET</button>
   <p id="scoresReset"></p>
+  </div>
 
   <head>
     <meta charset="utf-8">
     <title>Square Game</title>
   </head>
-</div>
 </body>
-<style>
-  #button-container {
-    width: 100px;
-    height: 300px;
-    border-radius: 20px;
-    padding: 10px;
-    position: absolute;
-    bottom: 150px;
-    right: 50px;
-  }
-</style>
 
 <div id="width"></div>
 <button class = "default-button" id="newWord" >Skip Word</button>
@@ -131,37 +75,28 @@
     <div id="playerInputs"></div>
     <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams('red'); displayTeams('black')">Submit Players</button>
 
-    
-    <button class = "default-button" id="hi" onclick="changeRoles(); displayTeams('red');">click me</button>
-
-
-    <div class="lists-container">
+<!--<div class="lists-container">
       <div class="list-block">
         <h1 id = "players-heading">PLAYERS</h1>
         <ul id="playerList"></ul>
       </div>
-    </div>
+    </div>-->
 </body>
 <head>
 <link rel="stylesheet" href="/styles.css">
 </head>
 
 
-<br>
-<p>Or, create your own list! (Separated by commas and spaces)</p>
-<input type="text" id="customList">
+<p id="rand"></p>
 <p id="custRand"></p>
 
-<button class = "default-button" id="displayInstructions">Instructions</button>
-<button class = "red-button" id="xButton">X</button>
-<p id="displayText"></p>
-</body>
+<div id="customListContainer"> 
+  <p>Or, create your own list! (Separated by commas and spaces)</p>
+  <textarea id="customList"></textarea>
+</div>
 
-<head>
-  <title>Game Round</title>
-</head>
   <body>
     <script src="app.js"></script>
     <script src="app.test.js"></script>
-  </body>>
+  </body>
 </html>

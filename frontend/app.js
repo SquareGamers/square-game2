@@ -1,3 +1,5 @@
+const displayText1 = document.getElementById('displayText1');
+displayText1.textContent = 'Submit players in the order of a SQUARE, in the direction you want to rotate. Pair names if > 4 people.';
 let num = 0; 
 const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
 let roleKeys = Object.keys(allRoles);
@@ -20,16 +22,34 @@ function displayTeams(color){
         allPlayers[playerKeys[j]].name = nameCurr;
         }
     }
+    displayMatrix();
+}
 
-    // display the dictionary
-    const listContainer = document.getElementById("playerList");
-    listContainer.innerHTML = "";
-    for (let key of playerKeys) {
-        const playerItem = document.createElement("li");
-        const player = allPlayers[key];
-        playerItem.textContent = `${player.name}, score: ${player.score} ${player.id}`;
-        listContainer.appendChild(playerItem);
-    }
+function displayMatrix() {
+    const container = document.getElementById("matrix");
+    container.innerHTML = ""; // Clear previous display
+
+    const order = [0, 1, 3, 2];
+    const startColors = ["black", "black", "red", "red"];
+
+    order.forEach((i,idx) => {
+        const p = allPlayers[playerKeys[i]];
+
+        const cell = document.createElement("div");
+        cell.style.padding = "10px";
+        cell.style.background = startColors[idx];
+        cell.style.color = "white";
+        cell.style.textAlign = "center";
+        cell.style.borderRadius = "8px";
+
+        cell.innerHTML = `
+        <strong>${p.name}</strong><br>
+        ${p.id}<br>
+        Score: ${p.score}
+        `;
+
+        container.appendChild(cell);
+    });
 }
 
 function updateScore(color){
@@ -94,12 +114,12 @@ function removeEl(el){
     const existing=document.getElementById(el);
     if (existing) existing.remove();
 }
-function dispNum(num) {
+function dispNum(num1) {
     removeEl('myNum');
     const numEl = document.createElement('span');
-    numEl.style.top = '100px'; 
+    numEl.style.top = '300px'; 
     numEl.id = 'myNum';
-    numEl.textContent = num + "S TO SWITCH";
+    numEl.textContent = num1 + "S TO SWITCH";
     numEl.style.position = 'absolute';
     numEl.style.fontSize='60px';
     numEl.style.transition = 'all 0.5s ease';
@@ -111,6 +131,10 @@ function dispNum(num) {
 }
 
 function countdown() {
+    if (num === 0) {
+        setTimeout(function() { displayWord(); }, 0);
+        return;
+    } 
     for (let i = 5; i > -1; i--) {
         setTimeout(function() { dispNum(i); }, (5 - i) * 1000);
     }
@@ -301,7 +325,7 @@ function displayWord(){
     removeEl('myNum');
     const wordEl = document.createElement('span');
     wordEl.id = 'myWord';
-    wordEl.style.top = '100px'; 
+    wordEl.style.top = '300px'; 
     wordEl.style.position = 'absolute';
     wordEl.style.fontSize='60px';
     wordEl.style.transition = 'all 0.5s ease';
@@ -756,24 +780,26 @@ function startRoundA(numWords){
     let i = 1;
     redBtn.addEventListener('click', function() {
         if (i < numWords) {
-        removeEl('myWord');
-        removeEl('myNum');
-        newWord(); 
-        i++;
-        updateScore("red");
-        changeRoles();
-        displayTeams("red"); 
+            num++;
+            removeEl('myWord');
+            removeEl('myNum');
+            newWord(); 
+            i++;
+            updateScore("red");
+            changeRoles();
+            displayTeams("red"); 
         }
     });
     blackBtn.addEventListener('click', function() {
         if (i < numWords) {
-        removeEl('myWord');
-        removeEl('myNum');
-        newWord();
-        i++;
-        updateScore("black");
-        changeRoles();
-        displayTeams("black");
+            num++;
+            removeEl('myWord');
+            removeEl('myNum');
+            newWord();
+            i++;
+            updateScore("black");
+            changeRoles();
+            displayTeams("black");
         }
     });
     resetBtn.addEventListener('click', () => {
@@ -1085,32 +1111,15 @@ function processCustomList() {
     food.style.display = 'none';
     const basic = document.getElementById('Basic');
     basic.style.display = 'none';
-    const custom = document.getElementById('pCL');
-    custom.style.display = 'none';
     countdown();
     setTimeout(() => {
         wordId = 10;
     }, 5000);
 }
 
-const displayInstructions =  document.getElementById('displayInstructions');
-const displayText = document.getElementById('displayText');
-xButton.style.display = 'none';
-
-displayInstructions.addEventListener('click', function() {
-    xButton.style.display = 'block';
-    displayText.style.display = 'block';
-    displayText.textContent = 'First put in your group size and put all the names in of people playing - Once you got all your players in you will be seperated in to two teams = You can then select the difficulty to play, the harder the difficulty the harder the words are to guess - After you select the difficulty you can press the start game button to start the game - The two teams will compete to guess the word with their teammates help(If agreeded on by both teams you can skip a word) - Whichever team guesses the word correctly first gets a point that you can assign by the button corresponding to your team located on the right hand side of the screen(you can see which team your on by your name on the left hand side) - You can keep on playing however long you want - After each point the teams switch creating new teams for each word - Once you are done you can press the end game button and the person with the most points wins - You get one point for each time your team guesses a correct word - Good luck and have fun playing';
-})
-
-xButton.addEventListener('click', function() {
-    displayText.style.display = 'none';
-    xButton.style.display = 'none';
-})
-
 function setupPlayerInputs() {
-    num = parseInt(document.getElementById("numPlayers").value, 10);
-    if (isNaN(num) || num < 4) {
+    num2 = parseInt(document.getElementById("numPlayers").value, 10);
+    if (isNaN(num2) || num2 < 4) {
         alert("Please enter a valid number of players (at least 4).");
         return;
     }
@@ -1119,7 +1128,7 @@ function setupPlayerInputs() {
     container1.innerHTML = ""; // clear previous inputs
 
     // create input fields
-    for (let i = 0; i < num; i++) {
+    for (let i = 0; i < num2; i++) {
         const input = document.createElement("input");
         input.type = "text";
         input.id = "player" + i;
@@ -1137,9 +1146,6 @@ function setupPlayerInputs() {
         document.getElementById("numPlayers").style.display = "none";
     })
 }
-
-let num1 = 0;
-color = ""; 
 
 food.addEventListener('click', () => {
     food.classList.remove('default-button');
@@ -1285,3 +1291,19 @@ newWordBtn.addEventListener('click', () => {
         newWordBtn.classList.add('default-button');
     }, 250);
 })
+
+/*const undoButton = document.getElementById('P1-1');
+undoButton.addEventListener('click', () => {
+    undoButton.classList.remove('default-button');
+    undoButton.classList.add('highlighted-button');
+    setTimeout(() => {
+        undoButton.classList.remove('highlighted-button');
+        undoButton.classList.add('default-button');
+    }, 250);
+    for (let i = 0; i < playerKeys.length; i++) {
+        const key = playerKeys[i];
+        const player = allPlayers[key];
+        const currPlayer = allPlayers[playerKeys[i]];
+        currPlayer.score--;  // add to **previous**
+    }
+})*/

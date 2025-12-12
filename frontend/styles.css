@@ -1,8 +1,42 @@
 body { font-family: system-ui, sans-serif; padding: 1.5rem; }
 HEAD
-button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; }
+button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
 
-button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; }
+.default-button {
+  background-color: pink;
+  color: black;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.highlighted-button {
+  background-color: #F5278B;
+  color: black;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.red-button {
+  background-color: red;
+  color: black;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.highlighted-red-button {
+  background-color: rgba(228, 7, 7, 0.525);
+  color: black;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
 
 #blackBtn {
     background-color: rgb(0, 0, 0);   /* button background */
@@ -79,14 +113,26 @@ button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; }
   }
 
   #button-container {
-    width: 100px;       /* width of the container */
-    height: 300px;      /* height of the container */
-    background-color: lightblue; /* just to see it */
+    width: 150px;       /* width of the container */
+    height: 100px;      /* height of the container */
     border-radius: 20px; /* makes corners rounded */
     padding: 10px; 
     position: absolute;
-    bottom: -20px;
-    right: -20px;  
+    top: 250px;
+    left: 20px;  
+    display: flex;             /* 1. Enable Flexbox */
+    flex-direction: column;
+    justify-content: space-around; 
+  }
+
+  #undo-buttons {
+    width: 100px;      
+    height: 100px;      
+    border-radius: 20px; 
+    padding: 10px; 
+    position: absolute;
+    bottom: 275px;
+    right: 275px;  
   }
 
   #pickBtn {
@@ -135,3 +181,21 @@ button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; }
     margin-top: 100px; 
     font-size: 22px;
   }
+
+  #custRand{
+    position: absolute;
+    bottom: 25px;
+  }
+
+  #customListContainer{
+    position: absolute;
+    bottom: 25px;
+  }
+
+  .player-row {
+    display: flex;             /* Turns the <li> into a flexible container */
+    align-items: center;       /* Centers content vertically */
+    justify-content: space-between; /* Pushes the first item (name) to the left 
+                                      and the second item (button) to the right */
+    /* Add any other desired styling (padding, borders, etc.) */
+}
