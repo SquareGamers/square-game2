@@ -118,7 +118,7 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
     border-radius: 20px; /* makes corners rounded */
     padding: 10px; 
     position: absolute;
-    top: 250px;
+    top: 550px;
     left: 20px;  
     display: flex;             /* 1. Enable Flexbox */
     flex-direction: column;
@@ -190,6 +190,7 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   #customListContainer{
     position: absolute;
     bottom: 25px;
+    left: 200px;
   }
 
   .player-row {

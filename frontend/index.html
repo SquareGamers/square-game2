@@ -73,14 +73,11 @@
 
     <!-- Step 2: dynamic input fields will go here -->
     <div id="playerInputs"></div>
-    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams('red'); displayTeams('black')">Submit Players</button>
+    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams();">Submit Players</button>
 
-<!--<div class="lists-container">
-      <div class="list-block">
-        <h1 id = "players-heading">PLAYERS</h1>
-        <ul id="playerList"></ul>
-      </div>
-    </div>-->
+    <input type="number" id="numRounds" placeholder="Enter number of rounds">
+    <button class="default-button" id = startRounds onclick="setRounds()">Set Rounds</button>
+
 </body>
 <head>
 <link rel="stylesheet" href="/styles.css">
