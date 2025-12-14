@@ -9,9 +9,12 @@
 
 </head>
 
-<body style="background-color:rgb(80 231 173);">
+<body style="background-color:rgb(179 215 255);">
 <div id="matrix" style ="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
 </div>
+
+<p id="displayText2"></p>
+
 
 <pre id="out"></pre>
 
@@ -49,8 +52,14 @@
   <button class = "default-button" id="blackBtn">BLACK WIN</button>
   <p id="scoresBlack"></p>
 
-  <button class = "default-button" id="resetBtn">RESET</button>
+  <button class = "default-button" id="resetBtn">REPLAY</button>
   <p id="scoresReset"></p>
+
+  <button class = "default-button" id="teamBtn">CHANGE TEAMS</button>
+  <p id="teamReset"></p>
+
+  <button class = "default-button" id="roundsBtn">CHANGE ROUNDS</button>
+  <p id="roundsReset"></p>
   </div>
 
   <head>
@@ -83,6 +92,9 @@
 <link rel="stylesheet" href="/styles.css">
 </head>
 
+<label for="backgroundColor">Select Background Color:</label>
+<input type="color" id="backgroundColor" value="#ffffff">
+<button class = "default-button" id="resetColor">Reset Color</button>
 
 <p id="rand"></p>
 <p id="custRand"></p>

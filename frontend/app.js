@@ -598,6 +598,8 @@ const wordBtn = document.getElementById("pCL");
 const redBtn = document.getElementById("redBtn");
 const blackBtn = document.getElementById("blackBtn");
 const resetBtn = document.getElementById("resetBtn");
+const teamBtn = document.getElementById("teamBtn");
+const roundsBtn = document.getElementById("roundsBtn");
 const setBtn = document.getElementById("setPlayers");
 const submitBtn = document.getElementById("submitPlayers");
 const newWordBtn = document.getElementById("newWord");
@@ -787,8 +789,12 @@ function setRounds(){
     document.getElementById("numRounds").style.display = "none";
 }
 
+const displayText2 = document.getElementById('displayText2');
+displayText2.textContent = 'ROUND';
+
 function startRoundA(){
     let i = 2;
+    displayText2.textContent = `ROUND ${i-1}`;
     redBtn.addEventListener('click', function() {
         if (i >= numRounds){
             document.getElementById("redBtn").style.display = "none";
@@ -799,6 +805,7 @@ function startRoundA(){
         removeEl('myNum');
         newWord(); 
         i++;
+        displayText2.textContent = `ROUND ${i-1}`;
         updateScore("red");
         changeRoles();
         displayTeams(); 
@@ -813,24 +820,134 @@ function startRoundA(){
         removeEl('myNum');
         newWord();
         i++;
+        displayText2.textContent = `ROUND ${i-1}`;
         updateScore("black");
         changeRoles();
         displayTeams();
     });
     resetBtn.addEventListener('click', () => {
-        document.getElementById("submitPlayers").style.display = 'inline-block';
-        document.getElementById("setPlayers").style.display = 'inline-block';
-        document.getElementById("playerInputs").style.display = 'inline-block';
-        document.getElementById("numPlayers").style.display = 'inline-block';
+        document.getElementById("redBtn").style.display = 'inline-block';
+        document.getElementById("blackBtn").style.display = 'inline-block';
+        const back = document.getElementById('Return');
+        back.style.display = 'none';
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'inline-block';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'inline-block';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'inline-block';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        const foodB = document.getElementById('Food');
+        foodB.style.display = 'none';
+        const drinkB = document.getElementById('Drink');
+        drinkB.style.display = 'none';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'inline-block';
+        for (let key of playerKeys) { 
+            const player = allPlayers[key]; 
+            player.score = 0;
+        }
+        i = 2; 
+        displayTeams();
+    });
+    roundsBtn.addEventListener('click', () => {
         document.getElementById("redBtn").style.display = 'inline-block';
         document.getElementById("blackBtn").style.display = 'inline-block';
         document.getElementById("numRounds").style.display = 'inline-block';
         document.getElementById("startRounds").style.display = 'inline-block';
         document.getElementById("button-container").style.display = 'inline-block';
+        back.style.display = 'none';
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'inline-block';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'inline-block';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'inline-block';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        const foodB = document.getElementById('Food');
+        foodB.style.display = 'none';
+        const drinkB = document.getElementById('Drink');
+        drinkB.style.display = 'none';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'inline-block';
         for (let key of playerKeys) { 
             const player = allPlayers[key]; 
             player.score = 0;
         }
+        i = 2; 
+        displayTeams();
+    });
+    teamBtn.addEventListener('click', () => {
+        document.getElementById("redBtn").style.display = 'inline-block';
+        document.getElementById("blackBtn").style.display = 'inline-block';
+        document.getElementById("submitPlayers").style.display = 'inline-block';
+        document.getElementById("setPlayers").style.display = 'inline-block';
+        document.getElementById("playerInputs").style.display = 'inline-block';
+        document.getElementById("numPlayers").style.display = 'inline-block';
+        back.style.display = 'none';
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'inline-block';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'inline-block';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'inline-block';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        const foodB = document.getElementById('Food');
+        foodB.style.display = 'none';
+        const drinkB = document.getElementById('Drink');
+        drinkB.style.display = 'none';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'inline-block';
+        for (let key of playerKeys) { 
+            const player = allPlayers[key]; 
+            player.score = 0;
+        }
+        i = 2; 
         displayTeams();
     });
 }
@@ -1326,3 +1443,13 @@ undoButton.addEventListener('click', () => {
         currPlayer.score--;  // add to **previous**
     }
 })*/
+
+const colorPicker = document.getElementById('backgroundColor');
+colorPicker.addEventListener('input', function() {
+    document.body.style.backgroundColor = this.value;
+});
+
+const colorReset = document.getElementById('resetColor');
+colorReset.addEventListener('click', () => {
+    document.body.style.backgroundColor = "rgb(179 215 255)";
+});
