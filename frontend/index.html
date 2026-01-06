@@ -67,6 +67,16 @@
   }
   </style>
 
+<body style="background-color:rgb(179 215 255);">
+<div id="matrix" style ="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+</div>
+
+<p id="displayText2"></p>
+
+
+<pre id="out"></pre>
+
+</head> 
 <body>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <!-- Step 1: ask how many players -->
@@ -105,8 +115,14 @@
   <button class = "default-button" id="blackBtn" style="display:none;">BLACK WIN</button>
   <p id="scoresBlack"></p>
 
-  <button class = "default-button" id="resetBtn">RESET</button>
+  <button class = "default-button" id="resetBtn">REPLAY</button>
   <p id="scoresReset"></p>
+
+  <button class = "default-button" id="teamBtn">CHANGE TEAMS</button>
+  <p id="teamReset"></p>
+
+  <button class = "default-button" id="roundsBtn">CHANGE ROUNDS</button>
+  <p id="roundsReset"></p>
   </div>
 
 
@@ -142,4 +158,30 @@
     <input type="text" id="customList" style="display:none;">
     <!-- Step 2: dynamic input fields will go here -->
     <div id="playerInputs"></div>
-    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams('red'); displayTeams('black')">Submit Players</button>
+    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams();">Submit Players</button>
+
+    <input type="number" id="numRounds" placeholder="Enter number of rounds">
+    <button class="default-button" id = startRounds onclick="setRounds()">Set Rounds</button>
+
+</body>
+<head>
+<link rel="stylesheet" href="/styles.css">
+</head>
+
+<label for="backgroundColor">Select Background Color:</label>
+<input type="color" id="backgroundColor" value="#ffffff">
+<button class = "default-button" id="resetColor">Reset Color</button>
+
+<p id="rand"></p>
+<p id="custRand"></p>
+
+<div id="customListContainer"> 
+  <p>Or, create your own list! (Separated by commas and spaces)</p>
+  <textarea id="customList"></textarea>
+</div>
+
+  <body>
+    <script src="app.js"></script>
+    <script src="app.test.js"></script>
+  </body>
+</html>

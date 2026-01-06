@@ -1,55 +1,51 @@
+let numRounds = 0; 
 const displayText1 = document.getElementById('displayText1');
 displayText1.textContent = 'Submit players in the order of a SQUARE, in the direction you want to rotate. Pair names if > 4 people.';
 let num = 0; 
 const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
 let roleKeys = Object.keys(allRoles);
 const allPlayers = {
-playerone: {name: "name", score: 0, id: roleKeys[0]},
-playertwo: {name: "name", score: 0, id: roleKeys[1]},
-playerthree: {name: "name", score: 0, id: roleKeys[2]},
-playerfour: {name: "name", score: 0, id: roleKeys[3]}
+playerone: {name: "PLAYER ONE", score: 0, id: roleKeys[0]},
+playertwo: {name: "PLAYER TWO", score: 0, id: roleKeys[1]},
+playerthree: {name: "PLAYER THREE", score: 0, id: roleKeys[2]},
+playerfour: {name: "PLAYER FOUR", score: 0, id: roleKeys[3]}
 };
 let playerKeys = Object.keys(allPlayers);
 
-function displayTeams(color){
+const container5 = document.getElementById("matrix");
+container5.innerHTML = ""; // Clear previous display
+
+const order = [0, 1, 3, 2];
+const startColors = ["red", "red", "black", "black"];
+
+order.forEach((i,idx) => {
+    const p = allPlayers[playerKeys[i]];
+
+    const cell = document.createElement("div");
+    cell.id = `cell-${i}`;
+    cell.style.padding = "10px";
+    cell.style.background = startColors[idx];
+    cell.style.color = "white";
+    cell.style.textAlign = "center";
+    cell.style.borderRadius = "8px";
+
+    cell.innerHTML = `
+    <strong>${p.name}</strong><br>
+    ${p.id}<br>
+    Score: ${p.score}
+    `;
+
+    container5.appendChild(cell);
+});
+
+
+function displayTeams(){
     playerKeys = Object.keys(allPlayers);
     roleKeys = Object.keys(allRoles);
-
     // update the name values based on inputs
-    for (let j = 0; j < num; j++) {
-        const nameCurr = document.getElementById("player" + j).value.trim();
-        if(nameCurr) {
-        allPlayers[playerKeys[j]].name = nameCurr;
-        }
+    for (let j = 0; j < 4; j++) {
+     document.getElementById(`cell-${j}`).innerHTML = `<strong>${document.getElementById("player" + j).value.trim()}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
     }
-    displayMatrix();
-}
-
-function displayMatrix() {
-    const container = document.getElementById("matrix");
-    container.innerHTML = ""; // Clear previous display
-
-    const order = [0, 1, 3, 2];
-    const startColors = ["black", "black", "red", "red"];
-
-    order.forEach((i,idx) => {
-        const p = allPlayers[playerKeys[i]];
-
-        const cell = document.createElement("div");
-        cell.style.padding = "10px";
-        cell.style.background = startColors[idx];
-        cell.style.color = "white";
-        cell.style.textAlign = "center";
-        cell.style.borderRadius = "8px";
-
-        cell.innerHTML = `
-        <strong>${p.name}</strong><br>
-        ${p.id}<br>
-        Score: ${p.score}
-        `;
-
-        container.appendChild(cell);
-    });
 }
 
 function updateScore(color){
@@ -73,7 +69,9 @@ function updateScore(color){
    
 
 function changeRoles() {
-// Step 1: Increment all role values
+    if (num > 0){
+    // Step 1: Increment all role values
+    console.log("changeRoles ran");
     for (let key in allRoles) {
         allRoles[key] += 1;
     }
@@ -82,9 +80,16 @@ function changeRoles() {
     const sortedRoles = Object.entries(allRoles)
     .sort((a, b) => (a[1] % 4) - (b[1] % 4));
 
-    // Step 3: Display sorted roles
-    for (let i = 0; i < sortedRoles.length; i++) {
-        allPlayers[playerKeys[i]].id = sortedRoles[i][0];
+        // Step 3: Display sorted roles
+        for (let i = 0; i < sortedRoles.length; i++) {
+            allPlayers[playerKeys[i]].id = sortedRoles[i][0];
+            if (allPlayers[playerKeys[i]].id === "RED GUESSER" || allPlayers[playerKeys[i]].id === "RED EXPLAINER") {
+                document.getElementById(`cell-${i}`).style.background = "red";
+            }
+            else{
+                document.getElementById(`cell-${i}`).style.background = "black";
+            }
+        }
     }
 }
 
@@ -593,6 +598,8 @@ const wordBtn = document.getElementById("pCL");
 const redBtn = document.getElementById("redBtn");
 const blackBtn = document.getElementById("blackBtn");
 const resetBtn = document.getElementById("resetBtn");
+const teamBtn = document.getElementById("teamBtn");
+const roundsBtn = document.getElementById("roundsBtn");
 const setBtn = document.getElementById("setPlayers");
 const submitBtn = document.getElementById("submitPlayers");
 const newWordBtn = document.getElementById("newWord");
@@ -776,43 +783,172 @@ easyButton.addEventListener('click',()=>{
     }, 5000);
 });
 
-function startRoundA(numWords){
-    let i = 1;
+function setRounds(){
+    numRounds = document.getElementById("numRounds").value;
+    document.getElementById("startRounds").style.display = "none";
+    document.getElementById("numRounds").style.display = "none";
+}
+
+const displayText2 = document.getElementById('displayText2');
+displayText2.textContent = 'ROUND';
+
+function startRoundA(){
+    let i = 2;
+    displayText2.textContent = `ROUND ${i-1}`;
     redBtn.addEventListener('click', function() {
-        if (i < numWords) {
-            num++;
-            removeEl('myWord');
-            removeEl('myNum');
-            newWord(); 
-            i++;
-            updateScore("red");
-            changeRoles();
-            displayTeams("red"); 
+        if (i >= numRounds){
+            document.getElementById("redBtn").style.display = "none";
+            document.getElementById("blackBtn").style.display = "none";
         }
+        num++;
+        removeEl('myWord');
+        removeEl('myNum');
+        newWord(); 
+        i++;
+        displayText2.textContent = `ROUND ${i-1}`;
+        updateScore("red");
+        changeRoles();
+        displayTeams(); 
     });
     blackBtn.addEventListener('click', function() {
-        if (i < numWords) {
-            num++;
-            removeEl('myWord');
-            removeEl('myNum');
-            newWord();
-            i++;
-            updateScore("black");
-            changeRoles();
-            displayTeams("black");
+        if (i >= numRounds){
+            document.getElementById("redBtn").style.display = "none";
+            document.getElementById("blackBtn").style.display = "none";
         }
+        num++;
+        removeEl('myWord');
+        removeEl('myNum');
+        newWord();
+        i++;
+        displayText2.textContent = `ROUND ${i-1}`;
+        updateScore("black");
+        changeRoles();
+        displayTeams();
     });
     resetBtn.addEventListener('click', () => {
-        document.getElementById("submitPlayers").style.display = 'inline-block';
-        document.getElementById("setPlayers").style.display = 'inline-block';
-        document.getElementById("playerInputs").style.display = 'inline-block';
-        document.getElementById("numPlayers").style.display = 'inline-block';
+        document.getElementById("redBtn").style.display = 'inline-block';
+        document.getElementById("blackBtn").style.display = 'inline-block';
+        const back = document.getElementById('Return');
+        back.style.display = 'none';
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'inline-block';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'inline-block';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'inline-block';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        const foodB = document.getElementById('Food');
+        foodB.style.display = 'none';
+        const drinkB = document.getElementById('Drink');
+        drinkB.style.display = 'none';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'inline-block';
         for (let key of playerKeys) { 
             const player = allPlayers[key]; 
             player.score = 0;
         }
-        displayTeams("red");
-        displayTeams("black");
+        i = 2; 
+        displayTeams();
+    });
+    roundsBtn.addEventListener('click', () => {
+        document.getElementById("redBtn").style.display = 'inline-block';
+        document.getElementById("blackBtn").style.display = 'inline-block';
+        document.getElementById("numRounds").style.display = 'inline-block';
+        document.getElementById("startRounds").style.display = 'inline-block';
+        document.getElementById("button-container").style.display = 'inline-block';
+        back.style.display = 'none';
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'inline-block';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'inline-block';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'inline-block';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        const foodB = document.getElementById('Food');
+        foodB.style.display = 'none';
+        const drinkB = document.getElementById('Drink');
+        drinkB.style.display = 'none';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'inline-block';
+        for (let key of playerKeys) { 
+            const player = allPlayers[key]; 
+            player.score = 0;
+        }
+        i = 2; 
+        displayTeams();
+    });
+    teamBtn.addEventListener('click', () => {
+        document.getElementById("redBtn").style.display = 'inline-block';
+        document.getElementById("blackBtn").style.display = 'inline-block';
+        document.getElementById("submitPlayers").style.display = 'inline-block';
+        document.getElementById("setPlayers").style.display = 'inline-block';
+        document.getElementById("playerInputs").style.display = 'inline-block';
+        document.getElementById("numPlayers").style.display = 'inline-block';
+        back.style.display = 'none';
+        const ath = document.getElementById('Athletes');
+        ath.style.display = 'inline-block';
+        const food = document.getElementById('Food&Drink');
+        food.style.display = 'inline-block';
+        const basic = document.getElementById('Basic');
+        basic.style.display = 'inline-block';
+        const easy = document.getElementById('Easy');
+        easy.style.display = 'none';
+        const med = document.getElementById('Medium');
+        med.style.display = 'none';
+        const hard = document.getElementById('Hard');
+        hard.style.display = 'none';
+        const mlb = document.getElementById('MLB');
+        mlb.style.display = 'none';
+        const nba = document.getElementById('NBA');
+        nba.style.display = 'none';
+        const nfl = document.getElementById('NFL');
+        nfl.style.display = 'none';
+        const soccer = document.getElementById('Soccer');
+        soccer.style.display = 'none';
+        const mma = document.getElementById('MMA');
+        mma.style.display = 'none';
+        const foodB = document.getElementById('Food');
+        foodB.style.display = 'none';
+        const drinkB = document.getElementById('Drink');
+        drinkB.style.display = 'none';
+        const custom = document.getElementById('pCL');
+        custom.style.display = 'inline-block';
+        for (let key of playerKeys) { 
+            const player = allPlayers[key]; 
+            player.score = 0;
+        }
+        i = 2; 
+        displayTeams();
     });
 }
 
@@ -821,35 +957,35 @@ function startRoundB(time_limit, categ) {
 }
 
 easyButton.addEventListener('click',()=>{
-    startRoundA(5);
+    startRoundA();
 });
 
 nbaButton.addEventListener('click',()=>{
-    startRoundA(5);
+    startRoundA();
 });
 
 nflButton.addEventListener('click',()=>{
-    startRoundA(5);
+    startRoundA();
 });
 
 mlbButton.addEventListener('click',()=>{
-    startRoundA(5);
+    startRoundA();
 });
 
 soccerButton.addEventListener('click',()=>{
-    startRoundA(5);
+    startRoundA();
 });
 
 mmaButton.addEventListener('click',()=>{
-    startRoundA(5);
+    startRoundA();
 });
 
 foodButton.addEventListener('click',()=>{
-    startRoundA(5);
+    startRoundA();
 });
 
 drinkButton.addEventListener('click',()=>{
-    startRoundA(5);
+    startRoundA();
 });
 
 nbaButton.addEventListener('click',()=>{
@@ -1307,3 +1443,13 @@ undoButton.addEventListener('click', () => {
         currPlayer.score--;  // add to **previous**
     }
 })*/
+
+const colorPicker = document.getElementById('backgroundColor');
+colorPicker.addEventListener('input', function() {
+    document.body.style.backgroundColor = this.value;
+});
+
+const colorReset = document.getElementById('resetColor');
+colorReset.addEventListener('click', () => {
+    document.body.style.backgroundColor = "rgb(179 215 255)";
+});
