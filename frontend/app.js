@@ -1,51 +1,55 @@
-let numRounds = 0; 
 const displayText1 = document.getElementById('displayText1');
 displayText1.textContent = 'Submit players in the order of a SQUARE, in the direction you want to rotate. Pair names if > 4 people.';
 let num = 0; 
 const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
 let roleKeys = Object.keys(allRoles);
 const allPlayers = {
-playerone: {name: "PLAYER ONE", score: 0, id: roleKeys[0]},
-playertwo: {name: "PLAYER TWO", score: 0, id: roleKeys[1]},
-playerthree: {name: "PLAYER THREE", score: 0, id: roleKeys[2]},
-playerfour: {name: "PLAYER FOUR", score: 0, id: roleKeys[3]}
+playerone: {name: "name", score: 0, id: roleKeys[0]},
+playertwo: {name: "name", score: 0, id: roleKeys[1]},
+playerthree: {name: "name", score: 0, id: roleKeys[2]},
+playerfour: {name: "name", score: 0, id: roleKeys[3]}
 };
 let playerKeys = Object.keys(allPlayers);
 
-const container5 = document.getElementById("matrix");
-container5.innerHTML = ""; // Clear previous display
-
-const order = [0, 1, 3, 2];
-const startColors = ["red", "red", "black", "black"];
-
-order.forEach((i,idx) => {
-    const p = allPlayers[playerKeys[i]];
-
-    const cell = document.createElement("div");
-    cell.id = `cell-${i}`;
-    cell.style.padding = "10px";
-    cell.style.background = startColors[idx];
-    cell.style.color = "white";
-    cell.style.textAlign = "center";
-    cell.style.borderRadius = "8px";
-
-    cell.innerHTML = `
-    <strong>${p.name}</strong><br>
-    ${p.id}<br>
-    Score: ${p.score}
-    `;
-
-    container5.appendChild(cell);
-});
-
-
-function displayTeams(){
+function displayTeams(color){
     playerKeys = Object.keys(allPlayers);
     roleKeys = Object.keys(allRoles);
+
     // update the name values based on inputs
-    for (let j = 0; j < 4; j++) {
-     document.getElementById(`cell-${j}`).innerHTML = `<strong>${document.getElementById("player" + j).value.trim()}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
+    for (let j = 0; j < num; j++) {
+        const nameCurr = document.getElementById("player" + j).value.trim();
+        if(nameCurr) {
+        allPlayers[playerKeys[j]].name = nameCurr;
+        }
     }
+    displayMatrix();
+}
+
+function displayMatrix() {
+    const container = document.getElementById("matrix");
+    container.innerHTML = ""; // Clear previous display
+
+    const order = [0, 1, 3, 2];
+    const startColors = ["black", "black", "red", "red"];
+
+    order.forEach((i,idx) => {
+        const p = allPlayers[playerKeys[i]];
+
+        const cell = document.createElement("div");
+        cell.style.padding = "10px";
+        cell.style.background = startColors[idx];
+        cell.style.color = "white";
+        cell.style.textAlign = "center";
+        cell.style.borderRadius = "8px";
+
+        cell.innerHTML = `
+        <strong>${p.name}</strong><br>
+        ${p.id}<br>
+        Score: ${p.score}
+        `;
+
+        container.appendChild(cell);
+    });
 }
 
 function updateScore(color){
@@ -69,9 +73,7 @@ function updateScore(color){
    
 
 function changeRoles() {
-    if (num > 0){
-    // Step 1: Increment all role values
-    console.log("changeRoles ran");
+// Step 1: Increment all role values
     for (let key in allRoles) {
         allRoles[key] += 1;
     }
@@ -80,16 +82,9 @@ function changeRoles() {
     const sortedRoles = Object.entries(allRoles)
     .sort((a, b) => (a[1] % 4) - (b[1] % 4));
 
-        // Step 3: Display sorted roles
-        for (let i = 0; i < sortedRoles.length; i++) {
-            allPlayers[playerKeys[i]].id = sortedRoles[i][0];
-            if (allPlayers[playerKeys[i]].id === "RED GUESSER" || allPlayers[playerKeys[i]].id === "RED EXPLAINER") {
-                document.getElementById(`cell-${i}`).style.background = "red";
-            }
-            else{
-                document.getElementById(`cell-${i}`).style.background = "black";
-            }
-        }
+    // Step 3: Display sorted roles
+    for (let i = 0; i < sortedRoles.length; i++) {
+        allPlayers[playerKeys[i]].id = sortedRoles[i][0];
     }
 }
 
@@ -796,33 +791,33 @@ function startRoundA(){
     let i = 2;
     displayText2.textContent = `ROUND ${i-1}`;
     redBtn.addEventListener('click', function() {
-        if (i >= numRounds){
+        if (i > numRounds){
             document.getElementById("redBtn").style.display = "none";
             document.getElementById("blackBtn").style.display = "none";
         }
-        num++;
-        removeEl('myWord');
-        removeEl('myNum');
-        newWord(); 
-        i++;
+            num++;
+            removeEl('myWord');
+            removeEl('myNum');
+            newWord(); 
+            i++;
         displayText2.textContent = `ROUND ${i-1}`;
-        updateScore("red");
-        changeRoles();
+            updateScore("red");
+            changeRoles();
         displayTeams(); 
     });
     blackBtn.addEventListener('click', function() {
-        if (i >= numRounds){
+        if (i > numRounds){
             document.getElementById("redBtn").style.display = "none";
             document.getElementById("blackBtn").style.display = "none";
         }
-        num++;
-        removeEl('myWord');
-        removeEl('myNum');
-        newWord();
-        i++;
+            num++;
+            removeEl('myWord');
+            removeEl('myNum');
+            newWord();
+            i++;
         displayText2.textContent = `ROUND ${i-1}`;
-        updateScore("black");
-        changeRoles();
+            updateScore("black");
+            changeRoles();
         displayTeams();
     });
     resetBtn.addEventListener('click', () => {
