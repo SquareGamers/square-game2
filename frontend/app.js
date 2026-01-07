@@ -791,33 +791,33 @@ function startRoundA(){
     let i = 2;
     displayText2.textContent = `ROUND ${i-1}`;
     redBtn.addEventListener('click', function() {
-        if (i >= numRounds){
+        if (i > numRounds){
             document.getElementById("redBtn").style.display = "none";
             document.getElementById("blackBtn").style.display = "none";
         }
-        num++;
-        removeEl('myWord');
-        removeEl('myNum');
-        newWord(); 
-        i++;
+            num++;
+            removeEl('myWord');
+            removeEl('myNum');
+            newWord(); 
+            i++;
         displayText2.textContent = `ROUND ${i-1}`;
-        updateScore("red");
-        changeRoles();
+            updateScore("red");
+            changeRoles();
         displayTeams(); 
     });
     blackBtn.addEventListener('click', function() {
-        if (i >= numRounds){
+        if (i > numRounds){
             document.getElementById("redBtn").style.display = "none";
             document.getElementById("blackBtn").style.display = "none";
         }
-        num++;
-        removeEl('myWord');
-        removeEl('myNum');
-        newWord();
-        i++;
+            num++;
+            removeEl('myWord');
+            removeEl('myNum');
+            newWord();
+            i++;
         displayText2.textContent = `ROUND ${i-1}`;
-        updateScore("black");
-        changeRoles();
+            updateScore("black");
+            changeRoles();
         displayTeams();
     });
     resetBtn.addEventListener('click', () => {
