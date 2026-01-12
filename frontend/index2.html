@@ -62,12 +62,44 @@
     font-size:50px;
   } 
   </style>
+  <pre id="out"></pre>
+  <body>
+
+    <!-- Top bar -->
+    <div id="topBar" style="display:none; position:fixed; top:10px; right:10px;">
+      Logged in as <span id="userDisplay"></span>
+      <button onclick="logout()">Logout</button>
+    </div>
+    
+    <!-- Auth screen -->
+    <div id="auth">
+      <h2>Login / Register</h2>
+    
+      <input id="username" placeholder="username">
+      <input id="password" type="password" placeholder="password">
+    
+      <br><br>
+    
+      <button onclick="register()">Create Account</button>
+      <button onclick="login()">Login</button>
+    </div>
+    
+    <!-- Game -->
+    <div id="game" style="display:none;">
+      <h2>Game Screen</h2>
+    </div>
+    
+    <script src="game.js"></script>
+    </body>
+    
   <div id = "play-button-container" style="width">
     
     <button class = "default-button" id="Play">Play</button>
     <button class="default-button" id="Instructions">Instructions</button>
     <button class="default-button" id="Stats">Stats</button>
     <button class="default-button" id="Settings">Settings</button>
+    <button class="default-button" id="Register">Register</button>
+    <button class="default-button" id="Login">Login</button>
   </div>
   
 
@@ -86,7 +118,9 @@
     const Play = document.getElementById('Play');
     const heading1=document.querySelector('h1');
     const heading2=document.querySelector('h2');
-function displayInstructions(){
+
+
+    function displayInstructions(){
   const instr1 = document.createElement('span');
   const instrList=['First put in your group size',
                 'Put in all the names of the people playing',
@@ -130,7 +164,6 @@ function displayInstructions(){
   }
 
 
-
 Instructions.addEventListener('click',()=>{
   Instructions.style.display='none';
   heading1.style.display='none';
@@ -138,8 +171,9 @@ Instructions.addEventListener('click',()=>{
   displayInstructions();
   playButton.style.top='200px';
   playButton.style.left='50px';
-
 })
+
+
   </script>
 </script>
 </body>
