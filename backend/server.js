@@ -1,50 +1,65 @@
-//backend file
-const express = require("express"); //imports express to access login command
-const path = require("path"); //import node's path to access frontend
-const app = express(); //starts server
-const PORT = 3000; //decides the port to run server on
-app.use(express.json()); // reads json automatically
+const express = require("express");
+const path = require("path");
+const app = express();
+const PORT = 3000;
+//
 
-app.use(express.static(path.join(__dirname, "../frontend")));//tells express to use files from frontend
+app.use((req, res, next) => {
+    console.log("INCOMING:", req.method, req.url);
+    next();
+  });
+app.use((req, res, next) => {
+    console.log(req.method, req.url);
+    next();
+  });
+//  
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "../frontend")));
 
+const users = {};
+let loggedInUser = null;
 
-const users = {};//empty obj for users to be stored in
-let loggedInUser = null; //tracks who's logged in but only lets one user go at a time
-app.post("/register", (req, res) => { //browser sends data to register
-    const { username, password } = req.body;//extracts user and pw
-    if (!username || !password) { //makes sure both have values
-        return res.json({ success: false });//if one is blank, it stops
-    }
-    if (users[username]) {//checks if username exists
-        return res.json({ success: false });//stops
-    }
-    users[username] = password;//creates account
-    res.json({ success: true });//registration was successful
+// Register with PIN
+app.post("/register", (req, res) => {
+  const { username, pin } = req.body;
+
+  if (!username || !pin || pin.length !== 4) {
+    return res.json({ success: false, message: "Invalid input" });
+  }
+
+  if (users[username]) {
+    return res.json({ success: false, message: "User exists" });
+  }
+
+  users[username] = { pin };
+  loggedInUser = username;
+
+  res.json({ success: true });
 });
 
-//login:
-app.post("/login", (req, res) => {//endpt?
-    const { username, password } = req.body;//gets the info for login
-    if (users[username] === password) {//check pw
-        loggedInUser = username;//marks as logged in
-        res.json({ success: true });//marks success/tells frontend
-    } else {
-        res.json({ success: false });//login fails, we can try sending message that says 1 attempt and make them wait or smth
-    }
+// Login with PIN
+app.post("/login", (req, res) => {
+  const { username, pin } = req.body;
+
+  if (users[username]?.pin === pin) {
+    loggedInUser = username;
+    return res.json({ success: true });
+  }
+
+  res.json({ success: false });
 });
 
-//who am I,(frontend asks backend who logged in)
-app.get("/me", (req, res) => {//checks login status
-    res.json({ user: loggedInUser });//responds who logged in (or null)
+// Who is logged in
+app.get("/me", (req, res) => {
+  res.json({ user: loggedInUser });
 });
 
-//logout
-app.post("/logout", (req, res) => {//creates endpt
-    loggedInUser = null;//user gets logged out
-    res.json({ success: true });//successful log out
+// Logout
+app.post("/logout", (req, res) => {
+  loggedInUser = null;
+  res.json({ success: true });
 });
 
-//start server
-app.listen(PORT, () => {//starts server
-    console.log(`Server running at http://localhost:${PORT}`);//confirms server is live/running
-});
+app.listen(PORT, () =>
+  console.log(`Server running at http://localhost:${PORT}`)
+);

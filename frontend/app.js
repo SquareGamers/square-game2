@@ -1,73 +1,39 @@
+const debugBox = document.getElementById("debugBox");
 
-async function register() {
-    const res = await fetch("/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: username.value,
-        password: password.value
-      })
-    });
-  
-    const data = await res.json();
-    alert(data.success ? "Account created" : "Register failed");
-  }
-  
-  async function login() {
-    const res = await fetch("/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: username.value,
-        password: password.value
-      })
-    });
-  
-    const data = await res.json();
-  
-    if (data.success) {
-      showGame(username.value);
-    } else {
-      alert("Login failed");
-    }
-  }
-  function showGame(user) {
-    auth.style.display = "none";
-    game.style.display = "block";
-  
-    topBar.style.display = "block";
-    userDisplay.textContent = user;
-  }
-  
-  async function logout() {
-    await fetch("/logout", { method: "POST" });
-  
-    auth.style.display = "block";
-    game.style.display = "none";
-    topBar.style.display = "none";
-  
-    username.value = "";
-    password.value = "";
-  }
-  
-  
-  function showGame() {
-    auth.style.display = "none";
-    game.style.display = "block";
-  }
-  
-  function showAuth() {
-    auth.style.display = "block";
-    game.style.display = "none";
-  }
-  
-  /* auto-check login on refresh */
-  fetch("/me")
-    .then(res => res.json())
+function debug(msg) {
+  debugBox.textContent += msg + "\n";
+}
+
+debug("JS loaded");
+
+registerBtn.onclick = () => {
+  debug("Register button clicked");
+
+  fetch("/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      username: username.value,
+      pin: pin.value
+    })
+  })
+    .then(res => {
+      debug("Response received");
+      return res.json();
+    })
     .then(data => {
-      if (data.user) showGame();
+      debug("Server response: " + JSON.stringify(data));
+    })
+    .catch(err => {
+      debug("FETCH ERROR: " + err.message);
     });
-  
+};
+
+loginBtn.onclick = () => {
+  debug("Login button clicked");
+};
+//
+
 const displayText1 = document.getElementById('displayText1');
 displayText1.textContent = 'Submit players in the order of a SQUARE, in the direction you want to rotate. Pair names if > 4 people.';
 let num = 0; 
