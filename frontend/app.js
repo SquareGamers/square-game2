@@ -1,3 +1,37 @@
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCrFLo_T3pg2yrjnyF1hkDprcypspLXc-c",
+    authDomain: "square-game-b4d37.firebaseapp.com",
+    projectId: "square-game-b4d37",
+    storageBucket: "square-game-b4d37.firebasestorage.app",
+    messagingSenderId: "851745118398",
+    appId: "1:851745118398:web:8ac5cbc35f0000599ee6ef",
+    measurementId: "G-PYGJWWJZ0K"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
+
+import { doc, setDoc } from "firebase/firestore"; 
+
+
+
+await setDoc(doc(db, "user-accounts", userID), {
+  username: userID,
+  gamesCompleted: 0,
+  gamesWon: 0,
+  winPct: (gamesWon / gamesCompleted)
+  
+});
+
+
 let numRounds = 0; 
 const displayText1 = document.getElementById('displayText1');
 displayText1.textContent = 'Submit players in the order of a SQUARE, in the direction you want to rotate. Pair names if > 4 people.';
@@ -790,8 +824,11 @@ displayText2.textContent = 'ROUND';
 function startRoundA(){
     let i = 2;
     displayText2.textContent = `ROUND ${i-1}`;
-    redBtn.addEventListener('click', function() {
+    redBtn.addEventListener('click', async function() {
         if (i > numRounds){
+            await setDoc(doc(db, "user-accounts", userID), {
+                gamesCompleted: increment(1)
+              });
             document.getElementById("redBtn").style.display = "none";
             document.getElementById("blackBtn").style.display = "none";
         }
@@ -805,8 +842,11 @@ function startRoundA(){
             changeRoles();
         displayTeams(); 
     });
-    blackBtn.addEventListener('click', function() {
+    blackBtn.addEventListener('click', async function() {
         if (i > numRounds){
+            await setDoc(doc(db, "user-accounts", userID), {
+                gamesCompleted: increment(1)
+              });
             document.getElementById("redBtn").style.display = "none";
             document.getElementById("blackBtn").style.display = "none";
         }
@@ -946,6 +986,18 @@ function startRoundA(){
         displayTeams();
     });
 }
+
+import { collection, getDocs, getDoc } from "firebase/firestore";
+async function getStats() {
+    const statsDoc = doc(db, "user-accounts", userID);
+    const snap = await getDoc(statsDoc);
+    const stats = snap.data();
+    const gamesCompleted = stats.gamesCompleted;
+    const gamesWon = stats.gamesWon;
+    const winPct = stats.winPct;
+}
+
+
 
 function startRoundB(time_limit, categ) {
     setTimeout(function() { });
