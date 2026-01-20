@@ -52,6 +52,18 @@
     	font-weight: bold;
     }
 
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .visible {
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity 0.5s ease-in-out;
+    }
+
   </style>
 </body>
 </html>
@@ -62,12 +74,15 @@
     font-size:50px;
   } 
   </style>
-  <div id = "play-button-container" style="width">
+  <div id = "play-button-container">
     
     <button class = "default-button" id="Play">Play</button>
     <button class="default-button" id="Instructions">Instructions</button>
+    <button class="default-button" id="Rules">Rules</button>
     <button class="default-button" id="Stats">Stats</button>
     <button class="default-button" id="Settings">Settings</button>
+    <button class="default-button" id="Previous">Previous</button>
+    <button class="default-button" id="Next">Next</button>
   </div>
   
 
@@ -83,16 +98,21 @@
         window.location.href = "http://127.0.0.1:5000"; // or your URL
       });
     const Instructions=document.getElementById('Instructions');
+    const Rules = document.getElementById('Rules');
     const Play = document.getElementById('Play');
     const heading1=document.querySelector('h1');
     const heading2=document.querySelector('h2');
+    const nextInstruction = document.getElementById('Next');
+    const prevInstruction = document.getElementById('Previous');
+    nextInstruction.classList.add('hidden');
+    prevInstruction.classList.add('hidden');
 function displayInstructions(){
   const instr1 = document.createElement('span');
   const instrList=['First put in your group size',
                 'Put in all the names of the people playing',
                 'Once you have all your players in, you will be separated into two teams(don\'t worry these teams will change)',
-                'You and the person on your team will be racing against the guesser and answerer on the opposing team',
-                'Choose a mode: timed or manual',
+                'You and the person on your team will be racing against the guesser and explainer on the opposing team',
+                'Choose a mode: timed or manual (timed not functional yet)',
                 'Choose a difficulty, get ready, and generate word',
                 'Start explaining!',
                 ' '
@@ -115,19 +135,40 @@ function displayInstructions(){
   
   
   let i=0;
+  nextInstruction.addEventListener('click', ()=>{
+    showNextInstruction();
+  });
+  prevInstruction.addEventListener('click', ()=>{
+    i-=2;
+    showNextInstruction();
+  });
     function showNextInstruction(){
-    instr1.style.opacity=0;
-    setTimeout(()=>{
-      instr1.textContent=instrList[i];
-      instr1.style.opacity=1;
-      i++;
       if (i < instrList.length) {
-        setTimeout(showNextInstruction, 2000); // next instruction after 2 seconds
+        nextInstruction.disabled = false;
+        instr1.style.opacity=0;
+        instr1.textContent=instrList[i];
+        instr1.style.opacity=1;
+        i++;
       }
-    }, 500);
+      else {
+        nextInstruction.disabled = true;
+      }
     }
     showNextInstruction();
-  }
+}
+
+function showRules() {
+  const ruleList = document.createElement('span');
+  ruleList.id = 'ruleList';
+  ruleList.textContent = '1: No direct antonyms, so you cannot say "not sad" when the word is "happy"\n 2: No hand gestures/charades\n 3: Roles/Teams will rotate clockwise, so enter the players clockwise from the first player entered';
+  ruleList.style.whiteSpace = 'pre-line';
+  ruleList.style.position = 'absolute';
+  ruleList.style.top = '50%';
+  ruleList.style.fontSize = '30px';
+  ruleList.style.transition = 'all 0.5s ease';
+  
+  document.body.appendChild(ruleList);
+}
 
 
 
@@ -138,7 +179,19 @@ Instructions.addEventListener('click',()=>{
   displayInstructions();
   playButton.style.top='200px';
   playButton.style.left='50px';
+  nextInstruction.classList.remove('hidden');
+  prevInstruction.classList.remove('hidden');
+  nextInstruction.classList.add('visible');
+  prevInstruction.classList.add('visible');
+})
 
+Rules.addEventListener('click', ()=>{
+  Rules.style.display='none';
+  heading1.style.display='none';
+  heading2.style.display='none';
+  showRules();
+  playButton.style.top='200px';
+  playButton.style.left='50px';
 })
   </script>
 </script>
