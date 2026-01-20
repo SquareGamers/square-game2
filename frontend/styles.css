@@ -167,8 +167,8 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
     border-radius: 20px; /* makes corners rounded */
     padding: 10px; 
     position: absolute;
-    top: 550px;
-    left: 20px;  
+    top: 400px;
+    left: 0px;  
     display: flex;             /* 1. Enable Flexbox */
     flex-direction: column;
     justify-content: space-around; 
@@ -238,7 +238,7 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   #customListContainer{
     position: absolute;
     bottom: 25px;
-    left: 200px;
+    right: 200px;
   }
 
   .player-row {
@@ -249,8 +249,97 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
     /* Add any other desired styling (padding, borders, etc.) */
 }
 
+#matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+#readyUp {
+  position: absolute; 
+  top: 400px; 
+}
+
 #displayText2{
   position: absolute;
   right: 50px;
   font-size: xx-large;
+}
+
+.screen {
+  display: none;
+  flex-direction: column;      /* stack children vertically */
+  justify-content: center;     /* center vertically */
+  align-items: center;         /* center horizontally */
+  height: 100vh;               /* full viewport height */
+}
+
+.screen.active {
+  display: flex;
+}
+.hidden {
+  display: none;
+}
+
+#playerInputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 columns */
+  gap: 12px;
+  width: 300px; /* optional: keeps it square-ish */
+}
+
+#playerInputs input {
+  padding: 8px;
+  font-size: 14px;
+}
+
+#player0 { order: 1; }
+#player1 { order: 2; }
+#player3 { order: 3; } /* bottom-right */
+#player2 { order: 4; } /* bottom-left */
+
+.screen-instruction {
+  text-align: center;       /* center the text horizontally */
+  font-size: 25px;          /* adjust size */
+  font-weight: bold;        /* optional emphasis */
+  margin: 10px 0;           /* space around the text */
+  color: #333;              /* dark gray color */
+  align-items: center;
+
+}
+
+#submitPlayers{
+  position: absolute;
+  top: 150px;
+}
+
+.inputs-wrapper {
+  position: absolute;        /* position relative to screen */
+  top: 50%;                  /* vertical middle */
+  left: 50%;                 /* horizontal middle */
+  transform: translate(-50%, -50%);  /* truly center it */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;                 /* spacing between inputs + button */
+  text-align: center;
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #af4c4c;
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+  border-radius: 10px;
+}
+
+.player-order {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
