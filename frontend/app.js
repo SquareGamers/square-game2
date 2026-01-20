@@ -1,8 +1,25 @@
+function showScreen(screenId) {
+    document.querySelectorAll(".screen").forEach(screen => {
+      screen.classList.remove("active");
+    });
+    document.getElementById(screenId).classList.add("active");
+    console.log("SHOWING:", screenId);
+
+    document.querySelectorAll(".screen").forEach(screen => {
+      screen.classList.remove("active");
+    });
+  
+    const target = document.getElementById(screenId);
+    console.log("FOUND:", target);
+  
+    target.classList.add("active");
+  }
+setupPlayerInputs()
+showScreen("screen-enter-players");
 let numRounds = 0; 
-const displayText1 = document.getElementById('displayText1');
-displayText1.textContent = 'Submit players in the order of a SQUARE, in the direction you want to rotate. Pair names if > 4 people.';
 let num = 0; 
 const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
+//document.getElementById('button-container').style.display = 'none';
 let roleKeys = Object.keys(allRoles);
 const allPlayers = {
 playerone: {name: "PLAYER ONE", score: 0, id: roleKeys[0]},
@@ -11,42 +28,71 @@ playerthree: {name: "PLAYER THREE", score: 0, id: roleKeys[2]},
 playerfour: {name: "PLAYER FOUR", score: 0, id: roleKeys[3]}
 };
 let playerKeys = Object.keys(allPlayers);
+const names = {}
+function renderMatrix(){
+    const container5 = document.getElementById("matrix");
+  if (!container5) {
+    console.error("Matrix container not found");
+    return;
+  }
+    container5.innerHTML = ""; // Clear previous display
 
-const container5 = document.getElementById("matrix");
-container5.innerHTML = ""; // Clear previous display
+    const order = [0, 1, 3, 2];
+    const startColors = ["red", "red", "black", "black"];
 
-const order = [0, 1, 3, 2];
-const startColors = ["red", "red", "black", "black"];
+    order.forEach((i,idx) => {
+        const p = allPlayers[playerKeys[i]];
 
-order.forEach((i,idx) => {
-    const p = allPlayers[playerKeys[i]];
+        const cell = document.createElement("div");
+        cell.id = `cell-${i}`;
+        cell.style.padding = "10px";
+        cell.style.background = startColors[idx];
+        cell.style.color = "white";
+        cell.style.textAlign = "center";
+        cell.style.borderRadius = "8px";
+        cell.style.top = "100px";
 
-    const cell = document.createElement("div");
-    cell.id = `cell-${i}`;
-    cell.style.padding = "10px";
-    cell.style.background = startColors[idx];
-    cell.style.color = "white";
-    cell.style.textAlign = "center";
-    cell.style.borderRadius = "8px";
-
-    cell.innerHTML = `
-    <strong>${p.name}</strong><br>
-    ${p.id}<br>
-    Score: ${p.score}
-    `;
-
-    container5.appendChild(cell);
-});
-
-
-function displayTeams(){
-    playerKeys = Object.keys(allPlayers);
-    roleKeys = Object.keys(allRoles);
-    // update the name values based on inputs
-    for (let j = 0; j < 4; j++) {
-     document.getElementById(`cell-${j}`).innerHTML = `<strong>${document.getElementById("player" + j).value.trim()}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
-    }
+        cell.innerHTML = `
+        <strong>${p.name}</strong><br>
+        ${p.id}<br>
+        Score: ${p.score}
+        `;
+        //names.push(p.name);
+        container5.appendChild(cell);
+    });
 }
+
+function syncPlayersFromInputs() {
+    playerKeys = Object.keys(allPlayers);
+  
+    for (let i = 0; i < 4; i++) {
+      const input = document.getElementById("player" + i);
+      const val = input?.value.trim();
+  
+      if (val) {
+        allPlayers[playerKeys[i]].name = val;
+      }
+    }
+  }
+
+  function submitPlayersAndShowMatrix() {
+    syncPlayersFromInputs();  // ✅ data
+    renderMatrix();           // ✅ UI
+    document.getElementById("matrix-wrapper").classList.remove("hidden");
+    document.getElementById("readyUp").classList.remove("hidden");
+    document.getElementById("game-ui").classList.add("hidden");
+    showScreen("screen-game");
+  }
+
+  function submitPlayersAndStartGame() {
+    syncPlayersFromInputs();
+    renderMatrix();
+    document.getElementById("matrix-wrapper").classList.remove("hidden");
+    document.getElementById("readyUp").classList.add("hidden");
+    document.getElementById("game-ui").classList.remove("hidden");
+    document.getElementById("instruction-text-rounds-ready").classList.add("hidden");
+    showScreen("screen-game");
+  }
 
 function updateScore(color){
     for (let i = 0; i < playerKeys.length; i++) {
@@ -71,15 +117,12 @@ function updateScore(color){
 function changeRoles() {
     if (num > 0){
     // Step 1: Increment all role values
-    console.log("changeRoles ran");
     for (let key in allRoles) {
         allRoles[key] += 1;
     }
-
     // Step 2: Convert to array and sort by value % 4
     const sortedRoles = Object.entries(allRoles)
     .sort((a, b) => (a[1] % 4) - (b[1] % 4));
-
         // Step 3: Display sorted roles
         for (let i = 0; i < sortedRoles.length; i++) {
             allPlayers[playerKeys[i]].id = sortedRoles[i][0];
@@ -91,6 +134,11 @@ function changeRoles() {
             }
         }
     }
+    //playerKeys = Object.keys(allPlayers);
+    //roleKeys = Objects.keys(allRoles);
+    for (let j = 0; j < 4; j++){
+        document.getElementById(`cell-${j}`).innerHTML = `<strong>${document.getElementById("player" + j).value.trim()}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
+    }
 }
 
 let wordId = 0;
@@ -99,22 +147,29 @@ players = {
     black: []
 };
 let randomWords = [];
-    let word=null;
-    const basicButton= document.getElementById('Basic');
-    const hardButton= document.getElementById('Hard');
-    const medButton= document.getElementById('Medium');
-    const easyButton= document.getElementById('Easy');
-    const foodDrinkButton= document.getElementById('Food&Drink');
-    const drinkButton = document.getElementById('Drink');
-    const foodButton = document.getElementById('Food');
-    const athleteButton= document.getElementById('Athletes');
-    const mlbButton= document.getElementById('MLB');
-    const nbaButton = document.getElementById('NBA');
-    const nflButton = document.getElementById('NFL');
-    const mmaButton = document.getElementById('MMA');
-    const soccerButton = document.getElementById('Soccer');
-    const backButton = document.getElementById('Return');
-    const custList = document.getElementById('CustomList');
+let word=null;
+const readyButton = document.getElementById('readyUp');
+const basicButton= document.getElementById('Basic');
+const hardButton= document.getElementById('Hard');
+const medButton= document.getElementById('Medium');
+const easyButton= document.getElementById('Easy');
+const foodDrinkButton= document.getElementById('Food&Drink');
+const drinkButton = document.getElementById('Drink');
+const foodButton = document.getElementById('Food');
+const athleteButton= document.getElementById('Athletes');
+const mlbButton= document.getElementById('MLB');
+const nbaButton = document.getElementById('NBA');
+const nflButton = document.getElementById('NFL');
+const mmaButton = document.getElementById('MMA');
+const soccerButton = document.getElementById('Soccer');
+const backButton = document.getElementById('Return');
+const custList = document.getElementById('CustomList');
+
+readyButton.addEventListener('click',()=>{
+    document.getElementById('button-container').style.display = 'inline-block';
+    readyButton.style.display = 'none';
+});    
+
 function removeEl(el){
     const existing=document.getElementById(el);
     if (existing) existing.remove();
@@ -135,15 +190,17 @@ function dispNum(num1) {
     numEl.style.left = (screenWidth/2)-(elementWidth/2) + "px";
 }
 
-function countdown() {
-    if (num === 0) {
+function countdown(count) {
+    if (num === 0 || count === false) {
         setTimeout(function() { displayWord(); }, 0);
         return;
     } 
-    for (let i = 5; i > -1; i--) {
-        setTimeout(function() { dispNum(i); }, (5 - i) * 1000);
+    if (count){
+        for (let i = 5; i > -1; i--) {
+            setTimeout(function() { dispNum(i); }, (5 - i) * 1000);
+        }
+        setTimeout(function() { displayWord(); }, 6000);
     }
-    setTimeout(function() { displayWord(); }, 6000);
 }
 
 
@@ -595,7 +652,6 @@ const blackBtn = document.getElementById("blackBtn");
 const resetBtn = document.getElementById("resetBtn");
 const teamBtn = document.getElementById("teamBtn");
 const roundsBtn = document.getElementById("roundsBtn");
-const setBtn = document.getElementById("setPlayers");
 const submitBtn = document.getElementById("submitPlayers");
 const newWordBtn = document.getElementById("newWord");
 const backBtn = document.getElementById("Return");
@@ -788,37 +844,39 @@ const displayText2 = document.getElementById('displayText2');
 displayText2.textContent = 'ROUND';
 
 function startRoundA(){
-    let i = 2;
-    displayText2.textContent = `ROUND ${i-1}`;
+    let i = 1;
+    displayText2.textContent = `ROUND ${i}`;
     redBtn.addEventListener('click', function() {
-        if (i > numRounds){
+        if (i > numRounds-1){
             document.getElementById("redBtn").style.display = "none";
             document.getElementById("blackBtn").style.display = "none";
         }
+        else{
             num++;
             removeEl('myWord');
             removeEl('myNum');
-            newWord(); 
+            newWord(true); 
             i++;
-        displayText2.textContent = `ROUND ${i-1}`;
+            displayText2.textContent = `ROUND ${i}`;
             updateScore("red");
             changeRoles();
-        displayTeams(); 
+        }
     });
     blackBtn.addEventListener('click', function() {
-        if (i > numRounds){
+        if (i > numRounds-1){
             document.getElementById("redBtn").style.display = "none";
             document.getElementById("blackBtn").style.display = "none";
         }
+        else{
             num++;
             removeEl('myWord');
             removeEl('myNum');
-            newWord();
+            newWord(true);
             i++;
-        displayText2.textContent = `ROUND ${i-1}`;
+            displayText2.textContent = `ROUND ${i}`;
             updateScore("black");
             changeRoles();
-        displayTeams();
+        }
     });
     resetBtn.addEventListener('click', () => {
         document.getElementById("redBtn").style.display = 'inline-block';
@@ -857,8 +915,7 @@ function startRoundA(){
             const player = allPlayers[key]; 
             player.score = 0;
         }
-        i = 2; 
-        displayTeams();
+        i = 1; 
     });
     roundsBtn.addEventListener('click', () => {
         document.getElementById("redBtn").style.display = 'inline-block';
@@ -899,16 +956,13 @@ function startRoundA(){
             const player = allPlayers[key]; 
             player.score = 0;
         }
-        i = 2; 
-        displayTeams();
+        i = 1; 
     });
     teamBtn.addEventListener('click', () => {
         document.getElementById("redBtn").style.display = 'inline-block';
         document.getElementById("blackBtn").style.display = 'inline-block';
         document.getElementById("submitPlayers").style.display = 'inline-block';
-        document.getElementById("setPlayers").style.display = 'inline-block';
         document.getElementById("playerInputs").style.display = 'inline-block';
-        document.getElementById("numPlayers").style.display = 'inline-block';
         back.style.display = 'none';
         const ath = document.getElementById('Athletes');
         ath.style.display = 'inline-block';
@@ -942,8 +996,7 @@ function startRoundA(){
             const player = allPlayers[key]; 
             player.score = 0;
         }
-        i = 2; 
-        displayTeams();
+        i = 1; 
     });
 }
 
@@ -1119,16 +1172,16 @@ drinkButton.addEventListener('click',()=>{
 })
 
 newButton.addEventListener('click',()=>{
-    newWord();
+    newWord(false);
 });
 
-function newWord(){
+function newWord(count1){
     if (wordId == 1){
         word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
         removeEl('myWord');
         removeEl('myNum');
         wordId = 0;
-        countdown();
+        countdown(count1);
         setTimeout(() => {
             wordId = 1;
         }, 5000);
@@ -1137,7 +1190,7 @@ function newWord(){
         removeEl('myWord');
         removeEl('myNum');
         wordId = 0;
-        countdown();
+        countdown(count1);
         setTimeout(() => {
             wordId = 2;
         }, 5000);
@@ -1146,7 +1199,7 @@ function newWord(){
         removeEl('myWord');
         removeEl('myNum');
         wordId = 0;
-        countdown();
+        countdown(count1);
         setTimeout(() => {
             wordId = 3;
         }, 5000);
@@ -1155,7 +1208,7 @@ function newWord(){
         removeEl('myWord');
         removeEl('myNum');
         wordId = 0;
-        countdown();
+        countdown(count1);
         setTimeout(() => {
             wordId = 4;
         }, 5000);
@@ -1164,7 +1217,7 @@ function newWord(){
         removeEl('myWord');
         removeEl('myNum');
         wordId = 0;
-        countdown();
+        countdown(count1);
         setTimeout(() => {
             wordId = 5;
         }, 5000);
@@ -1173,7 +1226,7 @@ function newWord(){
         removeEl('myWord');
         removeEl('myNum');
         wordId = 0;
-        countdown();
+        countdown(count1);
         setTimeout(() => {
             wordId = 6;
         }, 5000);
@@ -1182,7 +1235,7 @@ function newWord(){
         removeEl('myWord');
         removeEl('myNum');
         wordId = 0;
-        countdown();
+        countdown(count1);
         setTimeout(() => {
             wordId = 7;
         }, 5000);
@@ -1191,7 +1244,7 @@ function newWord(){
         removeEl('myWord');
         removeEl('myNum');
         wordId = 0;
-        countdown();
+        countdown(count1);
         setTimeout(() => {
             wordId = 8;
         }, 5000);
@@ -1200,7 +1253,7 @@ function newWord(){
         removeEl('myWord');
         removeEl('myNum');
         wordId = 0;
-        countdown();
+        countdown(count1);
         setTimeout(() => {
             wordId = 9;
         }, 5000);
@@ -1217,7 +1270,7 @@ function newWord(){
         removeEl('myWord');
         removeEl('myNum');
         wordId = 0;
-        countdown();
+        countdown(count1);
         setTimeout(() => {
             wordId = 11;
         }, 5000);
@@ -1242,39 +1295,30 @@ function processCustomList() {
     food.style.display = 'none';
     const basic = document.getElementById('Basic');
     basic.style.display = 'none';
-    countdown();
+    countdown(count1);
     setTimeout(() => {
         wordId = 10;
     }, 5000);
 }
 
 function setupPlayerInputs() {
-    num2 = parseInt(document.getElementById("numPlayers").value, 10);
-    if (isNaN(num2) || num2 < 4) {
-        alert("Please enter a valid number of players (at least 4).");
-        return;
-    }
-
-    const container1 = document.getElementById("playerInputs");
-    container1.innerHTML = ""; // clear previous inputs
+    const playerInputsDiv = document.getElementById("playerInputs");
+    playerInputsDiv.innerHTML = ""; // clear previous inputs
 
     // create input fields
-    for (let i = 0; i < num2; i++) {
+    for (let i = 0; i < 4; i++) {
         const input = document.createElement("input");
         input.type = "text";
         input.id = "player" + i;
         input.placeholder = "Enter name for player " + (i + 1);
-        container1.appendChild(input);
-        container1.appendChild(document.createElement("br"));
+        playerInputsDiv.appendChild(input);
     }
 
     // show submit button
     document.getElementById("submitPlayers").style.display = "inline-block";
     document.getElementById("submitPlayers").addEventListener("click", () => {
         document.getElementById("submitPlayers").style.display = "none";
-        document.getElementById("setPlayers").style.display = "none";
         document.getElementById("playerInputs").style.display = "none";
-        document.getElementById("numPlayers").style.display = "none";
     })
 }
 
@@ -1392,16 +1436,6 @@ blackBtn.addEventListener('click', () => {
     setTimeout(() => {
         blackBtn.classList.remove('highlighted-button');
         blackBtn.classList.add('default-button');
-    }, 250);
-})
-
-
-setBtn.addEventListener('click', () => {
-    setBtn.classList.remove('default-button');
-    setBtn.classList.add('highlighted-button');
-    setTimeout(() => {
-        setBtn.classList.remove('highlighted-button');
-        setBtn.classList.add('default-button');
     }, 250);
 })
 
