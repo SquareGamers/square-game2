@@ -115,7 +115,7 @@ function displayInstructions(){
   //instr1.textContent = 'First put in your group size and put in all the names of the people playing - Once you got all your players in you will be seperated in to two teams = You can then select the difficulty to play, the harder the difficulty the harder the words are to guess - After you select the difficulty you can press the start game button to start the game - The two teams will compete to guess the word with their teammates help(If agreeded on by both teams you can skip a word) - Whichever team guesses the word correctly first gets a point that you can assign by the button corresponding to your team located on the right hand side of the screen(you can see which team your on by your name on the left hand side) - You can keep on playing however long you want - After each point the teams switch creating new teams for each word - Once you are done you can press the end game button and the person with the most points wins - You get one point for each time your team guesses a correct word - Good luck and have fun playing';
   instr1.style.position = 'absolute';
   instr1.style.top = '50%';
-  instr1.style.fontSize='60px';
+  instr1.style.fontSize='40px';
   instr1.style.transition = 'all 0.5s ease';
 
   document.body.appendChild(instr1);
@@ -151,10 +151,10 @@ function displayInstructions(){
 function showRules() {
   const ruleList = document.createElement('span');
   ruleList.id = 'ruleList';
-  ruleList.textContent = '1: No direct antonyms, so you cannot say "not sad" when the word is "happy"\n 2: No hand gestures/charades\n 3: Roles/Teams will rotate clockwise, so enter the players clockwise from the first player entered';
+  ruleList.textContent = '1: No direct antonyms, so you cannot say "not sad" when the word is "happy"\n 2: No hand gestures/charades\n 3: Roles/Teams will rotate clockwise, so enter the players clockwise from the first player entered\n 4: For longer/more difficult words, you can break them up into parts; for example, if the word is "groundbreaking," you can give a clue for "ground" and a separate clue for "breaking". However, you cannot say any part of the word in your clues';
   ruleList.style.whiteSpace = 'pre-line';
   ruleList.style.position = 'absolute';
-  ruleList.style.top = '50%';
+  ruleList.style.top = '30%';
   ruleList.style.fontSize = '30px';
   ruleList.style.transition = 'all 0.5s ease';
   
