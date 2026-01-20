@@ -1,3 +1,37 @@
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCrFLo_T3pg2yrjnyF1hkDprcypspLXc-c",
+    authDomain: "square-game-b4d37.firebaseapp.com",
+    projectId: "square-game-b4d37",
+    storageBucket: "square-game-b4d37.firebasestorage.app",
+    messagingSenderId: "851745118398",
+    appId: "1:851745118398:web:8ac5cbc35f0000599ee6ef",
+    measurementId: "G-PYGJWWJZ0K"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
+
+import { doc, setDoc } from "firebase/firestore"; 
+
+
+
+await setDoc(doc(db, "user-accounts", userID), {
+  username: userID,
+  gamesCompleted: 0,
+  gamesWon: 0,
+  winPct: (gamesWon / gamesCompleted)
+  
+});
+
+
 let numRounds = 0; 
 const displayText1 = document.getElementById('displayText1');
 displayText1.textContent = 'Submit players in the order of a SQUARE, in the direction you want to rotate. Pair names if > 4 people.';
@@ -148,83 +182,78 @@ function countdown() {
 
 
 let listEasyBasicWords = ["Blade", "Crush", "Drill", "Flame", "Grasp", "Jump", "Kick", "Lift", "Mash", "Neck",
-"Pluck", "Quirk", "Snub", "Thump", "Vault", "Wrench", "Zap", "Bark", "Cling", "Dusk",
-"Glint", "Hush", "Lump", "Mirth", "Numb", "Plop", "Quake", "Scamp", "Throb", "Vex",
-"Whisk", "Brag", "Crib", "Damp", "Fleck", "Grin", "Hatch", "Jolt", "Knob", "Lace",
-"Munch", "Nip", "Pouch", "Quilt", "Scrub", "Tusk", "Vast", "Wisp", "Yelp", "Zing",
+"Quirk", "Snub", "Thump", "Vault", "Wrench", "Zap", "Bark", "Cling", "Dusk",
+"Hush", "Lump", "Numb", "Quake", "Throb",
+"Whisk", "Brag", "Crib", "Damp", "Grin", "Hatch", "Jolt", "Knob", "Lace",
+"Munch", "Pouch", "Quilt", "Scrub", "Tusk", "Vast",
 "Blink", "Brisk", "Chop", "Drip", "Flick", "Grit", "Hump", "Jerk", "Kick", "Loom",
-"Groan", "Nab", "Prance", "Quash", "Rust", "Slam", "Twitch", "Vibe", "Wag", "Yawn",
-"Zest", "Blast", "Broke", "Chirp", "Drop", "Frown", "Grub", "Honk", "Jet", "Knot",
-"Lush", "Mop", "Nest", "Pond", "Quiz", "Rasp", "Smack", "Tread", "Veil", "Warp",
-"Yolk", "Zip", "Bark", "Boil", "Clasp", "Ditch", "Fang", "Gasp", "Hitch", "Jam",
-"Keel", "Leaf", "Mirth", "Net", "Peck", "Rant", "Slink", "Tramp", "Vouch", "Whip",
-"Yap", "Buzz", "Brick", "Chalk", "Dent", "Flick", "Glimpse", "Halt", "Jab", "Knit",
-"Lump", "Meek", "Nudge", "Patch", "Ridge", "Skimp", "Tilt", "Vein", "Wreck", "Yank",
-"Zoom", "Brim", "Crop", "Drank", "Fleck", "Gush", "Harp", "Jack", "Keen", "Lid",
-"Moss", "Neck", "Plead", "Quip", "Rook", "Spook", "Thrift", "Vault", "Wane", "Yank",
-"Zap", "Blip", "Bask", "Clunk", "Dusk", "Fist", "Glimpse", "Hack", "Jet", "Keep",
-"Luck", "Moat", "Nook", "Pitch", "Quest", "Romp", "Stomp", "Tug", "Vim", "Wink",
-"Yarn", "Zing", "Bloat", "Bunch", "Cheek", "Dodge", "Froth", "Grim", "Hush", "Junk",
-"Knot", "Lurk", "Mesh", "Numb", "Pint", "Rant", "Snag", "Trap", "Vast", "Wane",
-"Whack", "Yap", "Zoom", "Brick", "Chomp", "Drill", "Freak", "Glum", "Honk", "Jab",
-"Dink", "Ledge", "Mold", "Nip", "Plop", "Rug", "Stack", "Trim", "Vibe", "Whiff"];
+"Groan", "Rust", "Slam", "Twitch", "Vibe", "Wag", "Yawn",
+"Blast", "Broke", "Chirp", "Drop", "Frown", "Grub", "Honk", "Jet", "Knot",
+"Lush", "Mop", "Nest", "Pond", "Quiz", "Smack", "Tread",
+"Yolk", "Zip", "Bark", "Boil", "Clasp", "Ditch", "Fangs", "Gasp", "Jam",
+"Leaf", "Net", "Peck", "Rant", "Slick", "Whip",
+"Buzz", "Brick", "Chalk", "Dent", "Glimpse", "Halt", "Jab", "Knit",
+"Lump", "Nudge", "Patch", "Ridge", "Tilt", "Vein", "Wreck", 
+"Zoom", "Brim", "Crop", "Drank", "Gush", "Harp", "Jack", "Lid",
+"Moss", "Neck", "Plead", "Rook", "Spook", "Thrift", "Vault",
+"Bask", "Clunk", "Fist", "Hack", "Jet", "Keep",
+"Luck", "Moat", "Pitch", "Quest", "Stomp", "Tug", "Wink",
+"Yarn", "Bloat", "Bunch", "Cheek", "Dodge", "Froth", "Grim", "Hush", "Junk",
+"Lurk", "Mesh", "Pint", "Rant", "Snag", "Trap",
+"Whack", "Chomp", "Drill", "Freak", "Honk",
+"Ledge", "Mold", "Rug", "Stack", "Trim", "Whiff"];
 let listMediumBasicWords = ["Apple", "Bunny", "Candle", "Dinner", "Echo", "Flower", "Giant", "Happy", "Igloo", "Jelly",
 "Kitten", "Lemon", "Monkey", "Nugget", "Ocean", "Pencil", "Quiet", "Rocket", "Summer", "Trophy",
-"Uncle", "Velvet", "Window", "Yellow", "Zebra", "Artist", "Bishop", "Clover", "Dancer", "Evening",
-"Falcon", "Garden", "Hammer", "Icebox", "Jacket", "Keeper", "Ladder", "Mango", "Napkin", "Orange",
-"Pilot", "Quiver", "River", "Soccer", "Target", "Uptown", "Valley", "Waffle", "Yogurt", "Zephyr",
+"Uncle", "Window", "Yellow", "Zebra", "Artist", "Bishop", "Clover", "Dancer", "Evening",
+"Falcon", "Garden", "Jacket", "Ladder", "Mango", "Napkin", "Orange",
+"Pilot", "River", "Soccer", "Target", "Valley", "Waffle", "Yogurt",
 "Basket", "Button", "Canyon", "Donkey", "Engine", "Fossil", "Goblin", "Hunter", "Insect", "Jungle",
-"Kitten", "Lantern", "Magnet", "Necklace", "Oyster", "Puppet", "Quasar", "Rumble", "Sunset", "Turtle",
-"Upbeat", "Vapor", "Whisper", "Yonder", "Zipper", "Anchor", "Beetle", "Cotton", "Dinner", "Elbow",
-"Fiddle", "Gutter", "Hammer", "Igloo", "Jester", "Kettle", "Locket", "Marble", "Nickel", "Office",
-"Parrot", "Quiver", "Rocket", "Saddle", "Tinsel", "Update", "Village", "Wagon", "Yankee", "Zodiac",
-"Armor", "Bison", "Cactus", "Doctor", "Eagle", "Fellow", "Glider", "Hammer", "Inward", "Jumper",
-"Ketchup", "Mustard", "Muffin", "Number", "Oven", "Puzzle", "Quaint", "Raven", "Signal", "Tunnel",
-"Unwind", "Vulture", "Warden", "Yogurt", "Zealot", "Blazer", "Bitter", "Clumsy", "Dizzy", "Eager",
-"Famous", "Gloomy", "Hollow", "Idle", "Jumble", "Kidney", "Loopy", "Mellow", "Nutmeg", "Optic",
-"Plenty", "Quirky", "Razor", "Shiver", "Timber", "Unseen", "Violet", "Witty", "Yearly", "Zigzag",
-"Almond", "Borrow", "Cocoa", "Dagger", "Empty", "Frosty", "Gravel", "Humid", "Island", "Jargon",
-"Karma", "Lesson", "Muffin", "Notice", "Oboe", "Pillow", "Quickly", "Rumble", "Simple", "Ticket",
-"Unrest", "Vermin", "Warden", "Yellow", "Zipper", "Artist", "Barren", "Clever", "Danger", "Effort",
-"Fossil", "Gallop", "Happen", "Inside", "Jacket", "Kindle", "Lonely", "Market", "Nation", "Outfit",
-"Poetry", "Quiver", "Rescue", "Sample", "Tangle", "Voyage", "Waffle", "Yonder", "Zebra"];
-let listHardBasicWords = ["Adventure", "Beautiful", "Calculator", "Delicately", "Electricity",
+"Lantern", "Magnet", "Necklace", "Oyster", "Puppet", "Rumble", "Sunset", "Turtle",
+"Vapor", "Whisper", "Zipper", "Anchor", "Beetle", "Cotton", "Elbow",
+"Fiddle", "Gutter", "Igloo", "Jester", "Marble", "Nickel", "Office",
+"Parrot", "Saddle", "Update", "Village", "Wagon",
+"Armor", "Bison", "Cactus", "Doctor", "Eagle", "Glider", "Hammer",
+"Ketchup", "Mustard", "Muffin", "Number", "Oven", "Puzzle", "Raven", "Signal", "Tunnel",
+"Vulture", "Yogurt", "Blazer", "Bitter", "Clumsy", "Dizzy",
+"Famous", "Gloomy", "Hollow", "Idle", "Kidney", "Mellow", "Nutmeg", "Optic",
+"Plenty", "Quirky", "Razor", "Shiver", "Timber", "Violet",
+"Almond", "Borrow", "Cocoa", "Dagger", "Empty", "Frosty", "Gravel", "Humid", "Island",
+"Karma", "Lesson", "Muffin", "Notice", "Oboe", "Pillow", "Simple", "Ticket",
+"Warden", "Yellow", "Barren", "Clever", "Danger", "Effort",
+"Gallop", "Happen", "Inside", "Jacket", "Kindle", "Lonely", "Market", "Nation", "Outfit",
+"Poetry", "Rescue", "Sample", "Tangle", "Voyage", "Waffle", "Zebra"];
+let listHardBasicWords = ["Adventure", "Beautiful", "Calculator", "Electricity",
 "Fascinate", "Generation", "Helicopter", "Imagination", "Judgmental",
 "Kindergarten", "Literature", "Motivation", "Negotiate", "Opportunity",
 "Photography", "Questionable", "Revolution", "Significant", "Territory",
 "Umbrella", "Vocabulary", "Wonderful", "Xylophone", "Yesterday",
 "Appreciate", "Banana", "Celebration", "Definition", "Elevator",
 "Fantastic", "Geography", "Happiness", "Intelligent", "Justifiable",
-"Kaleidoscope", "Lullaby", "Memorable", "Necessary", "Observation",
-"Participate", "Qualification", "Realization", "Situation", "Translation",
-"Unbelievable", "Verification", "Whimsical",
-"Architecture", "Beneficial", "Consequence", "Disciplinary", "Entertainment",
-"Facilitate", "Genuine", "Hallucinate", "Incredible", "Jurisdiction",
+"Lullaby", "Memorable", "Necessary", "Observation",
+"Participate", "Qualification", "Realization", "Situation", "Translation", "Unbelievable",
+"Architecture", "Beneficial", "Consequence", "Discipline", "Entertainment",
+"Facilitate", "Genuinely", "Hallucinate", "Incredible", "Jurisdiction",
 "Knowledgeable", "Limitation", "Manipulate", "Navigation", "Occupation",
-"Preparation", "Questionnaire", "Recommendation", "Substitute", "Transportation",
-"Universal", "Victorious", "Wilderness", "Xenophobia",
-"Apprehension", "Breakable", "Controversy", "Decoration", "Electrician",
-"Frustration", "Gratitude", "Hospitality", "Inspiration", "Justification",
+"Preparation", "Recommendation", "Substitute", "Transportation",
+"Universal", "Victorious", "Wilderness",
+"Apprehend", "Breakable", "Controversy", "Decoration", "Electrician",
+"Frustration", "Gratitude", "Hospitality", "Inspiration",
 "Kangaroo", "Linguistics", "Manufacture", "Negotiation", "Observation",
 "Publication", "Qualification", "Reservation", "Specification", "Termination",
-"Unification", "Visualization", "Watermelon", "Youngster",
-"Aspiration", "Behavioral", "Conversation", "Determination", "Establishment",
+"Watermelon", "Behavioral", "Conversation", "Determination", "Establishment",
 "Foreigner", "Guitarist", "Hesitation", "Illustration", "Jeopardize",
-"Kaleidoscope", "Liberation", "Meaningful", "Notification", "Opposition",
-"Perspective", "Questioning", "Reputation", "Satisfaction", "Television",
-"Understanding", "Vegetarian", "Yielding",
-"Acceptance", "Biologist", "Celebratory", "Destination", "Environmental",
-"Forgiveness", "Governmental", "Hieroglyph", "Identification", "Jurisdictional",
+"Liberation", "Meaningful", "Notification", "Opposition",
+"Perspective", "Reputation", "Satisfaction", "Television",
+"Understanding", "Vegetarian", "Acceptance", "Biologist", "Celebratory", "Destination", "Environmental",
+"Forgiveness", "Governmental", "Hieroglyphics", "Identification",
 "Knowledgeable", "Legislation", "Maintenance", "Negotiable", "Organization",
-"Participation", "Qualification", "Responsibility", "Sustainability", "Transformation",
-"Utilization", "Volunteering", "Whistleblower", "Youthfulness",
+"Participation", "Responsibility", "Sustainability", "Transformation",
 "Anticipation", "Beneficiary", "Classification", "Deliberation", "Efficiency",
-"Fundamental", "Grammatical", "Hypothesis", "Intellectual", "Justifiably",
-"Kinesthetic", "Legitimacy", "Memorization", "Noteworthy", "Overestimate",
-"Productivity", "Questionably", "Rehabilitation", "Simplification", "Traditional",
-"Unpredictable", "Verification", "Willingness",
-"Articulation", "Background", "Caffeinated", "Democratic", "Elasticity",
-"Friendliness", "Generosity", "Helplessness", "Idealistic", "Journalistic"];
+"Fundamental", "Grammatical", "Hypothesis", "Intellectual",
+"Legitimacy", "Memorization", "Noteworthy", "Overestimate",
+"Productivity", "Rehabilitation", "Simplification", "Traditional",
+"Unpredictable", "Articulate", "Background", "Democratic", "Elasticity",
+"Friendliness", "Generosity", "Helplessness", "Journalist"];
 let listAthletesNBA = ["Herbert Jones", "LeBron James", "Stephen Curry", "Luka Dončić", "Nikola Jokić", "Giannis Antetokounmpo", 
 "Jayson Tatum", "Joel Embiid", "Kawhi Leonard", "Devin Booker", "Shai Gilgeous-Alexander", "Damian Lillard", 
 "Trae Young", "Ja Morant", "Anthony Davis", "Rudy Gobert", "Karl-Anthony Towns", "Kawhi Leonard", 
@@ -795,8 +824,11 @@ displayText2.textContent = 'ROUND';
 function startRoundA(){
     let i = 2;
     displayText2.textContent = `ROUND ${i-1}`;
-    redBtn.addEventListener('click', function() {
+    redBtn.addEventListener('click', async function() {
         if (i > numRounds){
+            await setDoc(doc(db, "user-accounts", userID), {
+                gamesCompleted: increment(1)
+              });
             document.getElementById("redBtn").style.display = "none";
             document.getElementById("blackBtn").style.display = "none";
         }
@@ -810,8 +842,11 @@ function startRoundA(){
             changeRoles();
         displayTeams(); 
     });
-    blackBtn.addEventListener('click', function() {
+    blackBtn.addEventListener('click', async function() {
         if (i > numRounds){
+            await setDoc(doc(db, "user-accounts", userID), {
+                gamesCompleted: increment(1)
+              });
             document.getElementById("redBtn").style.display = "none";
             document.getElementById("blackBtn").style.display = "none";
         }
@@ -951,6 +986,18 @@ function startRoundA(){
         displayTeams();
     });
 }
+
+import { collection, getDocs, getDoc } from "firebase/firestore";
+async function getStats() {
+    const statsDoc = doc(db, "user-accounts", userID);
+    const snap = await getDoc(statsDoc);
+    const stats = snap.data();
+    const gamesCompleted = stats.gamesCompleted;
+    const gamesWon = stats.gamesWon;
+    const winPct = stats.winPct;
+}
+
+
 
 function startRoundB(time_limit, categ) {
     setTimeout(function() { });
