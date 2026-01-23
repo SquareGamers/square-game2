@@ -141,7 +141,6 @@ function changeRoles() {
     }
 }
 
-let wordId = 0;
 players = {
     red: [],
     black: []
@@ -164,7 +163,6 @@ const mmaButton = document.getElementById('MMA');
 const soccerButton = document.getElementById('Soccer');
 const backBtn = document.getElementById('Return');
 const instruct = document.getElementById("displayInstructions");
-const wordBtn = document.getElementById("pCL");
 const redBtn = document.getElementById("redBtn");
 const blackBtn = document.getElementById("blackBtn");
 const resetBtn = document.getElementById("resetBtn");
@@ -173,7 +171,11 @@ const roundsBtn = document.getElementById("roundsBtn");
 const submitBtn = document.getElementById("submitPlayers");
 const newButton = document.getElementById("newWord");
 const playerInputsDiv = document.getElementById("playerInputs");
-const custom = document.getElementById('customList');
+const customList = document.getElementById('promptCustomList');
+const defCatBtn = document.getElementById('defualtCategory');
+const createCustListBtn = document.getElementById('createCustomList');
+const customListContainer = document.getElementById('customListContainer');
+const beginGame = document.getElementById('categoryReady');
 let tempId = 0;
 
 readyButton.addEventListener('click',()=>{
@@ -188,7 +190,7 @@ function removeEl(el){
 function dispNum(num1) {
     removeEl('myNum');
     const numEl = document.createElement('span');
-    numEl.style.top = '100px'; 
+    numEl.style.top = '170px'; 
     numEl.id = 'myNum';
     numEl.textContent = num1 + "S TO SWITCH";
     numEl.style.position = 'absolute';
@@ -393,7 +395,7 @@ function displayWord(word2){
     removeEl('myNum');
     const wordEl = document.createElement('span');
     wordEl.id = 'myWord';
-    wordEl.style.top = '20px'; 
+    wordEl.style.top = '170px'; 
     wordEl.style.position = 'absolute';
     wordEl.style.fontSize='60px';
     wordEl.style.transition = 'all 0.5s ease';
@@ -419,6 +421,26 @@ function displayWord(word2){
     moveWord();
 }
 
+defCatBtn.addEventListener('click',()=>{
+    athleteButton.style.display = 'inline-block';
+    foodDrinkButton.style.display = 'inline-block';
+    basicButton.style.display = 'inline-block';
+    easyButton.style.display = 'none';
+    medButton.style.display = 'none';
+    hardButton.style.display = 'none';
+    backBtn.style.display = 'none';
+    customList.style.display = 'none';
+    defCatBtn.style.display = 'none';
+    createCustListBtn.style.display = 'none';
+})
+
+createCustListBtn.addEventListener('click',()=>{
+    customList.style.display = 'inline-block';
+    customListContainer.style.display = 'inline-block';
+    defCatBtn.style.display = 'none';
+    createCustListBtn.style.display = 'none';
+
+})
 
 basicButton.addEventListener('click',()=>{
     athleteButton.style.display = 'none';
@@ -428,14 +450,14 @@ basicButton.addEventListener('click',()=>{
     medButton.style.display = 'inline-block';
     hardButton.style.display = 'inline-block';
     backBtn.style.display = 'inline-block';
-    custom.style.display = 'none';
+    customList.style.display = 'none';
 })
 
 athleteButton.addEventListener('click',()=>{
     athleteButton.style.display = 'none';
     foodDrinkButton.style.display = 'none';
     basicButton.style.display = 'none';
-    custom.style.display = 'none';
+    customList.style.display = 'none';
     mlbButton.style.display = 'inline-block';
     nbaButton.style.display = 'inline-block';
     nflButton.style.display = 'inline-block';
@@ -468,7 +490,8 @@ backBtn.addEventListener('click',()=>{
     mmaButton.style.display = 'none';
     foodButton.style.display = 'none';
     drinkButton.style.display = 'none';
-    custom.style.display = 'inline-block';
+    customList.style.display = 'none';
+    customListContainer.style.display = 'none';
 })
 
 
@@ -481,8 +504,8 @@ function setRounds(){
 const displayText2 = document.getElementById('displayText2');
 displayText2.textContent = 'ROUND';
 
-function startRoundA(categoryInput, wordIdInput){
-    newWord(true, categoryInput, wordIdInput)
+function startRoundA(categoryInput){
+    newWord(true, categoryInput)
     mlbButton.style.display = 'none';
     nbaButton.style.display = 'none';
     nflButton.style.display = 'none';
@@ -504,7 +527,7 @@ function startRoundA(categoryInput, wordIdInput){
             num++;
             removeEl('myWord');
             removeEl('myNum');
-            newWord(true, categoryInput, wordIdInput); 
+            newWord(true, categoryInput); 
             i++;
             displayText2.textContent = `ROUND ${i}`;
             updateScore("red");
@@ -520,7 +543,7 @@ function startRoundA(categoryInput, wordIdInput){
             num++;
             removeEl('myWord');
             removeEl('myNum');
-            newWord(true, categoryInput, wordIdInput);
+            newWord(true, categoryInput);
             i++;
             displayText2.textContent = `ROUND ${i}`;
             updateScore("black");
@@ -544,7 +567,7 @@ function startRoundA(categoryInput, wordIdInput){
         mmaButton.style.display = 'none';
         foodButton.style.display = 'none';
         drinkButton.style.display = 'none';
-        custom.style.display = 'inline-block';
+        customList.style.display = 'inline-block';
         for (let key of playerKeys) { 
             const player = allPlayers[key]; 
             player.score = 0;
@@ -571,7 +594,7 @@ function startRoundA(categoryInput, wordIdInput){
         mmaButton.style.display = 'none';
         foodButton.style.display = 'none';
         drinkButton.style.display = 'none';
-        custom.style.display = 'inline-block';
+        customList.style.display = 'inline-block';
         for (let key of playerKeys) { 
             const player = allPlayers[key]; 
             player.score = 0;
@@ -597,7 +620,7 @@ function startRoundA(categoryInput, wordIdInput){
         mmaButton.style.display = 'none';
         foodButton.style.display = 'none';
         drinkButton.style.display = 'none';
-        custom.style.display = 'inline-block';
+        customList.style.display = 'inline-block';
         for (let key of playerKeys) { 
             const player = allPlayers[key]; 
             player.score = 0;
@@ -612,6 +635,7 @@ easyButton.addEventListener('click',()=>{
     category = listEasyBasicWords;
     easyButton.classList.remove('default-button');
     easyButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
     setTimeout(() => {
         easyButton.classList.remove('highlighted-button');
         easyButton.classList.add('default-button');
@@ -622,6 +646,7 @@ medButton.addEventListener('click',()=>{
     category = listMediumBasicWords;
     medButton.classList.remove('default-button');
     medButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
     setTimeout(() => {
         medButton.classList.remove('highlighted-button');
         medButton.classList.add('default-button');
@@ -632,6 +657,7 @@ hardButton.addEventListener('click',()=>{
     category = listHardBasicWords;
     hardButton.classList.remove('default-button');
     hardButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
     setTimeout(() => {
         hardButton.classList.remove('highlighted-button');
         hardButton.classList.add('default-button');
@@ -640,9 +666,9 @@ hardButton.addEventListener('click',()=>{
 
 nbaButton.addEventListener('click',()=>{
     category = listAthletesNBA;
-    wordId = 4; 
     nbaButton.classList.remove('default-button');
     nbaButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
     setTimeout(() => {
         nbaButton.classList.remove('highlighted-button');
         nbaButton.classList.add('default-button');
@@ -651,9 +677,9 @@ nbaButton.addEventListener('click',()=>{
 
 nflButton.addEventListener('click',()=>{
     category = listAthletesNFL;
-    wordId = 5; 
     nflButton.classList.remove('default-button');
     nflButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
     setTimeout(() => {
         nflButton.classList.remove('highlighted-button');
         nflButton.classList.add('default-button');
@@ -662,9 +688,9 @@ nflButton.addEventListener('click',()=>{
 
 mlbButton.addEventListener('click',()=>{
     category = listAthletesMLB;
-    wordId = 6; 
     mlbButton.classList.remove('default-button');
     mlbButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
     setTimeout(() => {
         mlbButton.classList.remove('highlighted-button');
         mlbButton.classList.add('default-button');
@@ -673,9 +699,9 @@ mlbButton.addEventListener('click',()=>{
 
 soccerButton.addEventListener('click',()=>{
     category = listAthletesSoccer;
-    wordId = 7; 
     soccerButton.classList.remove('default-button');
     soccerButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
     setTimeout(() => {
         soccerButton.classList.remove('highlighted-button');
         soccerButton.classList.add('default-button');
@@ -684,9 +710,9 @@ soccerButton.addEventListener('click',()=>{
 
 mmaButton.addEventListener('click',()=>{
     category = listAthletesMMA;
-    wordId = 8; 
     mmaButton.classList.remove('default-button');
     mmaButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
     setTimeout(() => {
         mmaButton.classList.remove('highlighted-button');
         mmaButton.classList.add('default-button');
@@ -695,9 +721,9 @@ mmaButton.addEventListener('click',()=>{
 
 foodButton.addEventListener('click',()=>{
     category = listFoods;
-    wordId = 9; 
     foodButton.classList.remove('default-button');
     foodButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
     setTimeout(() => {
         foodButton.classList.remove('highlighted-button');
         foodButton.classList.add('default-button');
@@ -706,53 +732,40 @@ foodButton.addEventListener('click',()=>{
 
 drinkButton.addEventListener('click',()=>{
     category = listDrink;
-    wordId = 11; 
     drinkButton.classList.remove('default-button');
     drinkButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
     setTimeout(() => {
         drinkButton.classList.remove('highlighted-button');
         drinkButton.classList.add('default-button');
     }, 250);
 });
 
+customList.addEventListener('click',()=>{
+    category = (document.getElementById('customList').value).split(', ');
+    customList.classList.remove('default-button');
+    customList.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        customList.classList.remove('highlighted-button');
+        customList.classList.add('default-button');
+    }, 250);
+});
+
 document.getElementById('playGame').addEventListener('click', ()=>{
-    startRoundA(category, wordId);
+    startRoundA(category);
 });
 
 newButton.addEventListener('click',()=>{
-    newWord(false, category, wordId);
+    newWord(false, category);
 });
 
-function newWord(count1, categoryInput, wordIdInput){
-        console.log("categoryInput:", categoryInput);
-        console.log("Is array?", Array.isArray(categoryInput));
-        console.log("Length:", categoryInput?.length);
+function newWord(count1, categoryInput){
         word = categoryInput[Math.floor(Math.random() * categoryInput.length)];
-        console.log("Selected word:", word);
         removeEl('myWord');
         removeEl('myNum');
-        wordId = 0;
         countdown(count1, word);
-        setTimeout(() => {
-            wordId = wordIdInput;
-        }, 5000);
 };
-
-function processCustomList() {
-    const custListValue = custListElement.value;
-    const custListLength = custListValue.length;
-    randomWords = []
-    randomWords = custListValue.split(", ");
-    word = randomWords[Math.floor(Math.random() * randomWords.length)];
-    wordId=0
-    athleteButton.style.display = 'none';
-    foodDrinkButton.style.display = 'none';
-    basicButton.style.display = 'none';
-    countdown(count1, word);
-    setTimeout(() => {
-        wordId = 10;
-    }, 5000);
-}
 
 function setupPlayerInputs() {
     const playerInputsDiv = document.getElementById("playerInputs");

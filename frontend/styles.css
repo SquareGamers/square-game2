@@ -256,11 +256,6 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   margin-top: 40px;
 }
 
-#readyUp {
-  position: absolute; 
-  top: 400px; 
-}
-
 #displayText2{
   position: absolute;
   right: 50px;
@@ -349,4 +344,38 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   position: absolute; 
   top: 30px;
   right: 0%;
+}
+
+#categoryReady{
+  position: absolute;
+  top: 200px; 
+  height: 75px; 
+  width: 150px; 
+}
+
+#playGame{
+  position: absolute; 
+  top: 500px; 
+  right: 550px;
+  height: 75px; 
+  width: 150px; 
+}
+
+#readyUp {
+  position: absolute; 
+  top: 550px; 
+  height: 75px; 
+  width: 150px; 
+}
+
+#newWord{
+  position: absolute; 
+  top: 50px; 
+  left: 50px;
+}
+
+#promptCustomList{
+  position: absolute; 
+  bottom: 125px; 
+  right: 425px;
 }
