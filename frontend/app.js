@@ -14,8 +14,7 @@ function showScreen(screenId) {
   
     target.classList.add("active");
   }
-setupPlayerInputs()
-showScreen("screen-enter-players");
+showScreen("screen-menu");
 let numRounds = 0; 
 let num = 0; 
 const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
@@ -789,22 +788,6 @@ function setupPlayerInputs() {
     })
 }
 
-/*const undoButton = document.getElementById('P1-1');
-undoButton.addEventListener('click', () => {
-    undoButton.classList.remove('default-button');
-    undoButton.classList.add('highlighted-button');
-    setTimeout(() => {
-        undoButton.classList.remove('highlighted-button');
-        undoButton.classList.add('default-button');
-    }, 250);
-    for (let i = 0; i < playerKeys.length; i++) {
-        const key = playerKeys[i];
-        const player = allPlayers[key];
-        const currPlayer = allPlayers[playerKeys[i]];
-        currPlayer.score--;  // add to **previous**
-    }
-})*/
-
 const colorPicker = document.getElementById('backgroundColor');
 colorPicker.addEventListener('input', function() {
     document.body.style.backgroundColor = this.value;
@@ -814,3 +797,99 @@ const colorReset = document.getElementById('resetColor');
 colorReset.addEventListener('click', () => {
     document.body.style.backgroundColor = "rgb(179 215 255)";
 });
+
+const Instructions=document.getElementById('Instructions');
+const Rules = document.getElementById('Rules');
+const Play = document.getElementById('Play');
+const heading1=document.querySelector('h1');
+const heading2=document.querySelector('h2');
+const nextInstruction = document.getElementById('Next');
+const prevInstruction = document.getElementById('Previous');
+nextInstruction.classList.add('hidden1');
+prevInstruction.classList.add('hidden1');
+
+function displayInstructions(){
+    const divInstrInput = document.getElementById('instrText');
+    const instr1 = document.createElement('span');
+    const instrList=['The Square Game is a game of wit and speed',
+                'As an explainer, you will race your opponent (the person next to you) to each explain a word to your teammate (the person across from you)',
+                'Your objective is to get your partner to guess the word you see without saying the word (like Taboo)',
+                'As a guesser, your objective is to guess the word before your opponent (the person next to you) does',
+                'Teams will change every round as the computer rotates; keep an eye on who is friend or foe!',
+                'Before clicking PLAY, check out the rules tab to understand correct and incorrect explainership',
+                'Follow the instructions to input players, number of rounds, select a category, and confirm the start position',
+                'You may also create your own custom list instead of choosing from the given categories',
+                'After you have indicated all players understand their roles, click PLAY to begin',
+                'A word will appear, wait until it moves to the top of the screen to begin explaining',
+                'Whichever guesser, RED or BLACK, who guesses the word first wins a point for their team',
+                'Press RED WIN or BLACK WIN to give the two winning players one point each',
+                'If it is unknown who guessed first, or one explainer is unfamiliar with a word, use the SKIP WORD / TIE button',
+                'When prompted to SWITCH, rotate the computer CLOCKWISE to form new teams before the countdown ends, so your opponent becomes your teammate',
+                'Continue to rotate and gather points until the rounds finish',
+                'Whichever player has the most points at the end is the winner!',
+                'You may use the CHANGE TEAMS, CHANGE ROUNDS, and REPLAY buttons to edit gameplay and play again',
+                '[WIP] Check out the stats tab after the game to compare stats with your friends!',
+                'Good Luck!'
+                ];
+    instr1.textContent = 'hi';
+    instr1.style.position = 'absolute';
+    instr1.style.top = '50%';
+    instr1.style.fontSize='40px';
+    instr1.style.transition = 'all 0.5s ease';
+    instr1.style.left = '50%';
+    instr1.style.transform = 'translate(-50%, -50%)';
+    divInstrInput.appendChild(instr1);
+
+    let a = 0;
+    nextInstruction.addEventListener('click', ()=>{
+    showNextInstruction();
+    });
+    prevInstruction.addEventListener('click', ()=>{
+    a-=2;
+    showNextInstruction();
+    });
+    function showNextInstruction(){
+        if (a < instrList.length) {
+        nextInstruction.disabled = false;
+        instr1.style.opacity=0;
+        instr1.textContent=instrList[a];
+        instr1.style.opacity=1;
+        a++;
+        }
+        else {
+        nextInstruction.disabled = true;
+        }
+    }
+    showNextInstruction();
+}
+
+function showRules() {
+    const divRules = document.getElementById('rulesText');
+    const ruleList = document.createElement('span');
+    ruleList.id = 'ruleList';
+    ruleList.textContent = '1: No hand gestures/charades \n 2: No direct antonyms (cannot say "not sad" if word is "happy") \n 3: No saying a bigger word with the hidden word in it (if it is "play," cannot say "playful") \n 4: No saying a smaller word with part of the hidden word (if it is "teacher," cannot say "teach") \n 5: For longer/more difficult words, you can break them up into parts (can get the guesser to separately guess "ground" and "breaking" if word is "groundbreaking"';
+    ruleList.style.whiteSpace = 'pre-line';
+    ruleList.style.position = 'absolute';
+    ruleList.style.top = '30%';
+    ruleList.style.fontSize = '30px';
+    ruleList.style.transition = 'all 0.5s ease';
+    console.log('before display rules');
+    divRules.appendChild(ruleList);
+    console.log('after display rules');
+}
+
+Instructions.addEventListener('click',()=>{
+    Instructions.style.display='none';
+    console.log('before display instructions');
+    displayInstructions();
+    console.log('after display instructions');
+    nextInstruction.classList.remove('hidden1');
+    prevInstruction.classList.remove('hidden1');
+    nextInstruction.classList.add('visible');
+    prevInstruction.classList.add('visible');
+})
+
+Rules.addEventListener('click', ()=>{
+    Rules.style.display='none';
+    showRules();
+})
