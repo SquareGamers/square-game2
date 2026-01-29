@@ -21,14 +21,15 @@ const db = getFirestore(app);
 
 import { doc, setDoc } from "firebase/firestore"; 
 
-
+const userID = document.getElementById("username") + document.getElementById("PIN");
 
 await setDoc(doc(db, "user-accounts", userID), {
   username: userID,
   gamesCompleted: 0,
   gamesWon: 0,
-  winPct: (gamesWon / gamesCompleted)
-  
+  winPct: (gamesWon / gamesCompleted),
+  wordsGuessed: 0,
+  wordsExplained: 0
 });
 
 
@@ -82,20 +83,38 @@ function displayTeams(){
     }
 }
 
-function updateScore(color){
+async function updateScore(color){
     for (let i = 0; i < playerKeys.length; i++) {
         const key = playerKeys[i];
         const player = allPlayers[key];
         const currPlayer = allPlayers[playerKeys[i]];
 
         if (color === "red") {
-            if (player.id === "RED GUESSER" || player.id === "RED EXPLAINER") {
-                    currPlayer.score++;  // add to **previous**
+            if (player.id === "RED GUESSER") {
+                currPlayer.score++;  // add to **previous**
+                await setDoc(doc(db, "user-accounts", userID), {
+                    wordsGuessed: increment(1)
+                });                
+            }
+            else if (player.id === "RED EXPLAINER") {
+                currPlayer.score++;  // add to **previous**
+                await setDoc(doc(db, "user-accounts", userID), {
+                    wordsExplained: increment(1)
+                });
             }
         } 
         else if (color === "black") {
-            if (player.id === "BLACK GUESSER" || player.id === "BLACK EXPLAINER") {
+            if (player.id === "BLACK GUESSER") {
                 currPlayer.score++;  // add to **previous**
+                await setDoc(doc(db, "user-accounts", userID), {
+                    wordsGuessed: increment(1)
+                });
+            }
+            else if (player.id === "BLACK EXPLAINER") {
+                currPlayer.score++;  // add to **previous**
+                await setDoc(doc(db, "user-accounts", userID), {
+                    wordsExplained: increment(1)
+                  });
             }
         }
     }
