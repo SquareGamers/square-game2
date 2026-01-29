@@ -33,11 +33,27 @@ await setDoc(doc(db, "user-accounts", userID), {
 });
 
 
+function showScreen(screenId) {
+    document.querySelectorAll(".screen").forEach(screen => {
+      screen.classList.remove("active");
+    });
+    document.getElementById(screenId).classList.add("active");
+    console.log("SHOWING:", screenId);
+
+    document.querySelectorAll(".screen").forEach(screen => {
+      screen.classList.remove("active");
+    });
+  
+    const target = document.getElementById(screenId);
+    console.log("FOUND:", target);
+  
+    target.classList.add("active");
+  }
+showScreen("screen-menu");
 let numRounds = 0; 
-const displayText1 = document.getElementById('displayText1');
-displayText1.textContent = 'Submit players in the order of a SQUARE, in the direction you want to rotate. Pair names if > 4 people.';
 let num = 0; 
 const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
+//document.getElementById('button-container').style.display = 'none';
 let roleKeys = Object.keys(allRoles);
 const allPlayers = {
 playerone: {name: "PLAYER ONE", score: 0, id: roleKeys[0]},
@@ -46,44 +62,73 @@ playerthree: {name: "PLAYER THREE", score: 0, id: roleKeys[2]},
 playerfour: {name: "PLAYER FOUR", score: 0, id: roleKeys[3]}
 };
 let playerKeys = Object.keys(allPlayers);
+const names = {}
+function renderMatrix(){
+    const container5 = document.getElementById("matrix");
+  if (!container5) {
+    console.error("Matrix container not found");
+    return;
+  }
+    container5.innerHTML = ""; // Clear previous display
 
-const container5 = document.getElementById("matrix");
-container5.innerHTML = ""; // Clear previous display
+    const order = [0, 1, 3, 2];
+    const startColors = ["red", "red", "black", "black"];
 
-const order = [0, 1, 3, 2];
-const startColors = ["red", "red", "black", "black"];
+    order.forEach((i,idx) => {
+        const p = allPlayers[playerKeys[i]];
 
-order.forEach((i,idx) => {
-    const p = allPlayers[playerKeys[i]];
+        const cell = document.createElement("div");
+        cell.id = `cell-${i}`;
+        cell.style.padding = "10px";
+        cell.style.background = startColors[idx];
+        cell.style.color = "white";
+        cell.style.textAlign = "center";
+        cell.style.borderRadius = "8px";
+        cell.style.top = "100px";
 
-    const cell = document.createElement("div");
-    cell.id = `cell-${i}`;
-    cell.style.padding = "10px";
-    cell.style.background = startColors[idx];
-    cell.style.color = "white";
-    cell.style.textAlign = "center";
-    cell.style.borderRadius = "8px";
-
-    cell.innerHTML = `
-    <strong>${p.name}</strong><br>
-    ${p.id}<br>
-    Score: ${p.score}
-    `;
-
-    container5.appendChild(cell);
-});
-
-
-function displayTeams(){
-    playerKeys = Object.keys(allPlayers);
-    roleKeys = Object.keys(allRoles);
-    // update the name values based on inputs
-    for (let j = 0; j < 4; j++) {
-     document.getElementById(`cell-${j}`).innerHTML = `<strong>${document.getElementById("player" + j).value.trim()}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
-    }
+        cell.innerHTML = `
+        <strong>${p.name}</strong><br>
+        ${p.id}<br>
+        Score: ${p.score}
+        `;
+        //names.push(p.name);
+        container5.appendChild(cell);
+    });
 }
 
-async function updateScore(color){
+function syncPlayersFromInputs() {
+    playerKeys = Object.keys(allPlayers);
+  
+    for (let i = 0; i < 4; i++) {
+      const input = document.getElementById("player" + i);
+      const val = input?.value.trim();
+  
+      if (val) {
+        allPlayers[playerKeys[i]].name = val;
+      }
+    }
+  }
+
+  function submitPlayersAndShowMatrix() {
+    syncPlayersFromInputs();  // ✅ data
+    renderMatrix();           // ✅ UI
+    document.getElementById("matrix-wrapper").classList.remove("hidden");
+    document.getElementById("readyUp").classList.remove("hidden");
+    document.getElementById("game-ui").classList.add("hidden");
+    showScreen("screen-game");
+  }
+
+  function submitPlayersAndStartGame() {
+    syncPlayersFromInputs();
+    renderMatrix();
+    document.getElementById("matrix-wrapper").classList.remove("hidden");
+    document.getElementById("readyUp").classList.add("hidden");
+    document.getElementById("game-ui").classList.remove("hidden");
+    document.getElementById("instruction-text-rounds-ready").classList.add("hidden");
+    showScreen("screen-game");
+  }
+
+function updateScore(color){
     for (let i = 0; i < playerKeys.length; i++) {
         const key = playerKeys[i];
         const player = allPlayers[key];
@@ -124,15 +169,12 @@ async function updateScore(color){
 function changeRoles() {
     if (num > 0){
     // Step 1: Increment all role values
-    console.log("changeRoles ran");
     for (let key in allRoles) {
         allRoles[key] += 1;
     }
-
     // Step 2: Convert to array and sort by value % 4
     const sortedRoles = Object.entries(allRoles)
     .sort((a, b) => (a[1] % 4) - (b[1] % 4));
-
         // Step 3: Display sorted roles
         for (let i = 0; i < sortedRoles.length; i++) {
             allPlayers[playerKeys[i]].id = sortedRoles[i][0];
@@ -144,30 +186,55 @@ function changeRoles() {
             }
         }
     }
+    //playerKeys = Object.keys(allPlayers);
+    //roleKeys = Objects.keys(allRoles);
+    for (let j = 0; j < 4; j++){
+        document.getElementById(`cell-${j}`).innerHTML = `<strong>${document.getElementById("player" + j).value.trim()}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
+    }
 }
 
-let wordId = 0;
 players = {
     red: [],
     black: []
 };
 let randomWords = [];
-    let word=null;
-    const basicButton= document.getElementById('Basic');
-    const hardButton= document.getElementById('Hard');
-    const medButton= document.getElementById('Medium');
-    const easyButton= document.getElementById('Easy');
-    const foodDrinkButton= document.getElementById('Food&Drink');
-    const drinkButton = document.getElementById('Drink');
-    const foodButton = document.getElementById('Food');
-    const athleteButton= document.getElementById('Athletes');
-    const mlbButton= document.getElementById('MLB');
-    const nbaButton = document.getElementById('NBA');
-    const nflButton = document.getElementById('NFL');
-    const mmaButton = document.getElementById('MMA');
-    const soccerButton = document.getElementById('Soccer');
-    const backButton = document.getElementById('Return');
-    const custList = document.getElementById('CustomList');
+let word=null;
+const readyButton = document.getElementById('readyUp');
+const basicButton= document.getElementById('Basic');
+const hardButton= document.getElementById('Hard');
+const medButton= document.getElementById('Medium');
+const easyButton= document.getElementById('Easy');
+const foodDrinkButton= document.getElementById('Food&Drink');
+const drinkButton = document.getElementById('Drink');
+const foodButton = document.getElementById('Food');
+const athleteButton= document.getElementById('Athletes');
+const mlbButton= document.getElementById('MLB');
+const nbaButton = document.getElementById('NBA');
+const nflButton = document.getElementById('NFL');
+const mmaButton = document.getElementById('MMA');
+const soccerButton = document.getElementById('Soccer');
+const backBtn = document.getElementById('Return');
+const instruct = document.getElementById("displayInstructions");
+const redBtn = document.getElementById("redBtn");
+const blackBtn = document.getElementById("blackBtn");
+const resetBtn = document.getElementById("resetBtn");
+const teamBtn = document.getElementById("teamBtn");
+const roundsBtn = document.getElementById("roundsBtn");
+const submitBtn = document.getElementById("submitPlayers");
+const newButton = document.getElementById("newWord");
+const playerInputsDiv = document.getElementById("playerInputs");
+const customList = document.getElementById('promptCustomList');
+const defCatBtn = document.getElementById('defualtCategory');
+const createCustListBtn = document.getElementById('createCustomList');
+const customListContainer = document.getElementById('customListContainer');
+const beginGame = document.getElementById('categoryReady');
+let tempId = 0;
+
+readyButton.addEventListener('click',()=>{
+    document.getElementById('button-container').style.display = 'inline-block';
+    readyButton.style.display = 'none';
+});    
+
 function removeEl(el){
     const existing=document.getElementById(el);
     if (existing) existing.remove();
@@ -175,7 +242,7 @@ function removeEl(el){
 function dispNum(num1) {
     removeEl('myNum');
     const numEl = document.createElement('span');
-    numEl.style.top = '300px'; 
+    numEl.style.top = '170px'; 
     numEl.id = 'myNum';
     numEl.textContent = num1 + "S TO SWITCH";
     numEl.style.position = 'absolute';
@@ -188,15 +255,17 @@ function dispNum(num1) {
     numEl.style.left = (screenWidth/2)-(elementWidth/2) + "px";
 }
 
-function countdown() {
-    if (num === 0) {
-        setTimeout(function() { displayWord(); }, 0);
+function countdown(count, word1) {
+    if (num === 0 || count === false) {
+        setTimeout(function() { displayWord(word1); }, 0);
         return;
     } 
-    for (let i = 5; i > -1; i--) {
-        setTimeout(function() { dispNum(i); }, (5 - i) * 1000);
+    if (count){
+        for (let i = 5; i > -1; i--) {
+            setTimeout(function() { dispNum(i); }, (5 - i) * 1000);
+        }
+        setTimeout(function() { displayWord(word1); }, 6000);
     }
-    setTimeout(function() { displayWord(); }, 6000);
 }
 
 
@@ -373,16 +442,16 @@ let listDrink = ["Spring Water", "Sparkling Water", "Mineral Water", "Whole Milk
 "Gatorade", "Protein Shake", "Smoothie", "Milkshake", "Kombucha", "Buttermilk", "Chai", "Hot Chocolate",
 "Coca-Cola", "Pepsi", "Sprite", "Fanta", "Dr Pepper", "7UP", "Mountain Dew", "Root Beer", "Ginger Ale", "Cream Soda"];
 
-function displayWord(){
+function displayWord(word2){
     removeEl('myWord');
     removeEl('myNum');
     const wordEl = document.createElement('span');
     wordEl.id = 'myWord';
-    wordEl.style.top = '300px'; 
+    wordEl.style.top = '170px'; 
     wordEl.style.position = 'absolute';
     wordEl.style.fontSize='60px';
     wordEl.style.transition = 'all 0.5s ease';
-    wordEl.textContent = "WAIT. NEXT WORD: " + word;
+    wordEl.textContent = "WAIT. NEXT WORD: " + word2;
     document.body.appendChild(wordEl);
 
     function delay(ms) {
@@ -396,7 +465,7 @@ function displayWord(){
         wordEl.textContent = "GO!";
         wordEl.style.left = (screenWidth/2)-(wordEl.offsetWidth/2) + "px";
         await delay(2000); // wait 2 seconds
-        wordEl.textContent = word;
+        wordEl.textContent = word2;
         wordEl.style.top = '20px';
         wordEl.style.fontSize='16px';
         wordEl.style.left = (screenWidth/2)-(wordEl.offsetWidth/2) + "px";
@@ -404,432 +473,79 @@ function displayWord(){
     moveWord();
 }
 
-function hardWord() {
-    wordId=1;
-    word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
-    const easy = document.getElementById('Easy');
-    easy.style.display = 'none';
-    const med = document.getElementById('Medium');
-    med.style.display = 'none';
-    const hard = document.getElementById('Hard');
-    hard.style.display = 'none';
-    countdown();
-}
+defCatBtn.addEventListener('click',()=>{
+    athleteButton.style.display = 'inline-block';
+    foodDrinkButton.style.display = 'inline-block';
+    basicButton.style.display = 'inline-block';
+    easyButton.style.display = 'none';
+    medButton.style.display = 'none';
+    hardButton.style.display = 'none';
+    backBtn.style.display = 'none';
+    customList.style.display = 'none';
+    defCatBtn.style.display = 'none';
+    createCustListBtn.style.display = 'none';
+})
 
-function mediumWord() {
-    wordId=2;
-    word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
-    const easy = document.getElementById('Easy');
-    easy.style.display = 'none';
-    const med = document.getElementById('Medium');
-    med.style.display = 'none';
-    const hard = document.getElementById('Hard');
-    hard.style.display = 'none';
-    countdown();
-}
+createCustListBtn.addEventListener('click',()=>{
+    customList.style.display = 'inline-block';
+    customListContainer.style.display = 'inline-block';
+    defCatBtn.style.display = 'none';
+    createCustListBtn.style.display = 'none';
 
-function easyWord() {
-    wordId=3;
-    word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
-    const easy = document.getElementById('Easy');
-    easy.style.display = 'none';
-    const med = document.getElementById('Medium');
-    med.style.display = 'none';
-    const hard = document.getElementById('Hard');
-    hard.style.display = 'none';
-    countdown();
-}
-
-function nbaWord() {
-    wordId=4;
-    word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    countdown();
-}
-
-function nflWord() {
-    wordId=5;
-    word=listAthletesNFL[Math.floor(Math.random() * listAthletesNFL.length)]
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    countdown();
-}
-
-function mlbWord() {
-    wordId=6;
-    word=listAthletesMLB[Math.floor(Math.random() * listAthletesMLB.length)]
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    countdown();
-}
-
-function soccerWord() {
-    wordId=7;
-    word=listAthletesSoccer[Math.floor(Math.random() * listAthletesSoccer.length)]
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    countdown();
-}
-
-function mmaWord() {
-    wordId=8;
-    word=listAthletesMMA[Math.floor(Math.random() * listAthletesMMA.length)]
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    countdown();
-}
-
-function foodWord() {
-    wordId=9;
-    word=listFoods[Math.floor(Math.random() * listFoods.length)]
-    const food = document.getElementById('Food');
-    food.style.display = 'none';
-    const drink = document.getElementById('Drink');
-    drink.style.display = 'none';
-    countdown();
-}
-
-function drinkWord() {
-    wordId=10;
-    word=listDrink[Math.floor(Math.random() * listDrink.length)]
-    const food = document.getElementById('Food');
-    food.style.display = 'none';
-    const drink = document.getElementById('Drink');
-    drink.style.display = 'none';
-    countdown();
-}
-
+})
 
 basicButton.addEventListener('click',()=>{
-    const ath = document.getElementById('Athletes');
-    ath.style.display = 'none';
-    const food = document.getElementById('Food&Drink');
-    food.style.display = 'none';
-    const basic = document.getElementById('Basic');
-    basic.style.display = 'none';
-    const easy = document.getElementById('Easy');
-    easy.style.display = 'inline-block';
-    const med = document.getElementById('Medium');
-    med.style.display = 'inline-block';
-    const hard = document.getElementById('Hard');
-    hard.style.display = 'inline-block';
-    const back = document.getElementById('Return');
-    back.style.display = 'inline-block';
-    const custom = document.getElementById('pCL');
-    custom.style.display = 'none';
+    athleteButton.style.display = 'none';
+    foodDrinkButton.style.display = 'none';
+    basicButton.style.display = 'none';
+    easyButton.style.display = 'inline-block';
+    medButton.style.display = 'inline-block';
+    hardButton.style.display = 'inline-block';
+    backBtn.style.display = 'inline-block';
+    customList.style.display = 'none';
 })
 
 athleteButton.addEventListener('click',()=>{
-    const ath = document.getElementById('Athletes');
-    ath.style.display = 'none';
-    const food = document.getElementById('Food&Drink');
-    food.style.display = 'none';
-    const basic = document.getElementById('Basic');
-    basic.style.display = 'none';
-    const custom = document.getElementById('pCL');
-    custom.style.display = 'none';
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'inline-block';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'inline-block';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'inline-block';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'inline-block';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'inline-block';
-    const back = document.getElementById('Return');
-    back.style.display = 'inline-block';
+    athleteButton.style.display = 'none';
+    foodDrinkButton.style.display = 'none';
+    basicButton.style.display = 'none';
+    customList.style.display = 'none';
+    mlbButton.style.display = 'inline-block';
+    nbaButton.style.display = 'inline-block';
+    nflButton.style.display = 'inline-block';
+    soccerButton.style.display = 'inline-block';
+    mmaButton.style.display = 'inline-block';
+    backBtn.style.display = 'inline-block';
 })
 
 foodDrinkButton.addEventListener('click',()=>{
-    const ath = document.getElementById('Athletes');
-    ath.style.display = 'none';
-    const food = document.getElementById('Food&Drink');
-    food.style.display = 'none';
-    const basic = document.getElementById('Basic');
-    basic.style.display = 'none';
-    const drinkB = document.getElementById('Drink');
-    drinkB.style.display = 'inline-block';
-    const foodB = document.getElementById('Food');
-    foodB.style.display = 'inline-block';
-    const back = document.getElementById('Return');
-    back.style.display = 'inline-block';
+    athleteButton.style.display = 'none';
+    foodDrinkButton.style.display = 'none';
+    basicButton.style.display = 'none';
+    drinkButton.style.display = 'inline-block';
+    foodButton.style.display = 'inline-block';
+    backBtn.style.display = 'inline-block';
 })
 
-backButton.addEventListener('click',()=>{
-    const back = document.getElementById('Return');
-    back.style.display = 'none';
-    const ath = document.getElementById('Athletes');
-    ath.style.display = 'inline-block';
-    const food = document.getElementById('Food&Drink');
-    food.style.display = 'inline-block';
-    const basic = document.getElementById('Basic');
-    basic.style.display = 'inline-block';
-    const easy = document.getElementById('Easy');
-    easy.style.display = 'none';
-    const med = document.getElementById('Medium');
-    med.style.display = 'none';
-    const hard = document.getElementById('Hard');
-    hard.style.display = 'none';
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    const foodB = document.getElementById('Food');
-    foodB.style.display = 'none';
-    const drinkB = document.getElementById('Drink');
-    drinkB.style.display = 'none';
-    const custom = document.getElementById('pCL');
-    custom.style.display = 'inline-block';
+backBtn.addEventListener('click',()=>{
+    backBtn.style.display = 'none';
+    athleteButton.style.display = 'inline-block';
+    foodDrinkButton.style.display = 'inline-block';
+    basicButton.style.display = 'inline-block';
+    easyButton.style.display = 'none';
+    medButton.style.display = 'none';
+    hardButton.style.display = 'none';
+    mlbButton.style.display = 'none';
+    nbaButton.style.display = 'none';
+    nflButton.style.display = 'none';
+    soccerButton.style.display = 'none';
+    mmaButton.style.display = 'none';
+    foodButton.style.display = 'none';
+    drinkButton.style.display = 'none';
+    customList.style.display = 'none';
+    customListContainer.style.display = 'none';
 })
 
-const basic = document.getElementById("Basic");
-const food = document.getElementById("Food&Drink");
-const easy = document.getElementById("Easy");
-const medium = document.getElementById("Medium");
-const hard = document.getElementById("Hard");
-const nba = document.getElementById("NBA");
-const nfl = document.getElementById("NFL");
-const mma = document.getElementById("MMA");
-const mlb = document.getElementById("MLB");
-const soccer = document.getElementById("Soccer");
-const instruct = document.getElementById("displayInstructions");
-const wordBtn = document.getElementById("pCL");
-const redBtn = document.getElementById("redBtn");
-const blackBtn = document.getElementById("blackBtn");
-const resetBtn = document.getElementById("resetBtn");
-const teamBtn = document.getElementById("teamBtn");
-const roundsBtn = document.getElementById("roundsBtn");
-const setBtn = document.getElementById("setPlayers");
-const submitBtn = document.getElementById("submitPlayers");
-const newWordBtn = document.getElementById("newWord");
-const backBtn = document.getElementById("Return");
-let tempId = 0;
-
-// round functions for all categories
-hardButton.addEventListener('click',()=>{
-    //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
-    wordId=1;
-    word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
-    const easy = document.getElementById('Easy');
-    easy.style.display = 'none';
-    const med = document.getElementById('Medium');
-    med.style.display = 'none';
-    const hard = document.getElementById('Hard');
-    hard.style.display = 'none';
-    countdown();
-});
-    
-medButton.addEventListener('click',()=>{
-    wordId=2;
-    word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
-    const easy = document.getElementById('Easy');
-    easy.style.display = 'none';
-    const med = document.getElementById('Medium');
-    med.style.display = 'none';
-    const hard = document.getElementById('Hard');
-    hard.style.display = 'none';
-    countdown();
-});
-    
-
-easyButton.addEventListener('click',()=>{
-    wordId=3;
-    word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
-    const easy = document.getElementById('Easy');
-    easy.style.display = 'none';
-    const med = document.getElementById('Medium');
-    med.style.display = 'none';
-    const hard = document.getElementById('Hard');
-    hard.style.display = 'none';
-    countdown();
-});
-
-nbaButton.addEventListener('click',()=>{
-    wordId=4;
-    word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    countdown();
-})
-nflButton.addEventListener('click',()=>{
-    wordId=5;
-    word=listAthletesNFL[Math.floor(Math.random() * listAthletesNFL.length)]
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    countdown();
-})
-mlbButton.addEventListener('click',()=>{
-    wordId=6;
-    word=listAthletesMLB[Math.floor(Math.random() * listAthletesMLB.length)]
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    countdown();
-})
-soccerButton.addEventListener('click',()=>{
-    wordId=7;
-    word=listAthletesSoccer[Math.floor(Math.random() * listAthletesSoccer.length)]
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    countdown();
-})
-mmaButton.addEventListener('click',()=>{
-    wordId=8;
-    word=listAthletesMMA[Math.floor(Math.random() * listAthletesMMA.length)]
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    countdown();
-})
-foodButton.addEventListener('click',()=>{
-    wordId=9;
-    word=listFoods[Math.floor(Math.random() * listFoods.length)]
-    countdown();
-})
-drinkButton.addEventListener('click',()=>{
-    wordId=10;
-    word=listDrink[Math.floor(Math.random() * listDrink.length)]
-    countdown();
-})
-const newButton=document.getElementById('newWord');
-hardButton.addEventListener('click',()=>{
-    //add event listener tells button to wait for some parameter, like click. The () is bc the click function is empty
-    wordId=0;
-    removeEl('myWord');
-    removeEl('myNum');
-    word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
-    const easy = document.getElementById('Easy');
-    easy.style.display = 'none';
-    const med = document.getElementById('Medium');
-    med.style.display = 'none';
-    const hard = document.getElementById('Hard');
-    hard.style.display = 'none';
-    countdown();
-    setTimeout(() => {
-        wordId = 1;
-    }, 5000);
-});
-    
-medButton.addEventListener('click',()=>{
-    wordId=0;
-    removeEl('myWord');
-    removeEl('myNum');
-    word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
-    const easy = document.getElementById('Easy');
-    easy.style.display = 'none';
-    const med = document.getElementById('Medium');
-    med.style.display = 'none';
-    const hard = document.getElementById('Hard');
-    hard.style.display = 'none';
-    countdown();
-    setTimeout(() => {
-        wordId = 2;
-    }, 5000);
-});
-
-easyButton.addEventListener('click',()=>{
-    wordId=0;
-    removeEl('myWord');
-    removeEl('myNum');
-    word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
-    const easy = document.getElementById('Easy');
-    easy.style.display = 'none';
-    const med = document.getElementById('Medium');
-    med.style.display = 'none';
-    const hard = document.getElementById('Hard');
-    hard.style.display = 'none';
-    countdown();
-    setTimeout(() => {
-        wordId = 3;
-    }, 5000);
-});
 
 function setRounds(){
     numRounds = document.getElementById("numRounds").value;
@@ -840,169 +556,128 @@ function setRounds(){
 const displayText2 = document.getElementById('displayText2');
 displayText2.textContent = 'ROUND';
 
-function startRoundA(){
-    let i = 2;
-    displayText2.textContent = `ROUND ${i-1}`;
-    redBtn.addEventListener('click', async function() {
-        if (i > numRounds){
-            await setDoc(doc(db, "user-accounts", userID), {
-                gamesCompleted: increment(1)
-              });
-            document.getElementById("redBtn").style.display = "none";
-            document.getElementById("blackBtn").style.display = "none";
+function startRoundA(categoryInput){
+    newWord(true, categoryInput)
+    mlbButton.style.display = 'none';
+    nbaButton.style.display = 'none';
+    nflButton.style.display = 'none';
+    soccerButton.style.display = 'none';
+    mmaButton.style.display = 'none';
+    drinkButton.style.display = 'none';
+    foodButton.style.display = 'none';
+    easyButton.style.display = 'none';
+    medButton.style.display = 'none';
+    hardButton.style.display = 'none';
+    let i = 1;
+    displayText2.textContent = `ROUND ${i}`;
+    redBtn.addEventListener('click', function() {
+        if (i > numRounds-1){
+            redBtn.style.display = "none";
+            blackBtn.style.display = "none";
         }
+        else{
             num++;
             removeEl('myWord');
             removeEl('myNum');
-            newWord(); 
+            newWord(true, categoryInput); 
             i++;
-        displayText2.textContent = `ROUND ${i-1}`;
+            displayText2.textContent = `ROUND ${i}`;
             updateScore("red");
             changeRoles();
-        displayTeams(); 
-    });
-    blackBtn.addEventListener('click', async function() {
-        if (i > numRounds){
-            await setDoc(doc(db, "user-accounts", userID), {
-                gamesCompleted: increment(1)
-              });
-            document.getElementById("redBtn").style.display = "none";
-            document.getElementById("blackBtn").style.display = "none";
         }
+    });
+    blackBtn.addEventListener('click', function() {
+        if (i > numRounds-1){
+            redBtn.style.display = "none";
+            blackBtn.style.display = "none";
+        }
+        else{
             num++;
             removeEl('myWord');
             removeEl('myNum');
-            newWord();
+            newWord(true, categoryInput);
             i++;
-        displayText2.textContent = `ROUND ${i-1}`;
+            displayText2.textContent = `ROUND ${i}`;
             updateScore("black");
             changeRoles();
-        displayTeams();
+        }
     });
     resetBtn.addEventListener('click', () => {
-        document.getElementById("redBtn").style.display = 'inline-block';
-        document.getElementById("blackBtn").style.display = 'inline-block';
-        const back = document.getElementById('Return');
-        back.style.display = 'none';
-        const ath = document.getElementById('Athletes');
-        ath.style.display = 'inline-block';
-        const food = document.getElementById('Food&Drink');
-        food.style.display = 'inline-block';
-        const basic = document.getElementById('Basic');
-        basic.style.display = 'inline-block';
-        const easy = document.getElementById('Easy');
-        easy.style.display = 'none';
-        const med = document.getElementById('Medium');
-        med.style.display = 'none';
-        const hard = document.getElementById('Hard');
-        hard.style.display = 'none';
-        const mlb = document.getElementById('MLB');
-        mlb.style.display = 'none';
-        const nba = document.getElementById('NBA');
-        nba.style.display = 'none';
-        const nfl = document.getElementById('NFL');
-        nfl.style.display = 'none';
-        const soccer = document.getElementById('Soccer');
-        soccer.style.display = 'none';
-        const mma = document.getElementById('MMA');
-        mma.style.display = 'none';
-        const foodB = document.getElementById('Food');
-        foodB.style.display = 'none';
-        const drinkB = document.getElementById('Drink');
-        drinkB.style.display = 'none';
-        const custom = document.getElementById('pCL');
-        custom.style.display = 'inline-block';
+        redBtn.style.display = 'inline-block';
+        blackBtn.style.display = 'inline-block';
+        backBtn.style.display = 'none';
+        athleteButton.style.display = 'inline-block';
+        foodDrinkButton.style.display = 'inline-block';
+        basicButton.style.display = 'inline-block';
+        easyButton.style.display = 'none';
+        medButton.style.display = 'none';
+        hardButton.style.display = 'none';
+        mlbButton.style.display = 'none';
+        nbaButton.style.display = 'none';
+        nflButton.style.display = 'none';
+        soccerButton.style.display = 'none';
+        mmaButton.style.display = 'none';
+        foodButton.style.display = 'none';
+        drinkButton.style.display = 'none';
+        customList.style.display = 'inline-block';
         for (let key of playerKeys) { 
             const player = allPlayers[key]; 
             player.score = 0;
         }
-        i = 2; 
-        displayTeams();
+        i = 1; 
     });
     roundsBtn.addEventListener('click', () => {
-        document.getElementById("redBtn").style.display = 'inline-block';
-        document.getElementById("blackBtn").style.display = 'inline-block';
+        redBtn.style.display = 'inline-block';
+        blackBtn.style.display = 'inline-block';
         document.getElementById("numRounds").style.display = 'inline-block';
         document.getElementById("startRounds").style.display = 'inline-block';
         document.getElementById("button-container").style.display = 'inline-block';
-        back.style.display = 'none';
-        const ath = document.getElementById('Athletes');
-        ath.style.display = 'inline-block';
-        const food = document.getElementById('Food&Drink');
-        food.style.display = 'inline-block';
-        const basic = document.getElementById('Basic');
-        basic.style.display = 'inline-block';
-        const easy = document.getElementById('Easy');
-        easy.style.display = 'none';
-        const med = document.getElementById('Medium');
-        med.style.display = 'none';
-        const hard = document.getElementById('Hard');
-        hard.style.display = 'none';
-        const mlb = document.getElementById('MLB');
-        mlb.style.display = 'none';
-        const nba = document.getElementById('NBA');
-        nba.style.display = 'none';
-        const nfl = document.getElementById('NFL');
-        nfl.style.display = 'none';
-        const soccer = document.getElementById('Soccer');
-        soccer.style.display = 'none';
-        const mma = document.getElementById('MMA');
-        mma.style.display = 'none';
-        const foodB = document.getElementById('Food');
-        foodB.style.display = 'none';
-        const drinkB = document.getElementById('Drink');
-        drinkB.style.display = 'none';
-        const custom = document.getElementById('pCL');
-        custom.style.display = 'inline-block';
+        backBtn.style.display = 'none';
+        athleteButton.style.display = 'inline-block';
+        foodDrinkButton.style.display = 'inline-block';
+        basicButton.style.display = 'inline-block';
+        easyButton.style.display = 'none';
+        medButton.style.display = 'none';
+        hardButton.style.display = 'none';
+        mlbButton.style.display = 'none';
+        nbaButton.style.display = 'none';
+        nflButton.style.display = 'none';
+        soccerButton.style.display = 'none';
+        mmaButton.style.display = 'none';
+        foodButton.style.display = 'none';
+        drinkButton.style.display = 'none';
+        customList.style.display = 'inline-block';
         for (let key of playerKeys) { 
             const player = allPlayers[key]; 
             player.score = 0;
         }
-        i = 2; 
-        displayTeams();
+        i = 1; 
     });
     teamBtn.addEventListener('click', () => {
-        document.getElementById("redBtn").style.display = 'inline-block';
-        document.getElementById("blackBtn").style.display = 'inline-block';
-        document.getElementById("submitPlayers").style.display = 'inline-block';
-        document.getElementById("setPlayers").style.display = 'inline-block';
-        document.getElementById("playerInputs").style.display = 'inline-block';
-        document.getElementById("numPlayers").style.display = 'inline-block';
-        back.style.display = 'none';
-        const ath = document.getElementById('Athletes');
-        ath.style.display = 'inline-block';
-        const food = document.getElementById('Food&Drink');
-        food.style.display = 'inline-block';
-        const basic = document.getElementById('Basic');
-        basic.style.display = 'inline-block';
-        const easy = document.getElementById('Easy');
-        easy.style.display = 'none';
-        const med = document.getElementById('Medium');
-        med.style.display = 'none';
-        const hard = document.getElementById('Hard');
-        hard.style.display = 'none';
-        const mlb = document.getElementById('MLB');
-        mlb.style.display = 'none';
-        const nba = document.getElementById('NBA');
-        nba.style.display = 'none';
-        const nfl = document.getElementById('NFL');
-        nfl.style.display = 'none';
-        const soccer = document.getElementById('Soccer');
-        soccer.style.display = 'none';
-        const mma = document.getElementById('MMA');
-        mma.style.display = 'none';
-        const foodB = document.getElementById('Food');
-        foodB.style.display = 'none';
-        const drinkB = document.getElementById('Drink');
-        drinkB.style.display = 'none';
-        const custom = document.getElementById('pCL');
-        custom.style.display = 'inline-block';
+        redBtn.style.display = 'inline-block';
+        blackBtn.style.display = 'inline-block';
+        submitBtn.style.display = 'inline-block';
+        playerInputsDiv.style.display = 'inline-block';
+        backBtn.style.display = 'none';
+        athleteButton.style.display = 'inline-block';
+        foodDrinkButton.style.display = 'inline-block';
+        basicButton.style.display = 'inline-block';
+        easyButton.style.display = 'none';
+        medButton.style.display = 'none';
+        hardButton.style.display = 'none';
+        mlbButton.style.display = 'none';
+        nbaButton.style.display = 'none';
+        nflButton.style.display = 'none';
+        soccerButton.style.display = 'none';
+        mmaButton.style.display = 'none';
+        foodButton.style.display = 'none';
+        drinkButton.style.display = 'none';
+        customList.style.display = 'inline-block';
         for (let key of playerKeys) { 
             const player = allPlayers[key]; 
             player.score = 0;
         }
-        i = 2; 
-        displayTeams();
+        i = 1; 
     });
 }
 
@@ -1018,497 +693,165 @@ async function getStats() {
 
 
 
-function startRoundB(time_limit, categ) {
-    setTimeout(function() { });
-}
+var category = "";
 
 easyButton.addEventListener('click',()=>{
-    startRoundA();
+    category = listEasyBasicWords;
+    easyButton.classList.remove('default-button');
+    easyButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        easyButton.classList.remove('highlighted-button');
+        easyButton.classList.add('default-button');
+    }, 250);
+});
+
+medButton.addEventListener('click',()=>{
+    category = listMediumBasicWords;
+    medButton.classList.remove('default-button');
+    medButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        medButton.classList.remove('highlighted-button');
+        medButton.classList.add('default-button');
+    }, 250);
+});
+
+hardButton.addEventListener('click',()=>{
+    category = listHardBasicWords;
+    hardButton.classList.remove('default-button');
+    hardButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        hardButton.classList.remove('highlighted-button');
+        hardButton.classList.add('default-button');
+    }, 250);
 });
 
 nbaButton.addEventListener('click',()=>{
-    startRoundA();
+    category = listAthletesNBA;
+    nbaButton.classList.remove('default-button');
+    nbaButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        nbaButton.classList.remove('highlighted-button');
+        nbaButton.classList.add('default-button');
+    }, 250);
 });
 
 nflButton.addEventListener('click',()=>{
-    startRoundA();
+    category = listAthletesNFL;
+    nflButton.classList.remove('default-button');
+    nflButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        nflButton.classList.remove('highlighted-button');
+        nflButton.classList.add('default-button');
+    }, 250);
 });
 
 mlbButton.addEventListener('click',()=>{
-    startRoundA();
+    category = listAthletesMLB;
+    mlbButton.classList.remove('default-button');
+    mlbButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        mlbButton.classList.remove('highlighted-button');
+        mlbButton.classList.add('default-button');
+    }, 250);
 });
 
 soccerButton.addEventListener('click',()=>{
-    startRoundA();
+    category = listAthletesSoccer;
+    soccerButton.classList.remove('default-button');
+    soccerButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        soccerButton.classList.remove('highlighted-button');
+        soccerButton.classList.add('default-button');
+    }, 250);
 });
 
 mmaButton.addEventListener('click',()=>{
-    startRoundA();
+    category = listAthletesMMA;
+    mmaButton.classList.remove('default-button');
+    mmaButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        mmaButton.classList.remove('highlighted-button');
+        mmaButton.classList.add('default-button');
+    }, 250);
 });
 
 foodButton.addEventListener('click',()=>{
-    startRoundA();
+    category = listFoods;
+    foodButton.classList.remove('default-button');
+    foodButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        foodButton.classList.remove('highlighted-button');
+        foodButton.classList.add('default-button');
+    }, 250);
 });
 
 drinkButton.addEventListener('click',()=>{
-    startRoundA();
+    category = listDrink;
+    drinkButton.classList.remove('default-button');
+    drinkButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        drinkButton.classList.remove('highlighted-button');
+        drinkButton.classList.add('default-button');
+    }, 250);
 });
 
-nbaButton.addEventListener('click',()=>{
-    wordId=0;
-    removeEl('myWord');
-    removeEl('myNum');
-    word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    countdown();
+customList.addEventListener('click',()=>{
+    category = (document.getElementById('customList').value).split(', ');
+    customList.classList.remove('default-button');
+    customList.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
     setTimeout(() => {
-        wordId = 4;
-    }, 5000);
-})
+        customList.classList.remove('highlighted-button');
+        customList.classList.add('default-button');
+    }, 250);
+});
 
-nflButton.addEventListener('click',()=>{
-wordId=0;
-removeEl('myWord');
-removeEl('myNum');
-word=listAthletesNFL[Math.floor(Math.random() * listAthletesNFL.length)]
-const mlb = document.getElementById('MLB');
-mlb.style.display = 'none';
-const nba = document.getElementById('NBA');
-nba.style.display = 'none';
-const nfl = document.getElementById('NFL');
-nfl.style.display = 'none';
-const soccer = document.getElementById('Soccer');
-soccer.style.display = 'none';
-const mma = document.getElementById('MMA');
-mma.style.display = 'none';
-countdown();
-setTimeout(() => {
-    wordId = 5;
-}, 5000);
-})
-
-mlbButton.addEventListener('click',()=>{
-    wordId=0;
-    removeEl('myWord');
-    removeEl('myNum');
-    word=listAthletesMLB[Math.floor(Math.random() * listAthletesMLB.length)]
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    countdown();
-    setTimeout(() => {
-        wordId = 6;
-    }, 5000);
-})
-
-soccerButton.addEventListener('click',()=>{
-    wordId=0;
-    removeEl('myWord');
-    removeEl('myNum');
-    word=listAthletesSoccer[Math.floor(Math.random() * listAthletesSoccer.length)]
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    countdown();
-    setTimeout(() => {
-        wordId = 7;
-    }, 5000);
-})
-
-mmaButton.addEventListener('click',()=>{
-    wordId=0;
-    removeEl('myWord');
-    removeEl('myNum');
-    word=listAthletesMMA[Math.floor(Math.random() * listAthletesMMA.length)]
-    const mlb = document.getElementById('MLB');
-    mlb.style.display = 'none';
-    const nba = document.getElementById('NBA');
-    nba.style.display = 'none';
-    const nfl = document.getElementById('NFL');
-    nfl.style.display = 'none';
-    const soccer = document.getElementById('Soccer');
-    soccer.style.display = 'none';
-    const mma = document.getElementById('MMA');
-    mma.style.display = 'none';
-    countdown();
-    setTimeout(() => {
-        wordId = 8;
-    }, 5000);
-})
-
-foodButton.addEventListener('click',()=>{
-    wordId=0;
-    removeEl('myWord');
-    removeEl('myNum');
-    word=listFoods[Math.floor(Math.random() * listFoods.length)]
-    const drinkB = document.getElementById('Drink');
-    drinkB.style.display = 'none';
-    const foodB = document.getElementById('Food');
-    foodB.style.display = 'none';
-    countdown();
-    setTimeout(() => {
-        wordId = 9;
-    }, 5000);
-})
-
-drinkButton.addEventListener('click',()=>{
-    wordId=0;
-    removeEl('myWord');
-    removeEl('myNum');
-    word=listDrink[Math.floor(Math.random() * listDrink.length)]
-    const drinkB = document.getElementById('Drink');
-    drinkB.style.display = 'none';
-    const foodB = document.getElementById('Food');
-    foodB.style.display = 'none';
-    countdown();
-    setTimeout(() => {
-        wordId = 11;
-    }, 5000);
-})
+document.getElementById('playGame').addEventListener('click', ()=>{
+    startRoundA(category);
+});
 
 newButton.addEventListener('click',()=>{
-    newWord();
+    newWord(false, category);
 });
 
-function newWord(){
-    if (wordId == 1){
-        word=listHardBasicWords[Math.floor(Math.random() * listHardBasicWords.length)]
+function newWord(count1, categoryInput){
+        word = categoryInput[Math.floor(Math.random() * categoryInput.length)];
         removeEl('myWord');
         removeEl('myNum');
-        wordId = 0;
-        countdown();
-        setTimeout(() => {
-            wordId = 1;
-        }, 5000);
-    } else if (wordId == 2){
-        word=listMediumBasicWords[Math.floor(Math.random() * listMediumBasicWords.length)]
-        removeEl('myWord');
-        removeEl('myNum');
-        wordId = 0;
-        countdown();
-        setTimeout(() => {
-            wordId = 2;
-        }, 5000);
-    } else if (wordId == 3){
-        word=listEasyBasicWords[Math.floor(Math.random() * listEasyBasicWords.length)]
-        removeEl('myWord');
-        removeEl('myNum');
-        wordId = 0;
-        countdown();
-        setTimeout(() => {
-            wordId = 3;
-        }, 5000);
-    } else if (wordId == 4){
-        word=listAthletesNBA[Math.floor(Math.random() * listAthletesNBA.length)]
-        removeEl('myWord');
-        removeEl('myNum');
-        wordId = 0;
-        countdown();
-        setTimeout(() => {
-            wordId = 4;
-        }, 5000);
-    } else if (wordId == 5){
-        word=listAthletesNFL[Math.floor(Math.random() * listAthletesNFL.length)]
-        removeEl('myWord');
-        removeEl('myNum');
-        wordId = 0;
-        countdown();
-        setTimeout(() => {
-            wordId = 5;
-        }, 5000);
-    } else if (wordId == 6){
-        word=listAthletesMLB[Math.floor(Math.random() * listAthletesMLB.length)]
-        removeEl('myWord');
-        removeEl('myNum');
-        wordId = 0;
-        countdown();
-        setTimeout(() => {
-            wordId = 6;
-        }, 5000);
-    } else if (wordId == 7){
-        word=listAthletesSoccer[Math.floor(Math.random() * listAthletesSoccer.length)]
-        removeEl('myWord');
-        removeEl('myNum');
-        wordId = 0;
-        countdown();
-        setTimeout(() => {
-            wordId = 7;
-        }, 5000);
-    } else if (wordId == 8){
-        word=listAthletesMMA[Math.floor(Math.random() * listAthletesMMA.length)]
-        removeEl('myWord');
-        removeEl('myNum');
-        wordId = 0;
-        countdown();
-        setTimeout(() => {
-            wordId = 8;
-        }, 5000);
-    } else if (wordId == 9){
-        word=listFoods[Math.floor(Math.random() * listFoods.length)]
-        removeEl('myWord');
-        removeEl('myNum');
-        wordId = 0;
-        countdown();
-        setTimeout(() => {
-            wordId = 9;
-        }, 5000);
-    } else if (wordId == 10){
-        removeEl('myWord');
-        removeEl('myNum');
-        wordId = 0;
-        processCustomList();
-        setTimeout(() => {
-            wordId = 10;
-        }, 5000);
-    } else if (wordId == 11){
-        word=listDrink[Math.floor(Math.random() * listDrink.length)]
-        removeEl('myWord');
-        removeEl('myNum');
-        wordId = 0;
-        countdown();
-        setTimeout(() => {
-            wordId = 11;
-        }, 5000);
-    }
+        countdown(count1, word);
 };
 
-function processCustomList() {
-    const custListElement = document.getElementById('customList');
-    const custListValue = custListElement.value;
-    const custListLength = custListValue.length;
-    randomWords = []
-    randomWords = custListValue.split(", ");
-    let rWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-    function printWord() {
-        return rWord;
-    }
-    word=rWord;
-    wordId=0
-    const ath = document.getElementById('Athletes');
-    ath.style.display = 'none';
-    const food = document.getElementById('Food&Drink');
-    food.style.display = 'none';
-    const basic = document.getElementById('Basic');
-    basic.style.display = 'none';
-    countdown();
-    setTimeout(() => {
-        wordId = 10;
-    }, 5000);
-}
-
 function setupPlayerInputs() {
-    num2 = parseInt(document.getElementById("numPlayers").value, 10);
-    if (isNaN(num2) || num2 < 4) {
-        alert("Please enter a valid number of players (at least 4).");
-        return;
-    }
-
-    const container1 = document.getElementById("playerInputs");
-    container1.innerHTML = ""; // clear previous inputs
+    const playerInputsDiv = document.getElementById("playerInputs");
+    playerInputsDiv.innerHTML = ""; // clear previous inputs
 
     // create input fields
-    for (let i = 0; i < num2; i++) {
+    for (let i = 0; i < 4; i++) {
         const input = document.createElement("input");
         input.type = "text";
         input.id = "player" + i;
         input.placeholder = "Enter name for player " + (i + 1);
-        container1.appendChild(input);
-        container1.appendChild(document.createElement("br"));
+        playerInputsDiv.appendChild(input);
     }
 
     // show submit button
-    document.getElementById("submitPlayers").style.display = "inline-block";
-    document.getElementById("submitPlayers").addEventListener("click", () => {
-        document.getElementById("submitPlayers").style.display = "none";
-        document.getElementById("setPlayers").style.display = "none";
-        document.getElementById("playerInputs").style.display = "none";
-        document.getElementById("numPlayers").style.display = "none";
+    const submitBtn = document.getElementById("submitPlayers");
+    submitBtn.style.display = "inline-block";
+    submitBtn.addEventListener("click", () => {
+        submitBtn.style.display = "none";
+        playerInputsDiv.style.display = "none";
     })
 }
-
-food.addEventListener('click', () => {
-    food.classList.remove('default-button');
-    food.classList.add('highlighted-button');
-    setTimeout(() => {
-        food.classList.remove('highlighted-button');
-        food.classList.add('default-button');
-    }, 250);
-})
-
-easy.addEventListener('click', () => {
-    easy.classList.remove('default-button');
-    easy.classList.add('highlighted-button');
-    setTimeout(() => {
-        easy.classList.remove('highlighted-button');
-        easy.classList.add('default-button');
-    }, 250);
-})
-
-backBtn.addEventListener('click', () => {
-    easy.classList.remove('default-button');
-    easy.classList.add('highlighted-button');
-    setTimeout(() => {
-        easy.classList.remove('highlighted-button');
-        easy.classList.add('default-button');
-    }, 250);
-})
-
-medium.addEventListener('click', () => {
-    medium.classList.remove('default-button');
-    medium.classList.add('highlighted-button');
-    setTimeout(() => {
-        medium.classList.remove('highlighted-button');
-        medium.classList.add('default-button');
-    }, 250);
-})
-
-hard.addEventListener('click', () => {
-    hard.classList.remove('default-button');
-    hard.classList.add('highlighted-button');
-    setTimeout(() => {
-        hard.classList.remove('highlighted-button');
-        hard.classList.add('default-button');
-    }, 250);
-})
-
-nfl.addEventListener('click', () => {
-    nfl.classList.remove('default-button');
-    nfl.classList.add('highlighted-button');
-    setTimeout(() => {
-        nfl.classList.remove('highlighted-button');
-        nfl.classList.add('default-button');
-    }, 250);
-})
-
-nba.addEventListener('click', () => {
-    nba.classList.remove('default-button');
-    nba.classList.add('highlighted-button');
-    setTimeout(() => {
-        nba.classList.remove('highlighted-button');
-        nba.classList.add('default-button');
-    }, 250);
-})
-
-mma.addEventListener('click', () => {
-    mma.classList.remove('default-button');
-    mma.classList.add('highlighted-button');
-    setTimeout(() => {
-        mma.classList.remove('highlighted-button');
-        mma.classList.add('default-button');
-    }, 250);
-})
-
-mlb.addEventListener('click', () => {
-    mlb.classList.remove('default-button');
-    mlb.classList.add('highlighted-button');
-    setTimeout(() => {
-        mlb.classList.remove('highlighted-button');
-        mlb.classList.add('default-button');
-    }, 250);
-})
-
-basic.addEventListener('click', () => {
-    basic.classList.remove('default-button');
-    basic.classList.add('highlighted-button');
-    setTimeout(() => {
-        basic.classList.remove('highlighted-button');
-        basic.classList.add('default-button');
-    }, 250);
-})
-
-wordBtn.addEventListener('click', () => {
-    wordBtn.classList.remove('default-button');
-    wordBtn.classList.add('highlighted-button');
-    setTimeout(() => {
-        wordBtn.classList.remove('highlighted-button');
-        wordBtn.classList.add('default-button');
-    }, 250);
-})
-
-redBtn.addEventListener('click', () => {
-    redBtn.classList.remove('default-button');
-    redBtn.classList.add('highlighted-button');
-    setTimeout(() => {
-        redBtn.classList.remove('highlighted-button');
-        redBtn.classList.add('default-button');
-    }, 250);
-})
-
-blackBtn.addEventListener('click', () => {
-    blackBtn.classList.remove('default-button');
-    blackBtn.classList.add('highlighted-button');
-    setTimeout(() => {
-        blackBtn.classList.remove('highlighted-button');
-        blackBtn.classList.add('default-button');
-    }, 250);
-})
-
-
-setBtn.addEventListener('click', () => {
-    setBtn.classList.remove('default-button');
-    setBtn.classList.add('highlighted-button');
-    setTimeout(() => {
-        setBtn.classList.remove('highlighted-button');
-        setBtn.classList.add('default-button');
-    }, 250);
-})
-
-submitBtn.addEventListener('click', () => {
-    submitBtn.classList.remove('default-button');
-    submitBtn.classList.add('highlighted-button');
-    setTimeout(() => {
-        submitBtn.classList.remove('highlighted-button');
-        submitBtn.classList.add('default-button');
-    }, 250);
-})
-
-newWordBtn.addEventListener('click', () => {
-    newWordBtn.classList.remove('default-button');
-    newWordBtn.classList.add('highlighted-button');
-    setTimeout(() => {
-        newWordBtn.classList.remove('highlighted-button');
-        newWordBtn.classList.add('default-button');
-    }, 250);
-})
-
-/*const undoButton = document.getElementById('P1-1');
-undoButton.addEventListener('click', () => {
-    undoButton.classList.remove('default-button');
-    undoButton.classList.add('highlighted-button');
-    setTimeout(() => {
-        undoButton.classList.remove('highlighted-button');
-        undoButton.classList.add('default-button');
-    }, 250);
-    for (let i = 0; i < playerKeys.length; i++) {
-        const key = playerKeys[i];
-        const player = allPlayers[key];
-        const currPlayer = allPlayers[playerKeys[i]];
-        currPlayer.score--;  // add to **previous**
-    }
-})*/
 
 const colorPicker = document.getElementById('backgroundColor');
 colorPicker.addEventListener('input', function() {
@@ -1519,3 +862,99 @@ const colorReset = document.getElementById('resetColor');
 colorReset.addEventListener('click', () => {
     document.body.style.backgroundColor = "rgb(179 215 255)";
 });
+
+const Instructions=document.getElementById('Instructions');
+const Rules = document.getElementById('Rules');
+const Play = document.getElementById('Play');
+const heading1=document.querySelector('h1');
+const heading2=document.querySelector('h2');
+const nextInstruction = document.getElementById('Next');
+const prevInstruction = document.getElementById('Previous');
+nextInstruction.classList.add('hidden1');
+prevInstruction.classList.add('hidden1');
+
+function displayInstructions(){
+    const divInstrInput = document.getElementById('instrText');
+    const instr1 = document.createElement('span');
+    const instrList=['The Square Game is a game of wit and speed',
+                'As an explainer, you will race your opponent (the person next to you) to each explain a word to your teammate (the person across from you)',
+                'Your objective is to get your partner to guess the word you see without saying the word (like Taboo)',
+                'As a guesser, your objective is to guess the word before your opponent (the person next to you) does',
+                'Teams will change every round as the computer rotates; keep an eye on who is friend or foe!',
+                'Before clicking PLAY, check out the rules tab to understand correct and incorrect explainership',
+                'Follow the instructions to input players, number of rounds, select a category, and confirm the start position',
+                'You may also create your own custom list instead of choosing from the given categories',
+                'After you have indicated all players understand their roles, click PLAY to begin',
+                'A word will appear, wait until it moves to the top of the screen to begin explaining',
+                'Whichever guesser, RED or BLACK, who guesses the word first wins a point for their team',
+                'Press RED WIN or BLACK WIN to give the two winning players one point each',
+                'If it is unknown who guessed first, or one explainer is unfamiliar with a word, use the SKIP WORD / TIE button',
+                'When prompted to SWITCH, rotate the computer CLOCKWISE to form new teams before the countdown ends, so your opponent becomes your teammate',
+                'Continue to rotate and gather points until the rounds finish',
+                'Whichever player has the most points at the end is the winner!',
+                'You may use the CHANGE TEAMS, CHANGE ROUNDS, and REPLAY buttons to edit gameplay and play again',
+                '[WIP] Check out the stats tab after the game to compare stats with your friends!',
+                'Good Luck!'
+                ];
+    instr1.textContent = 'hi';
+    instr1.style.position = 'absolute';
+    instr1.style.top = '50%';
+    instr1.style.fontSize='40px';
+    instr1.style.transition = 'all 0.5s ease';
+    instr1.style.left = '50%';
+    instr1.style.transform = 'translate(-50%, -50%)';
+    divInstrInput.appendChild(instr1);
+
+    let a = 0;
+    nextInstruction.addEventListener('click', ()=>{
+    showNextInstruction();
+    });
+    prevInstruction.addEventListener('click', ()=>{
+    a-=2;
+    showNextInstruction();
+    });
+    function showNextInstruction(){
+        if (a < instrList.length) {
+        nextInstruction.disabled = false;
+        instr1.style.opacity=0;
+        instr1.textContent=instrList[a];
+        instr1.style.opacity=1;
+        a++;
+        }
+        else {
+        nextInstruction.disabled = true;
+        }
+    }
+    showNextInstruction();
+}
+
+function showRules() {
+    const divRules = document.getElementById('rulesText');
+    const ruleList = document.createElement('span');
+    ruleList.id = 'ruleList';
+    ruleList.textContent = '1: No hand gestures/charades \n 2: No direct antonyms (cannot say "not sad" if word is "happy") \n 3: No saying a bigger word with the hidden word in it (if it is "play," cannot say "playful") \n 4: No saying a smaller word with part of the hidden word (if it is "teacher," cannot say "teach") \n 5: For longer/more difficult words, you can break them up into parts (can get the guesser to separately guess "ground" and "breaking" if word is "groundbreaking"';
+    ruleList.style.whiteSpace = 'pre-line';
+    ruleList.style.position = 'absolute';
+    ruleList.style.top = '30%';
+    ruleList.style.fontSize = '30px';
+    ruleList.style.transition = 'all 0.5s ease';
+    console.log('before display rules');
+    divRules.appendChild(ruleList);
+    console.log('after display rules');
+}
+
+Instructions.addEventListener('click',()=>{
+    Instructions.style.display='none';
+    console.log('before display instructions');
+    displayInstructions();
+    console.log('after display instructions');
+    nextInstruction.classList.remove('hidden1');
+    prevInstruction.classList.remove('hidden1');
+    nextInstruction.classList.add('visible');
+    prevInstruction.classList.add('visible');
+})
+
+Rules.addEventListener('click', ()=>{
+    Rules.style.display='none';
+    showRules();
+})
