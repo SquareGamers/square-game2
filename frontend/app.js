@@ -128,7 +128,7 @@ function syncPlayersFromInputs() {
     showScreen("screen-game");
   }
 
-function updateScore(color){
+async function updateScore(color){
     for (let i = 0; i < playerKeys.length; i++) {
         const key = playerKeys[i];
         const player = allPlayers[key];
