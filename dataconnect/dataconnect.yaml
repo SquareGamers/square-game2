@@ -1,6 +1,6 @@
 specVersion: "v1"
 serviceId: "square-game2"
-location: "us-east4"
+location: "us-central1"
 schema:
   source: "./schema"
   datasource:
