@@ -103,7 +103,7 @@ function updateScore(color){
             if (player.id === "RED GUESSER" || player.id === "RED EXPLAINER") {
                     currPlayer.score++;  // add to **previous**
             }
-        } 
+        }        
         else if (color === "black") {
             if (player.id === "BLACK GUESSER" || player.id === "BLACK EXPLAINER") {
                 currPlayer.score++;  // add to **previous**
@@ -519,6 +519,8 @@ function startRoundA(categoryInput){
     displayText2.textContent = `ROUND ${i}`;
     redBtn.addEventListener('click', function() {
         if (i > numRounds-1){
+            updateScore("red");
+            changeRoles();
             redBtn.style.display = "none";
             blackBtn.style.display = "none";
         }
@@ -535,6 +537,8 @@ function startRoundA(categoryInput){
     });
     blackBtn.addEventListener('click', function() {
         if (i > numRounds-1){
+            updateScore("black");
+            changeRoles();
             redBtn.style.display = "none";
             blackBtn.style.display = "none";
         }
