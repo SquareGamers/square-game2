@@ -9,6 +9,20 @@
 
 <body style="background-color:rgb(179 215 255);">
 
+  <div id="screen-menu" class="screen">
+    <div id="menu-buttons">
+      <button class = "menu-button" id="Play" onclick = "setupPlayerInputs(); showScreen('screen-enter-players');">Play</button>
+      <button class="menu-button" id="Instructions">Instructions</button>
+        <div id="instrText"></div>
+      <button class="menu-button" id="Rules">Rules</button>
+        <div id="rulesText"></div>
+      <button class="menu-button" id="Stats">Stats</button>
+      <button class="menu-button" id="Settings">Settings</button>
+      <button class="menu-button" id="Previous">Previous</button>
+      <button class="menu-button" id="Next">Next</button>
+    </div>
+  </div>
+
   <!-- ENTER PLAYERS -->
   <div id="screen-enter-players" class="screen">
     <!-- INSTRUCTION TEXT -->
@@ -57,10 +71,16 @@
 
   <!-- PICK CATEGORY -->
   <div id="screen-pick-category" class="screen">
+
+    <div id = "choose-your-category">
+      <button class="default-button" id="defualtCategory">SELECT A DEFAULT CATEGORY</button>
+      <button class="default-button" id="createCustomList">CREATE CUSTOM LIST</button>
+    </div>
+
     <div id="button-container">
-      <button class="default-button" id="Basic">Basic</button>
-      <button class="default-button" id="Athletes">Athletes</button>
-      <button class="default-button" id="Food&Drink">Food&Drink</button>
+      <button class="default-button" id="Basic" style="display:none;">Basic</button>
+      <button class="default-button" id="Athletes" style="display:none;">Athletes</button>
+      <button class="default-button" id="Food&Drink" style="display:none;">Food&Drink</button>
 
       <button class="default-button" id="Food" style="display:none;">Food</button>
       <button class="default-button" id="Drink" style="display:none;">Drink</button>
@@ -75,26 +95,27 @@
       <button class="default-button" id="MMA" style="display:none;">MMA</button>
       <button class="default-button" id="Soccer" style="display:none;">Soccer</button>
 
-      <button
-        class="default-button"
-        id="pCL"
-        style="display:none;"
-        onclick="processCustomList()">
-        Generate Word [Custom]
-      </button>
-
       <button class="default-button" id="Return" style="display:none;">
         Return to Menu
       </button>
 
-      <button
+    </div>
+
+    <button class="default-button" id="promptCustomList"style="display:none;">
+        Make a Custom List!
+      </button>
+      <div id="customListContainer" style="display:none;">
+        <p>SEPARATE BY COMMA AND SPACE (WORD, WORD, WORD)</p>
+        <textarea id="customList"></textarea>
+      </div>
+
+    <button
         class="default-button"
         id="categoryReady"
-        onclick="submitPlayersAndShowMatrix()">
+        onclick="submitPlayersAndShowMatrix()"
+        style="display:none;">
         BEGIN GAME
       </button>
-
-    </div>
   </div>
 
   <!-- GAME -->
@@ -143,23 +164,9 @@
         <p id="roundsReset"></p>
       </div>
 
-      <div id="width"></div>
+      <button class="default-button" id="newWord">SKIP WORD / TIE</button>
+      <button class="default-button" id="playGame">PLAY</button>
 
-      <button class="default-button" id="newWord">Skip Word</button>
-      <button class="default-button" id="promptCustomList">
-        Make a Custom List!
-      </button>
-
-      <p id="customPrint" style="display:none;"></p>
-
-      <p id="custRand"></p>
-
-      <div id="customListContainer">
-        <p>Or, create your own list! (Separated by commas and spaces)</p>
-        <textarea id="customList"></textarea>
-      </div>
-
-    </div>
   </div>
 
   <script src="app.js"></script>
