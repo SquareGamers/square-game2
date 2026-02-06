@@ -21,16 +21,25 @@ const db = getFirestore(app);
 
 import { doc, setDoc } from "firebase/firestore"; 
 
-const userID = document.getElementById("username") + document.getElementById("PIN");
+const userID = document.getElementById("username");
 
-await setDoc(doc(db, "user-accounts", userID), {
-  username: userID,
-  gamesCompleted: 0,
-  gamesWon: 0,
-  winPct: (gamesWon / gamesCompleted),
-  wordsGuessed: 0,
-  wordsExplained: 0
-});
+import { getDoc } from "firebase/firestore";
+
+const ref = doc(db, "user-accounts", userID);
+const snap = await getDoc(ref);
+
+if (!snap.exists()) {
+  await setDoc(ref, {
+    username: userID,
+    gamesCompleted: 0,
+    gamesWon: 0,
+    winPct: 0,
+    wordsGuessed: 0,
+    wordsExplained: 0
+  });
+} else {
+    alert("This username already exists in our database. Please enter a new one between 2-14 characters, without using spaces or special characters.");
+}
 
 
 function showScreen(screenId) {
@@ -137,9 +146,11 @@ async function updateScore(color){
         if (color === "red") {
             if (player.id === "RED GUESSER") {
                 currPlayer.score++;  // add to **previous**
-                await setDoc(doc(db, "user-accounts", userID), {
+                await setDoc(doc(db, "user-accounts", currPlayer.name), {
                     wordsGuessed: increment(1)
-                });                
+                });      
+                // for player keys, set i equal to the index of the player dependent on each round. 
+                // then, make a bunch of combinations (16) which can add data to the INDEX based off of which team they are on at that specific round.          
             }
             else if (player.id === "RED EXPLAINER") {
                 currPlayer.score++;  // add to **previous**
@@ -844,7 +855,7 @@ function setupPlayerInputs() {
         const input = document.createElement("input");
         input.type = "text";
         input.id = "player" + i;
-        input.placeholder = "Enter name for player " + (i + 1);
+        input.placeholder = "Enter username for player " + (i + 1);
         playerInputsDiv.appendChild(input);
     }
 
