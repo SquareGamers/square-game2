@@ -7,20 +7,21 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 
-<body style="background-color:rgb(179 215 255);">
+<body style="background-color:rgb(255, 95, 95);">
 
   <div id="screen-menu" class="screen">
     <div id="menu-buttons">
       <button class = "menu-button" id="Play" onclick = "setupPlayerInputs(); showScreen('screen-enter-players');">Play</button>
       <button class="menu-button" id="Instructions">Instructions</button>
-        <div id="instrText"></div>
       <button class="menu-button" id="Rules">Rules</button>
-        <div id="rulesText"></div>
       <button class="menu-button" id="Stats">Stats</button>
       <button class="menu-button" id="Settings">Settings</button>
+      <button class="menu-button" id="Close">Close</button>
       <button class="menu-button" id="Previous">Previous</button>
       <button class="menu-button" id="Next">Next</button>
     </div>
+    <div id="instrText"></div>
+    <div id="rulesText"></div>
   </div>
 
   <!-- ENTER PLAYERS -->
@@ -34,8 +35,7 @@
       <button
         class="default-button"
         id="submitPlayers"
-        style="display:none;"
-        onclick="showScreen('screen-pick-rounds')">
+        style="display:none;">
         Submit Players
       </button>
       <div id="playerInputs"></div>
@@ -50,8 +50,7 @@
     <input type="number" id="numRounds" placeholder="Enter number of rounds">
     <button
       class="default-button"
-      id="startRounds"
-      onclick="setRounds(); showScreen('screen-pick-color')">
+      id="startRounds">
       Set Rounds
     </button>
   </div>
@@ -101,13 +100,13 @@
 
     </div>
 
+    <div id="customListContainer" style="display:none;">
+      <p>SEPARATE BY COMMA AND SPACE (WORD, WORD, WORD)</p>
+      <textarea id="customList"></textarea>
+    </div>
     <button class="default-button" id="promptCustomList"style="display:none;">
-        Make a Custom List!
-      </button>
-      <div id="customListContainer" style="display:none;">
-        <p>SEPARATE BY COMMA AND SPACE (WORD, WORD, WORD)</p>
-        <textarea id="customList"></textarea>
-      </div>
+      Make a Custom List!
+    </button>
 
     <button
         class="default-button"

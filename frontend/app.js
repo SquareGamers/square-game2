@@ -1,17 +1,13 @@
+var isReset = false; 
 function showScreen(screenId) {
     document.querySelectorAll(".screen").forEach(screen => {
       screen.classList.remove("active");
     });
     document.getElementById(screenId).classList.add("active");
-    console.log("SHOWING:", screenId);
-
     document.querySelectorAll(".screen").forEach(screen => {
       screen.classList.remove("active");
     });
-  
-    const target = document.getElementById(screenId);
-    console.log("FOUND:", target);
-  
+    const target = document.getElementById(screenId);  
     target.classList.add("active");
   }
 showScreen("screen-menu");
@@ -140,10 +136,6 @@ function changeRoles() {
     }
 }
 
-players = {
-    red: [],
-    black: []
-};
 let randomWords = [];
 let word=null;
 const readyButton = document.getElementById('readyUp');
@@ -168,6 +160,7 @@ const resetBtn = document.getElementById("resetBtn");
 const teamBtn = document.getElementById("teamBtn");
 const roundsBtn = document.getElementById("roundsBtn");
 const submitBtn = document.getElementById("submitPlayers");
+const startRounds = document.getElementById('startRounds');
 const newButton = document.getElementById("newWord");
 const playerInputsDiv = document.getElementById("playerInputs");
 const customList = document.getElementById('promptCustomList');
@@ -175,6 +168,23 @@ const defCatBtn = document.getElementById('defualtCategory');
 const createCustListBtn = document.getElementById('createCustomList');
 const customListContainer = document.getElementById('customListContainer');
 const beginGame = document.getElementById('categoryReady');
+const Instructions = document.getElementById('Instructions');
+const Rules = document.getElementById('Rules');
+const Play = document.getElementById('Play');
+const Close = document.getElementById('Close');
+const Stats = document.getElementById('Stats');
+const Settings = document.getElementById('Settings');
+Close.style.display = 'none';
+const heading1 = document.querySelector('h1');
+const heading2 = document.querySelector('h2');
+const nextInstruction = document.getElementById('Next');
+const prevInstruction = document.getElementById('Previous');
+let divInstrInput = document.getElementById('instrText');
+let instr1 = document.createElement('span');
+let divRules = document.getElementById('rulesText');
+let ruleList = document.createElement('span');
+nextInstruction.classList.add('hidden1');
+prevInstruction.classList.add('hidden1');
 let tempId = 0;
 
 readyButton.addEventListener('click',()=>{
@@ -189,7 +199,7 @@ function removeEl(el){
 function dispNum(num1) {
     removeEl('myNum');
     const numEl = document.createElement('span');
-    numEl.style.top = '170px'; 
+    numEl.style.top = '100px'; 
     numEl.id = 'myNum';
     numEl.textContent = num1 + "S TO SWITCH";
     numEl.style.position = 'absolute';
@@ -394,7 +404,7 @@ function displayWord(word2){
     removeEl('myNum');
     const wordEl = document.createElement('span');
     wordEl.id = 'myWord';
-    wordEl.style.top = '170px'; 
+    wordEl.style.top = '100px'; 
     wordEl.style.position = 'absolute';
     wordEl.style.fontSize='60px';
     wordEl.style.transition = 'all 0.5s ease';
@@ -496,15 +506,17 @@ backBtn.addEventListener('click',()=>{
 
 function setRounds(){
     numRounds = document.getElementById("numRounds").value;
-    document.getElementById("startRounds").style.display = "none";
+    startRounds.style.display = "none";
     document.getElementById("numRounds").style.display = "none";
+    console.log("numrounds " + numRounds);
 }
+
 
 const displayText2 = document.getElementById('displayText2');
 displayText2.textContent = 'ROUND';
-
-function startRoundA(categoryInput){
-    newWord(true, categoryInput)
+let i = 0;
+function startRoundA(){
+    newWord(true)
     mlbButton.style.display = 'none';
     nbaButton.style.display = 'none';
     nflButton.style.display = 'none';
@@ -515,118 +527,78 @@ function startRoundA(categoryInput){
     easyButton.style.display = 'none';
     medButton.style.display = 'none';
     hardButton.style.display = 'none';
-    let i = 1;
+    i = 1;
     displayText2.textContent = `ROUND ${i}`;
-    redBtn.addEventListener('click', function() {
-        if (i > numRounds-1){
-            redBtn.style.display = "none";
-            blackBtn.style.display = "none";
-        }
-        else{
-            num++;
-            removeEl('myWord');
-            removeEl('myNum');
-            newWord(true, categoryInput); 
-            i++;
-            displayText2.textContent = `ROUND ${i}`;
-            updateScore("red");
-            changeRoles();
-        }
-    });
-    blackBtn.addEventListener('click', function() {
-        if (i > numRounds-1){
-            redBtn.style.display = "none";
-            blackBtn.style.display = "none";
-        }
-        else{
-            num++;
-            removeEl('myWord');
-            removeEl('myNum');
-            newWord(true, categoryInput);
-            i++;
-            displayText2.textContent = `ROUND ${i}`;
-            updateScore("black");
-            changeRoles();
-        }
-    });
-    resetBtn.addEventListener('click', () => {
-        redBtn.style.display = 'inline-block';
-        blackBtn.style.display = 'inline-block';
-        backBtn.style.display = 'none';
-        athleteButton.style.display = 'inline-block';
-        foodDrinkButton.style.display = 'inline-block';
-        basicButton.style.display = 'inline-block';
-        easyButton.style.display = 'none';
-        medButton.style.display = 'none';
-        hardButton.style.display = 'none';
-        mlbButton.style.display = 'none';
-        nbaButton.style.display = 'none';
-        nflButton.style.display = 'none';
-        soccerButton.style.display = 'none';
-        mmaButton.style.display = 'none';
-        foodButton.style.display = 'none';
-        drinkButton.style.display = 'none';
-        customList.style.display = 'inline-block';
-        for (let key of playerKeys) { 
-            const player = allPlayers[key]; 
-            player.score = 0;
-        }
-        i = 1; 
-    });
-    roundsBtn.addEventListener('click', () => {
-        redBtn.style.display = 'inline-block';
-        blackBtn.style.display = 'inline-block';
-        document.getElementById("numRounds").style.display = 'inline-block';
-        document.getElementById("startRounds").style.display = 'inline-block';
-        document.getElementById("button-container").style.display = 'inline-block';
-        backBtn.style.display = 'none';
-        athleteButton.style.display = 'inline-block';
-        foodDrinkButton.style.display = 'inline-block';
-        basicButton.style.display = 'inline-block';
-        easyButton.style.display = 'none';
-        medButton.style.display = 'none';
-        hardButton.style.display = 'none';
-        mlbButton.style.display = 'none';
-        nbaButton.style.display = 'none';
-        nflButton.style.display = 'none';
-        soccerButton.style.display = 'none';
-        mmaButton.style.display = 'none';
-        foodButton.style.display = 'none';
-        drinkButton.style.display = 'none';
-        customList.style.display = 'inline-block';
-        for (let key of playerKeys) { 
-            const player = allPlayers[key]; 
-            player.score = 0;
-        }
-        i = 1; 
-    });
-    teamBtn.addEventListener('click', () => {
-        redBtn.style.display = 'inline-block';
-        blackBtn.style.display = 'inline-block';
-        submitBtn.style.display = 'inline-block';
-        playerInputsDiv.style.display = 'inline-block';
-        backBtn.style.display = 'none';
-        athleteButton.style.display = 'inline-block';
-        foodDrinkButton.style.display = 'inline-block';
-        basicButton.style.display = 'inline-block';
-        easyButton.style.display = 'none';
-        medButton.style.display = 'none';
-        hardButton.style.display = 'none';
-        mlbButton.style.display = 'none';
-        nbaButton.style.display = 'none';
-        nflButton.style.display = 'none';
-        soccerButton.style.display = 'none';
-        mmaButton.style.display = 'none';
-        foodButton.style.display = 'none';
-        drinkButton.style.display = 'none';
-        customList.style.display = 'inline-block';
-        for (let key of playerKeys) { 
-            const player = allPlayers[key]; 
-            player.score = 0;
-        }
-        i = 1; 
-    });
 }
+
+redBtn.addEventListener('click', function() {
+    if (i > numRounds-1){
+        redBtn.style.display = "none";
+        blackBtn.style.display = "none";
+    }
+    else{
+        num++;
+        removeEl('myWord');
+        removeEl('myNum');
+        newWord(true); 
+        i++;
+        displayText2.textContent = `ROUND ${i}`;
+        updateScore("red");
+        changeRoles();
+    }
+});
+blackBtn.addEventListener('click', function() {
+    if (i > numRounds-1){
+        redBtn.style.display = "none";
+        blackBtn.style.display = "none";
+    }
+    else{
+        num++;
+        removeEl('myWord');
+        removeEl('myNum');
+        newWord(true);
+        i++;
+        displayText2.textContent = `ROUND ${i}`;
+        updateScore("black");
+        changeRoles();
+    }
+});
+
+resetBtn.addEventListener('click', () => {
+    redBtn.style.display = 'inline-block';
+    blackBtn.style.display = 'inline-block';
+    document.getElementById('playGame').style.display = 'inline-block';
+    for (let key of playerKeys) { 
+        const player = allPlayers[key]; 
+        player.score = 0;
+    }
+    renderMatrix();
+    i = 1; 
+});
+roundsBtn.addEventListener('click', () => {
+    isReset = true; 
+    showScreen('screen-pick-rounds');
+    (document.getElementById('numRounds')).style.display = "inline-block";
+    startRounds.style.display = 'inline-block';
+    for (let key of playerKeys) { 
+        const player = allPlayers[key]; 
+        player.score = 0;
+    }
+    renderMatrix();
+    i = 1; 
+});
+teamBtn.addEventListener('click', () => {
+    isReset = true; 
+    showScreen('screen-enter-players');
+    setupPlayerInputs();
+    playerInputsDiv.style.display = 'inline-block';
+    for (let key of playerKeys) { 
+        const player = allPlayers[key]; 
+        player.score = 0;
+    }
+    renderMatrix();
+    i = 1; 
+});
 
 var category = "";
 
@@ -752,15 +724,17 @@ customList.addEventListener('click',()=>{
 });
 
 document.getElementById('playGame').addEventListener('click', ()=>{
-    startRoundA(category);
+    startRoundA();
+    console.log("numrounds " + numRounds);
+    (document.getElementById('playGame')).style.display = 'none';    
 });
 
 newButton.addEventListener('click',()=>{
-    newWord(false, category);
+    newWord(false);
 });
 
-function newWord(count1, categoryInput){
-        word = categoryInput[Math.floor(Math.random() * categoryInput.length)];
+function newWord(count1){
+        word = category[Math.floor(Math.random() * category.length)];
         removeEl('myWord');
         removeEl('myNum');
         countdown(count1, word);
@@ -778,15 +752,42 @@ function setupPlayerInputs() {
         input.placeholder = "Enter name for player " + (i + 1);
         playerInputsDiv.appendChild(input);
     }
-
-    // show submit button
-    const submitBtn = document.getElementById("submitPlayers");
     submitBtn.style.display = "inline-block";
-    submitBtn.addEventListener("click", () => {
-        submitBtn.style.display = "none";
-        playerInputsDiv.style.display = "none";
-    })
+
 }
+
+// show submit button
+submitBtn.addEventListener("click", () => {
+    submitBtn.style.display = "none";
+    playerInputsDiv.style.display = "none";
+    if (isReset){
+        syncPlayersFromInputs();
+        renderMatrix();
+        showScreen('screen-game');
+        (document.getElementById('playGame')).style.display = "inline-block";
+        redBtn.style.display = 'inline-block';
+        blackBtn.style.display = 'inline-block';
+    }
+    else{
+        showScreen('screen-pick-rounds');
+    }
+})
+
+startRounds.addEventListener("click", () => {
+    startRounds.style.display = "none";
+    if (isReset){
+        setRounds();
+        renderMatrix();
+        showScreen('screen-game');
+        (document.getElementById('playGame')).style.display = "inline-block";
+        redBtn.style.display = 'inline-block';
+        blackBtn.style.display = 'inline-block';
+    }
+    else{
+        setRounds();
+        showScreen('screen-pick-color');
+    }
+})
 
 const colorPicker = document.getElementById('backgroundColor');
 colorPicker.addEventListener('input', function() {
@@ -798,19 +799,7 @@ colorReset.addEventListener('click', () => {
     document.body.style.backgroundColor = "rgb(179 215 255)";
 });
 
-const Instructions=document.getElementById('Instructions');
-const Rules = document.getElementById('Rules');
-const Play = document.getElementById('Play');
-const heading1=document.querySelector('h1');
-const heading2=document.querySelector('h2');
-const nextInstruction = document.getElementById('Next');
-const prevInstruction = document.getElementById('Previous');
-nextInstruction.classList.add('hidden1');
-prevInstruction.classList.add('hidden1');
-
 function displayInstructions(){
-    const divInstrInput = document.getElementById('instrText');
-    const instr1 = document.createElement('span');
     const instrList=['The Square Game is a game of wit and speed',
                 'As an explainer, you will race your opponent (the person next to you) to each explain a word to your teammate (the person across from you)',
                 'Your objective is to get your partner to guess the word you see without saying the word (like Taboo)',
@@ -831,7 +820,6 @@ function displayInstructions(){
                 '[WIP] Check out the stats tab after the game to compare stats with your friends!',
                 'Good Luck!'
                 ];
-    instr1.textContent = 'hi';
     instr1.style.position = 'absolute';
     instr1.style.top = '50%';
     instr1.style.fontSize='40px';
@@ -849,40 +837,43 @@ function displayInstructions(){
     showNextInstruction();
     });
     function showNextInstruction(){
-        if (a < instrList.length) {
-        nextInstruction.disabled = false;
-        instr1.style.opacity=0;
-        instr1.textContent=instrList[a];
-        instr1.style.opacity=1;
-        a++;
+        if (a < 0){
+            prevInstruction.disabled = true;
+            a = 0;
+        }
+        else if (a < instrList.length && a > -1) {
+            nextInstruction.disabled = false;
+            prevInstruction.disabled = false;
+            instr1.style.opacity=0;
+            instr1.textContent=instrList[a];
+            instr1.style.opacity=1;
+            a++;
         }
         else {
-        nextInstruction.disabled = true;
+            nextInstruction.disabled = true;
         }
     }
     showNextInstruction();
 }
 
-function showRules() {
-    const divRules = document.getElementById('rulesText');
-    const ruleList = document.createElement('span');
+function showRules() {;
     ruleList.id = 'ruleList';
     ruleList.textContent = '1: No hand gestures/charades \n 2: No direct antonyms (cannot say "not sad" if word is "happy") \n 3: No saying a bigger word with the hidden word in it (if it is "play," cannot say "playful") \n 4: No saying a smaller word with part of the hidden word (if it is "teacher," cannot say "teach") \n 5: For longer/more difficult words, you can break them up into parts (can get the guesser to separately guess "ground" and "breaking" if word is "groundbreaking"';
     ruleList.style.whiteSpace = 'pre-line';
-    ruleList.style.position = 'absolute';
-    ruleList.style.top = '30%';
     ruleList.style.fontSize = '30px';
     ruleList.style.transition = 'all 0.5s ease';
-    console.log('before display rules');
     divRules.appendChild(ruleList);
-    console.log('after display rules');
 }
 
 Instructions.addEventListener('click',()=>{
-    Instructions.style.display='none';
-    console.log('before display instructions');
+    Play.style.display = 'none';
+    Instructions.style.display = 'none';
+    Rules.style.display = 'none';
+    Stats.style.display = 'none';
+    Settings.style.display = 'none';
+    Close.style.display = 'inline-block';
+    divRules.innerHTML = "";
     displayInstructions();
-    console.log('after display instructions');
     nextInstruction.classList.remove('hidden1');
     prevInstruction.classList.remove('hidden1');
     nextInstruction.classList.add('visible');
@@ -890,6 +881,31 @@ Instructions.addEventListener('click',()=>{
 })
 
 Rules.addEventListener('click', ()=>{
-    Rules.style.display='none';
+    Play.style.display = 'none';
+    Instructions.style.display = 'none';
+    Rules.style.display = 'none';
+    Stats.style.display = 'none';
+    Settings.style.display = 'none';
+    Close.style.display = 'inline-block';
+    divInstrInput.innerHTML = "";
+    nextInstruction.classList.remove('visible');
+    prevInstruction.classList.remove('visible');
+    nextInstruction.classList.add('hidden1');
+    prevInstruction.classList.add('hidden1');
     showRules();
 })
+
+Close.addEventListener('click', ()=>{
+    Close.style.display = 'none';
+    Play.style.display = 'inline-block';
+    Instructions.style.display = 'inline-block';
+    Rules.style.display = 'inline-block';
+    Stats.style.display = 'inline-block';
+    Settings.style.display = 'inline-block';
+    nextInstruction.classList.remove('visible');
+    prevInstruction.classList.remove('visible');
+    nextInstruction.classList.add('hidden1');
+    prevInstruction.classList.add('hidden1');
+    divInstrInput.innerHTML = "";
+    divRules.innerHTML = "";
+});

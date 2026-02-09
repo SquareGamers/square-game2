@@ -23,8 +23,8 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
 
 #menu-buttons{
   position: absolute; 
-  top: 0px; 
-  left: 0px;
+  top: 40%; 
+  left: 28%;
   width: 700px;
   height: 100px;
   display: flex;              /* Add this */
@@ -32,7 +32,7 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   flex-wrap: wrap;            /* Add this to wrap to next line if needed */
   align-items: center;        /* Add this to vertically center */
   gap: 10px;                  /* Optional: adds spacing between buttons */
-  padding: 10px;  
+  padding: 20px;  
 }
 
 .highlighted-button {
@@ -191,8 +191,8 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   border-radius: 20px; /* makes corners rounded */
   padding: 10px; 
   position: absolute;
-  top: 400px;
-  left: 0px;  
+  top: 45%;
+  left: 43%;  
   display: flex;             /* 1. Enable Flexbox */
   flex-direction: column;
   justify-content: space-around; 
@@ -261,8 +261,8 @@ ul {
 
 #customListContainer{
   position: absolute;
-  bottom: 25px;
-  right: 200px;
+  bottom: 20%;
+  left: 40%;
 }
 
 .player-row {
@@ -319,6 +319,7 @@ ul {
 #player3 { order: 3; } /* bottom-right */
 #player2 { order: 4; } /* bottom-left */
 
+
 .screen-instruction {
   text-align: center;       /* center the text horizontally */
   font-size: 25px;          /* adjust size */
@@ -372,14 +373,14 @@ ul {
 
 #categoryReady{
   position: absolute;
-  top: 200px; 
+  top: 150px; 
   height: 75px; 
   width: 150px; 
 }
 
 #playGame{
   position: absolute; 
-  top: 500px; 
+  top: 400px; 
   right: 550px;
   height: 75px; 
   width: 150px; 
@@ -387,7 +388,7 @@ ul {
 
 #readyUp {
   position: absolute; 
-  top: 550px; 
+  top: 450px; 
   height: 75px; 
   width: 150px; 
 }
@@ -400,8 +401,8 @@ ul {
 
 #promptCustomList{
   position: absolute; 
-  bottom: 125px; 
-  right: 425px;
+  bottom: 10%; 
+  left: 40%;
 }
 
 .hidden1 {
@@ -416,7 +417,35 @@ ul {
   transition: opacity 0.5s ease-in-out;
 }
 button {
-margin: 10px;
-padding: 20px;
-font-size:50px;
+  margin: 10px;
+  padding: 20px;
+  font-size:50px;
 } 
+
+#instrText, #rulesText {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 70%;                /* or 70%, adjust as needed */
+  max-height: 80vh;          /* limit height to 80% of viewport */
+}
+
+#Close {
+  position: absolute; 
+  top: 200px;
+  left: 80%;
+}
+
+#Previous{
+  position: absolute; 
+  top: 65px;
+  left: -150px;
+}
+
+#Next{
+  position: absolute; 
+  top: -15px;
+  left: -150px;
+}
