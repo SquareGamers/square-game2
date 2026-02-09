@@ -148,13 +148,11 @@ async function updateScore(color){
                 currPlayer.score++;  // add to **previous**
                 await setDoc(doc(db, "user-accounts", currPlayer.name), {
                     wordsGuessed: increment(1)
-                });      
-                // for player keys, set i equal to the index of the player dependent on each round. 
-                // then, make a bunch of combinations (16) which can add data to the INDEX based off of which team they are on at that specific round.          
+                });              
             }
             else if (player.id === "RED EXPLAINER") {
                 currPlayer.score++;  // add to **previous**
-                await setDoc(doc(db, "user-accounts", userID), {
+                await setDoc(doc(db, "user-accounts", currplayer.name), {
                     wordsExplained: increment(1)
                 });
             }
@@ -162,13 +160,13 @@ async function updateScore(color){
         else if (color === "black") {
             if (player.id === "BLACK GUESSER") {
                 currPlayer.score++;  // add to **previous**
-                await setDoc(doc(db, "user-accounts", userID), {
+                await setDoc(doc(db, "user-accounts", currplayer.name), {
                     wordsGuessed: increment(1)
                 });
             }
             else if (player.id === "BLACK EXPLAINER") {
                 currPlayer.score++;  // add to **previous**
-                await setDoc(doc(db, "user-accounts", userID), {
+                await setDoc(doc(db, "user-accounts", currplayer.name), {
                     wordsExplained: increment(1)
                   });
             }
