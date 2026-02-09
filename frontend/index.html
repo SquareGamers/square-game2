@@ -5,6 +5,93 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Square Game</title>
   <link rel="stylesheet" href="/styles.css">
+<<<<<<< HEAD
+  <p id="displayText1"></p>
+<meta charset="utf-8">
+    <title>Square Game</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display List</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<div id="matrix" style ="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+</div>
+
+<p id="displayText2"></p>
+ 
+<body style="background-color:rgb(179 215 255);">
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+<p id="output"></p>
+<p id="rand"></p>
+  <div id="debug" style="color:red;font-weight:bold"></div>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+  <div id="auth">
+    <input id="username" placeholder="Username">
+    <input id="pin" type="password" maxlength="4" placeholder="4-digit PIN">
+    <div id="auth">
+      <input id="username" placeholder="Username">
+      <input id="pin" placeholder="PIN">
+      <button id="registerBtn">Register</button>
+      <button id="loginBtn">Login</button>
+      <pre id="debugBox"></pre>
+    </div>
+  
+  
+<div id = "button-container">
+  <button class = "default-button" id="Basic">Basic</button>
+  <button class = "default-button" id="Athletes">Athletes</button>
+  <button class = "default-button" id="Food&Drink">Food&Drink</button>
+  <button class = "default-button" id="Food" style="display:none;">Food</button>
+  <button class = "default-button" id="Drink" style="display:none;">Drink</button>
+  <button class = "default-button" id="Easy" style="display:none;">Easy</button>
+  <button class = "default-button" id="Medium" style="display:none;">Medium</button>
+  <button class = "default-button" id="Hard" style="display:none;">Hard</button>
+  <button class = "default-button" id="NFL" style="display:none;">NFL</button>
+  <button class = "default-button" id="NBA" style="display:none;">NBA</button>
+  <button class = "default-button" id="MLB" style="display:none;">MLB</button>
+  <button class = "default-button" id="MMA" style="display:none;">MMA</button>
+  <button class = "default-button" id="Soccer" style="display:none;">Soccer</button>
+  <button class = "default-button" id="pCL" onclick="processCustomList()">Generate Word</button>
+  <button class = "default-button" id="Return" style="display:none;">Return to Menu</button>
+</div>
+
+
+<div id = "score-buttons">
+  <link rel="stylesheet" href="/styles.css">
+  <button class = "default-button" id="redBtn">RED WIN</button>
+  <p id="scoresRed"></p>
+
+  <button class = "default-button" id="blackBtn">BLACK WIN</button>
+  <p id="scoresBlack"></p>
+
+  <button class = "default-button" id="resetBtn">REPLAY</button>
+  <p id="scoresReset"></p>
+
+  <button class = "default-button" id="teamBtn">CHANGE TEAMS</button>
+  <p id="teamReset"></p>
+
+  <button class = "default-button" id="roundsBtn">CHANGE ROUNDS</button>
+  <p id="roundsReset"></p>
+  </div>
+
+
+
+<div id="width"></div> <!--maybe move this up-->
+<button class = "default-button" id="newWord" >Skip Word</button> <!--maybe move this up-->
+
+
+    <input type="number" id="numPlayers" placeholder="Enter number of players">
+    <button class = "default-button" id="setPlayers" onclick="setupPlayerInputs()">Set Players</button>
+
+    <!-- Step 2: dynamic input fields will go here -->
+    <div id="playerInputs"></div>
+    <button class = "default-button" id="submitPlayers" style="display:none;" onclick="displayTeams();">Submit Players</button>
+=======
 </head>
 
 <body style="background-color:rgb(255, 95, 95);">
@@ -41,6 +128,7 @@
       <div id="playerInputs"></div>
     </div>
   </div>
+>>>>>>> 359bdcd8e86292293b5d483416400e9473a2eb00
 
   <!-- PICK ROUNDS -->
   <div id="screen-pick-rounds" class="screen">
@@ -48,6 +136,26 @@
       <p id="instruction-text-rounds">Enter in the number of rounds you would like to play. One full rotation is 4 rounds.</p>
     </div>
     <input type="number" id="numRounds" placeholder="Enter number of rounds">
+<<<<<<< HEAD
+    <button class="default-button" id = startRounds onclick="setRounds()">Set Rounds</button>
+ <script src="app.js"></script>
+    <script src="app.test.js"></script>
+</body>
+
+<label for="backgroundColor">Select Background Color:</label>
+<input type="color" id="backgroundColor" value="#ffffff">
+<button class = "default-button" id="resetColor">Reset Color</button>
+
+<p id="rand"></p>
+<p id="custRand"></p>
+
+<div id="customListContainer"> 
+  <p>Or, create your own list! (Separated by commas and spaces)</p>
+  <textarea id="customList"></textarea>
+</div>
+
+</html>
+=======
     <button
       class="default-button"
       id="startRounds">
@@ -172,3 +280,4 @@
   <script src="app.test.js"></script>
 </body>
 </html>
+>>>>>>> 359bdcd8e86292293b5d483416400e9473a2eb00

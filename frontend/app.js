@@ -99,7 +99,7 @@ function updateScore(color){
             if (player.id === "RED GUESSER" || player.id === "RED EXPLAINER") {
                     currPlayer.score++;  // add to **previous**
             }
-        } 
+        }        
         else if (color === "black") {
             if (player.id === "BLACK GUESSER" || player.id === "BLACK EXPLAINER") {
                 currPlayer.score++;  // add to **previous**
