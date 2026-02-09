@@ -533,6 +533,8 @@ function startRoundA(){
 
 redBtn.addEventListener('click', function() {
     if (i > numRounds-1){
+        updateScore("red");
+        changeRoles();
         redBtn.style.display = "none";
         blackBtn.style.display = "none";
     }
@@ -549,6 +551,8 @@ redBtn.addEventListener('click', function() {
 });
 blackBtn.addEventListener('click', function() {
     if (i > numRounds-1){
+        updateScore("black");
+        changeRoles();
         redBtn.style.display = "none";
         blackBtn.style.display = "none";
     }
