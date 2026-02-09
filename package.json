@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "build": "echo \"No build step defined\""
+  },
   "dependencies": {
     "@dataconnect/generated": "file:src/dataconnect-generated",
     "firebase": "^12.7.0"
