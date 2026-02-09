@@ -1,3 +1,41 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCrFLo_T3pg2yrjnyF1hkDprcypspLXc-c",
+  authDomain: "square-game-b4d37.firebaseapp.com",
+  projectId: "square-game-b4d37",
+  storageBucket: "square-game-b4d37.firebasestorage.app",
+  messagingSenderId: "851745118398",
+  appId: "1:851745118398:web:8ac5cbc35f0000599ee6ef"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth();
+
+console.log("Firebase initialized");
+/*var userID = document.getElementById("username") + document.getElementById("PIN");
+async function createUser(userId) {
+    await setDoc(doc(db, "user-account", userId), {
+        username: userID,
+        gamesCompleted:0,
+        gamesWon:0,
+        //winPct: (gamesWon/gamesCompleted),
+        wordsGuessed:0,
+        wordsExplained:0
+    });
+}
+*/
+
+auth.onAuthStateChanged(user => {
+    if (user) {
+      createUser(user.uid);
+    }
+  });
+  
+
 function showScreen(screenId) {
     document.querySelectorAll(".screen").forEach(screen => {
       screen.classList.remove("active");
@@ -140,10 +178,10 @@ function changeRoles() {
     }
 }
 
-players = {
+/*players = {
     red: [],
     black: []
-};
+};*/
 let randomWords = [];
 let word=null;
 const readyButton = document.getElementById('readyUp');
@@ -176,11 +214,12 @@ const createCustListBtn = document.getElementById('createCustomList');
 const customListContainer = document.getElementById('customListContainer');
 const beginGame = document.getElementById('categoryReady');
 let tempId = 0;
-
+//createUser("testUser123");
 readyButton.addEventListener('click',()=>{
     document.getElementById('button-container').style.display = 'inline-block';
     readyButton.style.display = 'none';
 });    
+
 
 function removeEl(el){
     const existing=document.getElementById(el);
@@ -767,6 +806,8 @@ function newWord(count1, categoryInput){
 };
 
 function setupPlayerInputs() {
+        console.log("inside setupPlayerInputs");
+     
     const playerInputsDiv = document.getElementById("playerInputs");
     playerInputsDiv.innerHTML = ""; // clear previous inputs
 
@@ -787,6 +828,8 @@ function setupPlayerInputs() {
         playerInputsDiv.style.display = "none";
     })
 }
+
+
 
 const colorPicker = document.getElementById('backgroundColor');
 colorPicker.addEventListener('input', function() {
@@ -888,8 +931,36 @@ Instructions.addEventListener('click',()=>{
     nextInstruction.classList.add('visible');
     prevInstruction.classList.add('visible');
 })
-
-Rules.addEventListener('click', ()=>{
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("rulesrun")
+    const rulesBtn = document.getElementById("Rules");
+    const rulesText = document.getElementById("rulesText");
+  Rules.addEventListener('click', ()=>{
     Rules.style.display='none';
     showRules();
 })
+  });
+document.getElementById("submitPlayers").addEventListener("click",()=>{
+    showScreen('screen-pick-rounds');
+})
+document.getElementById("Play").addEventListener("click", () => {
+    setupPlayerInputs();
+    showScreen("screen-enter-players");
+  });  
+  document.getElementById("startRounds").addEventListener("click", () => {
+    console.log("rounds")
+    setRounds();
+    showScreen('screen-pick-color');
+  });
+  document.getElementById("colorReady").addEventListener("click", () => {
+    showScreen('screen-pick-category');
+  });
+  document.getElementById("categoryReady").addEventListener("click", () => {
+    submitPlayersAndShowMatrix()
+  });
+  document.getElementById("readyUp").addEventListener("click", () => {
+    submitPlayersAndStartGame()
+  });
+  document.getElementById("signUp").addEventListener("click", () => {
+    showScreen('screen-sign-up');
+  });
