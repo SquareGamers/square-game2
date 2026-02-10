@@ -968,3 +968,6 @@ document.getElementById("Play").addEventListener("click", () => {
   document.getElementById("signUp").addEventListener("click", () => {
     showScreen('screen-sign-up');
   });
+  document.getElementById("createAccount").addEventListener("click",()=>{
+    
+  })
