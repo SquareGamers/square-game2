@@ -1,4 +1,41 @@
-var isReset = false; 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCrFLo_T3pg2yrjnyF1hkDprcypspLXc-c",
+  authDomain: "square-game-b4d37.firebaseapp.com",
+  projectId: "square-game-b4d37",
+  storageBucket: "square-game-b4d37.firebasestorage.app",
+  messagingSenderId: "851745118398",
+  appId: "1:851745118398:web:8ac5cbc35f0000599ee6ef"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth();
+
+console.log("Firebase initialized");
+/*var userID = document.getElementById("username") + document.getElementById("PIN");
+async function createUser(userId) {
+    await setDoc(doc(db, "user-account", userId), {
+        username: userID,
+        gamesCompleted:0,
+        gamesWon:0,
+        //winPct: (gamesWon/gamesCompleted),
+        wordsGuessed:0,
+        wordsExplained:0
+    });
+}
+*/
+
+auth.onAuthStateChanged(user => {
+    if (user) {
+      createUser(user.uid);
+    }
+  });
+  
+
 function showScreen(screenId) {
     document.querySelectorAll(".screen").forEach(screen => {
       screen.classList.remove("active");
@@ -99,7 +136,7 @@ function updateScore(color){
             if (player.id === "RED GUESSER" || player.id === "RED EXPLAINER") {
                     currPlayer.score++;  // add to **previous**
             }
-        } 
+        }        
         else if (color === "black") {
             if (player.id === "BLACK GUESSER" || player.id === "BLACK EXPLAINER") {
                 currPlayer.score++;  // add to **previous**
@@ -186,11 +223,12 @@ let ruleList = document.createElement('span');
 nextInstruction.classList.add('hidden1');
 prevInstruction.classList.add('hidden1');
 let tempId = 0;
-
+//createUser("testUser123");
 readyButton.addEventListener('click',()=>{
     document.getElementById('button-container').style.display = 'inline-block';
     readyButton.style.display = 'none';
 });    
+
 
 function removeEl(el){
     const existing=document.getElementById(el);
@@ -529,76 +567,79 @@ function startRoundA(){
     hardButton.style.display = 'none';
     i = 1;
     displayText2.textContent = `ROUND ${i}`;
+    redBtn.addEventListener('click', function() {
+        if (i > numRounds-1){
+            updateScore("red");
+            changeRoles();
+            redBtn.style.display = "none";
+            blackBtn.style.display = "none";
+        }
+        else{
+            num++;
+            removeEl('myWord');
+            removeEl('myNum');
+            newWord(true, categoryInput); 
+            i++;
+            displayText2.textContent = `ROUND ${i}`;
+            updateScore("red");
+            changeRoles();
+        }
+    });
+    blackBtn.addEventListener('click', function() {
+        if (i > numRounds-1){
+            updateScore("black");
+            changeRoles();
+            redBtn.style.display = "none";
+            blackBtn.style.display = "none";
+        }
+        else{
+            num++;
+            removeEl('myWord');
+            removeEl('myNum');
+            newWord(true, categoryInput);
+            i++;
+            displayText2.textContent = `ROUND ${i}`;
+            updateScore("black");
+            changeRoles();
+        }
+    });
 }
-
-redBtn.addEventListener('click', function() {
-    if (i > numRounds-1){
-        redBtn.style.display = "none";
-        blackBtn.style.display = "none";
-    }
-    else{
-        num++;
-        removeEl('myWord');
-        removeEl('myNum');
-        newWord(true); 
-        i++;
-        displayText2.textContent = `ROUND ${i}`;
-        updateScore("red");
-        changeRoles();
-    }
-});
-blackBtn.addEventListener('click', function() {
-    if (i > numRounds-1){
-        redBtn.style.display = "none";
-        blackBtn.style.display = "none";
-    }
-    else{
-        num++;
-        removeEl('myWord');
-        removeEl('myNum');
-        newWord(true);
-        i++;
-        displayText2.textContent = `ROUND ${i}`;
-        updateScore("black");
-        changeRoles();
-    }
-});
-
-resetBtn.addEventListener('click', () => {
-    redBtn.style.display = 'inline-block';
-    blackBtn.style.display = 'inline-block';
-    document.getElementById('playGame').style.display = 'inline-block';
-    for (let key of playerKeys) { 
-        const player = allPlayers[key]; 
-        player.score = 0;
-    }
-    renderMatrix();
-    i = 1; 
-});
-roundsBtn.addEventListener('click', () => {
-    isReset = true; 
-    showScreen('screen-pick-rounds');
-    (document.getElementById('numRounds')).style.display = "inline-block";
-    startRounds.style.display = 'inline-block';
-    for (let key of playerKeys) { 
-        const player = allPlayers[key]; 
-        player.score = 0;
-    }
-    renderMatrix();
-    i = 1; 
-});
-teamBtn.addEventListener('click', () => {
-    isReset = true; 
-    showScreen('screen-enter-players');
-    setupPlayerInputs();
-    playerInputsDiv.style.display = 'inline-block';
-    for (let key of playerKeys) { 
-        const player = allPlayers[key]; 
-        player.score = 0;
-    }
-    renderMatrix();
-    i = 1; 
-});
+    resetBtn.addEventListener('click', () => {
+        redBtn.style.display = 'inline-block';
+        blackBtn.style.display = 'inline-block';
+        document.getElementById('playGame').style.display = 'inline-block';
+        for (let key of playerKeys) { 
+            const player = allPlayers[key]; 
+            player.score = 0;
+        }
+        renderMatrix();
+        i = 1; 
+    });
+    roundsBtn.addEventListener('click', () => {
+        isReset = true; 
+        showScreen('screen-pick-rounds');
+        (document.getElementById('numRounds')).style.display = "inline-block";
+        startRounds.style.display = 'inline-block';
+        for (let key of playerKeys) { 
+            const player = allPlayers[key]; 
+            player.score = 0;
+        }
+        renderMatrix();
+        i = 1; 
+    });
+    teamBtn.addEventListener('click', () => {
+        isReset = true; 
+        showScreen('screen-enter-players');
+        setupPlayerInputs();
+        playerInputsDiv.style.display = 'inline-block';
+        for (let key of playerKeys) { 
+            const player = allPlayers[key]; 
+            player.score = 0;
+        }
+        renderMatrix();
+        i = 1; 
+    });
+    
 
 var category = "";
 
@@ -741,6 +782,8 @@ function newWord(count1){
 };
 
 function setupPlayerInputs() {
+        console.log("inside setupPlayerInputs");
+     
     const playerInputsDiv = document.getElementById("playerInputs");
     playerInputsDiv.innerHTML = ""; // clear previous inputs
 
@@ -879,8 +922,11 @@ Instructions.addEventListener('click',()=>{
     nextInstruction.classList.add('visible');
     prevInstruction.classList.add('visible');
 })
-
-Rules.addEventListener('click', ()=>{
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("rulesrun")
+    const rulesBtn = document.getElementById("Rules");
+    const rulesText = document.getElementById("rulesText");
+  Rules.addEventListener('click', ()=>{
     Play.style.display = 'none';
     Instructions.style.display = 'none';
     Rules.style.display = 'none';
@@ -909,3 +955,31 @@ Close.addEventListener('click', ()=>{
     divInstrInput.innerHTML = "";
     divRules.innerHTML = "";
 });
+  });
+document.getElementById("submitPlayers").addEventListener("click",()=>{
+    showScreen('screen-pick-rounds');
+})
+document.getElementById("Play").addEventListener("click", () => {
+    setupPlayerInputs();
+    showScreen("screen-enter-players");
+  });  
+  document.getElementById("startRounds").addEventListener("click", () => {
+    console.log("rounds")
+    setRounds();
+    showScreen('screen-pick-color');
+  });
+  document.getElementById("colorReady").addEventListener("click", () => {
+    showScreen('screen-pick-category');
+  });
+  document.getElementById("categoryReady").addEventListener("click", () => {
+    submitPlayersAndShowMatrix()
+  });
+  document.getElementById("readyUp").addEventListener("click", () => {
+    submitPlayersAndStartGame()
+  });
+  document.getElementById("signUp").addEventListener("click", () => {
+    showScreen('screen-sign-up');
+  });
+  document.getElementById("createAccount").addEventListener("click",()=>{
+    
+  })

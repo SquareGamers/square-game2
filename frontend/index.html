@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Square Game</title>
-  <link rel="stylesheet" href="/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display List</title>
 </head>
 
-<body style="background-color:rgb(255, 95, 95);">
+<body style="background-color:rgb(179 215 255);">
+<link rel="stylesheet" href="./styles.css">
 
   <div id="screen-menu" class="screen">
     <div id="menu-buttons">
-      <button class = "menu-button" id="Play" onclick = "setupPlayerInputs(); showScreen('screen-enter-players');">Play</button>
+      <button class = "menu-button" id="Play">Play</button>
       <button class="menu-button" id="Instructions">Instructions</button>
       <button class="menu-button" id="Rules">Rules</button>
       <button class="menu-button" id="Stats">Stats</button>
@@ -41,8 +41,28 @@
       <div id="playerInputs"></div>
     </div>
   </div>
+  <div class="screen-instruction">Don't have an account?</div>
+  <div class="inputs-wrapper">
+    <button
+      class="default-button"
+      id="signUp">
+      Sign Up
+    </button>
+    <div id="playerInputs"></div>
+  </div>
+</div>
 
-  <!-- PICK ROUNDS -->
+<div id="screen-sign-up" class="screen">
+  <p id="sign-up-text">Put in a unique username!</p>
+</div>
+<input type="string" id="username" placeholder="Enter a unique username">
+<button
+  class="default-button"
+  id="createAccount">
+  Create Account
+</button>
+</div>
+  <!-- PICK ROUNDS-->
   <div id="screen-pick-rounds" class="screen">
     <div class="screen-instruction">
       <p id="instruction-text-rounds">Enter in the number of rounds you would like to play. One full rotation is 4 rounds.</p>
@@ -55,15 +75,14 @@
     </button>
   </div>
 
-  <!-- PICK COLOR -->
+  <!-- PICK COLOR-->
   <div id="screen-pick-color" class="screen">
     <label for="backgroundColor">Select Background Color:</label>
     <input type="color" id="backgroundColor" value="#ffffff">
     <button class="default-button" id="resetColor">Reset Color</button>
     <button
       class="default-button"
-      id="colorReady"
-      onclick="showScreen('screen-pick-category')">
+      id="colorReady">
       DONE
     </button>
   </div>
@@ -111,13 +130,13 @@
     <button
         class="default-button"
         id="categoryReady"
-        onclick="submitPlayersAndShowMatrix()"
+       
         style="display:none;">
         BEGIN GAME
       </button>
   </div>
 
-  <!-- GAME -->
+  <!-- GAME-->
   <div id="screen-game" class="screen">
 
     <div class="screen-instruction">
@@ -131,8 +150,7 @@
 
     <button
       class="default-button"
-      id="readyUp"
-      onclick="submitPlayersAndStartGame()">
+      id="readyUp">
       READY
     </button>
 
@@ -167,8 +185,7 @@
       <button class="default-button" id="playGame">PLAY</button>
 
   </div>
-
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
   <script src="app.test.js"></script>
 </body>
 </html>
