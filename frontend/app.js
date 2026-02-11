@@ -35,7 +35,7 @@ auth.onAuthStateChanged(user => {
     }
   });
   
-
+var isReset = false; 
 function showScreen(screenId) {
     document.querySelectorAll(".screen").forEach(screen => {
       screen.classList.remove("active");
@@ -190,12 +190,12 @@ const nflButton = document.getElementById('NFL');
 const mmaButton = document.getElementById('MMA');
 const soccerButton = document.getElementById('Soccer');
 const backBtn = document.getElementById('Return');
-const instruct = document.getElementById("displayInstructions");
 const redBtn = document.getElementById("redBtn");
 const blackBtn = document.getElementById("blackBtn");
 const resetBtn = document.getElementById("resetBtn");
 const teamBtn = document.getElementById("teamBtn");
 const roundsBtn = document.getElementById("roundsBtn");
+const colorReady = document.getElementById("colorReady"); 
 const submitBtn = document.getElementById("submitPlayers");
 const startRounds = document.getElementById('startRounds');
 const newButton = document.getElementById("newWord");
@@ -212,8 +212,6 @@ const Close = document.getElementById('Close');
 const Stats = document.getElementById('Stats');
 const Settings = document.getElementById('Settings');
 Close.style.display = 'none';
-const heading1 = document.querySelector('h1');
-const heading2 = document.querySelector('h2');
 const nextInstruction = document.getElementById('Next');
 const prevInstruction = document.getElementById('Previous');
 let divInstrInput = document.getElementById('instrText');
@@ -222,9 +220,9 @@ let divRules = document.getElementById('rulesText');
 let ruleList = document.createElement('span');
 nextInstruction.classList.add('hidden1');
 prevInstruction.classList.add('hidden1');
-let tempId = 0;
 //createUser("testUser123");
 readyButton.addEventListener('click',()=>{
+    submitPlayersAndStartGame();
     document.getElementById('button-container').style.display = 'inline-block';
     readyButton.style.display = 'none';
 });    
@@ -567,80 +565,79 @@ function startRoundA(){
     hardButton.style.display = 'none';
     i = 1;
     displayText2.textContent = `ROUND ${i}`;
-    redBtn.addEventListener('click', function() {
-        if (i > numRounds-1){
-            updateScore("red");
-            changeRoles();
-            redBtn.style.display = "none";
-            blackBtn.style.display = "none";
-        }
-        else{
-            num++;
-            removeEl('myWord');
-            removeEl('myNum');
-            newWord(true, categoryInput); 
-            i++;
-            displayText2.textContent = `ROUND ${i}`;
-            updateScore("red");
-            changeRoles();
-        }
-    });
-    blackBtn.addEventListener('click', function() {
-        if (i > numRounds-1){
-            updateScore("black");
-            changeRoles();
-            redBtn.style.display = "none";
-            blackBtn.style.display = "none";
-        }
-        else{
-            num++;
-            removeEl('myWord');
-            removeEl('myNum');
-            newWord(true, categoryInput);
-            i++;
-            displayText2.textContent = `ROUND ${i}`;
-            updateScore("black");
-            changeRoles();
-        }
-    });
 }
-    resetBtn.addEventListener('click', () => {
-        redBtn.style.display = 'inline-block';
-        blackBtn.style.display = 'inline-block';
-        document.getElementById('playGame').style.display = 'inline-block';
-        for (let key of playerKeys) { 
-            const player = allPlayers[key]; 
-            player.score = 0;
-        }
-        renderMatrix();
-        i = 1; 
-    });
-    roundsBtn.addEventListener('click', () => {
-        isReset = true; 
-        showScreen('screen-pick-rounds');
-        (document.getElementById('numRounds')).style.display = "inline-block";
-        startRounds.style.display = 'inline-block';
-        for (let key of playerKeys) { 
-            const player = allPlayers[key]; 
-            player.score = 0;
-        }
-        renderMatrix();
-        i = 1; 
-    });
-    teamBtn.addEventListener('click', () => {
-        isReset = true; 
-        showScreen('screen-enter-players');
-        setupPlayerInputs();
-        playerInputsDiv.style.display = 'inline-block';
-        for (let key of playerKeys) { 
-            const player = allPlayers[key]; 
-            player.score = 0;
-        }
-        renderMatrix();
-        i = 1; 
-    });
+redBtn.addEventListener('click', function() {
+    if (i > numRounds-1){
+        updateScore("red");
+        changeRoles();
+        redBtn.style.display = "none";
+        blackBtn.style.display = "none";
+    }
+    else{
+        num++;
+        removeEl('myWord');
+        removeEl('myNum');
+        newWord(true); 
+        i++;
+        displayText2.textContent = `ROUND ${i}`;
+        updateScore("red");
+        changeRoles();
+    }
+});
+blackBtn.addEventListener('click', function() {
+    if (i > numRounds-1){
+        updateScore("black");
+        changeRoles();
+        redBtn.style.display = "none";
+        blackBtn.style.display = "none";
+    }
+    else{
+        num++;
+        removeEl('myWord');
+        removeEl('myNum');
+        newWord(true);
+        i++;
+        displayText2.textContent = `ROUND ${i}`;
+        updateScore("black");
+        changeRoles();
+    }
+});
+resetBtn.addEventListener('click', () => {
+    redBtn.style.display = 'inline-block';
+    blackBtn.style.display = 'inline-block';
+    document.getElementById('playGame').style.display = 'inline-block';
+    for (let key of playerKeys) { 
+        const player = allPlayers[key]; 
+        player.score = 0;
+    }
+    renderMatrix();
+    i = 1; 
+});
+roundsBtn.addEventListener('click', () => {
+    isReset = true; 
+    showScreen('screen-pick-rounds');
+    (document.getElementById('numRounds')).style.display = "inline-block";
+    startRounds.style.display = 'inline-block';
+    for (let key of playerKeys) { 
+        const player = allPlayers[key]; 
+        player.score = 0;
+    }
+    renderMatrix();
+    i = 1; 
+});
+teamBtn.addEventListener('click', () => {
+    isReset = true; 
+    showScreen('screen-enter-players');
+    setupPlayerInputs();
+    playerInputsDiv.style.display = 'inline-block';
+    for (let key of playerKeys) { 
+        const player = allPlayers[key]; 
+        player.score = 0;
+    }
+    renderMatrix();
+    i = 1; 
+});
     
-
 var category = "";
 
 easyButton.addEventListener('click',()=>{
@@ -781,9 +778,7 @@ function newWord(count1){
         countdown(count1, word);
 };
 
-function setupPlayerInputs() {
-        console.log("inside setupPlayerInputs");
-     
+function setupPlayerInputs() {     
     const playerInputsDiv = document.getElementById("playerInputs");
     playerInputsDiv.innerHTML = ""; // clear previous inputs
 
@@ -956,30 +951,18 @@ Close.addEventListener('click', ()=>{
     divRules.innerHTML = "";
 });
   });
-document.getElementById("submitPlayers").addEventListener("click",()=>{
-    showScreen('screen-pick-rounds');
-})
-document.getElementById("Play").addEventListener("click", () => {
+
+Play.addEventListener("click", () => {
     setupPlayerInputs();
     showScreen("screen-enter-players");
   });  
-  document.getElementById("startRounds").addEventListener("click", () => {
-    console.log("rounds")
-    setRounds();
-    showScreen('screen-pick-color');
-  });
-  document.getElementById("colorReady").addEventListener("click", () => {
+
+colorReady.addEventListener("click", () => {
     showScreen('screen-pick-category');
-  });
-  document.getElementById("categoryReady").addEventListener("click", () => {
-    submitPlayersAndShowMatrix()
-  });
-  document.getElementById("readyUp").addEventListener("click", () => {
-    submitPlayersAndStartGame()
-  });
-  document.getElementById("signUp").addEventListener("click", () => {
+});
+beginGame.addEventListener("click", () => {
+    submitPlayersAndShowMatrix();
+});
+document.getElementById("signUp").addEventListener("click", () => {
     showScreen('screen-sign-up');
-  });
-  document.getElementById("createAccount").addEventListener("click",()=>{
-    
-  })
+});
