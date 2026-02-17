@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Array Test</title>
+
+  <style>
+    .box {
+      width: 40px;
+      height: 40px;
+      background: pink;
+      position: absolute;
+      border: 1px solid black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <script>
+    const positions = [
+      { top: 50,  left: 50 },
+      { top: 50,  left: 150 },
+      { top: 150, left: 50 },
+      { top: 150, left: 150 }
+    ];
+
+    positions.forEach((pos, i) => {
+      const div = document.createElement("div");
+      div.className = "box";
+      div.style.top = pos.top + "px";
+      div.style.left = pos.left + "px";
+      div.textContent = i; // show index
+      document.body.appendChild(div);
+    });
+  </script>
+
+</body>
+</html>
