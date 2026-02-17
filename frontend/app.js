@@ -695,13 +695,25 @@ function startRoundA(categoryInput){
 }
 
 import { collection, getDocs, getDoc } from "firebase/firestore";
-async function getStats() {
+async function getStats(categoryIndex) {
+    // categoryIndex will be incremented using a loop when stats are displayed
     const statsDoc = doc(db, "user-accounts", userID);
     const snap = await getDoc(statsDoc);
     const stats = snap.data();
-    const gamesCompleted = stats.gamesCompleted;
-    const gamesWon = stats.gamesWon;
-    const winPct = stats.winPct;
+    if (categoryIndex == 0) { //gamesCompleted
+        return stats.gamesCompleted;
+    }
+    else if (categoryIndex == 1) { //gamesWon
+        return stats.gamesWon;
+    }
+    else if (categoryIndex == 2) { //winPct
+        if (stats.gamesCompleted == 0) {
+            return 0;
+        }
+        else {
+            return (stats.gamesWon / stats.gamesCompleted) * 100;
+        }
+    }
 }
 
 
