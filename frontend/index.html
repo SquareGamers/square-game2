@@ -40,26 +40,38 @@
       <div id="playerInputs"></div>
     </div>
   </div>
-  <div class="screen-instruction">Don't have an account?</div>
-  <div class="inputs-wrapper">
+  
+  <div id="log-ins">
     <button
       class="default-button"
-      id="signUp">
+      id="signUp"
+      style="display:none;">
       Sign Up
     </button>
-    <div id="playerInputs"></div>
-  </div>
+
+    <button
+      class="default-button"
+      id="logIn"
+      style="display:none;">
+      Log In
+    </button>
 </div>
 
+<div id="playerInputs"></div>
+
 <div id="screen-sign-up" class="screen">
+  <div class="screen-instruction">Don't have an account?</div>
   <p id="sign-up-text">Put in a unique username!</p>
+</div> 
+
+<div id="create-acc-css">
+  <input type="text" id="uniqueUsername" placeholder="Enter a unique username" style="display:none">
+  <button class="default-button" id="createAccount" style="display:none;">
+    Create Account
+  </button>
 </div>
-<input type="string" id="username" placeholder="Enter a unique username">
-<button
-  class="default-button"
-  id="createAccount">
-  Create Account
-</button>
+
+
 </div>
   <!-- PICK ROUNDS-->
   <div id="screen-pick-rounds" class="screen">

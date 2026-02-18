@@ -811,8 +811,8 @@ function newWord(count1, categoryInput){
 
 function setupPlayerInputs() {
         console.log("inside setupPlayerInputs");
-     
-    const playerInputsDiv = document.getElementById("playerInputs");
+        
+        const playerInputsDiv = document.getElementById("playerInputs");
     playerInputsDiv.innerHTML = ""; // clear previous inputs
 
     // create input fields
@@ -831,6 +831,8 @@ function setupPlayerInputs() {
         submitBtn.style.display = "none";
         playerInputsDiv.style.display = "none";
     })
+    document.getElementById('logIn').style.display = "none";
+    document.getElementById('signUp').style.display='none';
 }
 
 
@@ -909,7 +911,41 @@ function displayInstructions(){
     }
     showNextInstruction();
 }
+function playGame(){
 
+    const signUpBtn=document.getElementById("signUp");
+    signUpBtn.style.display="inline-block";
+
+    const logInBtn=document.getElementById('logIn');
+    logInBtn.style.display='inline-block';
+}
+function createAcc(){
+    const playerInputsDiv = document.getElementById("playerInputs");
+    playerInputsDiv.innerHTML = ""; // clear previous inputs
+
+    // create input fields
+    for (let i = 0; i < 4; i++) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.id = "player" + i;
+        input.placeholder = "Enter name for player " + (i + 1);
+        playerInputsDiv.appendChild(input);
+    }
+
+    // show submit button
+    const submitBtn = document.getElementById("submitPlayers");
+    submitBtn.style.display = "inline-block";
+    submitBtn.addEventListener("click", () => {
+        submitBtn.style.display = "none";
+        playerInputsDiv.style.display = "none";
+    })
+}
+function signUp(){
+    document.getElementById('createAccount').style='display:inline-block';
+    document.getElementById('uniqueUsername').style='display:inline-block';
+    document.getElementById('signUp').style.display='none';
+    document.getElementById('logIn').style.display='none';
+}
 function showRules() {
     const divRules = document.getElementById('rulesText');
     const ruleList = document.createElement('span');
@@ -948,7 +984,7 @@ document.getElementById("submitPlayers").addEventListener("click",()=>{
     showScreen('screen-pick-rounds');
 })
 document.getElementById("Play").addEventListener("click", () => {
-    setupPlayerInputs();
+    playGame();
     showScreen("screen-enter-players");
   });  
   document.getElementById("startRounds").addEventListener("click", () => {
@@ -966,8 +1002,12 @@ document.getElementById("Play").addEventListener("click", () => {
     submitPlayersAndStartGame()
   });
   document.getElementById("signUp").addEventListener("click", () => {
+    signUp();
     showScreen('screen-sign-up');
   });
   document.getElementById("createAccount").addEventListener("click",()=>{
-    
+    createAcc();
+  })
+  document.getElementById('logIn').addEventListener("click",()=>{
+    setupPlayerInputs();
   })
