@@ -449,3 +449,24 @@ button {
   top: -15px;
   left: -150px;
 }
+
+#log-ins{
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: -400px;
+} 
+
+#create-acc-css{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 15px;
+  position: relative;
+  top: -200px;
+}

@@ -48,7 +48,7 @@ function showScreen(screenId) {
     target.classList.add("active");
   }
 showScreen("screen-menu");
-let numRounds = 0; 
+var numRounds = 0; 
 let num = 0; 
 const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
 //document.getElementById('button-container').style.display = 'none';
@@ -60,13 +60,12 @@ playerthree: {name: "PLAYER THREE", score: 0, id: roleKeys[2]},
 playerfour: {name: "PLAYER FOUR", score: 0, id: roleKeys[3]}
 };
 let playerKeys = Object.keys(allPlayers);
-const names = {}
 function renderMatrix(){
     const container5 = document.getElementById("matrix");
-  if (!container5) {
-    console.error("Matrix container not found");
-    return;
-  }
+    if (!container5) {
+        console.error("Matrix container not found");
+        return;
+    }
     container5.innerHTML = ""; // Clear previous display
 
     const order = [0, 1, 3, 2];
@@ -89,7 +88,6 @@ function renderMatrix(){
         ${p.id}<br>
         Score: ${p.score}
         `;
-        //names.push(p.name);
         container5.appendChild(cell);
     });
 }
@@ -220,7 +218,8 @@ let divRules = document.getElementById('rulesText');
 let ruleList = document.createElement('span');
 nextInstruction.classList.add('hidden1');
 prevInstruction.classList.add('hidden1');
-//createUser("testUser123");
+const selections = document.getElementById('selections');
+
 readyButton.addEventListener('click',()=>{
     submitPlayersAndStartGame();
     document.getElementById('button-container').style.display = 'inline-block';
@@ -550,7 +549,7 @@ function setRounds(){
 
 const displayText2 = document.getElementById('displayText2');
 displayText2.textContent = 'ROUND';
-let i = 0;
+let r = 0;
 function startRoundA(){
     newWord(true)
     mlbButton.style.display = 'none';
@@ -563,13 +562,14 @@ function startRoundA(){
     easyButton.style.display = 'none';
     medButton.style.display = 'none';
     hardButton.style.display = 'none';
-    i = 1;
-    displayText2.textContent = `ROUND ${i}`;
+    r = 1;
+    displayText2.textContent = `ROUND ${r}`;
 }
 redBtn.addEventListener('click', function() {
-    if (i > numRounds-1){
+    if (r > numRounds-1){
         updateScore("red");
         changeRoles();
+        r++;
         redBtn.style.display = "none";
         blackBtn.style.display = "none";
     }
@@ -578,16 +578,17 @@ redBtn.addEventListener('click', function() {
         removeEl('myWord');
         removeEl('myNum');
         newWord(true); 
-        i++;
-        displayText2.textContent = `ROUND ${i}`;
+        r++;
+        displayText2.textContent = `ROUND ${r}`;
         updateScore("red");
         changeRoles();
     }
 });
 blackBtn.addEventListener('click', function() {
-    if (i > numRounds-1){
+    if (r > numRounds-1){
         updateScore("black");
         changeRoles();
+        r++;
         redBtn.style.display = "none";
         blackBtn.style.display = "none";
     }
@@ -596,8 +597,8 @@ blackBtn.addEventListener('click', function() {
         removeEl('myWord');
         removeEl('myNum');
         newWord(true);
-        i++;
-        displayText2.textContent = `ROUND ${i}`;
+        r++;
+        displayText2.textContent = `ROUND ${r}`;
         updateScore("black");
         changeRoles();
     }
@@ -611,7 +612,7 @@ resetBtn.addEventListener('click', () => {
         player.score = 0;
     }
     renderMatrix();
-    i = 1; 
+    r = 1; 
 });
 roundsBtn.addEventListener('click', () => {
     isReset = true; 
@@ -623,7 +624,7 @@ roundsBtn.addEventListener('click', () => {
         player.score = 0;
     }
     renderMatrix();
-    i = 1; 
+    r = 1; 
 });
 teamBtn.addEventListener('click', () => {
     isReset = true; 
@@ -635,7 +636,7 @@ teamBtn.addEventListener('click', () => {
         player.score = 0;
     }
     renderMatrix();
-    i = 1; 
+    r = 1; 
 });
     
 var category = "";
@@ -768,7 +769,10 @@ document.getElementById('playGame').addEventListener('click', ()=>{
 });
 
 newButton.addEventListener('click',()=>{
-    newWord(false);
+    if (r <= numRounds){
+        newWord(false);
+    }
+    console.log("skip, round " + r);
 });
 
 function newWord(count1){
@@ -798,8 +802,9 @@ function setupPlayerInputs() {
 submitBtn.addEventListener("click", () => {
     submitBtn.style.display = "none";
     playerInputsDiv.style.display = "none";
+    syncPlayersFromInputs();
+    selections.innerHTML += "PLAYERS: " + allPlayers[playerKeys[0]].name + ", " + allPlayers[playerKeys[1]].name + ", " + allPlayers[playerKeys[2]].name + ", " + allPlayers[playerKeys[3]].name;
     if (isReset){
-        syncPlayersFromInputs();
         renderMatrix();
         showScreen('screen-game');
         (document.getElementById('playGame')).style.display = "inline-block";
