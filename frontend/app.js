@@ -194,6 +194,7 @@ const blackBtn = document.getElementById("blackBtn");
 const resetBtn = document.getElementById("resetBtn");
 const teamBtn = document.getElementById("teamBtn");
 const roundsBtn = document.getElementById("roundsBtn");
+const categoriesBtn = document.getElementById('categoriesBtn');
 const colorReady = document.getElementById("colorReady"); 
 const submitBtn = document.getElementById("submitPlayers");
 const startRounds = document.getElementById('startRounds');
@@ -723,6 +724,18 @@ teamBtn.addEventListener('click', () => {
     renderMatrix();
     r = 1; 
 });
+categoriesBtn.addEventListener('click', () => {
+    isReset = true; 
+    showScreen('screen-pick-category');
+    defCatBtn.style.display = 'inline-block';
+    createCustListBtn.style.display = 'inline-block';
+    for (let key of playerKeys) { 
+        const player = allPlayers[key]; 
+        player.score = 0;
+    }
+    renderMatrix();
+    r = 1; 
+});
     
 var category = "";
 
@@ -943,7 +956,7 @@ colorReset.addEventListener('click', () => {
 });
 
 function displayInstructions(){
-    const instrList=['The Square Game is a game of wit and speed',
+    const instrList = ['The Square Game is a game of wit and speed',
                 'As an explainer, you will race your opponent (the person next to you) to each explain a word to your teammate (the person across from you)',
                 'Your objective is to get your partner to guess the word you see without saying the word (like Taboo)',
                 'As a guesser, your objective is to guess the word before your opponent (the person next to you) does',

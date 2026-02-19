@@ -72,7 +72,7 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   border-radius: 8px;       /* rounded corners */
   cursor: pointer;          /* cursor changes on hover */
   position: fixed;
-  bottom: 30%;
+  bottom: 50%;
   right: 5px;
   width: 100px;             /* width of the button */
   height: 100px;            /* same as width to make it a circle */
@@ -96,7 +96,7 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   border-radius: 0px;       /* rounded corners */
   cursor: pointer;          /* cursor changes on hover */
   position: fixed;
-  bottom: 30%;
+  bottom: 50%;
   right: 110px;
   width: 100px;             /* width of the button */
   height: 100px;            /* same as width to make it a circle */
@@ -110,79 +110,6 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
 /* Optional hover effect */
 #redBtn:hover {
   background-color: rgb(160, 0, 0);
-}
-
-#resetBtn {
-  background-color: rgb(106, 106, 106);   /* button background */
-  color: rgb(255, 255, 255);             /* text color */
-  font-size: 18px;          /* bigger text */
-  padding: 10px 20px;       /* space inside button */
-  border: none;             /* remove border */
-  border-radius: 8px;       /* rounded corners */
-  cursor: pointer;          /* cursor changes on hover */
-  position: fixed;
-  bottom: 2%;
-  right: -40px;
-  transform: translateX(-50%); /* adjust to center exactly */
-  width: 150px;             /* width of the button */
-  height: 50px;            /* same as width to make it a circle */
-  body {
-      text-align: center;
-    }
-    
-}
-
-#teamBtn {
-  background-color: rgb(106, 106, 106);   /* button background */
-  color: rgb(255, 255, 255);             /* text color */
-  font-size: 16px;          /* bigger text */
-  padding: 10px 20px;       /* space inside button */
-  border: none;             /* remove border */
-  border-radius: 8px;       /* rounded corners */
-  cursor: pointer;          /* cursor changes on hover */
-  position: fixed;
-  bottom: 20%;
-  right: -40px;
-  transform: translateX(-50%); /* adjust to center exactly */
-  width: 150px;             /* width of the button */
-  height: 50px;            /* same as width to make it a circle */
-  body {
-      text-align: center;
-    }
-    
-}
-
-#roundsBtn {
-  background-color: rgb(106, 106, 106);   /* button background */
-  color: rgb(255, 255, 255);             /* text color */
-  font-size: 16px;          /* bigger text */
-  padding: 10px 20px;       /* space inside button */
-  border: none;             /* remove border */
-  border-radius: 8px;       /* rounded corners */
-  cursor: pointer;          /* cursor changes on hover */
-  position: fixed;
-  bottom: 11%;
-  right: -40px;
-  transform: translateX(-50%); /* adjust to center exactly */
-  width: 150px;             /* width of the button */
-  height: 50px;            /* same as width to make it a circle */
-  body {
-      text-align: center;
-    }
-    
-}
-
-/* Optional hover effect */
-#resetBtn:hover {
-  background-color: rgb(55, 55, 55);
-}
-
-#teamBtn:hover {
-  background-color: rgb(55, 55, 55);
-}
-
-#roundsBtn:hover {
-  background-color: rgb(55, 55, 55);
 }
 
 #button-container {
@@ -469,4 +396,32 @@ button {
   gap: 15px;
   position: relative;
   top: -200px;
+}
+
+#editButtons {
+  position: fixed;
+  right: 20px;              /* distance from right edge */
+  top: 75%;                 /* vertical placement */
+  transform: translateY(-50%);
+
+  width: 150px;
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1px;                /* space between buttons */
+}
+
+#editButtons button {
+  background-color: rgb(106, 106, 106);
+  color: white;
+  font-size: 16px;
+
+  padding: 10px 20px;
+  width: 150px;
+  height: 50px;
+
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
