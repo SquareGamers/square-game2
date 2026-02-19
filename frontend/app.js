@@ -23,8 +23,9 @@ await setDoc(doc(db, "user-accounts", userID), {
   username: userID,
   gamesCompleted: 0,
   gamesWon: 0,
-  winPct: (gamesWon / gamesCompleted)
-  
+  winPct: 0,
+  wordsGuessed: 0,
+  wordsExplained: 0
 });
 
 
@@ -682,25 +683,23 @@ function startRoundA(categoryInput){
 }
 
 import { collection, getDocs, getDoc } from "firebase/firestore";
-async function getStats(categoryIndex) {
-    // categoryIndex will be incremented using a loop when stats are displayed
-    const statsDoc = doc(db, "user-accounts", userID);
+async function getStats(player) {
+    const statsDoc = doc(db, "user-accounts", player);
     const snap = await getDoc(statsDoc);
+    if (!snap.exists()) {
+        return "No stats found for that username.";
+    }
     const stats = snap.data();
-    if (categoryIndex == 0) { //gamesCompleted
-        return stats.gamesCompleted;
+    let statList = "Player stats for " + player + ": \n";
+    statList = statList + "Games Completed: " + stats.gamesCompleted + "\n";
+    statList = statList + "Games Won: " + stats.gamesWon + "\n";
+    if (stats.gamesCompleted == 0) {
+       statList = statList + "Win Percentage: 0%";
     }
-    else if (categoryIndex == 1) { //gamesWon
-        return stats.gamesWon;
+    else {
+        statList = statList + (stats.gamesWon / stats.gamesCompleted) * 100 + "%";
     }
-    else if (categoryIndex == 2) { //winPct
-        if (stats.gamesCompleted == 0) {
-            return 0;
-        }
-        else {
-            return (stats.gamesWon / stats.gamesCompleted) * 100;
-        }
-    }
+    return statList;
 }
 
 
@@ -1004,4 +1003,20 @@ document.getElementById("Play").addEventListener("click", () => {
   });
   document.getElementById("createAccount").addEventListener("click",()=>{
     
-  })
+  });
+  document.getElementById("getStats").addEventListener("click",()=>{
+    document.getElementById("redBtn").style.display = 'none'
+    document.getElementById("blackBtn").style.display = 'none'
+    document.getElementById("resetBtn").style.display = 'none'
+    document.getElementById("teamBtn").style.display = 'none'
+    document.getElementById("roundsBtn").style.display = 'none'
+    document.getElementById("newWord").style.display = 'none'
+    document.getElementById("playGame").style.display = 'none'
+    document.getElementById("showStats").style.display = 'none'
+    document.getElementById("userStats").style.display = 'inline-block'
+    document.getElementById("showStatsFinal").style.display = 'inline-block'
+  });
+  document.getElementById("showStatsFinal").addEventListener("click",()=>{
+    getStats(document.getElementById("userStats"));
+});
+//pick up by making event listeners to display the stats and to return
