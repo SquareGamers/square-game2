@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCrFLo_T3pg2yrjnyF1hkDprcypspLXc-c",
@@ -1016,7 +1016,12 @@ document.getElementById("Play").addEventListener("click", () => {
           // Create a document inside "users" collection
           await setDoc(doc(db, "user-accounts", username), {
             username: username,
-            createdAt: new Date()
+            createdAt: new Date(),
+            gamesCompleted:0,
+            gamesWon:0,
+            winPct:0,
+            wordsGuessed:0,
+            wordsExplained:0
           });
       
           alert("Account created!");
