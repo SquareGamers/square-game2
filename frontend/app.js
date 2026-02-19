@@ -22,7 +22,7 @@ async function createUser(userId) {
         username: userID,
         gamesCompleted:0,
         gamesWon:0,
-        //winPct: (gamesWon/gamesCompleted),
+        //winPct:0,
         wordsGuessed:0,
         wordsExplained:0
     });
@@ -1005,9 +1005,25 @@ document.getElementById("Play").addEventListener("click", () => {
     signUp();
     showScreen('screen-sign-up');
   });
-  document.getElementById("createAccount").addEventListener("click",()=>{
-    createAcc();
-  })
+    document.getElementById("createAccount").addEventListener("click", async() => {
+        const username = document.getElementById("uniqueUsername").value;
+      
+        if (username === "") {
+          alert("Please enter a username");
+          return;
+        }
+        try {
+          // Create a document inside "users" collection
+          await setDoc(doc(db, "user-accounts", username), {
+            username: username,
+            createdAt: new Date()
+          });
+      
+          alert("Account created!");
+        } catch (error) {
+          console.error("Error adding user:", error);
+        }
+      });
   document.getElementById('logIn').addEventListener("click",()=>{
     setupPlayerInputs();
   })
