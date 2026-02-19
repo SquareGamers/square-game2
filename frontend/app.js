@@ -1015,8 +1015,31 @@ document.getElementById("Play").addEventListener("click", () => {
     document.getElementById("showStats").style.display = 'none'
     document.getElementById("userStats").style.display = 'inline-block'
     document.getElementById("showStatsFinal").style.display = 'inline-block'
+    document.getElementById("returnToGame").style.display = 'inline-block'
   });
-  document.getElementById("showStatsFinal").addEventListener("click",()=>{
-    getStats(document.getElementById("userStats"));
-});
+  // the async one is right here
+  //
+  //
+  document.getElementById("showStatsFinal").addEventListener("click", async () => {
+    const squaregamer = document.getElementById("userStats").value;
+    const result = await getStats(squaregamer);
+    document.getElementById("statsOutput").textContent = result;
+  });
+  //
+  //
+  //
+  document.getElementById("returnToGame").addEventListener("click",()=>{
+    document.getElementById("redBtn").style.display = 'inline-block'
+    document.getElementById("blackBtn").style.display = 'inline-block'
+    document.getElementById("resetBtn").style.display = 'inline-block'
+    document.getElementById("teamBtn").style.display = 'inline-block'
+    document.getElementById("roundsBtn").style.display = 'inline-block'
+    document.getElementById("newWord").style.display = 'inline-block'
+    document.getElementById("playGame").style.display = 'inline-block'
+    document.getElementById("showStats").style.display = 'inline-block'
+    document.getElementById("userStats").style.display = 'none'
+    document.getElementById("showStatsFinal").style.display = 'none'
+    document.getElementById("returnToGame").style.display = 'none'
+    document.getElementById("statsOutput").textContent = "";
+  });
 //pick up by making event listeners to display the stats and to return
