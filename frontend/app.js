@@ -169,6 +169,7 @@ const teamBtn = document.getElementById("teamBtn");
 const roundsBtn = document.getElementById("roundsBtn");
 const submitBtn = document.getElementById("submitPlayers");
 const newButton = document.getElementById("newWord");
+const playButton = document.getElementById("playGame");
 const playerInputsDiv = document.getElementById("playerInputs");
 const customList = document.getElementById('promptCustomList');
 const defCatBtn = document.getElementById('defualtCategory');
@@ -176,6 +177,28 @@ const createCustListBtn = document.getElementById('createCustomList');
 const customListContainer = document.getElementById('customListContainer');
 const beginGame = document.getElementById('categoryReady');
 let tempId = 0;
+
+function showWinner() {
+    console.log('showWinner called');
+    document.getElementById("matrix").innerHTML = "";
+    newButton.style.display = "none";
+    displayText2.textContent = '';
+    removeEl('myWord');
+
+    const standings = Object.keys(allPlayers);
+    standings.sort((a, b) => allPlayers[b].score - allPlayers[a].score);
+
+    
+    /*const winner = allPlayers[playerKeys[0]].score;
+    for (let i = 1; i < playerKeys.length; i++) {
+        if (allPlayers[playerKeys[i]].score > winner) {
+            winner = allPlayers[playerKeys[i]].score;
+        }
+    }*/
+
+
+
+}
 
 readyButton.addEventListener('click',()=>{
     document.getElementById('button-container').style.display = 'inline-block';
@@ -520,7 +543,7 @@ function startRoundA(categoryInput){
     redBtn.addEventListener('click', function() {
         if (i > numRounds-1){
             updateScore("red");
-            changeRoles();
+            showWinner();
             redBtn.style.display = "none";
             blackBtn.style.display = "none";
         }
@@ -538,7 +561,7 @@ function startRoundA(categoryInput){
     blackBtn.addEventListener('click', function() {
         if (i > numRounds-1){
             updateScore("black");
-            changeRoles();
+            showWinner();
             redBtn.style.display = "none";
             blackBtn.style.display = "none";
         }
@@ -755,8 +778,9 @@ customList.addEventListener('click',()=>{
     }, 250);
 });
 
-document.getElementById('playGame').addEventListener('click', ()=>{
+playButton.addEventListener('click', ()=>{
     startRoundA(category);
+    playButton.style.display = 'none';
 });
 
 newButton.addEventListener('click',()=>{
