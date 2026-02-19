@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCrFLo_T3pg2yrjnyF1hkDprcypspLXc-c",
@@ -919,27 +919,6 @@ function playGame(){
     const logInBtn=document.getElementById('logIn');
     logInBtn.style.display='inline-block';
 }
-function createAcc(){
-    const playerInputsDiv = document.getElementById("playerInputs");
-    playerInputsDiv.innerHTML = ""; // clear previous inputs
-
-    // create input fields
-    for (let i = 0; i < 4; i++) {
-        const input = document.createElement("input");
-        input.type = "text";
-        input.id = "player" + i;
-        input.placeholder = "Enter name for player " + (i + 1);
-        playerInputsDiv.appendChild(input);
-    }
-
-    // show submit button
-    const submitBtn = document.getElementById("submitPlayers");
-    submitBtn.style.display = "inline-block";
-    submitBtn.addEventListener("click", () => {
-        submitBtn.style.display = "none";
-        playerInputsDiv.style.display = "none";
-    })
-}
 function signUp(){
     document.getElementById('createAccount').style='display:inline-block';
     document.getElementById('uniqueUsername').style='display:inline-block';
@@ -970,7 +949,44 @@ Instructions.addEventListener('click',()=>{
     prevInstruction.classList.remove('hidden1');
     nextInstruction.classList.add('visible');
     prevInstruction.classList.add('visible');
-})
+})  
+async function createAcc(){
+    const username = document.getElementById("uniqueUsername").value;
+      
+        if (username === "") {
+          alert("Please enter a username");
+          return;
+        }
+        try {
+            const userRef = doc(db, "user-accounts", username);
+            const userSnap = await getDoc(userRef);
+        
+            // 🔍 Check if document exists
+            if (userSnap.exists()) {
+              alert("Username already exists!");
+              return;
+            }
+            await setDoc(userRef, {
+                username: username,
+                createdAt: new Date(),
+                gamesCompleted:0,
+                gamesWon:0,
+                winPct:0,
+                wordsGuessed:0,
+                wordsExplained:0
+              });
+          
+              alert("Account created!");
+            } catch (error) {
+              console.error("Error:", error);
+            }
+        playGame();
+      showScreen("screen-enter-players");
+      document.getElementById('createAccount').style='display:none';
+      document.getElementById('uniqueUsername').style='display:none';
+    }     
+
+
 document.addEventListener("DOMContentLoaded", () => {
     console.log("rulesrun")
     const rulesBtn = document.getElementById("Rules");
@@ -1005,30 +1021,10 @@ document.getElementById("Play").addEventListener("click", () => {
     signUp();
     showScreen('screen-sign-up');
   });
-    document.getElementById("createAccount").addEventListener("click", async() => {
-        const username = document.getElementById("uniqueUsername").value;
-      
-        if (username === "") {
-          alert("Please enter a username");
-          return;
-        }
-        try {
-          // Create a document inside "users" collection
-          await setDoc(doc(db, "user-accounts", username), {
-            username: username,
-            createdAt: new Date(),
-            gamesCompleted:0,
-            gamesWon:0,
-            winPct:0,
-            wordsGuessed:0,
-            wordsExplained:0
-          });
-      
-          alert("Account created!");
-        } catch (error) {
-          console.error("Error adding user:", error);
-        }
-      });
+  document.getElementById("createAccount").addEventListener("click", async() => {
+     createAcc();
+    });
   document.getElementById('logIn').addEventListener("click",()=>{
     setupPlayerInputs();
   })
+
