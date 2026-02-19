@@ -174,6 +174,7 @@ function changeRoles() {
 let randomWords = [];
 let word=null;
 const readyButton = document.getElementById('readyUp');
+const CSPButton = document.getElementById('CSP');
 const basicButton= document.getElementById('Basic');
 const hardButton= document.getElementById('Hard');
 const medButton= document.getElementById('Medium');
@@ -260,7 +261,86 @@ function countdown(count, word1) {
     }
 }
 
-
+let listCSP = [
+    "Binary",
+    "Bit",
+    "Byte",
+    "Overflow Error",
+    "Round-off Error",
+    "Analog Data",
+    "Digital Data",
+    "Sampling",
+    "Lossless Compression",
+    "Lossy Compression",
+    "Intellectual Property",
+    "Creative Commons",
+    "Computing Device",
+    "Computing System",
+    "Computing Network",
+    "Path",
+    "Bandwidth",
+    "Protocol",
+    "IP Address",
+    "Internet Protocol (IP)",
+    "Router",
+    "Packet",
+    "Redundancy",
+    "Fault Tolerant",
+    "HTTP",
+    "Internet",
+    "World Wide Web",
+    "Digital Divide",
+    "User Interface",
+    "Input",
+    "Output",
+    "Program Statement",
+    "Program",
+    "Sequential Programming",
+    "Documentation",
+    "Comment",
+    "Pair Programming",
+    "Debugging",
+    "Development process",
+    "Expression",
+    "Assignment Operator",
+    "Variable",
+    "String",
+    "Boolean Value",
+    "Comparison Operators",
+    "Logical operator",
+    "Conditional Statement",
+    "Function",
+    "Function Call",
+    "List",
+    "Element",
+    "Index",
+    "Iteration",
+    "Infinite loop",
+    "Traversal",
+    "Data abstraction",
+    "Problem",
+    "Algorithm",
+    "Sequencing",
+    "Selection",
+    "Parameter",
+    "Argument",
+    "Return",
+    "Cleaning Data",
+    "Correlation",
+    "Crowdsourcing",
+    "Information",
+    "Data bias",
+    "Data filtering",
+    "Computing Innovation",
+    "Personally Identifiable Information (PII)",
+    "Phishing",
+    "Keylogging",
+    "Malware",
+    "Rogue Access Point",
+    "Encryption",
+    "Decryption"
+  ]
+  
 let listEasyBasicWords = ["Blade", "Crush", "Drill", "Flame", "Grasp", "Jump", "Kick", "Lift", "Mash", "Neck",
 "Quirk", "Snub", "Thump", "Vault", "Wrench", "Zap", "Bark", "Cling", "Dusk",
 "Hush", "Lump", "Numb", "Quake", "Throb",
@@ -469,6 +549,7 @@ defCatBtn.addEventListener('click',()=>{
     athleteButton.style.display = 'inline-block';
     foodDrinkButton.style.display = 'inline-block';
     basicButton.style.display = 'inline-block';
+    CSPButton.style.display = 'inline-block';
     easyButton.style.display = 'none';
     medButton.style.display = 'none';
     hardButton.style.display = 'none';
@@ -490,6 +571,7 @@ basicButton.addEventListener('click',()=>{
     athleteButton.style.display = 'none';
     foodDrinkButton.style.display = 'none';
     basicButton.style.display = 'none';
+    CSPButton.style.display = 'none';
     easyButton.style.display = 'inline-block';
     medButton.style.display = 'inline-block';
     hardButton.style.display = 'inline-block';
@@ -501,6 +583,7 @@ athleteButton.addEventListener('click',()=>{
     athleteButton.style.display = 'none';
     foodDrinkButton.style.display = 'none';
     basicButton.style.display = 'none';
+    CSPButton.style.display = 'none';
     customList.style.display = 'none';
     mlbButton.style.display = 'inline-block';
     nbaButton.style.display = 'inline-block';
@@ -514,6 +597,7 @@ foodDrinkButton.addEventListener('click',()=>{
     athleteButton.style.display = 'none';
     foodDrinkButton.style.display = 'none';
     basicButton.style.display = 'none';
+    CSPButton.style.display = 'none';
     drinkButton.style.display = 'inline-block';
     foodButton.style.display = 'inline-block';
     backBtn.style.display = 'inline-block';
@@ -524,6 +608,7 @@ backBtn.addEventListener('click',()=>{
     athleteButton.style.display = 'inline-block';
     foodDrinkButton.style.display = 'inline-block';
     basicButton.style.display = 'inline-block';
+    CSPButton.style.display = 'inline-block';
     easyButton.style.display = 'none';
     medButton.style.display = 'none';
     hardButton.style.display = 'none';
@@ -640,6 +725,21 @@ teamBtn.addEventListener('click', () => {
 });
     
 var category = "";
+
+CSPButton.addEventListener('click',()=>{
+    category = listCSP;
+    CSPButton.classList.remove('default-button');
+    CSPButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        CSPButton.classList.remove('highlighted-button');
+        CSPButton.classList.add('default-button');
+    }, 250);
+    athleteButton.style.display = 'none';
+    foodDrinkButton.style.display = 'none';
+    basicButton.style.display = 'none';
+    CSPButton.style.display = 'none';
+});
 
 easyButton.addEventListener('click',()=>{
     category = listEasyBasicWords;
@@ -797,7 +897,7 @@ function setupPlayerInputs() {
     submitBtn.style.display = "inline-block";
 
 }
-
+  
 // show submit button
 submitBtn.addEventListener("click", () => {
     submitBtn.style.display = "none";
