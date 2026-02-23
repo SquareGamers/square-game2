@@ -341,7 +341,6 @@ let listCSP = [
     "Encryption",
     "Decryption"
   ]
-  
 let listEasyBasicWords = ["Blade", "Crush", "Drill", "Flame", "Grasp", "Jump", "Kick", "Lift", "Mash", "Neck",
 "Quirk", "Snub", "Thump", "Vault", "Wrench", "Zap", "Bark", "Cling", "Dusk",
 "Hush", "Lump", "Numb", "Quake", "Throb",
@@ -752,6 +751,7 @@ CSPButton.addEventListener('click',()=>{
     foodDrinkButton.style.display = 'none';
     basicButton.style.display = 'none';
     CSPButton.style.display = 'none';
+    backBtn.style.display = 'inline-block';
 });
 
 easyButton.addEventListener('click',()=>{
@@ -763,6 +763,9 @@ easyButton.addEventListener('click',()=>{
         easyButton.classList.remove('highlighted-button');
         easyButton.classList.add('default-button');
     }, 250);
+    easyButton.style.display = 'none';
+    medButton.style.display = 'none';
+    hardButton.style.display = 'none';
 });
 
 medButton.addEventListener('click',()=>{
@@ -774,6 +777,9 @@ medButton.addEventListener('click',()=>{
         medButton.classList.remove('highlighted-button');
         medButton.classList.add('default-button');
     }, 250);
+    easyButton.style.display = 'none';
+    medButton.style.display = 'none';
+    hardButton.style.display = 'none';
 });
 
 hardButton.addEventListener('click',()=>{
@@ -785,6 +791,9 @@ hardButton.addEventListener('click',()=>{
         hardButton.classList.remove('highlighted-button');
         hardButton.classList.add('default-button');
     }, 250);
+    easyButton.style.display = 'none';
+    medButton.style.display = 'none';
+    hardButton.style.display = 'none';
 });
 
 nbaButton.addEventListener('click',()=>{
@@ -796,6 +805,11 @@ nbaButton.addEventListener('click',()=>{
         nbaButton.classList.remove('highlighted-button');
         nbaButton.classList.add('default-button');
     }, 250);
+    mlbButton.style.display = 'none';
+    nbaButton.style.display = 'none';
+    nflButton.style.display = 'none';
+    soccerButton.style.display = 'none';
+    mmaButton.style.display = 'none';
 });
 
 nflButton.addEventListener('click',()=>{
@@ -807,6 +821,11 @@ nflButton.addEventListener('click',()=>{
         nflButton.classList.remove('highlighted-button');
         nflButton.classList.add('default-button');
     }, 250);
+    mlbButton.style.display = 'none';
+    nbaButton.style.display = 'none';
+    nflButton.style.display = 'none';
+    soccerButton.style.display = 'none';
+    mmaButton.style.display = 'none';
 });
 
 mlbButton.addEventListener('click',()=>{
@@ -818,6 +837,11 @@ mlbButton.addEventListener('click',()=>{
         mlbButton.classList.remove('highlighted-button');
         mlbButton.classList.add('default-button');
     }, 250);
+    mlbButton.style.display = 'none';
+    nbaButton.style.display = 'none';
+    nflButton.style.display = 'none';
+    soccerButton.style.display = 'none';
+    mmaButton.style.display = 'none';
 });
 
 soccerButton.addEventListener('click',()=>{
@@ -829,6 +853,11 @@ soccerButton.addEventListener('click',()=>{
         soccerButton.classList.remove('highlighted-button');
         soccerButton.classList.add('default-button');
     }, 250);
+    mlbButton.style.display = 'none';
+    nbaButton.style.display = 'none';
+    nflButton.style.display = 'none';
+    soccerButton.style.display = 'none';
+    mmaButton.style.display = 'none';
 });
 
 mmaButton.addEventListener('click',()=>{
@@ -840,6 +869,11 @@ mmaButton.addEventListener('click',()=>{
         mmaButton.classList.remove('highlighted-button');
         mmaButton.classList.add('default-button');
     }, 250);
+    mlbButton.style.display = 'none';
+    nbaButton.style.display = 'none';
+    nflButton.style.display = 'none';
+    soccerButton.style.display = 'none';
+    mmaButton.style.display = 'none';
 });
 
 foodButton.addEventListener('click',()=>{
@@ -851,6 +885,8 @@ foodButton.addEventListener('click',()=>{
         foodButton.classList.remove('highlighted-button');
         foodButton.classList.add('default-button');
     }, 250);
+    drinkButton.style.display = 'none';
+    foodButton.style.display = 'none';
 });
 
 drinkButton.addEventListener('click',()=>{
@@ -862,6 +898,8 @@ drinkButton.addEventListener('click',()=>{
         drinkButton.classList.remove('highlighted-button');
         drinkButton.classList.add('default-button');
     }, 250);
+    drinkButton.style.display = 'none';
+    foodButton.style.display = 'none';
 });
 
 customList.addEventListener('click',()=>{
@@ -1079,7 +1117,16 @@ colorReady.addEventListener("click", () => {
     showScreen('screen-pick-category');
 });
 beginGame.addEventListener("click", () => {
-    submitPlayersAndShowMatrix();
+    if (isReset){
+        renderMatrix();
+        showScreen('screen-game');
+        (document.getElementById('playGame')).style.display = "inline-block";
+        redBtn.style.display = 'inline-block';
+        blackBtn.style.display = 'inline-block';
+    }
+    else{
+        submitPlayersAndShowMatrix();
+    }
 });
 document.getElementById("signUp").addEventListener("click", () => {
     showScreen('screen-sign-up');
