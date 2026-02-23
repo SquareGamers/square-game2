@@ -1023,6 +1023,7 @@ document.getElementById("Play").addEventListener("click", () => {
   });
   document.getElementById("createAccount").addEventListener("click", async() => {
      createAcc();
+     
     });
   document.getElementById('logIn').addEventListener("click",()=>{
     setupPlayerInputs();
