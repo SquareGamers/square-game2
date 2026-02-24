@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCrFLo_T3pg2yrjnyF1hkDprcypspLXc-c",
@@ -221,6 +221,14 @@ let ruleList = document.createElement('span');
 nextInstruction.classList.add('hidden1');
 prevInstruction.classList.add('hidden1');
 const selections = document.getElementById('selections');
+const quitBtn = document.getElementById('quit');
+const signUpBtn = document.getElementById('signUp');
+const logInBtn = document.getElementById('logIn');
+const editButtons = document.getElementById("editButtons");
+const X = document.getElementById("X");
+const createAccBtn = document.getElementById('createAccount');
+const uniqueUsername = document.getElementById('uniqueUsername');
+const finalPlay = document.getElementById('playGame');
 
 readyButton.addEventListener('click',()=>{
     submitPlayersAndStartGame();
@@ -691,7 +699,7 @@ blackBtn.addEventListener('click', function() {
 resetBtn.addEventListener('click', () => {
     redBtn.style.display = 'inline-block';
     blackBtn.style.display = 'inline-block';
-    document.getElementById('playGame').style.display = 'inline-block';
+    finalPlay.style.display = 'inline-block';
     for (let key of playerKeys) { 
         const player = allPlayers[key]; 
         player.score = 0;
@@ -913,10 +921,10 @@ customList.addEventListener('click',()=>{
     }, 250);
 });
 
-document.getElementById('playGame').addEventListener('click', ()=>{
+finalPlay.addEventListener('click', ()=>{
     startRoundA();
     console.log("numrounds " + numRounds);
-    (document.getElementById('playGame')).style.display = 'none';    
+    finalPlay.style.display = 'none';    
 });
 
 newButton.addEventListener('click',()=>{
@@ -946,7 +954,6 @@ function setupPlayerInputs() {
         playerInputsDiv.appendChild(input);
     }
     submitBtn.style.display = "inline-block";
-
 }
   
 // show submit button
@@ -958,14 +965,15 @@ submitBtn.addEventListener("click", () => {
     if (isReset){
         renderMatrix();
         showScreen('screen-game');
-        (document.getElementById('playGame')).style.display = "inline-block";
+        finalPlay.style.display = "inline-block";
         redBtn.style.display = 'inline-block';
         blackBtn.style.display = 'inline-block';
     }
     else{
         showScreen('screen-pick-rounds');
     }
-})
+});
+
 
 startRounds.addEventListener("click", () => {
     startRounds.style.display = "none";
@@ -973,7 +981,7 @@ startRounds.addEventListener("click", () => {
         setRounds();
         renderMatrix();
         showScreen('screen-game');
-        (document.getElementById('playGame')).style.display = "inline-block";
+        finalPlay.style.display = "inline-block";
         redBtn.style.display = 'inline-block';
         blackBtn.style.display = 'inline-block';
     }
@@ -981,7 +989,7 @@ startRounds.addEventListener("click", () => {
         setRounds();
         showScreen('screen-pick-color');
     }
-})
+});
 
 const colorPicker = document.getElementById('backgroundColor');
 colorPicker.addEventListener('input', function() {
@@ -1059,6 +1067,41 @@ function showRules() {;
     divRules.appendChild(ruleList);
 }
 
+async function createAcc(){
+    const username = uniqueUsername.value;
+      
+        if (username === "") {
+          alert("Please enter a username");
+          return;
+        }
+        try {
+            const userRef = doc(db, "user-accounts", username);
+            const userSnap = await getDoc(userRef);
+        
+            // 🔍 Check if document exists
+            if (userSnap.exists()) {
+              alert("Username already exists!");
+              return;
+            }
+            await setDoc(userRef, {
+                username: username,
+                createdAt: new Date(),
+                gamesCompleted:0,
+                gamesWon:0,
+                winPct:0,
+                wordsGuessed:0,
+                wordsExplained:0
+              });
+          
+              alert("Account created!");
+            } catch (error) {
+              console.error("Error:", error);
+            }
+      showScreen("screen-enter-players");
+      createAccBtn.style.display ='none';
+      uniqueUsername.style.display = 'none';
+    }   
+
 Instructions.addEventListener('click',()=>{
     Play.style.display = 'none';
     Instructions.style.display = 'none';
@@ -1072,11 +1115,8 @@ Instructions.addEventListener('click',()=>{
     prevInstruction.classList.remove('hidden1');
     nextInstruction.classList.add('visible');
     prevInstruction.classList.add('visible');
-})
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("rulesrun")
-    const rulesBtn = document.getElementById("Rules");
-    const rulesText = document.getElementById("rulesText");
+});
+
   Rules.addEventListener('click', ()=>{
     Play.style.display = 'none';
     Instructions.style.display = 'none';
@@ -1106,12 +1146,6 @@ Close.addEventListener('click', ()=>{
     divInstrInput.innerHTML = "";
     divRules.innerHTML = "";
 });
-  });
-
-Play.addEventListener("click", () => {
-    setupPlayerInputs();
-    showScreen("screen-enter-players");
-  });  
 
 colorReady.addEventListener("click", () => {
     showScreen('screen-pick-category');
@@ -1120,7 +1154,7 @@ beginGame.addEventListener("click", () => {
     if (isReset){
         renderMatrix();
         showScreen('screen-game');
-        (document.getElementById('playGame')).style.display = "inline-block";
+        finalPlay.style.display = "inline-block";
         redBtn.style.display = 'inline-block';
         blackBtn.style.display = 'inline-block';
     }
@@ -1128,6 +1162,38 @@ beginGame.addEventListener("click", () => {
         submitPlayersAndShowMatrix();
     }
 });
-document.getElementById("signUp").addEventListener("click", () => {
-    showScreen('screen-sign-up');
+
+quitBtn.addEventListener('click', ()=>{
+    editButtons.classList.add("active"); 
+    quitBtn.style.display = "none";
 });
+
+X.addEventListener('click', ()=>{
+    if (e.key === "Escape") {
+        editButtons.classList.remove("active");
+        quitBtn.style.display = "inline-block";
+    }
+});
+
+signUpBtn.addEventListener("click",()=>{
+    showScreen('screen-sign-up');
+    uniqueUsername.style.display = 'inline-block';
+    createAccBtn.style.display = 'inline-block';
+}); 
+
+createAccBtn.addEventListener("click",()=>{
+    createAcc();
+}); 
+
+logInBtn.addEventListener("click",()=>{
+    setupPlayerInputs();
+    logInBtn.style.display = 'none';
+    signUpBtn.style.display = 'none';
+});
+
+Play.addEventListener("click", () => {
+    console.log("play");
+    showScreen("screen-enter-players");
+    logInBtn.style.display = 'inline-block';
+    signUpBtn.style.display = 'inline-block';
+  }); 
