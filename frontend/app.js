@@ -15,18 +15,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
 
-import { doc, setDoc } from "firebase/firestore"; 
-
-
-
-await setDoc(doc(db, "user-accounts", userID), {
-  username: userID,
-  gamesCompleted: 0,
-  gamesWon: 0,
-  winPct: 0,
-  wordsGuessed: 0,
-  wordsExplained: 0
-});
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"; 
 
 auth.onAuthStateChanged(user => {
     if (user) {
@@ -752,7 +741,7 @@ categoriesBtn.addEventListener('click', () => {
     r = 1; 
 });
     
-import { collection, getDocs, getDoc } from "firebase/firestore";
+import { getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 async function getStats(player) {
     const statsDoc = doc(db, "user-accounts", player);
     const snap = await getDoc(statsDoc);
@@ -1187,3 +1176,41 @@ beginGame.addEventListener("click", () => {
 document.getElementById("signUp").addEventListener("click", () => {
     showScreen('screen-sign-up');
 });
+document.getElementById("showStats").addEventListener("click",()=>{
+    document.getElementById("redBtn").style.display = 'none'
+    document.getElementById("blackBtn").style.display = 'none'
+    document.getElementById("resetBtn").style.display = 'none'
+    document.getElementById("teamBtn").style.display = 'none'
+    document.getElementById("roundsBtn").style.display = 'none'
+    document.getElementById("newWord").style.display = 'none'
+    document.getElementById("playGame").style.display = 'none'
+    document.getElementById("showStats").style.display = 'none'
+    document.getElementById("userStats").style.display = 'inline-block'
+    document.getElementById("showStatsFinal").style.display = 'inline-block'
+    document.getElementById("returnToGame").style.display = 'inline-block'
+  });
+  // the async one is right here
+  //
+  //
+  document.getElementById("showStatsFinal").addEventListener("click", async () => {
+    const squaregamer = document.getElementById("userStats").value;
+    const result = await getStats(squaregamer);
+    document.getElementById("statsOutput").textContent = result;
+  });
+  //
+  //
+  //
+  document.getElementById("returnToGame").addEventListener("click",()=>{
+    document.getElementById("redBtn").style.display = 'inline-block'
+    document.getElementById("blackBtn").style.display = 'inline-block'
+    document.getElementById("resetBtn").style.display = 'inline-block'
+    document.getElementById("teamBtn").style.display = 'inline-block'
+    document.getElementById("roundsBtn").style.display = 'inline-block'
+    document.getElementById("newWord").style.display = 'inline-block'
+    document.getElementById("playGame").style.display = 'inline-block'
+    document.getElementById("showStats").style.display = 'inline-block'
+    document.getElementById("userStats").style.display = 'none'
+    document.getElementById("showStatsFinal").style.display = 'none'
+    document.getElementById("returnToGame").style.display = 'none'
+    document.getElementById("statsOutput").textContent = "";
+  });
