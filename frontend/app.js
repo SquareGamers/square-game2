@@ -1136,7 +1136,16 @@ document.addEventListener("DOMContentLoaded", () => {
     prevInstruction.classList.add('hidden1');
     showRules();
 })
-
+Stats.addEventListener("click",()=>{
+    Play.style.display = 'none';
+    Instructions.style.display = 'none';
+    Rules.style.display = 'none';
+    Stats.style.display = 'none';
+    Settings.style.display = 'none';
+    document.getElementById("userStats").style.display = 'inline-block'
+    document.getElementById("showStatsFinal").style.display = 'inline-block'
+    Close.style.display = 'inline-block'
+  });
 Close.addEventListener('click', ()=>{
     Close.style.display = 'none';
     Play.style.display = 'inline-block';
@@ -1144,6 +1153,10 @@ Close.addEventListener('click', ()=>{
     Rules.style.display = 'inline-block';
     Stats.style.display = 'inline-block';
     Settings.style.display = 'inline-block';
+    document.getElementById("userStats").style.display = 'none'
+    document.getElementById("showStatsFinal").style.display = 'none'
+    document.getElementById("returnToGame").style.display = 'none'
+    document.getElementById("statsOutput").textContent = "";
     nextInstruction.classList.remove('visible');
     prevInstruction.classList.remove('visible');
     nextInstruction.classList.add('hidden1');
@@ -1176,19 +1189,7 @@ beginGame.addEventListener("click", () => {
 document.getElementById("signUp").addEventListener("click", () => {
     showScreen('screen-sign-up');
 });
-document.getElementById("showStats").addEventListener("click",()=>{
-    document.getElementById("redBtn").style.display = 'none'
-    document.getElementById("blackBtn").style.display = 'none'
-    document.getElementById("resetBtn").style.display = 'none'
-    document.getElementById("teamBtn").style.display = 'none'
-    document.getElementById("roundsBtn").style.display = 'none'
-    document.getElementById("newWord").style.display = 'none'
-    document.getElementById("playGame").style.display = 'none'
-    document.getElementById("showStats").style.display = 'none'
-    document.getElementById("userStats").style.display = 'inline-block'
-    document.getElementById("showStatsFinal").style.display = 'inline-block'
-    document.getElementById("returnToGame").style.display = 'inline-block'
-  });
+
   // the async one is right here
   //
   //
@@ -1200,17 +1201,3 @@ document.getElementById("showStats").addEventListener("click",()=>{
   //
   //
   //
-  document.getElementById("returnToGame").addEventListener("click",()=>{
-    document.getElementById("redBtn").style.display = 'inline-block'
-    document.getElementById("blackBtn").style.display = 'inline-block'
-    document.getElementById("resetBtn").style.display = 'inline-block'
-    document.getElementById("teamBtn").style.display = 'inline-block'
-    document.getElementById("roundsBtn").style.display = 'inline-block'
-    document.getElementById("newWord").style.display = 'inline-block'
-    document.getElementById("playGame").style.display = 'inline-block'
-    document.getElementById("showStats").style.display = 'inline-block'
-    document.getElementById("userStats").style.display = 'none'
-    document.getElementById("showStatsFinal").style.display = 'none'
-    document.getElementById("returnToGame").style.display = 'none'
-    document.getElementById("statsOutput").textContent = "";
-  });

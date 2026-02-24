@@ -21,6 +21,9 @@
       <button class="menu-button" id="Close">Close</button>
       <button class="menu-button" id="Previous">Previous</button>
       <button class="menu-button" id="Next">Next</button>
+      <input type="string" id="userStats" style="display:none;" placeholder="Username of the player">
+      <button class="menu-button" id="showStatsFinal" style="display:none;">Show Their Stats</button>
+      <pre id="statsOutput"></pre>
     </div>
     <div id="instrText"></div>
     <div id="rulesText"></div>
@@ -205,11 +208,7 @@
 
       <button class="default-button" id="newWord">SKIP WORD / TIE</button>
       <button class="default-button" id="playGame">PLAY</button>
-      <button class="default-button" id="showStats">STATS</button>
-      <input type="string" id="userStats" style="display:none;" placeholder="Username of the player">
-      <button class="default-button" id="showStatsFinal" style="display:none;">Show Their Stats</button>
-      <pre id="statsOutput"></pre>
-      <button class="default-button" id="returnToGame" style="display:none;">Return</button>
+      
 
   </div>
   <script type="module" src="app.js"></script>
