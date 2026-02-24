@@ -1,4 +1,0 @@
-import java.util*; 
-String y = "Hellooo";
-int x = 5; 
-println(x);
