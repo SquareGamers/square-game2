@@ -488,7 +488,6 @@ createCustListBtn.addEventListener('click',()=>{
     customListContainer.style.display = 'inline-block';
     defCatBtn.style.display = 'none';
     createCustListBtn.style.display = 'none';
-
 })
 
 basicButton.addEventListener('click',()=>{
@@ -815,7 +814,25 @@ drinkButton.addEventListener('click',()=>{
         drinkButton.classList.add('default-button');
     }, 250);
 });
-
+const uploadList = document.getElementById("uploadList");
+uploadList.addEventListener("change", () => {
+    const file = uploadList.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const text = e.target.result;
+        category = text.split(', ').filter(line => line.trim() !== "");
+        console.log(category);
+        uploadList.classList.remove('default-button');
+        uploadList.classList.add('highlighted-button');
+        beginGame.style.display = 'inline-block';
+        setTimeout(() => {
+            customList.classList.remove('highlighted-button');
+            customList.classList.add('default-button');
+        }, 250);
+    };
+    reader.readAsText(file);
+});
 customList.addEventListener('click',()=>{
     category = (document.getElementById('customList').value).split(', ');
     customList.classList.remove('default-button');
@@ -1001,9 +1018,6 @@ document.getElementById("Play").addEventListener("click", () => {
   document.getElementById("signUp").addEventListener("click", () => {
     showScreen('screen-sign-up');
   });
-  document.getElementById("createAccount").addEventListener("click",()=>{
-    
-  });
   document.getElementById("getStats").addEventListener("click",()=>{
     document.getElementById("redBtn").style.display = 'none'
     document.getElementById("blackBtn").style.display = 'none'
@@ -1042,4 +1056,3 @@ document.getElementById("Play").addEventListener("click", () => {
     document.getElementById("returnToGame").style.display = 'none'
     document.getElementById("statsOutput").textContent = "";
   });
-//pick up by making event listeners to display the stats and to return

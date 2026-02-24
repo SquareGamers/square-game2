@@ -119,11 +119,13 @@
     </div>
 
     <button class="default-button" id="promptCustomList"style="display:none;">
-        Make a Custom List!
+        Make a Custom List, or upload your own (Advanced)
       </button>
       <div id="customListContainer" style="display:none;">
         <p>SEPARATE BY COMMA AND SPACE (WORD, WORD, WORD)</p>
         <textarea id="customList"></textarea>
+        <p>Files must contain words separated by commas and spaces to ensure all words are counted correctly.</p>
+        <input type="file" id="uploadList" accept=".txt,.csv,.log,.json,.md,.xml,.html">
       </div>
 
     <button
