@@ -188,13 +188,35 @@ function showWinner() {
     const standings = Object.keys(allPlayers);
     standings.sort((a, b) => allPlayers[b].score - allPlayers[a].score);
 
+    const first = document.createElement('winner');
+    first.style.position = "absolute";
+    first.style.top = "50px";
+    first.style.left = "50%";
+    first.style.transform = "translateX(-50%)";
+    first.style.whiteSpace = "nowrap";
+    first.style.maxWidth = "100%";
+    first.style.overflow = "hidden";
+    first.style.textOverflow = "ellipsis";
+    first.style.fontSize = "90px";
+    first.textContent = "Winner: " + allPlayers[standings[0]].name + " | Score: " + allPlayers[standings[0]].score;
+    document.body.appendChild(first);
     
-    /*const winner = allPlayers[playerKeys[0]].score;
-    for (let i = 1; i < playerKeys.length; i++) {
-        if (allPlayers[playerKeys[i]].score > winner) {
-            winner = allPlayers[playerKeys[i]].score;
-        }
-    }*/
+    for(let i = 1; i < standings.length; i++) {
+        const nextPlace = document.createElement('next');
+        nextPlace.style.position = "absolute";
+        const topPos = 75 + 75 * i;
+        nextPlace.style.top = topPos + "px";
+        nextPlace.style.left = "50%";
+        nextPlace.style.transform = "translateX(-50%)";
+        nextPlace.style.whiteSpace = "nowrap";
+        nextPlace.style.maxWidth = "100%";
+        nextPlace.style.overflow = "hidden";
+        nextPlace.style.textOverflow = "ellipsis";
+        nextPlace.style.fontSize = "60px";
+        nextPlace.textContent = allPlayers[standings[i]].name + " | Score: " + allPlayers[standings[i]].score;
+        document.body.appendChild(nextPlace);
+    }
+
 
 
 
