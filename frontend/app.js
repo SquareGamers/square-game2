@@ -221,6 +221,14 @@ let ruleList = document.createElement('span');
 nextInstruction.classList.add('hidden1');
 prevInstruction.classList.add('hidden1');
 const selections = document.getElementById('selections');
+const quitBtn = document.getElementById('quit');
+const signUpBtn = document.getElementById('signUp');
+const logInBtn = document.getElementById('logIn');
+const editButtons = document.getElementById("editButtons");
+const X = document.getElementById("X");
+const createAccBtn = document.getElementById('createAccount');
+const uniqueUsername = document.getElementById('uniqueUsername');
+const finalPlay = document.getElementById('playGame');
 
 readyButton.addEventListener('click',()=>{
     submitPlayersAndStartGame();
@@ -691,7 +699,7 @@ blackBtn.addEventListener('click', function() {
 resetBtn.addEventListener('click', () => {
     redBtn.style.display = 'inline-block';
     blackBtn.style.display = 'inline-block';
-    document.getElementById('playGame').style.display = 'inline-block';
+    finalPlay.style.display = 'inline-block';
     for (let key of playerKeys) { 
         const player = allPlayers[key]; 
         player.score = 0;
@@ -913,10 +921,10 @@ customList.addEventListener('click',()=>{
     }, 250);
 });
 
-document.getElementById('playGame').addEventListener('click', ()=>{
+finalPlay.addEventListener('click', ()=>{
     startRoundA();
     console.log("numrounds " + numRounds);
-    (document.getElementById('playGame')).style.display = 'none';    
+    finalPlay.style.display = 'none';    
 });
 
 newButton.addEventListener('click',()=>{
@@ -948,7 +956,6 @@ function setupPlayerInputs() {
         playerInputsDiv.appendChild(input);
     }
     submitBtn.style.display = "inline-block";
-
 }
   
 // show submit button
@@ -960,16 +967,15 @@ submitBtn.addEventListener("click", () => {
     if (isReset){
         renderMatrix();
         showScreen('screen-game');
-        (document.getElementById('playGame')).style.display = "inline-block";
+        finalPlay.style.display = "inline-block";
         redBtn.style.display = 'inline-block';
         blackBtn.style.display = 'inline-block';
     }
     else{
         showScreen('screen-pick-rounds');
     }
-})
-    document.getElementById('logIn').style.display = "none";
-    document.getElementById('signUp').style.display='none';
+});
+
 
 startRounds.addEventListener("click", () => {
     startRounds.style.display = "none";
@@ -977,7 +983,7 @@ startRounds.addEventListener("click", () => {
         setRounds();
         renderMatrix();
         showScreen('screen-game');
-        (document.getElementById('playGame')).style.display = "inline-block";
+        finalPlay.style.display = "inline-block";
         redBtn.style.display = 'inline-block';
         blackBtn.style.display = 'inline-block';
     }
@@ -985,7 +991,7 @@ startRounds.addEventListener("click", () => {
         setRounds();
         showScreen('screen-pick-color');
     }
-})
+});
 
 const colorPicker = document.getElementById('backgroundColor');
 colorPicker.addEventListener('input', function() {
@@ -1078,22 +1084,8 @@ function showRules() {
     divRules.appendChild(ruleList);
 }
 
-Instructions.addEventListener('click',()=>{
-    Play.style.display = 'none';
-    Instructions.style.display = 'none';
-    Rules.style.display = 'none';
-    Stats.style.display = 'none';
-    Settings.style.display = 'none';
-    Close.style.display = 'inline-block';
-    divRules.innerHTML = "";
-    displayInstructions();
-    nextInstruction.classList.remove('hidden1');
-    prevInstruction.classList.remove('hidden1');
-    nextInstruction.classList.add('visible');
-    prevInstruction.classList.add('visible');
-})  
 async function createAcc(){
-    const username = document.getElementById("uniqueUsername").value;
+    const username = uniqueUsername.value;
       
         if (username === "") {
           alert("Please enter a username");
@@ -1122,17 +1114,26 @@ async function createAcc(){
             } catch (error) {
               console.error("Error:", error);
             }
-        playGame();
       showScreen("screen-enter-players");
-      document.getElementById('createAccount').style='display:none';
-      document.getElementById('uniqueUsername').style='display:none';
-    }     
+      createAccBtn.style.display ='none';
+      uniqueUsername.style.display = 'none';
+    }   
 
+Instructions.addEventListener('click',()=>{
+    Play.style.display = 'none';
+    Instructions.style.display = 'none';
+    Rules.style.display = 'none';
+    Stats.style.display = 'none';
+    Settings.style.display = 'none';
+    Close.style.display = 'inline-block';
+    divRules.innerHTML = "";
+    displayInstructions();
+    nextInstruction.classList.remove('hidden1');
+    prevInstruction.classList.remove('hidden1');
+    nextInstruction.classList.add('visible');
+    prevInstruction.classList.add('visible');
+});
 
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("rulesrun")
-    const rulesBtn = document.getElementById("Rules");
-    const rulesText = document.getElementById("rulesText");
   Rules.addEventListener('click', ()=>{
     Play.style.display = 'none';
     Instructions.style.display = 'none';
@@ -1162,12 +1163,6 @@ Close.addEventListener('click', ()=>{
     divInstrInput.innerHTML = "";
     divRules.innerHTML = "";
 });
-  });
-
-Play.addEventListener("click", () => {
-    setupPlayerInputs();
-    showScreen("screen-enter-players");
-  });  
 
 colorReady.addEventListener("click", () => {
     showScreen('screen-pick-category');
@@ -1176,7 +1171,7 @@ colorReady.addEventListener("click", () => {
     if (isReset){
         renderMatrix();
         showScreen('screen-game');
-        (document.getElementById('playGame')).style.display = "inline-block";
+        finalPlay.style.display = "inline-block";
         redBtn.style.display = 'inline-block';
         blackBtn.style.display = 'inline-block';
     }
@@ -1184,18 +1179,38 @@ colorReady.addEventListener("click", () => {
         submitPlayersAndShowMatrix();
     }
 });
-  document.getElementById("categoryReady").addEventListener("click", () => {
-    submitPlayersAndShowMatrix()
-  });
-  document.getElementById("readyUp").addEventListener("click", () => {
-    submitPlayersAndStartGame()
-  });
-  document.getElementById("signUp").addEventListener("click", () => {
+
+quitBtn.addEventListener('click', ()=>{
+    editButtons.classList.add("active"); 
+    quitBtn.style.display = "none";
+});
+
+X.addEventListener('click', ()=>{
+    if (e.key === "Escape") {
+        editButtons.classList.remove("active");
+        quitBtn.style.display = "inline-block";
+    }
+});
+
+signUpBtn.addEventListener("click",()=>{
     showScreen('screen-sign-up');
-  });
-  document.getElementById("createAccount").addEventListener("click",()=>{
+    uniqueUsername.style.display = 'inline-block';
+    createAccBtn.style.display = 'inline-block';
+}); 
+
+createAccBtn.addEventListener("click",()=>{
     createAcc();
-  })
-  document.getElementById('logIn').addEventListener("click",()=>{
+}); 
+
+logInBtn.addEventListener("click",()=>{
     setupPlayerInputs();
-  })
+    logInBtn.style.display = 'none';
+    signUpBtn.style.display = 'none';
+});
+
+Play.addEventListener("click", () => {
+    console.log("play");
+    showScreen("screen-enter-players");
+    logInBtn.style.display = 'inline-block';
+    signUpBtn.style.display = 'inline-block';
+  }); 

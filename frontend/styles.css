@@ -419,20 +419,21 @@ button {
 }
 
 #editButtons {
-  position: fixed;
-  right: 20px;              /* distance from right edge */
-  top: 75%;                 /* vertical placement */
-  transform: translateY(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
 
-  width: 150px;
-  padding: 10px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 1px;                /* space between buttons */
+#editButtons.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 #editButtons button {
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
   background-color: rgb(106, 106, 106);
   color: white;
   font-size: 16px;
@@ -444,4 +445,10 @@ button {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+}
+
+#quit {
+  position: fixed;
+  top: 90px;
+  left: 50px;
 }
