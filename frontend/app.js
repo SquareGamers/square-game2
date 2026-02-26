@@ -16,10 +16,12 @@ const db = getFirestore(app);
 const auth = getAuth();
 
 console.log("Firebase initialized");
-/*var userID = document.getElementById("username") + document.getElementById("PIN");
+var userID = document.getElementById("username");
 async function createUser(userId) {
     await setDoc(doc(db, "user-account", userId), {
         username: userID,
+        displayName: name,
+        
         gamesCompleted:0,
         gamesWon:0,
         //winPct: (gamesWon/gamesCompleted),
@@ -27,7 +29,6 @@ async function createUser(userId) {
         wordsExplained:0
     });
 }
-*/
 
 auth.onAuthStateChanged(user => {
     if (user) {
@@ -228,6 +229,7 @@ const editButtons = document.getElementById("editButtons");
 const X = document.getElementById("X");
 const createAccBtn = document.getElementById('createAccount');
 const uniqueUsername = document.getElementById('uniqueUsername');
+const displayName=document.getElementById('displayName');
 const finalPlay = document.getElementById('playGame');
 
 readyButton.addEventListener('click',()=>{
@@ -1178,6 +1180,8 @@ X.addEventListener('click', ()=>{
 signUpBtn.addEventListener("click",()=>{
     showScreen('screen-sign-up');
     uniqueUsername.style.display = 'inline-block';
+    console.log('display');
+    displayName.style.display="inline-block";
     createAccBtn.style.display = 'inline-block';
 }); 
 
