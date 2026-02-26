@@ -1,4 +1,4 @@
-/*// Add this helper function to your app.js to create a deep copy
+/*/// Add this helper function to your app.js to create a deep copy
 // (This is necessary because you can't just set allRoles = testAllRoles)
 function deepCopy(obj) {
     return JSON.parse(JSON.stringify(obj));
@@ -8,11 +8,7 @@ function deepCopy(obj) {
 // Assuming your global game variables are named allRoles and allPlayers
 // as defined elsewhere in app.js.
 
-*
- * Asserts that two values are strictly equal and logs the result.
- * @param {any} actual - The value produced by the code being tested.
- * @param {any} expected - The value that was expected.
- * @param {string} testName - A description of the test.
+
  
 function assertEqual(actual, expected, testName) {
     if (actual === expected) {

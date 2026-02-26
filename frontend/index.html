@@ -3,24 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Display List</title>
+    <title>Square Game</title>
 </head>
 
 <body style="background-color:rgb(179 215 255);">
 <link rel="stylesheet" href="./styles.css">
-
+<div>
+  <p id = "selections">You have chosen: </p>
+</div>
   <div id="screen-menu" class="screen">
     <div id="menu-buttons">
       <button class = "menu-button" id="Play">Play</button>
       <button class="menu-button" id="Instructions">Instructions</button>
-        <div id="instrText"></div>
       <button class="menu-button" id="Rules">Rules</button>
-        <div id="rulesText"></div>
       <button class="menu-button" id="Stats">Stats</button>
       <button class="menu-button" id="Settings">Settings</button>
+      <button class="menu-button" id="Close">Close</button>
       <button class="menu-button" id="Previous">Previous</button>
       <button class="menu-button" id="Next">Next</button>
     </div>
+    <div id="instrText"></div>
+    <div id="rulesText"></div>
   </div>
 
   <!-- ENTER PLAYERS -->
@@ -40,27 +43,41 @@
       <div id="playerInputs"></div>
     </div>
   </div>
-  <div class="screen-instruction">Don't have an account?</div>
-  <div class="inputs-wrapper">
+
+  <div id="log-ins">
     <button
       class="default-button"
-      id="signUp">
+      id="signUp"
+      style="display:none;">
       Sign Up
     </button>
-    <div id="playerInputs"></div>
-  </div>
+
+    <button 
+      class="default-button" 
+      id="logIn" 
+      style="display:none;">
+      Log In
+    </button>
+  </div> 
+
 </div>
 
+
 <div id="screen-sign-up" class="screen">
+  <div class="scren-instruction">Don't have an account?</div>
   <p id="sign-up-text">Put in a unique username!</p>
 </div>
-<input type="string" id="username" placeholder="Enter a unique username">
-<button
-  class="default-button"
-  id="createAccount">
-  Create Account
-</button>
+
+<div id="create-acc-css">
+  <input type="text" id="uniqueUsername" placeholder="Enter a unique username" style = "display: none;">
+  <button
+    class="default-button"
+    id="createAccount"
+    style = "display: none;">
+    Create Account
+  </button>
 </div>
+
   <!-- PICK ROUNDS-->
   <div id="screen-pick-rounds" class="screen">
     <div class="screen-instruction">
@@ -95,9 +112,11 @@
     </div>
 
     <div id="button-container">
+      <button class="default-button" id="CSP" style="display:none;">CSP Vocab</button>
       <button class="default-button" id="Basic" style="display:none;">Basic</button>
       <button class="default-button" id="Athletes" style="display:none;">Athletes</button>
       <button class="default-button" id="Food&Drink" style="display:none;">Food&Drink</button>
+
 
       <button class="default-button" id="Food" style="display:none;">Food</button>
       <button class="default-button" id="Drink" style="display:none;">Drink</button>
@@ -118,13 +137,13 @@
 
     </div>
 
+    <div id="customListContainer" style="display:none;">
+      <p>SEPARATE BY COMMA AND SPACE (WORD, WORD, WORD)</p>
+      <textarea id="customList"></textarea>
+    </div>
     <button class="default-button" id="promptCustomList"style="display:none;">
-        Make a Custom List!
-      </button>
-      <div id="customListContainer" style="display:none;">
-        <p>SEPARATE BY COMMA AND SPACE (WORD, WORD, WORD)</p>
-        <textarea id="customList"></textarea>
-      </div>
+      Make a Custom List!
+    </button>
 
     <button
         class="default-button"
@@ -170,16 +189,15 @@
         <button class="default-button" id="blackBtn">BLACK WIN</button>
         <p id="scoresBlack"></p>
 
-        <button class="default-button" id="resetBtn">REPLAY</button>
-        <p id="scoresReset"></p>
-
-        <button class="default-button" id="teamBtn">CHANGE TEAMS</button>
-        <p id="teamReset"></p>
-
-        <button class="default-button" id="roundsBtn">CHANGE ROUNDS</button>
-        <p id="roundsReset"></p>
+        <div id ="editButtons">
+          <button class="default-button" id="resetBtn">REPLAY</button>  
+          <button class="default-button" id="teamBtn">CHANGE TEAMS</button>
+          <button class="default-button" id="roundsBtn">CHANGE ROUNDS</button>
+          <button class="default-button" id="categoriesBtn">CHANGE CATEGORIES</button>
+        </div>
       </div>
-
+      <button class ="default-button" id="quit">QUIT</button>
+      <button class ="default-button" id="X">X</button>
       <button class="default-button" id="newWord">SKIP WORD / TIE</button>
       <button class="default-button" id="playGame">PLAY</button>
 
