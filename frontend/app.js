@@ -199,12 +199,60 @@ const colorReady = document.getElementById("colorReady");
 const submitBtn = document.getElementById("submitPlayers");
 const startRounds = document.getElementById('startRounds');
 const newButton = document.getElementById("newWord");
+const playButton = document.getElementById("playGame");
 const playerInputsDiv = document.getElementById("playerInputs");
 const customList = document.getElementById('promptCustomList');
 const defCatBtn = document.getElementById('defualtCategory');
 const createCustListBtn = document.getElementById('createCustomList');
 const customListContainer = document.getElementById('customListContainer');
 const beginGame = document.getElementById('categoryReady');
+let tempId = 0;
+
+function showWinner() {
+    console.log('showWinner called');
+    document.getElementById("matrix").innerHTML = "";
+    newButton.style.display = "none";
+    displayText2.textContent = '';
+    removeEl('myWord');
+
+    const standings = Object.keys(allPlayers);
+    standings.sort((a, b) => allPlayers[b].score - allPlayers[a].score);
+
+    const first = document.createElement('winner');
+    first.style.position = "absolute";
+    first.style.top = "50px";
+    first.style.left = "50%";
+    first.style.transform = "translateX(-50%)";
+    first.style.whiteSpace = "nowrap";
+    first.style.maxWidth = "100%";
+    first.style.overflow = "hidden";
+    first.style.textOverflow = "ellipsis";
+    first.style.fontSize = "90px";
+    first.textContent = "Winner: " + allPlayers[standings[0]].name + " | Score: " + allPlayers[standings[0]].score;
+    document.body.appendChild(first);
+    
+    for(let i = 1; i < standings.length; i++) {
+        const nextPlace = document.createElement('next');
+        nextPlace.style.position = "absolute";
+        const topPos = 75 + 75 * i;
+        nextPlace.style.top = topPos + "px";
+        nextPlace.style.left = "50%";
+        nextPlace.style.transform = "translateX(-50%)";
+        nextPlace.style.whiteSpace = "nowrap";
+        nextPlace.style.maxWidth = "100%";
+        nextPlace.style.overflow = "hidden";
+        nextPlace.style.textOverflow = "ellipsis";
+        nextPlace.style.fontSize = "60px";
+        nextPlace.textContent = allPlayers[standings[i]].name + " | Score: " + allPlayers[standings[i]].score;
+        document.body.appendChild(nextPlace);
+    }
+
+
+
+
+}
+
+//createUser("testUser123");
 const Instructions = document.getElementById('Instructions');
 const Rules = document.getElementById('Rules');
 const Play = document.getElementById('Play');
@@ -666,7 +714,7 @@ function startRoundA(){
 redBtn.addEventListener('click', function() {
     if (r > numRounds-1){
         updateScore("red");
-        changeRoles();
+        showWinner();
         r++;
         redBtn.style.display = "none";
         blackBtn.style.display = "none";
@@ -685,7 +733,7 @@ redBtn.addEventListener('click', function() {
 blackBtn.addEventListener('click', function() {
     if (r > numRounds-1){
         updateScore("black");
-        changeRoles();
+        showWinner();
         r++;
         redBtn.style.display = "none";
         blackBtn.style.display = "none";
