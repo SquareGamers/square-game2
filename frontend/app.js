@@ -220,8 +220,10 @@ let divRules = document.getElementById('rulesText');
 let ruleList = document.createElement('span');
 nextInstruction.classList.add('hidden1');
 prevInstruction.classList.add('hidden1');
-const selections = document.getElementById('selections');
-const quitBtn = document.getElementById('quit');
+const printPlayers = document.getElementById('printPlayers');
+const printRounds = document.getElementById('printRounds');
+const printCategories = document.getElementById('printCategories');
+const menuBtn = document.getElementById('menu');
 const signUpBtn = document.getElementById('signUp');
 const logInBtn = document.getElementById('logIn');
 const editButtons = document.getElementById("editButtons");
@@ -636,13 +638,15 @@ function setRounds(){
     numRounds = document.getElementById("numRounds").value;
     startRounds.style.display = "none";
     document.getElementById("numRounds").style.display = "none";
-    console.log("numrounds " + numRounds);
+    printRounds.style.display = 'inline-block';
+    printRounds.innerHTML = "ROUNDS: " + numRounds;
 }
 
 
 const displayText2 = document.getElementById('displayText2');
 displayText2.textContent = 'ROUND';
 let r = 0;
+
 function startRoundA(){
     newWord(true)
     mlbButton.style.display = 'none';
@@ -658,6 +662,7 @@ function startRoundA(){
     r = 1;
     displayText2.textContent = `ROUND ${r}`;
 }
+
 redBtn.addEventListener('click', function() {
     if (r > numRounds-1){
         updateScore("red");
@@ -697,6 +702,8 @@ blackBtn.addEventListener('click', function() {
     }
 });
 resetBtn.addEventListener('click', () => {
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
     redBtn.style.display = 'inline-block';
     blackBtn.style.display = 'inline-block';
     finalPlay.style.display = 'inline-block';
@@ -708,7 +715,8 @@ resetBtn.addEventListener('click', () => {
     r = 1; 
 });
 roundsBtn.addEventListener('click', () => {
-    isReset = true; 
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
     showScreen('screen-pick-rounds');
     (document.getElementById('numRounds')).style.display = "inline-block";
     startRounds.style.display = 'inline-block';
@@ -720,7 +728,8 @@ roundsBtn.addEventListener('click', () => {
     r = 1; 
 });
 teamBtn.addEventListener('click', () => {
-    isReset = true; 
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
     showScreen('screen-enter-players');
     setupPlayerInputs();
     playerInputsDiv.style.display = 'inline-block';
@@ -732,7 +741,8 @@ teamBtn.addEventListener('click', () => {
     r = 1; 
 });
 categoriesBtn.addEventListener('click', () => {
-    isReset = true; 
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
     showScreen('screen-pick-category');
     defCatBtn.style.display = 'inline-block';
     createCustListBtn.style.display = 'inline-block';
@@ -748,6 +758,8 @@ var category = "";
 
 CSPButton.addEventListener('click',()=>{
     category = listCSP;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: CSP";
     CSPButton.classList.remove('default-button');
     CSPButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -764,6 +776,8 @@ CSPButton.addEventListener('click',()=>{
 
 easyButton.addEventListener('click',()=>{
     category = listEasyBasicWords;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: EASY";
     easyButton.classList.remove('default-button');
     easyButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -778,6 +792,8 @@ easyButton.addEventListener('click',()=>{
 
 medButton.addEventListener('click',()=>{
     category = listMediumBasicWords;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: MEDIUM";
     medButton.classList.remove('default-button');
     medButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -792,6 +808,8 @@ medButton.addEventListener('click',()=>{
 
 hardButton.addEventListener('click',()=>{
     category = listHardBasicWords;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: HARD";
     hardButton.classList.remove('default-button');
     hardButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -806,6 +824,8 @@ hardButton.addEventListener('click',()=>{
 
 nbaButton.addEventListener('click',()=>{
     category = listAthletesNBA;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: NBA";
     nbaButton.classList.remove('default-button');
     nbaButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -822,6 +842,8 @@ nbaButton.addEventListener('click',()=>{
 
 nflButton.addEventListener('click',()=>{
     category = listAthletesNFL;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: NFL";
     nflButton.classList.remove('default-button');
     nflButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -838,6 +860,8 @@ nflButton.addEventListener('click',()=>{
 
 mlbButton.addEventListener('click',()=>{
     category = listAthletesMLB;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: MLB";
     mlbButton.classList.remove('default-button');
     mlbButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -854,6 +878,8 @@ mlbButton.addEventListener('click',()=>{
 
 soccerButton.addEventListener('click',()=>{
     category = listAthletesSoccer;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: SOCCER";
     soccerButton.classList.remove('default-button');
     soccerButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -870,6 +896,8 @@ soccerButton.addEventListener('click',()=>{
 
 mmaButton.addEventListener('click',()=>{
     category = listAthletesMMA;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: MMA";
     mmaButton.classList.remove('default-button');
     mmaButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -886,6 +914,8 @@ mmaButton.addEventListener('click',()=>{
 
 foodButton.addEventListener('click',()=>{
     category = listFoods;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: FOOD";
     foodButton.classList.remove('default-button');
     foodButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -899,6 +929,8 @@ foodButton.addEventListener('click',()=>{
 
 drinkButton.addEventListener('click',()=>{
     category = listDrink;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: DRINK";
     drinkButton.classList.remove('default-button');
     drinkButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -912,6 +944,8 @@ drinkButton.addEventListener('click',()=>{
 
 customList.addEventListener('click',()=>{
     category = (document.getElementById('customList').value).split(', ');
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: CUSTOM LIST";
     customList.classList.remove('default-button');
     customList.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -961,7 +995,8 @@ submitBtn.addEventListener("click", () => {
     submitBtn.style.display = "none";
     playerInputsDiv.style.display = "none";
     syncPlayersFromInputs();
-    selections.innerHTML += "PLAYERS: " + allPlayers[playerKeys[0]].name + ", " + allPlayers[playerKeys[1]].name + ", " + allPlayers[playerKeys[2]].name + ", " + allPlayers[playerKeys[3]].name;
+    printPlayers.style.display = 'inline-block';
+    printPlayers.innerHTML = "PLAYERS: " + allPlayers[playerKeys[0]].name + ", " + allPlayers[playerKeys[1]].name + ", " + allPlayers[playerKeys[2]].name + ", " + allPlayers[playerKeys[3]].name;
     if (isReset){
         renderMatrix();
         showScreen('screen-game');
@@ -991,8 +1026,13 @@ startRounds.addEventListener("click", () => {
     }
 });
 
-const colorPicker = document.getElementById('backgroundColor');
-colorPicker.addEventListener('input', function() {
+const colorPicker1 = document.getElementById('backgroundColor1');
+const colorPicker2 = document.getElementById('backgroundColor2');
+
+colorPicker1.addEventListener('input', function() {
+    document.body.style.backgroundColor = this.value;
+});
+colorPicker2.addEventListener('input', function() {
     document.body.style.backgroundColor = this.value;
 });
 
@@ -1144,12 +1184,16 @@ Close.addEventListener('click', ()=>{
     nextInstruction.classList.add('hidden1');
     prevInstruction.classList.add('hidden1');
     divInstrInput.innerHTML = "";
-    divRules.innerHTML = "";
+    divRules.innerHTML = ""; 
 });
 
 colorReady.addEventListener("click", () => {
+    printColor.style.display = 'inline-block';
+    colorPicker1.value = colorPicker2.value;
+    colorPicker1.classList.toggle('hidden');
     showScreen('screen-pick-category');
 });
+
 beginGame.addEventListener("click", () => {
     if (isReset){
         renderMatrix();
@@ -1163,16 +1207,15 @@ beginGame.addEventListener("click", () => {
     }
 });
 
-quitBtn.addEventListener('click', ()=>{
+menuBtn.addEventListener('click', ()=>{
+    isReset = true; 
     editButtons.classList.add("active"); 
-    quitBtn.style.display = "none";
+    menuBtn.style.display = "none";
 });
 
 X.addEventListener('click', ()=>{
-    if (e.key === "Escape") {
-        editButtons.classList.remove("active");
-        quitBtn.style.display = "inline-block";
-    }
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
 });
 
 signUpBtn.addEventListener("click",()=>{
