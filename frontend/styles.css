@@ -1,5 +1,5 @@
 HEAD
-body { font-family: system-ui, sans-serif; padding: 1.5rem; }
+body { font-family: system-ui, sans-serif; padding: 1.5rem; text-align: center;}
 HEAD
 button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
 
@@ -76,17 +76,14 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   right: 5px;
   width: 100px;             /* width of the button */
   height: 100px;            /* same as width to make it a circle */
-  border-radius: 50%;    
-  body {
-      text-align: center;
-    }
-    
+  border-radius: 50%;        
 }
 
 /* Optional hover effect */
 #blackBtn:hover {
   background-color: rgb(0, 0, 0);
 }
+
 #redBtn {
   background-color: rgb(255, 0, 0);   /* button background */
   color: white;             /* text color */
@@ -100,11 +97,7 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   right: 110px;
   width: 100px;             /* width of the button */
   height: 100px;            /* same as width to make it a circle */
-  border-radius: 50%;    
-  body {
-      text-align: center;
-    }
-    
+  border-radius: 50%;        
 }
 
 /* Optional hover effect */
@@ -168,11 +161,7 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   right: 50%;
   transform: translateX(-50%); /* adjust to center exactly */
   width: 300px;             /* width of the button */
-  height: 100px;            /* same as width to make it a circle */
-  body {
-      text-align: center;
-    }
-    
+  height: 100px;            /* same as width to make it a circle */   
 }
 
 /* Optional hover effect */
@@ -419,6 +408,18 @@ button {
 }
 
 #editButtons {
+  position: fixed;
+  inset: 0; /* covers entire screen */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  background: rgba(0, 0, 0, 0.35); /* required transparency */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
@@ -430,10 +431,6 @@ button {
 }
 
 #editButtons button {
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-
   background-color: rgb(106, 106, 106);
   color: white;
   font-size: 16px;
@@ -451,4 +448,10 @@ button {
   position: fixed;
   top: 90px;
   left: 50px;
+}
+
+#selectionsContainer {
+  display: flex;
+  flex-direction: column; /* stacks children vertically */
+  gap: 8px;               /* optional spacing between items */
 }
