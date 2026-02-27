@@ -24,7 +24,7 @@ async function createUser(userId) {
         
         gamesCompleted:0,
         gamesWon:0,
-        //winPct: (gamesWon/gamesCompleted),
+        //winPct:0,
         wordsGuessed:0,
         wordsExplained:0
     });
@@ -943,8 +943,10 @@ function newWord(count1){
         countdown(count1, word);
 };
 
-function setupPlayerInputs() {     
-    const playerInputsDiv = document.getElementById("playerInputs");
+function setupPlayerInputs() {
+        console.log("inside setupPlayerInputs");
+        
+        const playerInputsDiv = document.getElementById("playerInputs");
     playerInputsDiv.innerHTML = ""; // clear previous inputs
 
     // create input fields
@@ -1059,8 +1061,23 @@ function displayInstructions(){
     }
     showNextInstruction();
 }
+function playGame(){
 
-function showRules() {;
+    const signUpBtn=document.getElementById("signUp");
+    signUpBtn.style.display="inline-block";
+
+    const logInBtn=document.getElementById('logIn');
+    logInBtn.style.display='inline-block';
+}
+function signUp(){
+    document.getElementById('createAccount').style='display:inline-block';
+    document.getElementById('uniqueUsername').style='display:inline-block';
+    document.getElementById('signUp').style.display='none';
+    document.getElementById('logIn').style.display='none';
+}
+function showRules() {
+    const divRules = document.getElementById('rulesText');
+    const ruleList = document.createElement('span');
     ruleList.id = 'ruleList';
     ruleList.textContent = '1: No hand gestures/charades \n 2: No direct antonyms (cannot say "not sad" if word is "happy") \n 3: No saying a bigger word with the hidden word in it (if it is "play," cannot say "playful") \n 4: No saying a smaller word with part of the hidden word (if it is "teacher," cannot say "teach") \n 5: For longer/more difficult words, you can break them up into parts (can get the guesser to separately guess "ground" and "breaking" if word is "groundbreaking"';
     ruleList.style.whiteSpace = 'pre-line';
@@ -1151,8 +1168,8 @@ Close.addEventListener('click', ()=>{
 
 colorReady.addEventListener("click", () => {
     showScreen('screen-pick-category');
-});
-beginGame.addEventListener("click", () => {
+  });
+  beginGame.addEventListener("click", () => {
     if (isReset){
         renderMatrix();
         showScreen('screen-game');

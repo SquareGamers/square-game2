@@ -135,6 +135,26 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   right: 275px;  
 }
 
+#log-ins {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  position: relative;   /* or absolute if you prefer exact placement */
+  top: -400px;  
+}
+
+#create-acc-css {
+    display: flex;
+    flex-direction: column;   /* stack children vertically */
+    align-items: center;      /* center horizontally */
+    justify-content: center;  /* center vertically */
+    text-align: center;       /* optional, centers text */
+    gap: 15px;
+    position:relative;
+    top: -200px;
+}
 #pickBtn {
   background-color: rgb(106, 106, 106);   /* button background */
   color: rgb(255, 255, 255);             /* text color */
