@@ -47,6 +47,7 @@ function showScreen(screenId) {
     const target = document.getElementById(screenId);  
     target.classList.add("active");
   }
+  
 showScreen("screen-menu");
 var numRounds = 0; 
 let num = 0; 
@@ -202,7 +203,7 @@ const newButton = document.getElementById("newWord");
 const playButton = document.getElementById("playGame");
 const playerInputsDiv = document.getElementById("playerInputs");
 const customList = document.getElementById('promptCustomList');
-const defCatBtn = document.getElementById('defualtCategory');
+const defCatBtn = document.getElementById('defaultCategory');
 const createCustListBtn = document.getElementById('createCustomList');
 const customListContainer = document.getElementById('customListContainer');
 const beginGame = document.getElementById('categoryReady');
@@ -279,6 +280,10 @@ const X = document.getElementById("X");
 const createAccBtn = document.getElementById('createAccount');
 const uniqueUsername = document.getElementById('uniqueUsername');
 const finalPlay = document.getElementById('playGame');
+const colorPickerWrapper = document.getElementById('colorPickerWrapper');
+const colorPicker1 = document.getElementById('backgroundColor1');
+const colorPicker2 = document.getElementById('backgroundColor2');
+const printColor = document.getElementById('printColor');
 
 readyButton.addEventListener('click',()=>{
     submitPlayersAndStartGame();
@@ -730,6 +735,7 @@ redBtn.addEventListener('click', function() {
         changeRoles();
     }
 });
+
 blackBtn.addEventListener('click', function() {
     if (r > numRounds-1){
         updateScore("black");
@@ -749,6 +755,7 @@ blackBtn.addEventListener('click', function() {
         changeRoles();
     }
 });
+
 resetBtn.addEventListener('click', () => {
     editButtons.classList.remove("active");
     menuBtn.style.display = "inline-block";
@@ -762,6 +769,7 @@ resetBtn.addEventListener('click', () => {
     renderMatrix();
     r = 1; 
 });
+
 roundsBtn.addEventListener('click', () => {
     editButtons.classList.remove("active");
     menuBtn.style.display = "inline-block";
@@ -775,6 +783,7 @@ roundsBtn.addEventListener('click', () => {
     renderMatrix();
     r = 1; 
 });
+
 teamBtn.addEventListener('click', () => {
     editButtons.classList.remove("active");
     menuBtn.style.display = "inline-block";
@@ -788,6 +797,7 @@ teamBtn.addEventListener('click', () => {
     renderMatrix();
     r = 1; 
 });
+
 categoriesBtn.addEventListener('click', () => {
     editButtons.classList.remove("active");
     menuBtn.style.display = "inline-block";
@@ -1074,21 +1084,6 @@ startRounds.addEventListener("click", () => {
     }
 });
 
-const colorPicker1 = document.getElementById('backgroundColor1');
-const colorPicker2 = document.getElementById('backgroundColor2');
-
-colorPicker1.addEventListener('input', function() {
-    document.body.style.backgroundColor = this.value;
-});
-colorPicker2.addEventListener('input', function() {
-    document.body.style.backgroundColor = this.value;
-});
-
-const colorReset = document.getElementById('resetColor');
-colorReset.addEventListener('click', () => {
-    document.body.style.backgroundColor = "rgb(179 215 255)";
-});
-
 function displayInstructions(){
     const instrList = ['The Square Game is a game of wit and speed',
                 'As an explainer, you will race your opponent (the person next to you) to each explain a word to your teammate (the person across from you)',
@@ -1235,13 +1230,6 @@ Close.addEventListener('click', ()=>{
     divRules.innerHTML = ""; 
 });
 
-colorReady.addEventListener("click", () => {
-    printColor.style.display = 'inline-block';
-    colorPicker1.value = colorPicker2.value;
-    colorPicker1.classList.toggle('hidden');
-    showScreen('screen-pick-category');
-});
-
 beginGame.addEventListener("click", () => {
     if (isReset){
         renderMatrix();
@@ -1288,3 +1276,27 @@ Play.addEventListener("click", () => {
     logInBtn.style.display = 'inline-block';
     signUpBtn.style.display = 'inline-block';
   }); 
+
+
+colorReady.addEventListener("click", () => {
+    printColor.style.display = 'inline-block';
+    colorPicker1.value = colorPicker2.value;
+    colorPickerWrapper.classList.remove("hidden"); 
+    showScreen('screen-pick-category');
+});
+
+const appBox = document.getElementById("app");
+const colorReset = document.getElementById('resetColor');
+
+colorPicker1.addEventListener('input', function() {
+    appBox.style.backgroundColor = this.value;
+});
+colorPicker2.addEventListener('input', function() {
+    appBox.style.backgroundColor = this.value;
+});
+
+colorReset.addEventListener('click', () => {
+    appBox.style.backgroundColor = "white";
+}); 
+
+colorPickerWrapper.classList.add("hidden");

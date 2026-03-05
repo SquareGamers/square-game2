@@ -1,7 +1,23 @@
 HEAD
-body { font-family: system-ui, sans-serif; padding: 1.5rem; text-align: center;}
-HEAD
-button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  background: #b3d7ff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+button { margin: 0; padding: 0}
 
 .default-button {
   background-color: pink;
@@ -71,7 +87,7 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   border: none;             /* remove border */
   border-radius: 8px;       /* rounded corners */
   cursor: pointer;          /* cursor changes on hover */
-  position: fixed;
+  position: absolute;
   bottom: 50%;
   right: 5px;
   width: 100px;             /* width of the button */
@@ -92,7 +108,7 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   border: none;             /* remove border */
   border-radius: 0px;       /* rounded corners */
   cursor: pointer;          /* cursor changes on hover */
-  position: fixed;
+  position: absolute;
   bottom: 50%;
   right: 110px;
   width: 100px;             /* width of the button */
@@ -136,7 +152,7 @@ button { margin: 0.5rem; padding: 0.4rem 0.8rem; }
   border: none;             /* remove border */
   border-radius: 8px;       /* rounded corners */
   cursor: pointer;          /* cursor changes on hover */
-  position: fixed;
+  position: absolute;
   bottom: 50px;
   right: 50%;
   transform: translateX(-50%); /* adjust to center exactly */
@@ -205,17 +221,19 @@ ul {
 
 .screen {
   display: none;
-  flex-direction: column;      /* stack children vertically */
-  justify-content: center;     /* center vertically */
-  align-items: center;         /* center horizontally */
-  height: 100vh;               /* full viewport height */
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .screen.active {
   display: flex;
 }
+
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 #playerInputs {
@@ -311,8 +329,8 @@ ul {
 
 #newWord{
   position: absolute; 
-  top: 50px; 
-  left: 50px;
+  top: 25px; 
+  left: 20%;
 }
 
 #promptCustomList{
@@ -339,7 +357,7 @@ button {
 } 
 
 #instrText, #rulesText {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -388,7 +406,7 @@ button {
 }
 
 #editButtons {
-  position: fixed;
+  position: absolute;
   inset: 0; /* covers entire screen */
   display: flex;
   flex-direction: column;
@@ -425,13 +443,44 @@ button {
 }
 
 #quit {
-  position: fixed;
+  position: absolute;
   top: 90px;
   left: 50px;
 }
 
 #selectionsContainer {
+  position: absolute;
+  top: 15px;
+  left: 15px;
   display: flex;
-  flex-direction: column; /* stacks children vertically */
-  gap: 8px;               /* optional spacing between items */
+  flex-direction: column;
+  gap: 5px;
+  font-size: 14px;
 }
+
+#colorPickerWrapper {
+  width: 70px;
+  height: 50px;
+  padding: 6px;
+
+  background: rgba(255, 192, 203, 0.9); /* matches your pink theme */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+#backgroundColor1 {
+  width: 100%;
+  height: 100%;
+
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
