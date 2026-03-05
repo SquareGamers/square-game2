@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCrFLo_T3pg2yrjnyF1hkDprcypspLXc-c",
@@ -110,7 +110,7 @@ function syncPlayersFromInputs() {
     showScreen("screen-game");
   }
 
-async function updateScore(color){
+function updateScore(color){
     for (let i = 0; i < playerKeys.length; i++) {
         const key = playerKeys[i];
         const player = allPlayers[key];
@@ -118,35 +118,63 @@ async function updateScore(color){
 
         if (color === "red") {
             if (player.id === "RED GUESSER") {
-                currPlayer.score++;  // add to **previous**
-                await setDoc(doc(db, "user-accounts", currPlayer.name), {
-                    wordsGuessed: increment(1)
-                });              
+                currPlayer.score++;  // add to **previous**             
             }
             else if (player.id === "RED EXPLAINER") {
                 currPlayer.score++;  // add to **previous**
-                await setDoc(doc(db, "user-accounts", currplayer.name), {
-                    wordsExplained: increment(1)
-                });
             }
         }        
         else if (color === "black") {
             if (player.id === "BLACK GUESSER") {
                 currPlayer.score++;  // add to **previous**
-                await setDoc(doc(db, "user-accounts", currplayer.name), {
-                    wordsGuessed: increment(1)
-                });
             }
             else if (player.id === "BLACK EXPLAINER") {
                 currPlayer.score++;  // add to **previous**
-                await setDoc(doc(db, "user-accounts", currplayer.name), {
-                    wordsExplained: increment(1)
-                  });
             }
         }
     }
 }
-   
+
+async function syncScore() {
+
+    let highestScore = -Infinity;
+    let winners = [];
+
+    for (const key of playerKeys) {
+        const player = allPlayers[key];
+
+        if (player.score > highestScore) {
+            highestScore = player.score;
+            winners = [player.name]; // new top score → reset winners
+        } 
+        else if (player.score === highestScore) {
+            winners.push(player.name); // tie → add to winners
+        }
+    }
+
+    const updates = [];
+
+    for (const key of playerKeys) {
+        const player = allPlayers[key];
+
+        updates.push(
+            updateDoc(doc(db, "user-accounts", player.name), {
+                totalPoints: increment(player.score),
+                gamesCompleted: increment(1)
+            })
+        );
+    }
+
+    for (const winner of winners) {
+        updates.push(
+            updateDoc(doc(db, "user-accounts", winner), {
+                gamesWon: increment(1)
+            })
+        );
+    }
+
+    await Promise.all(updates);
+}
 
 function changeRoles() {
     if (num > 0){
@@ -558,6 +586,8 @@ function displayWord(word2){
 }
 
 defCatBtn.addEventListener('click',()=>{
+    document.getElementById("uploadText").style.display = 'none';
+    document.getElementById("uploadButton").style.display = 'none';
     athleteButton.style.display = 'inline-block';
     foodDrinkButton.style.display = 'inline-block';
     basicButton.style.display = 'inline-block';
@@ -572,6 +602,8 @@ defCatBtn.addEventListener('click',()=>{
 })
 
 createCustListBtn.addEventListener('click',()=>{
+    document.getElementById("uploadText").style.display = 'none';
+    document.getElementById("uploadButton").style.display = 'none';
     customList.style.display = 'inline-block';
     customListContainer.style.display = 'inline-block';
     defCatBtn.style.display = 'none';
@@ -665,6 +697,7 @@ redBtn.addEventListener('click', function() {
     if (r > numRounds-1){
         updateScore("red");
         changeRoles();
+        syncScore();
         r++;
         redBtn.style.display = "none";
         blackBtn.style.display = "none";
@@ -684,6 +717,7 @@ blackBtn.addEventListener('click', function() {
     if (r > numRounds-1){
         updateScore("black");
         changeRoles();
+        syncScore();
         r++;
         redBtn.style.display = "none";
         blackBtn.style.display = "none";
@@ -757,11 +791,12 @@ async function getStats(player) {
     let statList = "Player stats for " + player + ": \n";
     statList = statList + "Games Completed: " + stats.gamesCompleted + "\n";
     statList = statList + "Games Won: " + stats.gamesWon + "\n";
+    statList = statList + "Total Points Accumulated: " + stats.totalPoints + "\n"
     if (stats.gamesCompleted == 0) {
        statList = statList + "Win Percentage: 0%";
     }
     else {
-        statList = statList + (stats.gamesWon / stats.gamesCompleted) * 100 + "%";
+        statList = statList + "Win Percentage: " + (stats.gamesWon / stats.gamesCompleted) * 100 + "%";
     }
     return statList;
 }
@@ -940,7 +975,7 @@ uploadList.addEventListener("change", () => {
     const reader = new FileReader();
     reader.onload = function(e) {
         const text = e.target.result;
-        category = text.split(', ').filter(line => line.trim() !== "");
+        category = text.split('\n').filter(line => line.trim() !== "");
         console.log(category);
         uploadList.classList.remove('default-button');
         uploadList.classList.add('highlighted-button');
@@ -952,7 +987,10 @@ uploadList.addEventListener("change", () => {
     };
     reader.readAsText(file);
 });
+
 customList.addEventListener('click',()=>{
+    document.getElementById("uploadText").style.display = 'none';
+    document.getElementById("uploadButton").style.display = 'none';
     category = (document.getElementById('customList').value).split(', ');
     customList.classList.remove('default-button');
     customList.classList.add('highlighted-button');
@@ -1130,11 +1168,8 @@ async function createAcc(){
                 createdAt: new Date(),
                 gamesCompleted:0,
                 gamesWon:0,
-                winPct:0,
-                wordsGuessed:0,
-                wordsExplained:0
+                totalPoints:0
               });
-          
               alert("Account created!");
             } catch (error) {
               console.error("Error:", error);
@@ -1184,6 +1219,7 @@ Stats.addEventListener("click",()=>{
     Close.style.display = 'inline-block'
   });
 Close.addEventListener('click', ()=>{
+    document.getElementById("statsOutput").textContent = "";
     Close.style.display = 'none';
     Play.style.display = 'inline-block';
     Instructions.style.display = 'inline-block';
@@ -1193,7 +1229,6 @@ Close.addEventListener('click', ()=>{
     document.getElementById("userStats").style.display = 'none'
     document.getElementById("showStatsFinal").style.display = 'none'
     document.getElementById("returnToGame").style.display = 'none'
-    document.getElementById("statsOutput").textContent = "";
     nextInstruction.classList.remove('visible');
     prevInstruction.classList.remove('visible');
     nextInstruction.classList.add('hidden1');

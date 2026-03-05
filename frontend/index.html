@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="data:,">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Square Game</title>
@@ -145,15 +146,15 @@
       <textarea id="customList"></textarea>
     </div>
     <button class="default-button" id="promptCustomList"style="display:none;">
-        Make a Custom List, or upload your own (Advanced)
+        Make a Custom List
       </button>
       <div id="customListContainer" style="display:none;">
         <p>SEPARATE BY COMMA AND SPACE (WORD, WORD, WORD)</p>
         <textarea id="customList"></textarea>
-        <p>Files must contain words separated by commas and spaces to ensure all words are counted correctly.</p>
-        <input type="file" id="uploadList" accept=".txt,.csv,.log,.json,.md,.xml,.html">
       </div>
-
+      <p id="uploadText">Or, upload a file that contains words separated such that one word is on each line of the file to ensure all words are counted correctly.</p>
+      <input type="file" id="uploadList" accept=".txt,.csv,.log,.json,.md,.xml,.html" style="display:none;">
+      <label id="uploadButton" for="uploadList" class="menu-button">Upload File</label>
     <button
         class="default-button"
         id="categoryReady"
