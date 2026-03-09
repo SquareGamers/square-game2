@@ -6,6 +6,7 @@
     <title>Square Game</title>
 </head>
 
+
 <body style="background-color:#b3d7ff;">
 <link rel="stylesheet" href="./styles.css">
 <div id="selectionsContainer">
@@ -13,9 +14,11 @@
   <p id = "printPlayers" style="display:none">PLAYERS: </p>
   <p id = "printRounds" style="display:none">ROUNDS: </p>
   <p id = "printColor" style="display:none">COLOR: </p>
-  <input type="color" id="backgroundColor1" value="b3d7ff" class="hidden">
+  <input type="color" id="backgroundColor1" value="#b3d7ff" class="hidden">
   <p id = "printCategories" style="display:none">CATEGORY: </p>
 </div>
+
+<script type="module" src="app.js"></script>
 
   <div id="screen-menu" class="screen">
     <div id="menu-buttons">
@@ -31,7 +34,6 @@
     <div id="instrText"></div>
     <div id="rulesText"></div>
   </div>
-
   <!-- ENTER PLAYERS -->
   <div id="screen-enter-players" class="screen">
     <!-- INSTRUCTION TEXT -->
@@ -71,11 +73,14 @@
 
 <div id="screen-sign-up" class="screen">
   <div class="scren-instruction">Don't have an account?</div>
-  <p id="sign-up-text">Put in a unique username!</p>
+  <p id="sign-up-text">Put in a unique username and display name!</p>
 </div>
 
 <div id="create-acc-css">
   <input type="text" id="uniqueUsername" placeholder="Enter a unique username" style = "display: none;">
+    <input type="text" id="displayNameInput" placeholder="Enter a display name" style = "display: none;">
+    <input type="number" id="PINInput" placeholder="Enter PIN" style = "display: none;">
+
   <button
     class="default-button"
     id="createAccount"
@@ -197,7 +202,5 @@
           <button class ="default-button" id="X">X</button>
         </div>
     </div>
-  <script type="module" src="app.js"></script>
-  <script src="app.test.js"></script>
 </body>
 </html>
