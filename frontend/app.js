@@ -15,6 +15,20 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
 
+console.log("Firebase initialized");
+var userID = document.getElementById("username");
+/*async function createUser(userID) {
+    await setDoc(doc(db, "user-account", userID), {
+        username: userID,
+        displayName:name
+        gamesCompleted:0,
+        gamesWon:0,
+        //winPct:0,
+        wordsGuessed:0,
+        wordsExplained:0
+    });
+}*/
+
 auth.onAuthStateChanged(user => {
     if (user) {
       createUser(user.uid);
@@ -239,6 +253,9 @@ const defCatBtn = document.getElementById('defaultCategory');
 const createCustListBtn = document.getElementById('createCustomList');
 const customListContainer = document.getElementById('customListContainer');
 const beginGame = document.getElementById('categoryReady');
+const userStats=document.getElementById('userStats');
+const showStatsFinal=document.getElementById('showStatsFinal');
+
 let tempId = 0;
 
 function showWinner() {
@@ -311,6 +328,8 @@ const editButtons = document.getElementById("editButtons");
 const X = document.getElementById("X");
 const createAccBtn = document.getElementById('createAccount');
 const uniqueUsername = document.getElementById('uniqueUsername');
+const displayNameInput = document.getElementById('displayNameInput');
+const PINInput = document.getElementById('PINInput');
 const finalPlay = document.getElementById('playGame');
 const colorPickerWrapper = document.getElementById('colorPickerWrapper');
 const colorPicker1 = document.getElementById('backgroundColor1');
@@ -1113,23 +1132,61 @@ function newWord(count1){
         countdown(count1, word);
 };
 
-function setupPlayerInputs() {     
-    const playerInputsDiv = document.getElementById("playerInputs");
+function setupPlayerInputs() {
+        console.log("inside setupPlayerInputs");
+        
+        const playerInputsDiv = document.getElementById("playerInputs");
     playerInputsDiv.innerHTML = ""; // clear previous inputs
 
     // create input fields
     for (let i = 0; i < 4; i++) {
-        const input = document.createElement("input");
-        input.type = "text";
-        input.id = "player" + i;
-        input.placeholder = "Enter username for player " + (i + 1);
-        playerInputsDiv.appendChild(input);
-    }
+        const nameInput = document.createElement("input");
+        const pinInput=document.createElement("input");
+        nameInput.type = "text";
+        pinInput.type="number";
+        nameInput.id = "player" + i;
+        pinInput.id="pin" + i;
+        nameInput.placeholder = "Enter name for player " + (i + 1);
+        pinInput.placeholder="Enter PIN for player " + (i+1);
+
+        const container = document.createElement("div");
+container.appendChild(nameInput);
+container.appendChild(pinInput);
+playerInputsDiv.appendChild(container);
+
+}
     submitBtn.style.display = "inline-block";
 }
   
+
+async function checkPlayers() {
+
+    for (let i = 0; i < 4; i++) {
+
+        const username = document.getElementById("player" + i).value;
+        const enteredPin = document.getElementById("pin" + i).value;
+
+        const userRef = doc(db, "user-accounts", username);
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+            console.log("User does not exist");
+            continue;
+        }
+
+        const storedPin = userSnap.data().pin;
+
+        if (storedPin == enteredPin) {
+            alert("Correct login for " + username);
+        } else {
+            alert("Incorrect PIN for " + username);
+        }
+    }
+}
 // show submit button
 submitBtn.addEventListener("click", () => {
+    console.log('insubmitbtn');
+    checkPlayers();
     submitBtn.style.display = "none";
     playerInputsDiv.style.display = "none";
     syncPlayersFromInputs();
@@ -1220,8 +1277,18 @@ function displayInstructions(){
     }
     showNextInstruction();
 }
+function playGame(){
 
-function showRules() {;
+    const signUpBtn=document.getElementById("signUp");
+    signUpBtn.style.display="inline-block";
+
+    const logInBtn=document.getElementById('logIn');
+    logInBtn.style.display='inline-block';
+}
+
+function showRules() {
+    const divRules = document.getElementById('rulesText');
+    const ruleList = document.createElement('span');
     ruleList.id = 'ruleList';
     ruleList.textContent = '1: No hand gestures/charades \n 2: No direct antonyms (cannot say "not sad" if word is "happy") \n 3: No saying a bigger word with the hidden word in it (if it is "play," cannot say "playful") \n 4: No saying a smaller word with part of the hidden word (if it is "teacher," cannot say "teach") \n 5: For longer/more difficult words, you can break them up into parts (can get the guesser to separately guess "ground" and "breaking" if word is "groundbreaking"';
     ruleList.style.whiteSpace = 'pre-line';
@@ -1229,14 +1296,21 @@ function showRules() {;
     ruleList.style.transition = 'all 0.5s ease';
     divRules.appendChild(ruleList);
 }
-
 async function createAcc(){
     const username = uniqueUsername.value;
-      
+    const displayName=displayNameInput.value;
+    const PIN=PINInput.value;
+
         if (username === "") {
           alert("Please enter a username");
           return;
         }
+
+        if (displayName === "") {
+            alert("Please enter a display name");
+            return;
+          }
+
         try {
             const userRef = doc(db, "user-accounts", username);
             const userSnap = await getDoc(userRef);
@@ -1248,10 +1322,13 @@ async function createAcc(){
             }
             await setDoc(userRef, {
                 username: username,
+                displayName: displayName,
+                PIN: PIN,
                 createdAt: new Date(),
                 gamesCompleted:0,
                 gamesWon:0,
-                totalPoints:0
+                wordsGuessed:0,
+                wordsExplained:0
               });
               alert("Account created!");
             } catch (error) {
@@ -1260,6 +1337,8 @@ async function createAcc(){
       showScreen("screen-enter-players");
       createAccBtn.style.display ='none';
       uniqueUsername.style.display = 'none';
+      displayNameInput.style.display='none';
+      PINInput.style.display='none';
     }   
 
 Instructions.addEventListener('click',()=>{
@@ -1297,21 +1376,19 @@ Stats.addEventListener("click",()=>{
     Rules.style.display = 'none';
     Stats.style.display = 'none';
     Settings.style.display = 'none';
-    document.getElementById("userStats").style.display = 'inline-block'
-    document.getElementById("showStatsFinal").style.display = 'inline-block'
-    Close.style.display = 'inline-block'
+    userStats.style.display = 'inline-block';
+    showStatsFinal.style.display = 'inline-block';
+    Close.style.display = 'inline-block';
   });
 Close.addEventListener('click', ()=>{
-    document.getElementById("statsOutput").textContent = "";
     Close.style.display = 'none';
     Play.style.display = 'inline-block';
     Instructions.style.display = 'inline-block';
     Rules.style.display = 'inline-block';
     Stats.style.display = 'inline-block';
     Settings.style.display = 'inline-block';
-    document.getElementById("userStats").style.display = 'none'
-    document.getElementById("showStatsFinal").style.display = 'none'
-    document.getElementById("returnToGame").style.display = 'none'
+    userStats.style.display = 'none';
+    showStatsFinal.style.display = 'none';
     nextInstruction.classList.remove('visible');
     prevInstruction.classList.remove('visible');
     nextInstruction.classList.add('hidden1');
@@ -1320,7 +1397,8 @@ Close.addEventListener('click', ()=>{
     divRules.innerHTML = ""; 
 });
 
-beginGame.addEventListener("click", () => {
+
+  beginGame.addEventListener("click", () => {
     if (isReset){
         renderMatrix();
         showScreen('screen-game');
@@ -1347,6 +1425,8 @@ X.addEventListener('click', ()=>{
 signUpBtn.addEventListener("click",()=>{
     showScreen('screen-sign-up');
     uniqueUsername.style.display = 'inline-block';
+    displayNameInput.style.display="inline-block";
+    PINInput.style.display="inline-block";
     createAccBtn.style.display = 'inline-block';
 }); 
 
@@ -1371,7 +1451,7 @@ Play.addEventListener("click", () => {
   //
   //
   document.getElementById("showStatsFinal").addEventListener("click", async () => {
-    const squaregamer = document.getElementById("userStats").value;
+    const squaregamer = userStats.value;
     const result = await getStats(squaregamer);
     document.getElementById("statsOutput").textContent = result;
   });
@@ -1402,3 +1482,5 @@ colorReset.addEventListener('click', () => {
 }); 
 
 colorPickerWrapper.classList.add("hidden");
+userStats.style.display = 'none';
+showStatsFinal.style.display = 'none';
