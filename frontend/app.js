@@ -1309,9 +1309,8 @@ Close.addEventListener('click', ()=>{
     Rules.style.display = 'inline-block';
     Stats.style.display = 'inline-block';
     Settings.style.display = 'inline-block';
-    document.getElementById("userStats").style.display = 'none'
-    document.getElementById("showStatsFinal").style.display = 'none'
-    document.getElementById("returnToGame").style.display = 'none'
+    document.getElementById("userStats").style.display = 'none';
+    document.getElementById("showStatsFinal").style.display = 'none';
     nextInstruction.classList.remove('visible');
     prevInstruction.classList.remove('visible');
     nextInstruction.classList.add('hidden1');
