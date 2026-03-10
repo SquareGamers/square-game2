@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 
+
 <body>
   <div id="app">
     <div id="selectionsContainer">
@@ -21,6 +22,9 @@
       <p id = "printCategories" style="display:none">CATEGORY: </p>
     </div>
 
+    <script type="module" src="app.js"></script>
+
+
     <div id="screen-menu" class="screen">
       <div id="menu-buttons">
         <button class = "menu-button" id="Play">Play</button>
@@ -31,8 +35,8 @@
         <button class="menu-button" id="Close">Close</button>
         <button class="menu-button" id="Previous">Previous</button>
         <button class="menu-button" id="Next">Next</button>
-        <input type="string" id="userStats" style="display:none;" placeholder="Username of the player">
-      <button class="menu-button" id="showStatsFinal" style="display:none;">Show Their Stats</button>
+        <input type="string" id="userStats" placeholder="Username of the player">
+      <button class="menu-button" id="showStatsFinal">Show Their Stats</button>
       <pre id="statsOutput"></pre>
     </div>
         <div id="instrText"></div>
@@ -46,24 +50,24 @@
           <p id="instruction-text">Enter the name of each Player. If there are more than 4 Players, combine into teams of 4 and enter combined names. Enter your names in the arrangement you are sitting.</p>
         </div>
 
-        <div class="inputs-wrapper">
-          <button
-            class="default-button"
-            id="submitPlayers"
-            style="display:none;">
-            Submit Players
-          </button>
-          <div id="playerInputs"></div>
-        </div>
-      </div>
-
-      <div id="log-ins">
-        <button
-          class="default-button"
-          id="signUp"
-          style="display:none;">
-          Sign Up
-        </button>
+    <div class="inputs-wrapper">
+      <button
+        class="default-button"
+        id="submitPlayers"
+        style="display:none;">
+        Submit Players
+      </button>
+      <div id="playerInputs"></div>
+    </div>
+  </div>
+  
+  <div id="log-ins">
+    <button
+      class="default-button"
+      id="signUp"
+      style="display:none;">
+      Sign Up
+    </button>
 
         <button 
           class="default-button" 
@@ -73,20 +77,26 @@
         </button>
       </div> 
 
-    <div id="screen-sign-up" class="screen">
-      <div class="screen-instruction">Don't have an account?</div>
-      <p id="sign-up-text">Put in a unique username!</p>
-    </div>
+<div id="playerInputs"></div>
 
-    <div id="create-acc-css">
-      <input type="text" id="uniqueUsername" placeholder="Enter a unique username" style = "display: none;">
-      <button
-        class="default-button"
-        id="createAccount"
-        style = "display: none;">
-        Create Account
-      </button>
-    </div>
+<div id="screen-sign-up" class="screen">
+  <div class="scren-instruction">Don't have an account?</div>
+  <p id="sign-up-text">Put in a unique username and display name!</p>
+  <p id="sign-up-text">Put in a unique username and display name!</p>
+</div>
+
+<div id="create-acc-css">
+  <input type="text" id="uniqueUsername" placeholder="Enter a unique username" style = "display: none;">
+    <input type="text" id="displayNameInput" placeholder="Enter a display name" style = "display: none;">
+    <input type="number" id="PINInput" placeholder="Enter PIN" style = "display: none;">
+
+  <button
+    class="default-button"
+    id="createAccount"
+    style = "display: none;">
+    Create Account
+  </button>
+</div>
 
       <!-- PICK ROUNDS-->
       <div id="screen-pick-rounds" class="screen">
@@ -200,16 +210,14 @@
             <button class="default-button" id="newWord">SKIP WORD / TIE</button>
             <button class="default-button" id="playGame">PLAY</button>
 
-            <div id ="editButtons">
-              <button class="default-button" id="resetBtn">REPLAY</button>  
-              <button class="default-button" id="teamBtn">CHANGE TEAMS</button>
-              <button class="default-button" id="roundsBtn">CHANGE ROUNDS</button>
-              <button class="default-button" id="categoriesBtn">CHANGE CATEGORIES</button>
-              <button class ="default-button" id="X">X</button>
-            </div>
+        <div id ="editButtons">
+          <button class="default-button" id="resetBtn">REPLAY</button>  
+          <button class="default-button" id="teamBtn">CHANGE TEAMS</button>
+          <button class="default-button" id="roundsBtn">CHANGE ROUNDS</button>
+          <button class="default-button" id="categoriesBtn">CHANGE CATEGORIES</button>
+          <button class ="default-button" id="X">X</button>
         </div>
-  </div>>
-<script type="module" src="app.js"></script>
-<script src="app.test.js"></script>
+    </div>
+  </div>
 </body>
 </html>
