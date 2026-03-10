@@ -253,6 +253,9 @@ const defCatBtn = document.getElementById('defaultCategory');
 const createCustListBtn = document.getElementById('createCustomList');
 const customListContainer = document.getElementById('customListContainer');
 const beginGame = document.getElementById('categoryReady');
+const userStats=document.getElementById('userStats');
+const showStatsFinal=document.getElementById('showStatsFinal');
+
 let tempId = 0;
 
 function showWinner() {
@@ -1373,21 +1376,19 @@ Stats.addEventListener("click",()=>{
     Rules.style.display = 'none';
     Stats.style.display = 'none';
     Settings.style.display = 'none';
-    document.getElementById("userStats").style.display = 'inline-block'
-    document.getElementById("showStatsFinal").style.display = 'inline-block'
-    Close.style.display = 'inline-block'
+    userStats.style.display = 'inline-block';
+    showStatsFinal.style.display = 'inline-block';
+    Close.style.display = 'inline-block';
   });
 Close.addEventListener('click', ()=>{
-    document.getElementById("statsOutput").textContent = "";
     Close.style.display = 'none';
     Play.style.display = 'inline-block';
     Instructions.style.display = 'inline-block';
     Rules.style.display = 'inline-block';
     Stats.style.display = 'inline-block';
     Settings.style.display = 'inline-block';
-    document.getElementById("userStats").style.display = 'none'
-    document.getElementById("showStatsFinal").style.display = 'none'
-    document.getElementById("returnToGame").style.display = 'none'
+    userStats.style.display = 'none';
+    showStatsFinal.style.display = 'none';
     nextInstruction.classList.remove('visible');
     prevInstruction.classList.remove('visible');
     nextInstruction.classList.add('hidden1');
@@ -1396,12 +1397,7 @@ Close.addEventListener('click', ()=>{
     divRules.innerHTML = ""; 
 });
 
-colorReady.addEventListener("click", () => {
-    printColor.style.display = 'inline-block';
-    colorPicker1.value = colorPicker2.value;
-    colorPicker1.classList.toggle('hidden');
-    showScreen('screen-pick-category');
-  });
+
   beginGame.addEventListener("click", () => {
     if (isReset){
         renderMatrix();
@@ -1455,7 +1451,7 @@ Play.addEventListener("click", () => {
   //
   //
   document.getElementById("showStatsFinal").addEventListener("click", async () => {
-    const squaregamer = document.getElementById("userStats").value;
+    const squaregamer = userStats.value;
     const result = await getStats(squaregamer);
     document.getElementById("statsOutput").textContent = result;
   });
@@ -1486,3 +1482,5 @@ colorReset.addEventListener('click', () => {
 }); 
 
 colorPickerWrapper.classList.add("hidden");
+userStats.style.display = 'none';
+showStatsFinal.style.display = 'none';
