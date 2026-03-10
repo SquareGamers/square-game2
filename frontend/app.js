@@ -33,6 +33,7 @@ function showScreen(screenId) {
     const target = document.getElementById(screenId);  
     target.classList.add("active");
   }
+  
 showScreen("screen-menu");
 var numRounds = 0; 
 let num = 0; 
@@ -231,12 +232,60 @@ const colorReady = document.getElementById("colorReady");
 const submitBtn = document.getElementById("submitPlayers");
 const startRounds = document.getElementById('startRounds');
 const newButton = document.getElementById("newWord");
+const playButton = document.getElementById("playGame");
 const playerInputsDiv = document.getElementById("playerInputs");
 const customList = document.getElementById('promptCustomList');
-const defCatBtn = document.getElementById('defualtCategory');
+const defCatBtn = document.getElementById('defaultCategory');
 const createCustListBtn = document.getElementById('createCustomList');
 const customListContainer = document.getElementById('customListContainer');
 const beginGame = document.getElementById('categoryReady');
+let tempId = 0;
+
+function showWinner() {
+    console.log('showWinner called');
+    document.getElementById("matrix").innerHTML = "";
+    newButton.style.display = "none";
+    displayText2.textContent = '';
+    removeEl('myWord');
+
+    const standings = Object.keys(allPlayers);
+    standings.sort((a, b) => allPlayers[b].score - allPlayers[a].score);
+
+    const first = document.createElement('winner');
+    first.style.position = "absolute";
+    first.style.top = "50px";
+    first.style.left = "50%";
+    first.style.transform = "translateX(-50%)";
+    first.style.whiteSpace = "nowrap";
+    first.style.maxWidth = "100%";
+    first.style.overflow = "hidden";
+    first.style.textOverflow = "ellipsis";
+    first.style.fontSize = "90px";
+    first.textContent = "Winner: " + allPlayers[standings[0]].name + " | Score: " + allPlayers[standings[0]].score;
+    document.body.appendChild(first);
+    
+    for(let i = 1; i < standings.length; i++) {
+        const nextPlace = document.createElement('next');
+        nextPlace.style.position = "absolute";
+        const topPos = 75 + 75 * i;
+        nextPlace.style.top = topPos + "px";
+        nextPlace.style.left = "50%";
+        nextPlace.style.transform = "translateX(-50%)";
+        nextPlace.style.whiteSpace = "nowrap";
+        nextPlace.style.maxWidth = "100%";
+        nextPlace.style.overflow = "hidden";
+        nextPlace.style.textOverflow = "ellipsis";
+        nextPlace.style.fontSize = "60px";
+        nextPlace.textContent = allPlayers[standings[i]].name + " | Score: " + allPlayers[standings[i]].score;
+        document.body.appendChild(nextPlace);
+    }
+
+
+
+
+}
+
+//createUser("testUser123");
 const Instructions = document.getElementById('Instructions');
 const Rules = document.getElementById('Rules');
 const Play = document.getElementById('Play');
@@ -252,8 +301,10 @@ let divRules = document.getElementById('rulesText');
 let ruleList = document.createElement('span');
 nextInstruction.classList.add('hidden1');
 prevInstruction.classList.add('hidden1');
-const selections = document.getElementById('selections');
-const quitBtn = document.getElementById('quit');
+const printPlayers = document.getElementById('printPlayers');
+const printRounds = document.getElementById('printRounds');
+const printCategories = document.getElementById('printCategories');
+const menuBtn = document.getElementById('menu');
 const signUpBtn = document.getElementById('signUp');
 const logInBtn = document.getElementById('logIn');
 const editButtons = document.getElementById("editButtons");
@@ -261,6 +312,10 @@ const X = document.getElementById("X");
 const createAccBtn = document.getElementById('createAccount');
 const uniqueUsername = document.getElementById('uniqueUsername');
 const finalPlay = document.getElementById('playGame');
+const colorPickerWrapper = document.getElementById('colorPickerWrapper');
+const colorPicker1 = document.getElementById('backgroundColor1');
+const colorPicker2 = document.getElementById('backgroundColor2');
+const printColor = document.getElementById('printColor');
 
 readyButton.addEventListener('click',()=>{
     submitPlayersAndStartGame();
@@ -671,13 +726,15 @@ function setRounds(){
     numRounds = document.getElementById("numRounds").value;
     startRounds.style.display = "none";
     document.getElementById("numRounds").style.display = "none";
-    console.log("numrounds " + numRounds);
+    printRounds.style.display = 'inline-block';
+    printRounds.innerHTML = "ROUNDS: " + numRounds;
 }
 
 
 const displayText2 = document.getElementById('displayText2');
 displayText2.textContent = 'ROUND';
 let r = 0;
+
 function startRoundA(){
     newWord(true)
     mlbButton.style.display = 'none';
@@ -693,10 +750,11 @@ function startRoundA(){
     r = 1;
     displayText2.textContent = `ROUND ${r}`;
 }
+
 redBtn.addEventListener('click', function() {
     if (r > numRounds-1){
         updateScore("red");
-        changeRoles();
+        showWinner();
         syncScore();
         r++;
         redBtn.style.display = "none";
@@ -713,10 +771,11 @@ redBtn.addEventListener('click', function() {
         changeRoles();
     }
 });
+
 blackBtn.addEventListener('click', function() {
     if (r > numRounds-1){
         updateScore("black");
-        changeRoles();
+        showWinner();
         syncScore();
         r++;
         redBtn.style.display = "none";
@@ -733,7 +792,10 @@ blackBtn.addEventListener('click', function() {
         changeRoles();
     }
 });
+
 resetBtn.addEventListener('click', () => {
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
     redBtn.style.display = 'inline-block';
     blackBtn.style.display = 'inline-block';
     finalPlay.style.display = 'inline-block';
@@ -744,8 +806,10 @@ resetBtn.addEventListener('click', () => {
     renderMatrix();
     r = 1; 
 });
+
 roundsBtn.addEventListener('click', () => {
-    isReset = true; 
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
     showScreen('screen-pick-rounds');
     (document.getElementById('numRounds')).style.display = "inline-block";
     startRounds.style.display = 'inline-block';
@@ -756,8 +820,10 @@ roundsBtn.addEventListener('click', () => {
     renderMatrix();
     r = 1; 
 });
+
 teamBtn.addEventListener('click', () => {
-    isReset = true; 
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
     showScreen('screen-enter-players');
     setupPlayerInputs();
     playerInputsDiv.style.display = 'inline-block';
@@ -768,8 +834,10 @@ teamBtn.addEventListener('click', () => {
     renderMatrix();
     r = 1; 
 });
+
 categoriesBtn.addEventListener('click', () => {
-    isReset = true; 
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
     showScreen('screen-pick-category');
     defCatBtn.style.display = 'inline-block';
     createCustListBtn.style.display = 'inline-block';
@@ -807,6 +875,8 @@ var category = "";
 
 CSPButton.addEventListener('click',()=>{
     category = listCSP;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: CSP";
     CSPButton.classList.remove('default-button');
     CSPButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -823,6 +893,8 @@ CSPButton.addEventListener('click',()=>{
 
 easyButton.addEventListener('click',()=>{
     category = listEasyBasicWords;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: EASY";
     easyButton.classList.remove('default-button');
     easyButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -837,6 +909,8 @@ easyButton.addEventListener('click',()=>{
 
 medButton.addEventListener('click',()=>{
     category = listMediumBasicWords;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: MEDIUM";
     medButton.classList.remove('default-button');
     medButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -851,6 +925,8 @@ medButton.addEventListener('click',()=>{
 
 hardButton.addEventListener('click',()=>{
     category = listHardBasicWords;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: HARD";
     hardButton.classList.remove('default-button');
     hardButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -865,6 +941,8 @@ hardButton.addEventListener('click',()=>{
 
 nbaButton.addEventListener('click',()=>{
     category = listAthletesNBA;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: NBA";
     nbaButton.classList.remove('default-button');
     nbaButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -881,6 +959,8 @@ nbaButton.addEventListener('click',()=>{
 
 nflButton.addEventListener('click',()=>{
     category = listAthletesNFL;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: NFL";
     nflButton.classList.remove('default-button');
     nflButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -897,6 +977,8 @@ nflButton.addEventListener('click',()=>{
 
 mlbButton.addEventListener('click',()=>{
     category = listAthletesMLB;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: MLB";
     mlbButton.classList.remove('default-button');
     mlbButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -913,6 +995,8 @@ mlbButton.addEventListener('click',()=>{
 
 soccerButton.addEventListener('click',()=>{
     category = listAthletesSoccer;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: SOCCER";
     soccerButton.classList.remove('default-button');
     soccerButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -929,6 +1013,8 @@ soccerButton.addEventListener('click',()=>{
 
 mmaButton.addEventListener('click',()=>{
     category = listAthletesMMA;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: MMA";
     mmaButton.classList.remove('default-button');
     mmaButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -945,6 +1031,8 @@ mmaButton.addEventListener('click',()=>{
 
 foodButton.addEventListener('click',()=>{
     category = listFoods;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: FOOD";
     foodButton.classList.remove('default-button');
     foodButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -958,6 +1046,8 @@ foodButton.addEventListener('click',()=>{
 
 drinkButton.addEventListener('click',()=>{
     category = listDrink;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: DRINK";
     drinkButton.classList.remove('default-button');
     drinkButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -992,6 +1082,8 @@ customList.addEventListener('click',()=>{
     document.getElementById("uploadText").style.display = 'none';
     document.getElementById("uploadButton").style.display = 'none';
     category = (document.getElementById('customList').value).split(', ');
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: CUSTOM LIST";
     customList.classList.remove('default-button');
     customList.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -1041,7 +1133,8 @@ submitBtn.addEventListener("click", () => {
     submitBtn.style.display = "none";
     playerInputsDiv.style.display = "none";
     syncPlayersFromInputs();
-    selections.innerHTML += "PLAYERS: " + allPlayers[playerKeys[0]].name + ", " + allPlayers[playerKeys[1]].name + ", " + allPlayers[playerKeys[2]].name + ", " + allPlayers[playerKeys[3]].name;
+    printPlayers.style.display = 'inline-block';
+    printPlayers.innerHTML = "PLAYERS: " + allPlayers[playerKeys[0]].name + ", " + allPlayers[playerKeys[1]].name + ", " + allPlayers[playerKeys[2]].name + ", " + allPlayers[playerKeys[3]].name;
     if (isReset){
         renderMatrix();
         showScreen('screen-game');
@@ -1069,16 +1162,6 @@ startRounds.addEventListener("click", () => {
         setRounds();
         showScreen('screen-pick-color');
     }
-});
-
-const colorPicker = document.getElementById('backgroundColor');
-colorPicker.addEventListener('input', function() {
-    document.body.style.backgroundColor = this.value;
-});
-
-const colorReset = document.getElementById('resetColor');
-colorReset.addEventListener('click', () => {
-    document.body.style.backgroundColor = "rgb(179 215 255)";
 });
 
 function displayInstructions(){
@@ -1234,12 +1317,9 @@ Close.addEventListener('click', ()=>{
     nextInstruction.classList.add('hidden1');
     prevInstruction.classList.add('hidden1');
     divInstrInput.innerHTML = "";
-    divRules.innerHTML = "";
+    divRules.innerHTML = ""; 
 });
 
-colorReady.addEventListener("click", () => {
-    showScreen('screen-pick-category');
-});
 beginGame.addEventListener("click", () => {
     if (isReset){
         renderMatrix();
@@ -1253,16 +1333,15 @@ beginGame.addEventListener("click", () => {
     }
 });
 
-quitBtn.addEventListener('click', ()=>{
+menuBtn.addEventListener('click', ()=>{
+    isReset = true; 
     editButtons.classList.add("active"); 
-    quitBtn.style.display = "none";
+    menuBtn.style.display = "none";
 });
 
 X.addEventListener('click', ()=>{
-    if (e.key === "Escape") {
-        editButtons.classList.remove("active");
-        quitBtn.style.display = "inline-block";
-    }
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
 });
 
 signUpBtn.addEventListener("click",()=>{
@@ -1299,3 +1378,27 @@ Play.addEventListener("click", () => {
   //
   //
   //
+
+
+colorReady.addEventListener("click", () => {
+    printColor.style.display = 'inline-block';
+    colorPicker1.value = colorPicker2.value;
+    colorPickerWrapper.classList.remove("hidden"); 
+    showScreen('screen-pick-category');
+});
+
+const appBox = document.getElementById("app");
+const colorReset = document.getElementById('resetColor');
+
+colorPicker1.addEventListener('input', function() {
+    appBox.style.backgroundColor = this.value;
+});
+colorPicker2.addEventListener('input', function() {
+    appBox.style.backgroundColor = this.value;
+});
+
+colorReset.addEventListener('click', () => {
+    appBox.style.backgroundColor = "white";
+}); 
+
+colorPickerWrapper.classList.add("hidden");
