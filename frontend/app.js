@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCrFLo_T3pg2yrjnyF1hkDprcypspLXc-c",
@@ -47,6 +47,7 @@ function showScreen(screenId) {
     const target = document.getElementById(screenId);  
     target.classList.add("active");
   }
+  
 showScreen("screen-menu");
 var numRounds = 0; 
 let num = 0; 
@@ -131,18 +132,64 @@ function updateScore(color){
         const currPlayer = allPlayers[playerKeys[i]];
 
         if (color === "red") {
-            if (player.id === "RED GUESSER" || player.id === "RED EXPLAINER") {
-                    currPlayer.score++;  // add to **previous**
+            if (player.id === "RED GUESSER") {
+                currPlayer.score++;  // add to **previous**             
+            }
+            else if (player.id === "RED EXPLAINER") {
+                currPlayer.score++;  // add to **previous**
             }
         }        
         else if (color === "black") {
-            if (player.id === "BLACK GUESSER" || player.id === "BLACK EXPLAINER") {
+            if (player.id === "BLACK GUESSER") {
+                currPlayer.score++;  // add to **previous**
+            }
+            else if (player.id === "BLACK EXPLAINER") {
                 currPlayer.score++;  // add to **previous**
             }
         }
     }
 }
-   
+
+async function syncScore() {
+
+    let highestScore = -Infinity;
+    let winners = [];
+
+    for (const key of playerKeys) {
+        const player = allPlayers[key];
+
+        if (player.score > highestScore) {
+            highestScore = player.score;
+            winners = [player.name]; // new top score → reset winners
+        } 
+        else if (player.score === highestScore) {
+            winners.push(player.name); // tie → add to winners
+        }
+    }
+
+    const updates = [];
+
+    for (const key of playerKeys) {
+        const player = allPlayers[key];
+
+        updates.push(
+            updateDoc(doc(db, "user-accounts", player.name), {
+                totalPoints: increment(player.score),
+                gamesCompleted: increment(1)
+            })
+        );
+    }
+
+    for (const winner of winners) {
+        updates.push(
+            updateDoc(doc(db, "user-accounts", winner), {
+                gamesWon: increment(1)
+            })
+        );
+    }
+
+    await Promise.all(updates);
+}
 
 function changeRoles() {
     if (num > 0){
@@ -202,7 +249,7 @@ const newButton = document.getElementById("newWord");
 const playButton = document.getElementById("playGame");
 const playerInputsDiv = document.getElementById("playerInputs");
 const customList = document.getElementById('promptCustomList');
-const defCatBtn = document.getElementById('defualtCategory');
+const defCatBtn = document.getElementById('defaultCategory');
 const createCustListBtn = document.getElementById('createCustomList');
 const customListContainer = document.getElementById('customListContainer');
 const beginGame = document.getElementById('categoryReady');
@@ -281,6 +328,10 @@ const uniqueUsername = document.getElementById('uniqueUsername');
 const displayNameInput = document.getElementById('displayNameInput');
 const PINInput = document.getElementById('PINInput');
 const finalPlay = document.getElementById('playGame');
+const colorPickerWrapper = document.getElementById('colorPickerWrapper');
+const colorPicker1 = document.getElementById('backgroundColor1');
+const colorPicker2 = document.getElementById('backgroundColor2');
+const printColor = document.getElementById('printColor');
 
 readyButton.addEventListener('click',()=>{
     submitPlayersAndStartGame();
@@ -606,6 +657,8 @@ function displayWord(word2){
 }
 
 defCatBtn.addEventListener('click',()=>{
+    document.getElementById("uploadText").style.display = 'none';
+    document.getElementById("uploadButton").style.display = 'none';
     athleteButton.style.display = 'inline-block';
     foodDrinkButton.style.display = 'inline-block';
     basicButton.style.display = 'inline-block';
@@ -620,11 +673,12 @@ defCatBtn.addEventListener('click',()=>{
 })
 
 createCustListBtn.addEventListener('click',()=>{
+    document.getElementById("uploadText").style.display = 'none';
+    document.getElementById("uploadButton").style.display = 'none';
     customList.style.display = 'inline-block';
     customListContainer.style.display = 'inline-block';
     defCatBtn.style.display = 'none';
     createCustListBtn.style.display = 'none';
-
 })
 
 basicButton.addEventListener('click',()=>{
@@ -717,6 +771,7 @@ redBtn.addEventListener('click', function() {
     if (r > numRounds-1){
         updateScore("red");
         showWinner();
+        syncScore();
         r++;
         redBtn.style.display = "none";
         blackBtn.style.display = "none";
@@ -732,10 +787,12 @@ redBtn.addEventListener('click', function() {
         changeRoles();
     }
 });
+
 blackBtn.addEventListener('click', function() {
     if (r > numRounds-1){
         updateScore("black");
         showWinner();
+        syncScore();
         r++;
         redBtn.style.display = "none";
         blackBtn.style.display = "none";
@@ -751,6 +808,7 @@ blackBtn.addEventListener('click', function() {
         changeRoles();
     }
 });
+
 resetBtn.addEventListener('click', () => {
     editButtons.classList.remove("active");
     menuBtn.style.display = "inline-block";
@@ -764,6 +822,7 @@ resetBtn.addEventListener('click', () => {
     renderMatrix();
     r = 1; 
 });
+
 roundsBtn.addEventListener('click', () => {
     editButtons.classList.remove("active");
     menuBtn.style.display = "inline-block";
@@ -777,6 +836,7 @@ roundsBtn.addEventListener('click', () => {
     renderMatrix();
     r = 1; 
 });
+
 teamBtn.addEventListener('click', () => {
     editButtons.classList.remove("active");
     menuBtn.style.display = "inline-block";
@@ -790,6 +850,7 @@ teamBtn.addEventListener('click', () => {
     renderMatrix();
     r = 1; 
 });
+
 categoriesBtn.addEventListener('click', () => {
     editButtons.classList.remove("active");
     menuBtn.style.display = "inline-block";
@@ -804,6 +865,28 @@ categoriesBtn.addEventListener('click', () => {
     r = 1; 
 });
     
+async function getStats(player) {
+    const statsDoc = doc(db, "user-accounts", player);
+    const snap = await getDoc(statsDoc);
+    if (!snap.exists()) {
+        return "No stats found for that username.";
+    }
+    const stats = snap.data();
+    let statList = "Player stats for " + player + ": \n";
+    statList = statList + "Games Completed: " + stats.gamesCompleted + "\n";
+    statList = statList + "Games Won: " + stats.gamesWon + "\n";
+    statList = statList + "Total Points Accumulated: " + stats.totalPoints + "\n"
+    if (stats.gamesCompleted == 0) {
+       statList = statList + "Win Percentage: 0%";
+    }
+    else {
+        statList = statList + "Win Percentage: " + (stats.gamesWon / stats.gamesCompleted) * 100 + "%";
+    }
+    return statList;
+}
+
+
+
 var category = "";
 
 CSPButton.addEventListener('click',()=>{
@@ -991,8 +1074,29 @@ drinkButton.addEventListener('click',()=>{
     drinkButton.style.display = 'none';
     foodButton.style.display = 'none';
 });
+const uploadList = document.getElementById("uploadList");
+uploadList.addEventListener("change", () => {
+    const file = uploadList.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const text = e.target.result;
+        category = text.split('\n').filter(line => line.trim() !== "");
+        console.log(category);
+        uploadList.classList.remove('default-button');
+        uploadList.classList.add('highlighted-button');
+        beginGame.style.display = 'inline-block';
+        setTimeout(() => {
+            customList.classList.remove('highlighted-button');
+            customList.classList.add('default-button');
+        }, 250);
+    };
+    reader.readAsText(file);
+});
 
 customList.addEventListener('click',()=>{
+    document.getElementById("uploadText").style.display = 'none';
+    document.getElementById("uploadButton").style.display = 'none';
     category = (document.getElementById('customList').value).split(', ');
     printCategories.style.display = 'inline-block';
     printCategories.innerHTML = "CATEGORY: CUSTOM LIST";
@@ -1114,21 +1218,6 @@ startRounds.addEventListener("click", () => {
     }
 });
 
-const colorPicker1 = document.getElementById('backgroundColor1');
-const colorPicker2 = document.getElementById('backgroundColor2');
-
-colorPicker1.addEventListener('input', function() {
-    document.body.style.backgroundColor = this.value;
-});
-colorPicker2.addEventListener('input', function() {
-    document.body.style.backgroundColor = this.value;
-});
-
-const colorReset = document.getElementById('resetColor');
-colorReset.addEventListener('click', () => {
-    document.body.style.backgroundColor = "rgb(179 215 255)";
-});
-
 function displayInstructions(){
     const instrList = ['The Square Game is a game of wit and speed',
                 'As an explainer, you will race your opponent (the person next to you) to each explain a word to your teammate (the person across from you)',
@@ -1238,7 +1327,6 @@ async function createAcc(){
                 wordsGuessed:0,
                 wordsExplained:0
               });
-          
               alert("Account created!");
             } catch (error) {
               console.error("Error:", error);
@@ -1279,14 +1367,27 @@ Instructions.addEventListener('click',()=>{
     prevInstruction.classList.add('hidden1');
     showRules();
 })
-
+Stats.addEventListener("click",()=>{
+    Play.style.display = 'none';
+    Instructions.style.display = 'none';
+    Rules.style.display = 'none';
+    Stats.style.display = 'none';
+    Settings.style.display = 'none';
+    document.getElementById("userStats").style.display = 'inline-block'
+    document.getElementById("showStatsFinal").style.display = 'inline-block'
+    Close.style.display = 'inline-block'
+  });
 Close.addEventListener('click', ()=>{
+    document.getElementById("statsOutput").textContent = "";
     Close.style.display = 'none';
     Play.style.display = 'inline-block';
     Instructions.style.display = 'inline-block';
     Rules.style.display = 'inline-block';
     Stats.style.display = 'inline-block';
     Settings.style.display = 'inline-block';
+    document.getElementById("userStats").style.display = 'none'
+    document.getElementById("showStatsFinal").style.display = 'none'
+    document.getElementById("returnToGame").style.display = 'none'
     nextInstruction.classList.remove('visible');
     prevInstruction.classList.remove('visible');
     nextInstruction.classList.add('hidden1');
@@ -1349,3 +1450,39 @@ Play.addEventListener("click", () => {
     logInBtn.style.display = 'inline-block';
     signUpBtn.style.display = 'inline-block';
   }); 
+
+  // the async one is right here
+  //
+  //
+  document.getElementById("showStatsFinal").addEventListener("click", async () => {
+    const squaregamer = document.getElementById("userStats").value;
+    const result = await getStats(squaregamer);
+    document.getElementById("statsOutput").textContent = result;
+  });
+  //
+  //
+  //
+
+
+colorReady.addEventListener("click", () => {
+    printColor.style.display = 'inline-block';
+    colorPicker1.value = colorPicker2.value;
+    colorPickerWrapper.classList.remove("hidden"); 
+    showScreen('screen-pick-category');
+});
+
+const appBox = document.getElementById("app");
+const colorReset = document.getElementById('resetColor');
+
+colorPicker1.addEventListener('input', function() {
+    appBox.style.backgroundColor = this.value;
+});
+colorPicker2.addEventListener('input', function() {
+    appBox.style.backgroundColor = this.value;
+});
+
+colorReset.addEventListener('click', () => {
+    appBox.style.backgroundColor = "white";
+}); 
+
+colorPickerWrapper.classList.add("hidden");
