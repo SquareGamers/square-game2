@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCrFLo_T3pg2yrjnyF1hkDprcypspLXc-c",
@@ -14,20 +14,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
-
-console.log("Firebase initialized");
-/*var userID = document.getElementById("username") + document.getElementById("PIN");
-async function createUser(userId) {
-    await setDoc(doc(db, "user-account", userId), {
-        username: userID,
-        gamesCompleted:0,
-        gamesWon:0,
-        //winPct: (gamesWon/gamesCompleted),
-        wordsGuessed:0,
-        wordsExplained:0
-    });
-}
-*/
 
 auth.onAuthStateChanged(user => {
     if (user) {
@@ -132,18 +118,64 @@ function updateScore(color){
         const currPlayer = allPlayers[playerKeys[i]];
 
         if (color === "red") {
-            if (player.id === "RED GUESSER" || player.id === "RED EXPLAINER") {
-                    currPlayer.score++;  // add to **previous**
+            if (player.id === "RED GUESSER") {
+                currPlayer.score++;  // add to **previous**             
+            }
+            else if (player.id === "RED EXPLAINER") {
+                currPlayer.score++;  // add to **previous**
             }
         }        
         else if (color === "black") {
-            if (player.id === "BLACK GUESSER" || player.id === "BLACK EXPLAINER") {
+            if (player.id === "BLACK GUESSER") {
+                currPlayer.score++;  // add to **previous**
+            }
+            else if (player.id === "BLACK EXPLAINER") {
                 currPlayer.score++;  // add to **previous**
             }
         }
     }
 }
-   
+
+async function syncScore() {
+
+    let highestScore = -Infinity;
+    let winners = [];
+
+    for (const key of playerKeys) {
+        const player = allPlayers[key];
+
+        if (player.score > highestScore) {
+            highestScore = player.score;
+            winners = [player.name]; // new top score → reset winners
+        } 
+        else if (player.score === highestScore) {
+            winners.push(player.name); // tie → add to winners
+        }
+    }
+
+    const updates = [];
+
+    for (const key of playerKeys) {
+        const player = allPlayers[key];
+
+        updates.push(
+            updateDoc(doc(db, "user-accounts", player.name), {
+                totalPoints: increment(player.score),
+                gamesCompleted: increment(1)
+            })
+        );
+    }
+
+    for (const winner of winners) {
+        updates.push(
+            updateDoc(doc(db, "user-accounts", winner), {
+                gamesWon: increment(1)
+            })
+        );
+    }
+
+    await Promise.all(updates);
+}
 
 function changeRoles() {
     if (num > 0){
@@ -609,6 +641,8 @@ function displayWord(word2){
 }
 
 defCatBtn.addEventListener('click',()=>{
+    document.getElementById("uploadText").style.display = 'none';
+    document.getElementById("uploadButton").style.display = 'none';
     athleteButton.style.display = 'inline-block';
     foodDrinkButton.style.display = 'inline-block';
     basicButton.style.display = 'inline-block';
@@ -623,11 +657,12 @@ defCatBtn.addEventListener('click',()=>{
 })
 
 createCustListBtn.addEventListener('click',()=>{
+    document.getElementById("uploadText").style.display = 'none';
+    document.getElementById("uploadButton").style.display = 'none';
     customList.style.display = 'inline-block';
     customListContainer.style.display = 'inline-block';
     defCatBtn.style.display = 'none';
     createCustListBtn.style.display = 'none';
-
 })
 
 basicButton.addEventListener('click',()=>{
@@ -720,6 +755,7 @@ redBtn.addEventListener('click', function() {
     if (r > numRounds-1){
         updateScore("red");
         showWinner();
+        syncScore();
         r++;
         redBtn.style.display = "none";
         blackBtn.style.display = "none";
@@ -740,6 +776,7 @@ blackBtn.addEventListener('click', function() {
     if (r > numRounds-1){
         updateScore("black");
         showWinner();
+        syncScore();
         r++;
         redBtn.style.display = "none";
         blackBtn.style.display = "none";
@@ -812,6 +849,28 @@ categoriesBtn.addEventListener('click', () => {
     r = 1; 
 });
     
+async function getStats(player) {
+    const statsDoc = doc(db, "user-accounts", player);
+    const snap = await getDoc(statsDoc);
+    if (!snap.exists()) {
+        return "No stats found for that username.";
+    }
+    const stats = snap.data();
+    let statList = "Player stats for " + player + ": \n";
+    statList = statList + "Games Completed: " + stats.gamesCompleted + "\n";
+    statList = statList + "Games Won: " + stats.gamesWon + "\n";
+    statList = statList + "Total Points Accumulated: " + stats.totalPoints + "\n"
+    if (stats.gamesCompleted == 0) {
+       statList = statList + "Win Percentage: 0%";
+    }
+    else {
+        statList = statList + "Win Percentage: " + (stats.gamesWon / stats.gamesCompleted) * 100 + "%";
+    }
+    return statList;
+}
+
+
+
 var category = "";
 
 CSPButton.addEventListener('click',()=>{
@@ -999,8 +1058,29 @@ drinkButton.addEventListener('click',()=>{
     drinkButton.style.display = 'none';
     foodButton.style.display = 'none';
 });
+const uploadList = document.getElementById("uploadList");
+uploadList.addEventListener("change", () => {
+    const file = uploadList.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const text = e.target.result;
+        category = text.split('\n').filter(line => line.trim() !== "");
+        console.log(category);
+        uploadList.classList.remove('default-button');
+        uploadList.classList.add('highlighted-button');
+        beginGame.style.display = 'inline-block';
+        setTimeout(() => {
+            customList.classList.remove('highlighted-button');
+            customList.classList.add('default-button');
+        }, 250);
+    };
+    reader.readAsText(file);
+});
 
 customList.addEventListener('click',()=>{
+    document.getElementById("uploadText").style.display = 'none';
+    document.getElementById("uploadButton").style.display = 'none';
     category = (document.getElementById('customList').value).split(', ');
     printCategories.style.display = 'inline-block';
     printCategories.innerHTML = "CATEGORY: CUSTOM LIST";
@@ -1042,7 +1122,7 @@ function setupPlayerInputs() {
         const input = document.createElement("input");
         input.type = "text";
         input.id = "player" + i;
-        input.placeholder = "Enter name for player " + (i + 1);
+        input.placeholder = "Enter username for player " + (i + 1);
         playerInputsDiv.appendChild(input);
     }
     submitBtn.style.display = "inline-block";
@@ -1171,11 +1251,8 @@ async function createAcc(){
                 createdAt: new Date(),
                 gamesCompleted:0,
                 gamesWon:0,
-                winPct:0,
-                wordsGuessed:0,
-                wordsExplained:0
+                totalPoints:0
               });
-          
               alert("Account created!");
             } catch (error) {
               console.error("Error:", error);
@@ -1214,14 +1291,27 @@ Instructions.addEventListener('click',()=>{
     prevInstruction.classList.add('hidden1');
     showRules();
 })
-
+Stats.addEventListener("click",()=>{
+    Play.style.display = 'none';
+    Instructions.style.display = 'none';
+    Rules.style.display = 'none';
+    Stats.style.display = 'none';
+    Settings.style.display = 'none';
+    document.getElementById("userStats").style.display = 'inline-block'
+    document.getElementById("showStatsFinal").style.display = 'inline-block'
+    Close.style.display = 'inline-block'
+  });
 Close.addEventListener('click', ()=>{
+    document.getElementById("statsOutput").textContent = "";
     Close.style.display = 'none';
     Play.style.display = 'inline-block';
     Instructions.style.display = 'inline-block';
     Rules.style.display = 'inline-block';
     Stats.style.display = 'inline-block';
     Settings.style.display = 'inline-block';
+    document.getElementById("userStats").style.display = 'none'
+    document.getElementById("showStatsFinal").style.display = 'none'
+    document.getElementById("returnToGame").style.display = 'none'
     nextInstruction.classList.remove('visible');
     prevInstruction.classList.remove('visible');
     nextInstruction.classList.add('hidden1');
@@ -1276,6 +1366,18 @@ Play.addEventListener("click", () => {
     logInBtn.style.display = 'inline-block';
     signUpBtn.style.display = 'inline-block';
   }); 
+
+  // the async one is right here
+  //
+  //
+  document.getElementById("showStatsFinal").addEventListener("click", async () => {
+    const squaregamer = document.getElementById("userStats").value;
+    const result = await getStats(squaregamer);
+    document.getElementById("statsOutput").textContent = result;
+  });
+  //
+  //
+  //
 
 
 colorReady.addEventListener("click", () => {
