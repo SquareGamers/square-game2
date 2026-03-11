@@ -206,51 +206,70 @@ const defCatBtn = document.getElementById('defualtCategory');
 const createCustListBtn = document.getElementById('createCustomList');
 const customListContainer = document.getElementById('customListContainer');
 const beginGame = document.getElementById('categoryReady');
-let tempId = 0;
+
+const rdyButton = document.getElementById("readyRound");
+rdyButton.classList.add("hidden");
+
+
+function clearResults() {
+    document.getElementById("results").innerHTML = "";
+}
+
 
 function showWinner() {
-    console.log('showWinner called');
+
     document.getElementById("matrix").innerHTML = "";
     newButton.style.display = "none";
     displayText2.textContent = '';
     removeEl('myWord');
-
+    
+    const results = document.getElementById("results");
+    results.innerHTML = ""; 
+    
     const standings = Object.keys(allPlayers);
     standings.sort((a, b) => allPlayers[b].score - allPlayers[a].score);
-
-    const first = document.createElement('winner');
-    first.style.position = "absolute";
-    first.style.top = "50px";
-    first.style.left = "50%";
-    first.style.transform = "translateX(-50%)";
-    first.style.whiteSpace = "nowrap";
-    first.style.maxWidth = "100%";
-    first.style.overflow = "hidden";
-    first.style.textOverflow = "ellipsis";
-    first.style.fontSize = "90px";
-    first.textContent = "Winner: " + allPlayers[standings[0]].name + " | Score: " + allPlayers[standings[0]].score;
-    document.body.appendChild(first);
     
-    for(let i = 1; i < standings.length; i++) {
-        const nextPlace = document.createElement('next');
-        nextPlace.style.position = "absolute";
-        const topPos = 75 + 75 * i;
-        nextPlace.style.top = topPos + "px";
-        nextPlace.style.left = "50%";
-        nextPlace.style.transform = "translateX(-50%)";
-        nextPlace.style.whiteSpace = "nowrap";
-        nextPlace.style.maxWidth = "100%";
-        nextPlace.style.overflow = "hidden";
-        nextPlace.style.textOverflow = "ellipsis";
-        nextPlace.style.fontSize = "60px";
-        nextPlace.textContent = allPlayers[standings[i]].name + " | Score: " + allPlayers[standings[i]].score;
-        document.body.appendChild(nextPlace);
+    // helper function to create result text
+    function createResult(text, size, top) {
+        const el = document.createElement("div");
+    
+        el.style.position = "absolute";
+        el.style.top = top + "px";
+        el.style.left = "50%";
+        el.style.transform = "translateX(-50%)";
+        el.style.whiteSpace = "nowrap";
+        el.style.maxWidth = "100%";
+        el.style.overflow = "hidden";
+        el.style.textOverflow = "ellipsis";
+        el.style.fontSize = size + "px";
+    
+        el.textContent = text;
+    
+        results.appendChild(el);
     }
+    
+    
+    createResult(
+        "Winner: " + allPlayers[standings[0]].name +
+        " | Score: " + allPlayers[standings[0]].score,
+        90,
+        50
+    );
+    
 
-
-
-
+    for (let i = 1; i < standings.length; i++) {
+    
+        const topPos = 75 + 75 * i;
+    
+        createResult(
+            allPlayers[standings[i]].name +
+            " | Score: " + allPlayers[standings[i]].score,
+            60,
+            topPos
+        );
+    }
 }
+
 
 //createUser("testUser123");
 const Instructions = document.getElementById('Instructions');
@@ -311,10 +330,10 @@ function countdown(count, word1) {
         return;
     } 
     if (count){
-        for (let i = 5; i > -1; i--) {
+        /* (let i = 5; i > -1; i--) {
             setTimeout(function() { dispNum(i); }, (5 - i) * 1000);
-        }
-        setTimeout(function() { displayWord(word1); }, 6000);
+        }*/
+        setTimeout(function() { displayWord(word1); }, 0);
     }
 }
 
@@ -679,6 +698,11 @@ backBtn.addEventListener('click',()=>{
     customListContainer.style.display = 'none';
 })
 
+rdyButton.addEventListener('click',()=>{
+    newWord(true);
+    rdyButton.classList.add('hidden');
+})
+
 
 function setRounds(){
     numRounds = document.getElementById("numRounds").value;
@@ -716,9 +740,7 @@ redBtn.addEventListener('click', function() {
     }
     else{
         num++;
-        removeEl('myWord');
-        removeEl('myNum');
-        newWord(true); 
+        rdyButton.classList.remove('hidden');
         r++;
         displayText2.textContent = `ROUND ${r}`;
         updateScore("red");
@@ -735,9 +757,7 @@ blackBtn.addEventListener('click', function() {
     }
     else{
         num++;
-        removeEl('myWord');
-        removeEl('myNum');
-        newWord(true);
+        rdyButton.classList.remove('hidden');
         r++;
         displayText2.textContent = `ROUND ${r}`;
         updateScore("black");
@@ -748,6 +768,7 @@ resetBtn.addEventListener('click', () => {
     redBtn.style.display = 'inline-block';
     blackBtn.style.display = 'inline-block';
     finalPlay.style.display = 'inline-block';
+    clearResults();
     for (let key of playerKeys) { 
         const player = allPlayers[key]; 
         player.score = 0;
@@ -760,6 +781,7 @@ roundsBtn.addEventListener('click', () => {
     showScreen('screen-pick-rounds');
     (document.getElementById('numRounds')).style.display = "inline-block";
     startRounds.style.display = 'inline-block';
+    clearResults();
     for (let key of playerKeys) { 
         const player = allPlayers[key]; 
         player.score = 0;
@@ -772,6 +794,7 @@ teamBtn.addEventListener('click', () => {
     showScreen('screen-enter-players');
     setupPlayerInputs();
     playerInputsDiv.style.display = 'inline-block';
+    clearResults();
     for (let key of playerKeys) { 
         const player = allPlayers[key]; 
         player.score = 0;
@@ -784,6 +807,7 @@ categoriesBtn.addEventListener('click', () => {
     showScreen('screen-pick-category');
     defCatBtn.style.display = 'inline-block';
     createCustListBtn.style.display = 'inline-block';
+    clearResults();
     for (let key of playerKeys) { 
         const player = allPlayers[key]; 
         player.score = 0;
