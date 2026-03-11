@@ -335,6 +335,8 @@ const colorPickerWrapper = document.getElementById('colorPickerWrapper');
 const colorPicker1 = document.getElementById('backgroundColor1');
 const colorPicker2 = document.getElementById('backgroundColor2');
 const printColor = document.getElementById('printColor');
+const uploadText = document.getElementById("uploadText");
+const uploadButton = document.getElementById("uploadButton");
 
 readyButton.addEventListener('click',()=>{
     submitPlayersAndStartGame();
@@ -660,8 +662,9 @@ function displayWord(word2){
 }
 
 defCatBtn.addEventListener('click',()=>{
-    document.getElementById("uploadText").style.display = 'none';
-    document.getElementById("uploadButton").style.display = 'none';
+    console.log('button was clicked');
+    uploadText.style.display = 'none';
+    uploadButton.style.display = 'none';
     athleteButton.style.display = 'inline-block';
     foodDrinkButton.style.display = 'inline-block';
     basicButton.style.display = 'inline-block';
@@ -676,8 +679,8 @@ defCatBtn.addEventListener('click',()=>{
 })
 
 createCustListBtn.addEventListener('click',()=>{
-    document.getElementById("uploadText").style.display = 'none';
-    document.getElementById("uploadButton").style.display = 'none';
+    uploadText.style.display = 'none';
+    uploadButton.style.display = 'none';
     customList.style.display = 'inline-block';
     customListContainer.style.display = 'inline-block';
     defCatBtn.style.display = 'none';
@@ -1098,8 +1101,8 @@ uploadList.addEventListener("change", () => {
 });
 
 customList.addEventListener('click',()=>{
-    document.getElementById("uploadText").style.display = 'none';
-    document.getElementById("uploadButton").style.display = 'none';
+    uploadText.style.display = 'none';
+    uploadButton.style.display = 'none';
     category = (document.getElementById('customList').value).split(', ');
     printCategories.style.display = 'inline-block';
     printCategories.innerHTML = "CATEGORY: CUSTOM LIST";
