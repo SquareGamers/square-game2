@@ -1169,13 +1169,12 @@ async function checkPlayers() {
         const userRef = doc(db, "user-accounts", username);
         const userSnap = await getDoc(userRef);
 
-        if (!userSnap.exists()) {
-            console.log("User does not exist");
+        if ((!userSnap.exists())) {
+            alert(username + " does not exist. You can still play, but your data will not be saved.");
             continue;
         }
 
-        const storedPin = userSnap.data().pin;
-
+        const storedPin = userSnap.data().PIN;
         if (storedPin == enteredPin) {
             alert("Correct login for " + username);
         } else {
