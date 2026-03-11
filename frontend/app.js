@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCrFLo_T3pg2yrjnyF1hkDprcypspLXc-c",
@@ -16,18 +16,18 @@ const db = getFirestore(app);
 const auth = getAuth();
 
 console.log("Firebase initialized");
-/*var userID = document.getElementById("username") + document.getElementById("PIN");
-async function createUser(userId) {
-    await setDoc(doc(db, "user-account", userId), {
+var userID = document.getElementById("username");
+/*async function createUser(userID) {
+    await setDoc(doc(db, "user-account", userID), {
         username: userID,
+        displayName:name
         gamesCompleted:0,
         gamesWon:0,
-        //winPct: (gamesWon/gamesCompleted),
+        //winPct:0,
         wordsGuessed:0,
         wordsExplained:0
     });
-}
-*/
+}*/
 
 auth.onAuthStateChanged(user => {
     if (user) {
@@ -47,6 +47,7 @@ function showScreen(screenId) {
     const target = document.getElementById(screenId);  
     target.classList.add("active");
   }
+  
 showScreen("screen-menu");
 var numRounds = 0; 
 let num = 0; 
@@ -131,18 +132,64 @@ function updateScore(color){
         const currPlayer = allPlayers[playerKeys[i]];
 
         if (color === "red") {
-            if (player.id === "RED GUESSER" || player.id === "RED EXPLAINER") {
-                    currPlayer.score++;  // add to **previous**
+            if (player.id === "RED GUESSER") {
+                currPlayer.score++;  // add to **previous**             
+            }
+            else if (player.id === "RED EXPLAINER") {
+                currPlayer.score++;  // add to **previous**
             }
         }        
         else if (color === "black") {
-            if (player.id === "BLACK GUESSER" || player.id === "BLACK EXPLAINER") {
+            if (player.id === "BLACK GUESSER") {
+                currPlayer.score++;  // add to **previous**
+            }
+            else if (player.id === "BLACK EXPLAINER") {
                 currPlayer.score++;  // add to **previous**
             }
         }
     }
 }
-   
+
+async function syncScore() {
+
+    let highestScore = -Infinity;
+    let winners = [];
+
+    for (const key of playerKeys) {
+        const player = allPlayers[key];
+
+        if (player.score > highestScore) {
+            highestScore = player.score;
+            winners = [player.name]; // new top score → reset winners
+        } 
+        else if (player.score === highestScore) {
+            winners.push(player.name); // tie → add to winners
+        }
+    }
+
+    const updates = [];
+
+    for (const key of playerKeys) {
+        const player = allPlayers[key];
+
+        updates.push(
+            updateDoc(doc(db, "user-accounts", player.name), {
+                totalPoints: increment(player.score),
+                gamesCompleted: increment(1)
+            })
+        );
+    }
+
+    for (const winner of winners) {
+        updates.push(
+            updateDoc(doc(db, "user-accounts", winner), {
+                gamesWon: increment(1)
+            })
+        );
+    }
+
+    await Promise.all(updates);
+}
 
 function changeRoles() {
     if (num > 0){
@@ -202,7 +249,7 @@ const newButton = document.getElementById("newWord");
 const playButton = document.getElementById("playGame");
 const playerInputsDiv = document.getElementById("playerInputs");
 const customList = document.getElementById('promptCustomList');
-const defCatBtn = document.getElementById('defualtCategory');
+const defCatBtn = document.getElementById('defaultCategory');
 const createCustListBtn = document.getElementById('createCustomList');
 const customListContainer = document.getElementById('customListContainer');
 const beginGame = document.getElementById('categoryReady');
@@ -215,6 +262,10 @@ function clearResults() {
     document.getElementById("results").innerHTML = "";
 }
 
+const userStats=document.getElementById('userStats');
+const showStatsFinal=document.getElementById('showStatsFinal');
+
+let tempId = 0;
 
 function showWinner() {
 
@@ -287,15 +338,25 @@ let divRules = document.getElementById('rulesText');
 let ruleList = document.createElement('span');
 nextInstruction.classList.add('hidden1');
 prevInstruction.classList.add('hidden1');
-const selections = document.getElementById('selections');
-const quitBtn = document.getElementById('quit');
+const printPlayers = document.getElementById('printPlayers');
+const printRounds = document.getElementById('printRounds');
+const printCategories = document.getElementById('printCategories');
+const menuBtn = document.getElementById('menu');
 const signUpBtn = document.getElementById('signUp');
 const logInBtn = document.getElementById('logIn');
 const editButtons = document.getElementById("editButtons");
 const X = document.getElementById("X");
 const createAccBtn = document.getElementById('createAccount');
 const uniqueUsername = document.getElementById('uniqueUsername');
+const displayNameInput = document.getElementById('displayNameInput');
+const PINInput = document.getElementById('PINInput');
 const finalPlay = document.getElementById('playGame');
+const colorPickerWrapper = document.getElementById('colorPickerWrapper');
+const colorPicker1 = document.getElementById('backgroundColor1');
+const colorPicker2 = document.getElementById('backgroundColor2');
+const printColor = document.getElementById('printColor');
+const uploadText = document.getElementById("uploadText");
+const uploadButton = document.getElementById("uploadButton");
 
 readyButton.addEventListener('click',()=>{
     submitPlayersAndStartGame();
@@ -621,6 +682,9 @@ function displayWord(word2){
 }
 
 defCatBtn.addEventListener('click',()=>{
+    console.log('button was clicked');
+    uploadText.style.display = 'none';
+    uploadButton.style.display = 'none';
     athleteButton.style.display = 'inline-block';
     foodDrinkButton.style.display = 'inline-block';
     basicButton.style.display = 'inline-block';
@@ -635,11 +699,12 @@ defCatBtn.addEventListener('click',()=>{
 })
 
 createCustListBtn.addEventListener('click',()=>{
+    uploadText.style.display = 'none';
+    uploadButton.style.display = 'none';
     customList.style.display = 'inline-block';
     customListContainer.style.display = 'inline-block';
     defCatBtn.style.display = 'none';
     createCustListBtn.style.display = 'none';
-
 })
 
 basicButton.addEventListener('click',()=>{
@@ -708,13 +773,15 @@ function setRounds(){
     numRounds = document.getElementById("numRounds").value;
     startRounds.style.display = "none";
     document.getElementById("numRounds").style.display = "none";
-    console.log("numrounds " + numRounds);
+    printRounds.style.display = 'inline-block';
+    printRounds.innerHTML = "ROUNDS: " + numRounds;
 }
 
 
 const displayText2 = document.getElementById('displayText2');
 displayText2.textContent = 'ROUND';
 let r = 0;
+
 function startRoundA(){
     newWord(true)
     mlbButton.style.display = 'none';
@@ -730,10 +797,12 @@ function startRoundA(){
     r = 1;
     displayText2.textContent = `ROUND ${r}`;
 }
+
 redBtn.addEventListener('click', function() {
     if (r > numRounds-1){
         updateScore("red");
         showWinner();
+        syncScore();
         r++;
         redBtn.style.display = "none";
         blackBtn.style.display = "none";
@@ -747,10 +816,12 @@ redBtn.addEventListener('click', function() {
         changeRoles();
     }
 });
+
 blackBtn.addEventListener('click', function() {
     if (r > numRounds-1){
         updateScore("black");
         showWinner();
+        syncScore();
         r++;
         redBtn.style.display = "none";
         blackBtn.style.display = "none";
@@ -764,7 +835,10 @@ blackBtn.addEventListener('click', function() {
         changeRoles();
     }
 });
+
 resetBtn.addEventListener('click', () => {
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
     redBtn.style.display = 'inline-block';
     blackBtn.style.display = 'inline-block';
     finalPlay.style.display = 'inline-block';
@@ -776,8 +850,10 @@ resetBtn.addEventListener('click', () => {
     renderMatrix();
     r = 1; 
 });
+
 roundsBtn.addEventListener('click', () => {
-    isReset = true; 
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
     showScreen('screen-pick-rounds');
     (document.getElementById('numRounds')).style.display = "inline-block";
     startRounds.style.display = 'inline-block';
@@ -789,8 +865,10 @@ roundsBtn.addEventListener('click', () => {
     renderMatrix();
     r = 1; 
 });
+
 teamBtn.addEventListener('click', () => {
-    isReset = true; 
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
     showScreen('screen-enter-players');
     setupPlayerInputs();
     playerInputsDiv.style.display = 'inline-block';
@@ -802,8 +880,10 @@ teamBtn.addEventListener('click', () => {
     renderMatrix();
     r = 1; 
 });
+
 categoriesBtn.addEventListener('click', () => {
-    isReset = true; 
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
     showScreen('screen-pick-category');
     defCatBtn.style.display = 'inline-block';
     createCustListBtn.style.display = 'inline-block';
@@ -816,10 +896,34 @@ categoriesBtn.addEventListener('click', () => {
     r = 1; 
 });
     
+async function getStats(player) {
+    const statsDoc = doc(db, "user-accounts", player);
+    const snap = await getDoc(statsDoc);
+    if (!snap.exists()) {
+        return "No stats found for that username.";
+    }
+    const stats = snap.data();
+    let statList = "Player stats for " + player + ": \n";
+    statList = statList + "Games Completed: " + stats.gamesCompleted + "\n";
+    statList = statList + "Games Won: " + stats.gamesWon + "\n";
+    statList = statList + "Total Points Accumulated: " + stats.totalPoints + "\n"
+    if (stats.gamesCompleted == 0) {
+       statList = statList + "Win Percentage: 0%";
+    }
+    else {
+        statList = statList + "Win Percentage: " + (stats.gamesWon / stats.gamesCompleted) * 100 + "%";
+    }
+    return statList;
+}
+
+
+
 var category = "";
 
 CSPButton.addEventListener('click',()=>{
     category = listCSP;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: CSP";
     CSPButton.classList.remove('default-button');
     CSPButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -836,6 +940,8 @@ CSPButton.addEventListener('click',()=>{
 
 easyButton.addEventListener('click',()=>{
     category = listEasyBasicWords;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: EASY";
     easyButton.classList.remove('default-button');
     easyButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -850,6 +956,8 @@ easyButton.addEventListener('click',()=>{
 
 medButton.addEventListener('click',()=>{
     category = listMediumBasicWords;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: MEDIUM";
     medButton.classList.remove('default-button');
     medButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -864,6 +972,8 @@ medButton.addEventListener('click',()=>{
 
 hardButton.addEventListener('click',()=>{
     category = listHardBasicWords;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: HARD";
     hardButton.classList.remove('default-button');
     hardButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -878,6 +988,8 @@ hardButton.addEventListener('click',()=>{
 
 nbaButton.addEventListener('click',()=>{
     category = listAthletesNBA;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: NBA";
     nbaButton.classList.remove('default-button');
     nbaButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -894,6 +1006,8 @@ nbaButton.addEventListener('click',()=>{
 
 nflButton.addEventListener('click',()=>{
     category = listAthletesNFL;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: NFL";
     nflButton.classList.remove('default-button');
     nflButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -910,6 +1024,8 @@ nflButton.addEventListener('click',()=>{
 
 mlbButton.addEventListener('click',()=>{
     category = listAthletesMLB;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: MLB";
     mlbButton.classList.remove('default-button');
     mlbButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -926,6 +1042,8 @@ mlbButton.addEventListener('click',()=>{
 
 soccerButton.addEventListener('click',()=>{
     category = listAthletesSoccer;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: SOCCER";
     soccerButton.classList.remove('default-button');
     soccerButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -942,6 +1060,8 @@ soccerButton.addEventListener('click',()=>{
 
 mmaButton.addEventListener('click',()=>{
     category = listAthletesMMA;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: MMA";
     mmaButton.classList.remove('default-button');
     mmaButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -958,6 +1078,8 @@ mmaButton.addEventListener('click',()=>{
 
 foodButton.addEventListener('click',()=>{
     category = listFoods;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: FOOD";
     foodButton.classList.remove('default-button');
     foodButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -971,6 +1093,8 @@ foodButton.addEventListener('click',()=>{
 
 drinkButton.addEventListener('click',()=>{
     category = listDrink;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: DRINK";
     drinkButton.classList.remove('default-button');
     drinkButton.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -981,9 +1105,32 @@ drinkButton.addEventListener('click',()=>{
     drinkButton.style.display = 'none';
     foodButton.style.display = 'none';
 });
+const uploadList = document.getElementById("uploadList");
+uploadList.addEventListener("change", () => {
+    const file = uploadList.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const text = e.target.result;
+        category = text.split('\n').filter(line => line.trim() !== "");
+        console.log(category);
+        uploadList.classList.remove('default-button');
+        uploadList.classList.add('highlighted-button');
+        beginGame.style.display = 'inline-block';
+        setTimeout(() => {
+            customList.classList.remove('highlighted-button');
+            customList.classList.add('default-button');
+        }, 250);
+    };
+    reader.readAsText(file);
+});
 
 customList.addEventListener('click',()=>{
+    uploadText.style.display = 'none';
+    uploadButton.style.display = 'none';
     category = (document.getElementById('customList').value).split(', ');
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: CUSTOM LIST";
     customList.classList.remove('default-button');
     customList.classList.add('highlighted-button');
     beginGame.style.display = 'inline-block';
@@ -1013,27 +1160,65 @@ function newWord(count1){
         countdown(count1, word);
 };
 
-function setupPlayerInputs() {     
-    const playerInputsDiv = document.getElementById("playerInputs");
+function setupPlayerInputs() {
+        console.log("inside setupPlayerInputs");
+        
+        const playerInputsDiv = document.getElementById("playerInputs");
     playerInputsDiv.innerHTML = ""; // clear previous inputs
 
     // create input fields
     for (let i = 0; i < 4; i++) {
-        const input = document.createElement("input");
-        input.type = "text";
-        input.id = "player" + i;
-        input.placeholder = "Enter name for player " + (i + 1);
-        playerInputsDiv.appendChild(input);
-    }
+        const nameInput = document.createElement("input");
+        const pinInput=document.createElement("input");
+        nameInput.type = "text";
+        pinInput.type="number";
+        nameInput.id = "player" + i;
+        pinInput.id="pin" + i;
+        nameInput.placeholder = "Enter name for player " + (i + 1);
+        pinInput.placeholder="Enter PIN for player " + (i+1);
+
+        const container = document.createElement("div");
+container.appendChild(nameInput);
+container.appendChild(pinInput);
+playerInputsDiv.appendChild(container);
+
+}
     submitBtn.style.display = "inline-block";
 }
   
+
+async function checkPlayers() {
+
+    for (let i = 0; i < 4; i++) {
+
+        const username = document.getElementById("player" + i).value;
+        const enteredPin = document.getElementById("pin" + i).value;
+
+        const userRef = doc(db, "user-accounts", username);
+        const userSnap = await getDoc(userRef);
+
+        if ((!userSnap.exists())) {
+            alert(username + " does not exist. You can still play, but your data will not be saved.");
+            continue;
+        }
+
+        const storedPin = userSnap.data().PIN;
+        if (storedPin == enteredPin) {
+            alert("Correct login for " + username);
+        } else {
+            alert("Incorrect PIN for " + username);
+        }
+    }
+}
 // show submit button
 submitBtn.addEventListener("click", () => {
+    console.log('insubmitbtn');
+    checkPlayers();
     submitBtn.style.display = "none";
     playerInputsDiv.style.display = "none";
     syncPlayersFromInputs();
-    selections.innerHTML += "PLAYERS: " + allPlayers[playerKeys[0]].name + ", " + allPlayers[playerKeys[1]].name + ", " + allPlayers[playerKeys[2]].name + ", " + allPlayers[playerKeys[3]].name;
+    printPlayers.style.display = 'inline-block';
+    printPlayers.innerHTML = "PLAYERS: " + allPlayers[playerKeys[0]].name + ", " + allPlayers[playerKeys[1]].name + ", " + allPlayers[playerKeys[2]].name + ", " + allPlayers[playerKeys[3]].name;
     if (isReset){
         renderMatrix();
         showScreen('screen-game');
@@ -1061,16 +1246,6 @@ startRounds.addEventListener("click", () => {
         setRounds();
         showScreen('screen-pick-color');
     }
-});
-
-const colorPicker = document.getElementById('backgroundColor');
-colorPicker.addEventListener('input', function() {
-    document.body.style.backgroundColor = this.value;
-});
-
-const colorReset = document.getElementById('resetColor');
-colorReset.addEventListener('click', () => {
-    document.body.style.backgroundColor = "rgb(179 215 255)";
 });
 
 function displayInstructions(){
@@ -1129,8 +1304,18 @@ function displayInstructions(){
     }
     showNextInstruction();
 }
+function playGame(){
 
-function showRules() {;
+    const signUpBtn=document.getElementById("signUp");
+    signUpBtn.style.display="inline-block";
+
+    const logInBtn=document.getElementById('logIn');
+    logInBtn.style.display='inline-block';
+}
+
+function showRules() {
+    const divRules = document.getElementById('rulesText');
+    const ruleList = document.createElement('span');
     ruleList.id = 'ruleList';
     ruleList.textContent = '1: No hand gestures/charades \n 2: No direct antonyms (cannot say "not sad" if word is "happy") \n 3: No saying a bigger word with the hidden word in it (if it is "play," cannot say "playful") \n 4: No saying a smaller word with part of the hidden word (if it is "teacher," cannot say "teach") \n 5: For longer/more difficult words, you can break them up into parts (can get the guesser to separately guess "ground" and "breaking" if word is "groundbreaking"';
     ruleList.style.whiteSpace = 'pre-line';
@@ -1138,14 +1323,21 @@ function showRules() {;
     ruleList.style.transition = 'all 0.5s ease';
     divRules.appendChild(ruleList);
 }
-
 async function createAcc(){
     const username = uniqueUsername.value;
-      
+    const displayName=displayNameInput.value;
+    const PIN=PINInput.value;
+
         if (username === "") {
           alert("Please enter a username");
           return;
         }
+
+        if (displayName === "") {
+            alert("Please enter a display name");
+            return;
+          }
+
         try {
             const userRef = doc(db, "user-accounts", username);
             const userSnap = await getDoc(userRef);
@@ -1157,14 +1349,14 @@ async function createAcc(){
             }
             await setDoc(userRef, {
                 username: username,
+                displayName: displayName,
+                PIN: PIN,
                 createdAt: new Date(),
                 gamesCompleted:0,
                 gamesWon:0,
-                winPct:0,
                 wordsGuessed:0,
                 wordsExplained:0
               });
-          
               alert("Account created!");
             } catch (error) {
               console.error("Error:", error);
@@ -1172,6 +1364,8 @@ async function createAcc(){
       showScreen("screen-enter-players");
       createAccBtn.style.display ='none';
       uniqueUsername.style.display = 'none';
+      displayNameInput.style.display='none';
+      PINInput.style.display='none';
     }   
 
 Instructions.addEventListener('click',()=>{
@@ -1203,7 +1397,16 @@ Instructions.addEventListener('click',()=>{
     prevInstruction.classList.add('hidden1');
     showRules();
 })
-
+Stats.addEventListener("click",()=>{
+    Play.style.display = 'none';
+    Instructions.style.display = 'none';
+    Rules.style.display = 'none';
+    Stats.style.display = 'none';
+    Settings.style.display = 'none';
+    userStats.style.display = 'inline-block';
+    showStatsFinal.style.display = 'inline-block';
+    Close.style.display = 'inline-block';
+  });
 Close.addEventListener('click', ()=>{
     Close.style.display = 'none';
     Play.style.display = 'inline-block';
@@ -1211,18 +1414,18 @@ Close.addEventListener('click', ()=>{
     Rules.style.display = 'inline-block';
     Stats.style.display = 'inline-block';
     Settings.style.display = 'inline-block';
+    userStats.style.display = 'none';
+    showStatsFinal.style.display = 'none';
     nextInstruction.classList.remove('visible');
     prevInstruction.classList.remove('visible');
     nextInstruction.classList.add('hidden1');
     prevInstruction.classList.add('hidden1');
     divInstrInput.innerHTML = "";
-    divRules.innerHTML = "";
+    divRules.innerHTML = ""; 
 });
 
-colorReady.addEventListener("click", () => {
-    showScreen('screen-pick-category');
-});
-beginGame.addEventListener("click", () => {
+
+  beginGame.addEventListener("click", () => {
     if (isReset){
         renderMatrix();
         showScreen('screen-game');
@@ -1235,21 +1438,22 @@ beginGame.addEventListener("click", () => {
     }
 });
 
-quitBtn.addEventListener('click', ()=>{
+menuBtn.addEventListener('click', ()=>{
+    isReset = true; 
     editButtons.classList.add("active"); 
-    quitBtn.style.display = "none";
+    menuBtn.style.display = "none";
 });
 
 X.addEventListener('click', ()=>{
-    if (e.key === "Escape") {
-        editButtons.classList.remove("active");
-        quitBtn.style.display = "inline-block";
-    }
+    editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
 });
 
 signUpBtn.addEventListener("click",()=>{
     showScreen('screen-sign-up');
     uniqueUsername.style.display = 'inline-block';
+    displayNameInput.style.display="inline-block";
+    PINInput.style.display="inline-block";
     createAccBtn.style.display = 'inline-block';
 }); 
 
@@ -1269,3 +1473,41 @@ Play.addEventListener("click", () => {
     logInBtn.style.display = 'inline-block';
     signUpBtn.style.display = 'inline-block';
   }); 
+
+  // the async one is right here
+  //
+  //
+  document.getElementById("showStatsFinal").addEventListener("click", async () => {
+    const squaregamer = userStats.value;
+    const result = await getStats(squaregamer);
+    document.getElementById("statsOutput").textContent = result;
+  });
+  //
+  //
+  //
+
+
+colorReady.addEventListener("click", () => {
+    printColor.style.display = 'inline-block';
+    colorPicker1.value = colorPicker2.value;
+    colorPickerWrapper.classList.remove("hidden"); 
+    showScreen('screen-pick-category');
+});
+
+const appBox = document.getElementById("app");
+const colorReset = document.getElementById('resetColor');
+
+colorPicker1.addEventListener('input', function() {
+    appBox.style.backgroundColor = this.value;
+});
+colorPicker2.addEventListener('input', function() {
+    appBox.style.backgroundColor = this.value;
+});
+
+colorReset.addEventListener('click', () => {
+    appBox.style.backgroundColor = "white";
+}); 
+
+colorPickerWrapper.classList.add("hidden");
+userStats.style.display = 'none';
+showStatsFinal.style.display = 'none';
