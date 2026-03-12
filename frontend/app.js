@@ -304,13 +304,13 @@ function showWinner() {
         "Winner: " + allPlayers[standings[0]].name +
         " | Score: " + allPlayers[standings[0]].score,
         90,
-        50
+        10
     );
     
 
     for (let i = 1; i < standings.length; i++) {
     
-        const topPos = 75 + 75 * i;
+        const topPos = 35 + 60 * i;
     
         createResult(
             allPlayers[standings[i]].name +
@@ -1442,6 +1442,8 @@ menuBtn.addEventListener('click', ()=>{
     isReset = true; 
     editButtons.classList.add("active"); 
     menuBtn.style.display = "none";
+    const results = document.getElementById("results");
+    results.innerHTML = "";
 });
 
 X.addEventListener('click', ()=>{
