@@ -745,6 +745,7 @@ foodDrinkButton.addEventListener('click',()=>{
 
 backBtn.addEventListener('click',()=>{
     backBtn.style.display = 'none';
+    beginGame.style.display = 'none';
     athleteButton.style.display = 'inline-block';
     foodDrinkButton.style.display = 'inline-block';
     basicButton.style.display = 'inline-block';
