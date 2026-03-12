@@ -17,17 +17,6 @@ const auth = getAuth();
 
 console.log("Firebase initialized");
 var userID = document.getElementById("username");
-/*async function createUser(userID) {
-    await setDoc(doc(db, "user-account", userID), {
-        username: userID,
-        displayName:name
-        gamesCompleted:0,
-        gamesWon:0,
-        //winPct:0,
-        wordsGuessed:0,
-        wordsExplained:0
-    });
-}*/
 
 auth.onAuthStateChanged(user => {
     if (user) {
@@ -52,7 +41,6 @@ showScreen("screen-menu");
 var numRounds = 0; 
 let num = 0; 
 const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
-//document.getElementById('button-container').style.display = 'none';
 let roleKeys = Object.keys(allRoles);
 const allPlayers = {
 playerone: {name: "PLAYER ONE", score: 0, id: roleKeys[0]},
@@ -211,8 +199,7 @@ function changeRoles() {
             }
         }
     }
-    //playerKeys = Object.keys(allPlayers);
-    //roleKeys = Objects.keys(allRoles);
+    
     for (let j = 0; j < 4; j++){
         document.getElementById(`cell-${j}`).innerHTML = `<strong>${document.getElementById("player" + j).value.trim()}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
     }
@@ -321,8 +308,6 @@ function showWinner() {
     }
 }
 
-
-//createUser("testUser123");
 const Instructions = document.getElementById('Instructions');
 const Rules = document.getElementById('Rules');
 const Play = document.getElementById('Play');
