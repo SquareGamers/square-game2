@@ -2,6 +2,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+emailjs.init("Ia87MGcCaj7tfXzTc");
+
 const firebaseConfig = {
   apiKey: "AIzaSyCrFLo_T3pg2yrjnyF1hkDprcypspLXc-c",
   authDomain: "square-game-b4d37.firebaseapp.com",
@@ -329,6 +331,12 @@ const Play = document.getElementById('Play');
 const Close = document.getElementById('Close');
 const Stats = document.getElementById('Stats');
 const Settings = document.getElementById('Settings');
+const email = document.getElementById('confirmEmail');
+const usernameE = document.getElementById('usernameEmail');
+const userE = document.getElementById('userEmail');
+const addE = document.getElementById('addEmail');
+const recoverP = document.getElementById('recoverPIN');
+const sendR = document.getElementById('sendRecovery');
 Close.style.display = 'none';
 const nextInstruction = document.getElementById('Next');
 const prevInstruction = document.getElementById('Previous');
@@ -1350,13 +1358,13 @@ async function createAcc(){
             }
             await setDoc(userRef, {
                 username: username,
+                email: "",
                 displayName: displayName,
                 PIN: PIN,
                 createdAt: new Date(),
                 gamesCompleted:0,
                 gamesWon:0,
-                wordsGuessed:0,
-                wordsExplained:0
+                totalPoints:0
               });
               alert("Account created!");
             } catch (error) {
@@ -1408,6 +1416,63 @@ Stats.addEventListener("click",()=>{
     showStatsFinal.style.display = 'inline-block';
     Close.style.display = 'inline-block';
   });
+
+  Settings.addEventListener("click",()=>{
+    Play.style.display = 'none';
+    Instructions.style.display = 'none';
+    Rules.style.display = 'none';
+    Stats.style.display = 'none';
+    Settings.style.display = 'none';
+    addE.style.display = 'inline-block';
+    recoverP.style.display = 'inline-block';
+    Close.style.display = 'inline-block';
+  });
+
+addE.addEventListener('click',() => {
+    addE.style.display = 'none';
+    recoverP.style.display = 'none';
+    email.style.display = 'inline-block';
+    usernameE.style.display = 'inline-block';
+    userE.style.display = 'inline-block';
+});
+
+recoverP.addEventListener('click',() => {
+    usernameE.style.display = 'inline-block';
+    addE.style.display = 'none';
+    recoverP.style.display = 'none';
+    sendR.style.display = 'inline-block';
+});
+
+email.addEventListener('click', async () => {
+    await updateDoc(doc(db, "user-accounts", usernameE.value), {
+        email: userE.value
+    });
+});
+
+sendR.addEventListener('click', async () => {
+    const userRef = doc(db, "user-accounts", usernameE.value);
+    const userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) {
+        alert("Account not found.");
+        return;
+    }
+    const data = userSnap.data();
+    const accPIN = data.PIN;
+    
+    if (data.email === "") {
+        alert("This account does not have an email associated with it. To add one, navigate back to the settings page.");
+    }
+    else {
+        const params = {
+            to_email: data.email,
+            message: accPIN
+        };
+        await emailjs.send("service_gy8yyjq", "template_gbrnwhs", params, "Ia87MGcCaj7tfXzTc");
+        alert(" Please check the inbox of the email associated with this account for information containing your PIN.");
+    }
+});
+
+
 Close.addEventListener('click', ()=>{
     Close.style.display = 'none';
     Play.style.display = 'inline-block';
@@ -1417,6 +1482,12 @@ Close.addEventListener('click', ()=>{
     Settings.style.display = 'inline-block';
     userStats.style.display = 'none';
     showStatsFinal.style.display = 'none';
+    email.style.display = 'none';
+    usernameE.style.display = 'none';
+    userE.style.display = 'none';
+    addE.style.display = 'none';
+    recoverP.style.display = 'none';
+    sendR.style.display = 'none'
     nextInstruction.classList.remove('visible');
     prevInstruction.classList.remove('visible');
     nextInstruction.classList.add('hidden1');

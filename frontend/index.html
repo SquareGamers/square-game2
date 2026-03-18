@@ -23,7 +23,7 @@
     </div>
 
     <script type="module" src="app.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
     <div id="screen-menu" class="screen">
       <div id="menu-buttons">
@@ -38,6 +38,14 @@
         <input type="string" id="userStats" placeholder="Username of the player">
       <button class="menu-button" id="showStatsFinal">Show Their Stats</button>
       <pre id="statsOutput"></pre>
+      <input type="string" id="usernameEmail" placeholder="Username of the player" style="display:none;">
+      <input type="string" id="userEmail" placeholder="Email for account recovery" style="display:none;">
+      <button class="menu-button" id="addEmail" style="display:none;">Add an Email (for PIN recovery)</button>
+      <button class="menu-button" id="recoverPIN" style="display:none;">Recover PIN</button>
+      <button class="menu-button" id="confirmEmail" style="display:none;">Add Email</button>
+      <button class="menu-button" id="sendRecovery" style="display:none;">Send Recovery Email</button>
+
+
     </div>
         <div id="instrText"></div>
         <div id="rulesText"></div>
