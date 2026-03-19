@@ -1475,6 +1475,7 @@ sendR.addEventListener('click', async () => {
 
 Close.addEventListener('click', ()=>{
     Close.style.display = 'none';
+    document.getElementById("statsOutput").textContent = "";
     Play.style.display = 'inline-block';
     Instructions.style.display = 'inline-block';
     Rules.style.display = 'inline-block';
