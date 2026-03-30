@@ -1168,7 +1168,7 @@ function setupPlayerInputs() {
         pinInput.type="number";
         nameInput.id = "player" + i;
         pinInput.id="pin" + i;
-        nameInput.placeholder = "Enter name for player " + (i + 1);
+        nameInput.placeholder = "Enter username for player " + (i + 1);
         pinInput.placeholder="Enter PIN for player " + (i+1);
 
         const container = document.createElement("div");
@@ -1197,9 +1197,7 @@ async function checkPlayers() {
         }
 
         const storedPin = userSnap.data().PIN;
-        if (storedPin == enteredPin) {
-            alert("Correct login for " + username);
-        } else {
+        if (storedPin != enteredPin) {
             alert("Incorrect PIN for " + username);
         }
     }
