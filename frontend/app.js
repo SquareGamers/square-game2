@@ -288,35 +288,87 @@ function showWinner() {
         el.style.top = top + "px";
         el.style.left = "50%";
         el.style.transform = "translateX(-50%)";
-        el.style.whiteSpace = "nowrap";
+        if (numWinners == 1) {
+            el.style.whiteSpace = "nowrap";
+        } else {
+            el.style.whiteSpace = "normal";
+        }
         el.style.maxWidth = "100%";
         el.style.overflow = "hidden";
         el.style.textOverflow = "ellipsis";
-        el.style.fontSize = size + "px";
+        
+        const lengthFactor = Math.max(0.6, 20 / text.length);
+        const scaledSize = size * lengthFactor;
+
+        el.style.fontSize = `clamp(20px, 5vw, ${scaledSize}px)`;
     
         el.textContent = text;
     
         results.appendChild(el);
     }
-    
-    
-    createResult(
-        "Winner: " + allPlayers[standings[0]].name +
-        " | Score: " + allPlayers[standings[0]].score,
-        90,
-        10
-    );
-    
 
-    for (let i = 1; i < standings.length; i++) {
+    let numWinners = 1;
+    if (allPlayers[standings[0]].score == allPlayers[standings[3]].score) {
+        numWinners = 4;
+    } else if (allPlayers[standings[0]].score == allPlayers[standings[2]].score) {
+        numWinners = 3;
+    } else if (allPlayers[standings[0]].score == allPlayers[standings[1]].score) {
+        numWinners = 2;
+    }
     
-        const topPos = 35 + 60 * i;
-    
+    if (numWinners == 1) {
         createResult(
-            allPlayers[standings[i]].name +
-            " | Score: " + allPlayers[standings[i]].score,
-            60,
-            topPos
+            "Winner: " + allPlayers[standings[0]].name +
+            " | Score: " + allPlayers[standings[0]].score,
+            90,
+            10
+        );
+        for (let i = 1; i < standings.length; i++) {
+            const topPos = 35 + 60 * i;
+            createResult(
+                allPlayers[standings[i]].name +
+                " | Score: " + allPlayers[standings[i]].score,
+                60,
+                topPos
+            );
+        }
+    } else if (numWinners == 2) {
+        createResult(
+            "Winners: " + allPlayers[standings[0]].name + " & " + allPlayers[standings[1]].name +
+            " | Score: " + allPlayers[standings[0]].score, 90, 10);
+        for (let i = 2; i < standings.length; i++) {        
+            const topPos = 35 + 60 * i;
+            createResult(
+                allPlayers[standings[i]].name +
+                " | Score: " + allPlayers[standings[i]].score,
+                40,
+                topPos
+            );
+        }
+    } else if (numWinners == 3) {
+        createResult(
+            "Winners: " + allPlayers[standings[0]].name + " & " + allPlayers[standings[1]].name + 
+            " & " + allPlayers[standings[2]].name +
+            " | Score: " + allPlayers[standings[0]].score,
+            90,
+            10
+        );
+        for (let i = 3; i < standings.length; i++) {        
+            const topPos = 35 + 60 * i;
+            createResult(
+                allPlayers[standings[i]].name +
+                " | Score: " + allPlayers[standings[i]].score,
+                40,
+                topPos
+            );
+        }
+    } else {
+        createResult(
+            "Winners: " + allPlayers[standings[0]].name + " & " + allPlayers[standings[1]].name + 
+            " & " + allPlayers[standings[2]].name + " & " + allPlayers[standings[3]].name +
+            " | Score: " + allPlayers[standings[0]].score,
+            80,
+            10
         );
     }
 }
