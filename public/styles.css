@@ -1,0 +1,512 @@
+HEAD
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  background: #b3d7ff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+button { margin: 0; padding: 0}
+
+.default-button {
+  background-color: pink;
+  color: black;
+  padding: 7px 7px;
+  border: none;
+  border-radius: 5px;
+  font-size: medium;
+  font-weight: bold;
+}
+
+#choose-your-category{
+  position:absolute;
+  top:40%;
+  left:28%;
+}
+
+.menu-button{
+  background-color: pink;
+  color: black;
+  font-weight: bold;
+  padding: 15px 15px;
+  font-size: small;
+}
+
+#menu-buttons{
+  position: absolute; 
+  top: 40%; 
+  left: 28%;
+  width: 700px;
+  height: 100px;
+  display: flex;              /* Add this */
+  flex-direction: row;        /* Add this */
+  flex-wrap: wrap;            /* Add this to wrap to next line if needed */
+  align-items: center;        /* Add this to vertically center */
+  gap: 10px;                  /* Optional: adds spacing between buttons */
+  padding: 20px;  
+}
+
+.highlighted-button {
+  background-color: #F5278B;
+  color: black;
+  padding: 7px 7px;
+  border: none;
+  border-radius: 5px;
+  font-size: medium;
+  font-weight: bold;
+}
+
+.red-button {
+  background-color: red;
+  color: black;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.highlighted-red-button {
+  background-color: rgba(228, 7, 7, 0.525);
+  color: black;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+#blackBtn {
+  background-color: rgb(0, 0, 0);   /* button background */
+  color: white;             /* text color */
+  font-size: 18px;          /* bigger text */
+  padding: 10px 20px;       /* space inside button */
+  border: none;             /* remove border */
+  border-radius: 8px;       /* rounded corners */
+  cursor: pointer;          /* cursor changes on hover */
+  position: absolute;
+  bottom: 50%;
+  right: 5px;
+  width: 100px;             /* width of the button */
+  height: 100px;            /* same as width to make it a circle */
+  border-radius: 50%;        
+}
+
+/* Optional hover effect */
+#blackBtn:hover {
+  background-color: rgb(0, 0, 0);
+}
+
+#redBtn {
+  background-color: rgb(255, 0, 0);   /* button background */
+  color: white;             /* text color */
+  font-size: 18px;          /* bigger text */
+  padding: 10px 20px;       /* space inside button */
+  border: none;             /* remove border */
+  border-radius: 0px;       /* rounded corners */
+  cursor: pointer;          /* cursor changes on hover */
+  position: absolute;
+  bottom: 50%;
+  right: 110px;
+  width: 100px;             /* width of the button */
+  height: 100px;            /* same as width to make it a circle */
+  border-radius: 50%;        
+}
+
+/* Optional hover effect */
+#redBtn:hover {
+  background-color: rgb(160, 0, 0);
+}
+
+#button-container {
+  width: 150px;       /* width of the container */
+  height: 100px;      /* height of the container */
+  border-radius: 20px; /* makes corners rounded */
+  padding: 10px; 
+  position: absolute;
+  top: 45%;
+  left: 43%;  
+  display: flex;             /* 1. Enable Flexbox */
+  flex-direction: column;
+  justify-content: space-around; 
+}
+
+#undo-buttons {
+  width: 100px;      
+  height: 100px;      
+  border-radius: 20px; 
+  padding: 10px; 
+  position: absolute;
+  bottom: 275px;
+  right: 275px;  
+}
+
+#log-ins {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  position: relative;   /* or absolute if you prefer exact placement */
+  top: -400px;  
+}
+
+#create-acc-css {
+    display: flex;
+    flex-direction: column;   /* stack children vertically */
+    align-items: center;      /* center horizontally */
+    justify-content: center;  /* center vertically */
+    text-align: center;       /* optional, centers text */
+    gap: 15px;
+    position:relative;
+    top: -200px;
+}
+#pickBtn {
+  background-color: rgb(106, 106, 106);   /* button background */
+  color: rgb(255, 255, 255);             /* text color */
+  font-size: 18px;          /* bigger text */
+  padding: 10px 20px;       /* space inside button */
+  border: none;             /* remove border */
+  border-radius: 8px;       /* rounded corners */
+  cursor: pointer;          /* cursor changes on hover */
+  position: absolute;
+  bottom: 50px;
+  right: 50%;
+  transform: translateX(-50%); /* adjust to center exactly */
+  width: 300px;             /* width of the button */
+  height: 100px;            /* same as width to make it a circle */   
+}
+
+/* Optional hover effect */
+#pickBtn:hover {
+  background-color: rgb(55, 55, 55);
+}
+
+.lists-container {
+  display: flex;           /* side by side */
+  justify-content: center; /* center horizontally */
+  gap: 50px;               /* space between the two blocks */
+  align-items: flex-start; /* top-align both lists */
+}
+
+.list-block {
+  text-align: center;      /* center the heading and list in each block */
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+#players-heading {
+  /* Adds 50 pixels of space above the heading */
+  margin-top: 100px; 
+  font-size: 22px;
+}
+
+#custRand{
+  position: absolute;
+  bottom: 25px;
+}
+
+#customListContainer{
+  position: absolute;
+  bottom: 20%;
+  left: 40%;
+}
+
+.player-row {
+    display: flex;             /* Turns the <li> into a flexible container */
+    align-items: center;       /* Centers content vertically */
+    justify-content: space-between; /* Pushes the first item (name) to the left 
+                                      and the second item (button) to the right */
+    /* Add any other desired styling (padding, borders, etc.) */
+}
+
+#matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+#displayText2{
+  position: absolute;
+  right: 50px;
+  top: 50px;
+  font-size: xx-large;
+}
+
+.screen {
+  display: none;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.screen.active {
+  display: flex;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#playerInputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 columns */
+  gap: 12px;
+  width: 300px; /* optional: keeps it square-ish */
+}
+
+#playerInputs input {
+  padding: 8px;
+  font-size: 14px;
+}
+
+#player0 { order: 1; }
+#player1 { order: 2; }
+#player3 { order: 3; } /* bottom-right */
+#player2 { order: 4; } /* bottom-left */
+
+
+.screen-instruction {
+  text-align: center;       /* center the text horizontally */
+  font-size: 25px;          /* adjust size */
+  font-weight: bold;        /* optional emphasis */
+  margin: 10px 0;           /* space around the text */
+  color: #333;              /* dark gray color */
+  align-items: center;
+
+}
+
+#submitPlayers{
+  position: absolute;
+  top: 150px;
+}
+
+.inputs-wrapper {
+  position: absolute;        /* position relative to screen */
+  top: 50%;                  /* vertical middle */
+  left: 50%;                 /* horizontal middle */
+  transform: translate(-50%, -50%);  /* truly center it */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;                 /* spacing between inputs + button */
+  text-align: center;
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #af4c4c;
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+  border-radius: 10px;
+}
+
+.player-order {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+#instruction-text{
+  position: absolute; 
+  top: 30px;
+  right: 0%;
+}
+
+#categoryReady{
+  position: absolute;
+  top: 150px; 
+  height: 75px; 
+  width: 150px; 
+}
+
+#playGame{
+  position: absolute; 
+  top: 400px; 
+  right: 550px;
+  height: 75px; 
+  width: 150px; 
+}
+
+#readyUp {
+  position: absolute; 
+  top: 450px; 
+  height: 75px; 
+  width: 150px; 
+}
+
+#newWord{
+  position: absolute; 
+  top: 25px; 
+  left: 20%;
+}
+
+#promptCustomList{
+  position: absolute; 
+  bottom: 10%; 
+  left: 40%;
+}
+
+.hidden1 {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.5s ease-in-out;
+}
+button {
+  margin: 10px;
+  padding: 20px;
+  font-size:50px;
+} 
+
+#instrText, #rulesText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 70%;                /* or 70%, adjust as needed */
+  max-height: 80vh;          /* limit height to 80% of viewport */
+}
+
+#Close {
+  position: absolute; 
+  top: 200px;
+  left: 80%;
+}
+
+#Previous{
+  position: absolute; 
+  top: 65px;
+  left: -150px;
+}
+
+#Next{
+  position: absolute; 
+  top: -15px;
+  left: -150px;
+}
+
+#log-ins{
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: -400px;
+} 
+
+#create-acc-css{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 15px;
+  position: relative;
+  top: -200px;
+}
+
+#editButtons {
+  position: absolute;
+  inset: 0; /* covers entire screen */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  background: rgba(0, 0, 0, 0.35); /* required transparency */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+#editButtons.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#editButtons button {
+  background-color: rgb(106, 106, 106);
+  color: white;
+  font-size: 16px;
+
+  padding: 10px 20px;
+  width: 150px;
+  height: 50px;
+
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#quit {
+  position: absolute;
+  top: 90px;
+  left: 50px;
+}
+
+#selectionsContainer {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 14px;
+}
+
+#colorPickerWrapper {
+  width: 70px;
+  height: 50px;
+  padding: 6px;
+
+  background: rgba(255, 192, 203, 0.9); /* matches your pink theme */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+#backgroundColor1 {
+  width: 100%;
+  height: 100%;
+
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
