@@ -52,7 +52,7 @@ showScreen("screen-menu");
 var numRounds = 0; 
 let num = 0; 
 const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
-//document.getElementById('button-container').style.display = 'none';
+
 let roleKeys = Object.keys(allRoles);
 const allPlayers = {
 playerone: {name: "PLAYER ONE", score: 0, id: roleKeys[0]},
@@ -72,6 +72,8 @@ function renderMatrix(){
     const order = [0, 1, 3, 2];
     const startColors = ["red", "red", "black", "black"];
 
+   
+
     order.forEach((i,idx) => {
         const p = allPlayers[playerKeys[i]];
 
@@ -83,6 +85,14 @@ function renderMatrix(){
         cell.style.textAlign = "center";
         cell.style.borderRadius = "8px";
         cell.style.top = "100px";
+
+ let r = num % 4;
+    let a = (r % 4) + 4;
+    let b = ((r + 3) % 4) + 4;
+
+    if (allRoles[p.id] === a || allRoles[p.id] === b) {
+        cell.style.outline = "5px solid yellow";
+    }
 
         cell.innerHTML = `
         <strong>${p.name}</strong><br>
@@ -130,7 +140,6 @@ function updateScore(color){
         const key = playerKeys[i];
         const player = allPlayers[key];
         const currPlayer = allPlayers[playerKeys[i]];
-
         if (color === "red") {
             if (player.id === "RED GUESSER") {
                 currPlayer.score++;  // add to **previous**             
@@ -192,29 +201,42 @@ async function syncScore() {
 }
 
 function changeRoles() {
-    if (num > 0){
-    // Step 1: Increment all role values
-    for (let key in allRoles) {
-        allRoles[key] += 1;
-    }
-    // Step 2: Convert to array and sort by value % 4
-    const sortedRoles = Object.entries(allRoles)
-    .sort((a, b) => (a[1] % 4) - (b[1] % 4));
-        // Step 3: Display sorted roles
+    if (num > 0) {
+        // Step 1: Increment all role values
+        for (let key in allRoles) {
+            allRoles[key] += 1;
+        }
+
+        // Step 2: Convert to array and sort by value % 4
+        const sortedRoles = Object.entries(allRoles)
+            .sort((a, b) => (a[1] % 4) - (b[1] % 4));
+
+        // Step 3: Update roles, colors, names, scores, and highlight explainers
         for (let i = 0; i < sortedRoles.length; i++) {
-            allPlayers[playerKeys[i]].id = sortedRoles[i][0];
-            if (allPlayers[playerKeys[i]].id === "RED GUESSER" || allPlayers[playerKeys[i]].id === "RED EXPLAINER") {
-                document.getElementById(`cell-${i}`).style.background = "red";
+            const player = allPlayers[playerKeys[i]];
+            player.id = sortedRoles[i][0];
+
+            const cell = document.getElementById(`cell-${i}`);
+            if (!cell) continue;
+
+            // Background color
+            if (player.id.includes("RED")) {
+                cell.style.background = "red";
+            } else {
+                cell.style.background = "black";
             }
-            else{
-                document.getElementById(`cell-${i}`).style.background = "black";
+
+            // Inner content: name, role, score
+            const playerName = document.getElementById("player" + i).value.trim();
+            cell.innerHTML = `<strong>${playerName}</strong><br>${player.id}<br>Score: ${player.score}`;
+
+            // Highlight explainer
+            if (player.id.includes("EXPLAINER")) {
+                cell.style.outline = "5px solid yellow";
+            } else {
+                cell.style.outline = "none"; // remove old highlights
             }
         }
-    }
-    //playerKeys = Object.keys(allPlayers);
-    //roleKeys = Objects.keys(allRoles);
-    for (let j = 0; j < 4; j++){
-        document.getElementById(`cell-${j}`).innerHTML = `<strong>${document.getElementById("player" + j).value.trim()}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
     }
 }
 
@@ -327,6 +349,8 @@ const logInBtn = document.getElementById('logIn');
 const editButtons = document.getElementById("editButtons");
 const X = document.getElementById("X");
 const createAccBtn = document.getElementById('createAccount');
+const backToLogInBtn = document.getElementById('backToLogIn');
+const backToSignUpBtn = document.getElementById('ToSignUp');
 const uniqueUsername = document.getElementById('uniqueUsername');
 const displayNameInput = document.getElementById('displayNameInput');
 const PINInput = document.getElementById('PINInput');
@@ -744,12 +768,30 @@ backBtn.addEventListener('click',()=>{
 })
 
 
-function setRounds(){
-    numRounds = document.getElementById("numRounds").value;
+async function setRounds(){
+    
+      numRounds = document.getElementById("numRounds").value;
+      if (numRounds === "" || numRounds<="0") {
+        alert("Please enter a valid number of rounds");
+        return;
+      }
+      else {
+        editButtons.classList.remove("active");
+    menuBtn.style.display = "inline-block";
+    (document.getElementById('numRounds')).style.display = "inline-block";
+    startRounds.style.display = 'inline-block';
+    for (let key of playerKeys) { 
+        const player = allPlayers[key]; 
+        player.score = 0;
+    }
+    renderMatrix();
+    r = 1;
+    showScreen('screen-pick-color');
     startRounds.style.display = "none";
     document.getElementById("numRounds").style.display = "none";
     printRounds.style.display = 'inline-block';
     printRounds.innerHTML = "ROUNDS: " + numRounds;
+      }
 }
 
 
@@ -830,17 +872,7 @@ resetBtn.addEventListener('click', () => {
 });
 
 roundsBtn.addEventListener('click', () => {
-    editButtons.classList.remove("active");
-    menuBtn.style.display = "inline-block";
-    showScreen('screen-pick-rounds');
-    (document.getElementById('numRounds')).style.display = "inline-block";
-    startRounds.style.display = 'inline-block';
-    for (let key of playerKeys) { 
-        const player = allPlayers[key]; 
-        player.score = 0;
-    }
-    renderMatrix();
-    r = 1; 
+    setRounds();
 });
 
 teamBtn.addEventListener('click', () => {
@@ -1153,9 +1185,9 @@ function setupPlayerInputs() {
         pinInput.placeholder="Enter PIN for player " + (i+1);
 
         const container = document.createElement("div");
-container.appendChild(nameInput);
-container.appendChild(pinInput);
-playerInputsDiv.appendChild(container);
+        container.appendChild(nameInput);
+        container.appendChild(pinInput);
+        playerInputsDiv.appendChild(container);
 
 }
     submitBtn.style.display = "inline-block";
@@ -1209,7 +1241,6 @@ submitBtn.addEventListener("click", () => {
 
 
 startRounds.addEventListener("click", () => {
-    startRounds.style.display = "none";
     if (isReset){
         setRounds();
         renderMatrix();
@@ -1220,7 +1251,6 @@ startRounds.addEventListener("click", () => {
     }
     else{
         setRounds();
-        showScreen('screen-pick-color');
     }
 });
 
@@ -1341,7 +1371,10 @@ async function createAcc(){
       createAccBtn.style.display ='none';
       uniqueUsername.style.display = 'none';
       displayNameInput.style.display='none';
+      backToLogInBtn.style.display='none';
+      backToSignUpBtn.style.display='none';
       PINInput.style.display='none';
+      
     }   
 
 Instructions.addEventListener('click',()=>{
@@ -1431,16 +1464,37 @@ signUpBtn.addEventListener("click",()=>{
     displayNameInput.style.display="inline-block";
     PINInput.style.display="inline-block";
     createAccBtn.style.display = 'inline-block';
+    backToLogInBtn.style.display='inline-block';
 }); 
 
 createAccBtn.addEventListener("click",()=>{
     createAcc();
 }); 
 
-logInBtn.addEventListener("click",()=>{
+backToLogInBtn.addEventListener("click",()=>{
+    showScreen("screen-enter-players");
     setupPlayerInputs();
     logInBtn.style.display = 'none';
     signUpBtn.style.display = 'none';
+    backToSignUpBtn.style.display='inline-block';
+
+})
+
+backToSignUpBtn.addEventListener('click',()=>{
+    showScreen('screen-sign-up');
+    uniqueUsername.style.display = 'inline-block';
+    displayNameInput.style.display="inline-block";
+    PINInput.style.display="inline-block";
+    createAccBtn.style.display = 'inline-block';
+    backToLogInBtn.style.display='inline-block';
+})
+
+logInBtn.addEventListener("click",()=>{
+    showScreen("screen-enter-players");
+    setupPlayerInputs();
+    logInBtn.style.display = 'none';
+    signUpBtn.style.display = 'none';
+    backToSignUpBtn.style.display='inline-block';
 });
 
 Play.addEventListener("click", () => {
