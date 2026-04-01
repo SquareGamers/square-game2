@@ -237,6 +237,10 @@ const nbaButton = document.getElementById('NBA');
 const nflButton = document.getElementById('NFL');
 const mmaButton = document.getElementById('MMA');
 const soccerButton = document.getElementById('Soccer');
+const geographyButton = document.getElementById('Geography');
+const statesButton = document.getElementById('States');
+const countriesButton = document.getElementById('Countries');
+const capitalsButton = document.getElementById('Capitals');
 const backBtn = document.getElementById('Return');
 const redBtn = document.getElementById("redBtn");
 const blackBtn = document.getElementById("blackBtn");
@@ -558,6 +562,32 @@ let listHardBasicWords = ["Adventure", "Beautiful", "Calculator", "Electricity",
 "Productivity", "Rehabilitation", "Simplification", "Traditional",
 "Unpredictable", "Articulate", "Background", "Democratic", "Elasticity",
 "Friendliness", "Generosity", "Helplessness", "Journalist"];
+let listCountries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antarctica","Antigua and Barbuda","Argentina",
+"Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda",
+"Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon",
+"Canada","Cape Verde","Cayman Islands","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo","The Democratic Republic Of The Congo",
+"Costa Rica","Ivory Coast","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","East Timor",
+"Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France",
+"Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti",
+"Vatican City","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Palestine","Italy","Jamaica","Kosovo","Japan","Jordan",
+"Kazakstan","Kenya","Kiribati","North Korea","South Korea","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania",
+"Luxembourg","North Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius",
+"Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Caledonia","New Zealand","Nicaragua",
+"Niger","Nigeria","Norway","Oman","Pakistan","Palau","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Romania","Russia",
+"Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia",
+"Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland","South Sudan","Syria",
+"Taiwan","Tajikistan","Tanzania","Thailand","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Turks and Caicos Islands","Tuvalu",
+"Uganda","Ukraine","United Arab Emirates (UAE)","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Venezuela",
+"Vietnam","British Virgin Islands","US Virgin Islands","Western Sahara","Yemen","Zambia","Zimbabwe"];
+let listStates = ["Alabama", "Alaska", "American Samoa", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii",
+"Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana",
+"Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
+"South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
+let listCapitals = ["Washington, D.C.", "London", "Paris", "Tokyo", "Beijing", "Moscow", "Berlin", "Rome", "Madrid", "Ottawa",
+"Canberra", "Brasilia", "New Delhi", "Seoul", "Bangkok", "Cairo", "Riyadh", "Mexico City",
+"Buenos Aires", "Santiago", "Lima", "Jakarta", "Hanoi", "Tehran", "Baghdad", "Athens", "Oslo", "Dublin", "Vienna", "Prague", "Budapest", "Warsaw",
+"Copenhagen", "Stockholm", "Helsinki", "Lisbon", "Brussels",
+"Amsterdam", "Kuala Lumpur", "Cape Town", "Nairobi"];
 let listAthletesNBA = ["Herbert Jones", "LeBron James", "Stephen Curry", "Luka Dončić", "Nikola Jokić", "Giannis Antetokounmpo", 
 "Jayson Tatum", "Joel Embiid", "Kawhi Leonard", "Devin Booker", "Shai Gilgeous-Alexander", "Damian Lillard", 
 "Trae Young", "Ja Morant", "Anthony Davis", "Rudy Gobert", "Karl-Anthony Towns", "Kawhi Leonard", 
@@ -697,6 +727,7 @@ defCatBtn.addEventListener('click',()=>{
     foodDrinkButton.style.display = 'inline-block';
     basicButton.style.display = 'inline-block';
     CSPButton.style.display = 'inline-block';
+    geographyButton.style.display = 'inline-block';
     easyButton.style.display = 'none';
     medButton.style.display = 'none';
     hardButton.style.display = 'none';
@@ -720,6 +751,7 @@ basicButton.addEventListener('click',()=>{
     foodDrinkButton.style.display = 'none';
     basicButton.style.display = 'none';
     CSPButton.style.display = 'none';
+    geographyButton.style.display = 'none'
     easyButton.style.display = 'inline-block';
     medButton.style.display = 'inline-block';
     hardButton.style.display = 'inline-block';
@@ -733,6 +765,7 @@ athleteButton.addEventListener('click',()=>{
     basicButton.style.display = 'none';
     CSPButton.style.display = 'none';
     customList.style.display = 'none';
+    geographyButton.style.display = 'none'
     mlbButton.style.display = 'inline-block';
     nbaButton.style.display = 'inline-block';
     nflButton.style.display = 'inline-block';
@@ -749,8 +782,18 @@ foodDrinkButton.addEventListener('click',()=>{
     drinkButton.style.display = 'inline-block';
     foodButton.style.display = 'inline-block';
     backBtn.style.display = 'inline-block';
+    geographyButton.style.display = 'none';
 })
-
+geographyButton.addEventListener('click',()=>{
+    athleteButton.style.display = 'none';
+    foodDrinkButton.style.display = 'none';
+    basicButton.style.display = 'none';
+    CSPButton.style.display = 'none';
+    geographyButton.style.display = 'none';
+    countriesButton.style.display = 'inline-block';
+    capitalsButton.style.display = 'inline-block';
+    statesButton.style.display = 'inline-block';
+})
 backBtn.addEventListener('click',()=>{
     backBtn.style.display = 'none';
     beginGame.style.display = 'none';
@@ -758,6 +801,7 @@ backBtn.addEventListener('click',()=>{
     foodDrinkButton.style.display = 'inline-block';
     basicButton.style.display = 'inline-block';
     CSPButton.style.display = 'inline-block';
+    geographyButton.style.display = 'inline-block';
     easyButton.style.display = 'none';
     medButton.style.display = 'none';
     hardButton.style.display = 'none';
@@ -768,6 +812,9 @@ backBtn.addEventListener('click',()=>{
     mmaButton.style.display = 'none';
     foodButton.style.display = 'none';
     drinkButton.style.display = 'none';
+    countriesButton.style.display = 'none';
+    capitalsButton.style.display = 'none';
+    statesButton.style.display = 'none';
     customList.style.display = 'none';
     customListContainer.style.display = 'none';
 })
@@ -803,6 +850,9 @@ function startRoundA(){
     easyButton.style.display = 'none';
     medButton.style.display = 'none';
     hardButton.style.display = 'none';
+    countriesButton.style.display = 'none';
+    capitalsButton.style.display = 'none';
+    statesButton.style.display = 'none';
     r = 1;
     displayText2.textContent = `ROUND ${r}`;
 }
@@ -1100,6 +1150,54 @@ foodButton.addEventListener('click',()=>{
     foodButton.style.display = 'none';
 });
 
+countriesButton.addEventListener('click',()=>{
+    category = listCountries;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: WORLD COUNTRIES";
+    countriesButton.classList.remove('default-button');
+    countriesButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        countriesButton.classList.remove('highlighted-button');
+        countriesButton.classList.add('default-button');
+    }, 250);
+    statesButton.style.display = 'none';
+    countriesButton.style.display = 'none';
+    capitalsButton.style.display = 'none';
+    geopraphyButton.style.display = 'none';
+});
+statesButton.addEventListener('click',()=>{
+    category = listStates;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: US STATES";
+    statesButton.classList.remove('default-button');
+    statesButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        statesButton.classList.remove('highlighted-button');
+        statesButton.classList.add('default-button');
+    }, 250);
+    statesButton.style.display = 'none';
+    countriesButton.style.display = 'none';
+    capitalsButton.style.display = 'none';
+    geopraphyButton.style.display = 'none';
+});
+capitalsButton.addEventListener('click',()=>{
+    category = listCapitals;
+    printCategories.style.display = 'inline-block';
+    printCategories.innerHTML = "CATEGORY: WORLD CAPITALS";
+    capitalsButton.classList.remove('default-button');
+    capitalsButton.classList.add('highlighted-button');
+    beginGame.style.display = 'inline-block';
+    setTimeout(() => {
+        capitalsButton.classList.remove('highlighted-button');
+        capitalsButton.classList.add('default-button');
+    }, 250);
+    statesButton.style.display = 'none';
+    countriesButton.style.display = 'none';
+    capitalsButton.style.display = 'none';
+    geopraphyButton.style.display = 'none';
+});
 drinkButton.addEventListener('click',()=>{
     category = listDrink;
     printCategories.style.display = 'inline-block';
