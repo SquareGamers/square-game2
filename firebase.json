@@ -10,7 +10,7 @@
   "firestore": {
     "database": "(default)",
     "location": "nam5",
-    "rules": "app.js",
+    "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
   "functions": [
@@ -45,15 +45,9 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
     ]
   },
   "storage": {
-    "rules": "storfirebase deploy --only hosting:squaregamehhsage.rules"
+    "rules": "storage.rules"
   }
 }
