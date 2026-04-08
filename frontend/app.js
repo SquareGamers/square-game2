@@ -384,6 +384,12 @@ const colorPicker2 = document.getElementById('backgroundColor2');
 const printColor = document.getElementById('printColor');
 const uploadText = document.getElementById("uploadText");
 const uploadButton = document.getElementById("uploadButton");
+const email = document.getElementById('confirmEmail');
+const usernameE = document.getElementById('usernameEmail');
+const userE = document.getElementById('userEmail');
+const addE = document.getElementById('addEmail');
+const recoverP = document.getElementById('recoverPIN');
+const sendR = document.getElementById('sendRecovery');
 
 
 function clearResults() {
@@ -496,47 +502,6 @@ function showWinner() {
         );
     }
 }
-
-const Instructions = document.getElementById('Instructions');
-const Rules = document.getElementById('Rules');
-const Play = document.getElementById('Play');
-const Close = document.getElementById('Close');
-const Stats = document.getElementById('Stats');
-const Settings = document.getElementById('Settings');
-const email = document.getElementById('confirmEmail');
-const usernameE = document.getElementById('usernameEmail');
-const userE = document.getElementById('userEmail');
-const addE = document.getElementById('addEmail');
-const recoverP = document.getElementById('recoverPIN');
-const sendR = document.getElementById('sendRecovery');
-Close.style.display = 'none';
-const nextInstruction = document.getElementById('Next');
-const prevInstruction = document.getElementById('Previous');
-let divInstrInput = document.getElementById('instrText');
-let instr1 = document.createElement('span');
-let divRules = document.getElementById('rulesText');
-let ruleList = document.createElement('span');
-nextInstruction.classList.add('hidden1');
-prevInstruction.classList.add('hidden1');
-const printPlayers = document.getElementById('printPlayers');
-const printRounds = document.getElementById('printRounds');
-const printCategories = document.getElementById('printCategories');
-const menuBtn = document.getElementById('menu');
-const signUpBtn = document.getElementById('signUp');
-const logInBtn = document.getElementById('logIn');
-const editButtons = document.getElementById("editButtons");
-const X = document.getElementById("X");
-const createAccBtn = document.getElementById('createAccount');
-const uniqueUsername = document.getElementById('uniqueUsername');
-const displayNameInput = document.getElementById('displayNameInput');
-const PINInput = document.getElementById('PINInput');
-const finalPlay = document.getElementById('playGame');
-const colorPickerWrapper = document.getElementById('colorPickerWrapper');
-const colorPicker1 = document.getElementById('backgroundColor1');
-const colorPicker2 = document.getElementById('backgroundColor2');
-const printColor = document.getElementById('printColor');
-const uploadText = document.getElementById("uploadText");
-const uploadButton = document.getElementById("uploadButton");
 
 readyButton.addEventListener('click',()=>{
     submitPlayersAndStartGame();
