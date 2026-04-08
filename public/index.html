@@ -1,89 +1,236 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<html lang="en">
+<head>
+    <link rel="icon" href="data:,">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Square Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/12.8.0/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/12.8.0/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/12.8.0/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/12.8.0/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/12.8.0/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/12.8.0/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/12.8.0/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/12.8.0/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/12.8.0/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/12.8.0/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+<body>
+  <div id="app">
+    <div id="selectionsContainer">
+      <p id = "selections">*OPEN MENU TO EDIT*<br>YOU HAVE CHOSEN: </p>
+      <p id = "printPlayers" style="display:none">PLAYERS: </p>
+      <p id = "printRounds" style="display:none">ROUNDS: </p>
+      <p id = "printColor" style="display:none">COLOR: </p>
+      <div id="colorPickerWrapper" class="hidden">
+        <input type="color" id="backgroundColor1" value="#b3d7ff">
+      </div>
+      <p id = "printCategories" style="display:none">CATEGORY: </p>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+    <script type="module" src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+    <div id="screen-menu" class="screen">
+      <div id="menu-buttons">
+        <button class = "menu-button" id="Play">Play</button>
+        <button class="menu-button" id="Instructions">Instructions</button>
+        <button class="menu-button" id="Rules">Rules</button>
+        <button class="menu-button" id="Stats">Stats</button>
+        <button class="menu-button" id="Settings">Settings</button>
+        <button class="menu-button" id="Close">Close</button>
+        <button class="menu-button" id="Previous">Previous</button>
+        <button class="menu-button" id="Next">Next</button>
+        <input type="string" id="userStats" placeholder="Username of the player">
+      <button class="menu-button" id="showStatsFinal">Show Their Stats</button>
+      <pre id="statsOutput"></pre>
+      <input type="string" id="usernameEmail" placeholder="Username of the player" style="display:none;">
+      <input type="string" id="userEmail" placeholder="Email for account recovery" style="display:none;">
+      <button class="menu-button" id="addEmail" style="display:none;">Add an Email (for PIN recovery)</button>
+      <button class="menu-button" id="recoverPIN" style="display:none;">Recover PIN</button>
+      <button class="menu-button" id="confirmEmail" style="display:none;">Add Email</button>
+      <button class="menu-button" id="sendRecovery" style="display:none;">Send Recovery Email</button>
+
+
+    </div>
+        <div id="instrText"></div>
+        <div id="rulesText"></div>
+    </div>
+
+      <!-- ENTER PLAYERS -->
+      <div id="screen-enter-players" class="screen">
+        <!-- INSTRUCTION TEXT -->
+        <div class="screen-instruction">
+          <p id="instruction-text">Enter the name of each Player. If there are more than 4 Players, combine into teams of 4 and enter combined names. Enter your names in the arrangement you are sitting.</p>
+        </div>
+
+    <div class="inputs-wrapper">
+      <button
+        class="default-button"
+        id="submitPlayers"
+        style="display:none;">
+        Submit Players
+      </button>
+      <div id="playerInputs"></div>
+    </div>
+  </div>
+  
+  <div id="log-ins">
+    <button
+      class="default-button"
+      id="signUp"
+      style="display:none;">
+      Sign Up
+    </button>
+
+        <button 
+          class="default-button" 
+          id="logIn" 
+          style="display:none;">
+          Log In
+        </button>
+      </div> 
+
+<div id="playerInputs"></div>
+
+<div id="screen-sign-up" class="screen">
+  <div class="scren-instruction">Don't have an account?</div>
+  <p id="sign-up-text">Put in a unique username and display name!</p>
+</div>
+
+<div id="create-acc-css">
+  <input type="text" id="uniqueUsername" placeholder="Enter a unique username" style = "display: none;">
+    <input type="text" id="displayNameInput" placeholder="Enter a display name" style = "display: none;">
+    <input type="number" id="PINInput" placeholder="Enter 4-digit PIN" style = "display: none;">
+
+  <button
+    class="default-button"
+    id="createAccount"
+    style = "display: none;">
+    Create Account
+  </button>
+</div>
+
+      <!-- PICK ROUNDS-->
+      <div id="screen-pick-rounds" class="screen">
+        <div class="screen-instruction">
+          <p id="instruction-text-rounds">Enter in the number of rounds you would like to play. One full rotation is 4 rounds.</p>
+        </div>
+        <input type="number" id="numRounds" placeholder="Enter number of rounds">
+        <button
+          class="default-button"
+          id="startRounds">
+          Set Rounds
+        </button>
+      </div>
+
+      <!-- PICK COLOR-->
+      <div id="screen-pick-color" class="screen">
+        <label for="backgroundColor">Select Background Color:</label>
+        <input type="color" id="backgroundColor2" value="#ffffff">
+        <button class="default-button" id="resetColor">Reset Color</button>
+        <button
+          class="default-button"
+          id="colorReady">
+          DONE
+        </button>
+      </div>
+
+      <!-- PICK CATEGORY -->
+      <div id="screen-pick-category" class="screen">
+
+        <div id = "choose-your-category">
+          <button class="default-button" id="defaultCategory">SELECT A DEFAULT CATEGORY</button>
+          <button class="default-button" id="createCustomList">CREATE CUSTOM LIST</button>
+          <p id="uploadText">Or, upload a file that contains words separated such that one word is on each line of the file to ensure all words are counted correctly.</p>
+          <input type="file" id="uploadList" accept=".txt,.csv,.log,.json,.md,.xml,.html" style="display:none;">
+          <label id="uploadButton" for="uploadList" class="menu-button">Upload File</label>
+        </div>
+
+        <div id="button-container">
+          <button class="default-button" id="CSP" style="display:none;">CSP Vocab</button>
+          <button class="default-button" id="Basic" style="display:none;">Basic</button>
+          <button class="default-button" id="Athletes" style="display:none;">Athletes</button>
+          <button class="default-button" id="Food&Drink" style="display:none;">Food&Drink</button>
+
+
+          <button class="default-button" id="Food" style="display:none;">Food</button>
+          <button class="default-button" id="Drink" style="display:none;">Drink</button>
+
+          <button class="default-button" id="Easy" style="display:none;">Easy</button>
+          <button class="default-button" id="Medium" style="display:none;">Medium</button>
+          <button class="default-button" id="Hard" style="display:none;">Hard</button>
+
+          <button class="default-button" id="NFL" style="display:none;">NFL</button>
+          <button class="default-button" id="NBA" style="display:none;">NBA</button>
+          <button class="default-button" id="MLB" style="display:none;">MLB</button>
+          <button class="default-button" id="MMA" style="display:none;">MMA</button>
+          <button class="default-button" id="Soccer" style="display:none;">Soccer</button>
+
+          <button class="default-button" id="Return" style="display:none;">
+            Return to Menu
+          </button>
+
+          </div>
+
+      
+          <div id="customListContainer" style="display:none;">
+            <p>SEPARATE BY COMMA AND SPACE (WORD, WORD, WORD)</p>
+            <textarea id="customList"></textarea>
+          </div>
+
+          <button class="default-button" id="promptCustomList"style="display:none;">
+            Make a Custom List
+          </button>
+
+          <div id="customListContainer" style="display:none;">
+            <p>SEPARATE BY COMMA AND SPACE (WORD, WORD, WORD)</p>
+            <textarea id="customList"></textarea>
+          </div>
+
+            <button
+              class="default-button"
+              id="categoryReady"
+            
+              style="display:none;">
+              BEGIN GAME
+            </button>
+        </div>
+
+      <!-- GAME-->
+      <div id="screen-game" class="screen">
+
+        <div class="screen-instruction">
+          <p id="instruction-text-rounds-ready">Find your name in the matrix. Turn the computer so that only the two EXPLAINERS can see it. Find your teammate: you will explain to them or guess from them. When instructed to switch, rotate CLOCKWISE. </p>
+        </div>
+
+        <!-- MATRIX (PERSISTENT DURING GAME) -->
+        <div id="matrix-wrapper" class="hidden">
+          <div id="matrix"></div>
+        </div>
+
+        <button
+          class="default-button"
+          id="readyUp">
+          READY
+        </button>
+
+        <!-- GAME UI -->
+        <div id="game-ui">
+          <p id="displayText2"></p>
+
+            <button class="default-button" id="redBtn">RED WIN</button>
+            <button class="default-button" id="blackBtn">BLACK WIN</button>
+
+            <button class ="default-button" id="menu">MENU</button>
+            <button class="default-button" id="newWord">SKIP WORD / TIE</button>
+            <button class="default-button" id="playGame">PLAY</button>
+            <button class="default-button" id="readyRound">READY</button>
+
+        <div id ="editButtons">
+          <button class="default-button" id="resetBtn">REPLAY</button>  
+          <button class="default-button" id="teamBtn">CHANGE TEAMS</button>
+          <button class="default-button" id="roundsBtn">CHANGE ROUNDS</button>
+          <button class="default-button" id="categoriesBtn">CHANGE CATEGORIES</button>
+          <button class ="default-button" id="X">X</button>
+        </div>
+      </div>
+      
+      <div id="results"></div>
+  </div>
+</body>
 </html>

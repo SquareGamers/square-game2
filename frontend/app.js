@@ -2,6 +2,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+emailjs.init("Ia87MGcCaj7tfXzTc");
+
 const firebaseConfig = {
   apiKey: "AIzaSyCrFLo_T3pg2yrjnyF1hkDprcypspLXc-c",
   authDomain: "square-game-b4d37.firebaseapp.com",
@@ -410,38 +412,131 @@ function showWinner() {
         el.style.top = top + "px";
         el.style.left = "50%";
         el.style.transform = "translateX(-50%)";
-        el.style.whiteSpace = "nowrap";
+        if (numWinners == 1) {
+            el.style.whiteSpace = "nowrap";
+        } else {
+            el.style.whiteSpace = "normal";
+        }
         el.style.maxWidth = "100%";
         el.style.overflow = "hidden";
         el.style.textOverflow = "ellipsis";
-        el.style.fontSize = size + "px";
+        
+        const lengthFactor = Math.max(0.6, 20 / text.length);
+        const scaledSize = size * lengthFactor;
+
+        el.style.fontSize = `clamp(20px, 5vw, ${scaledSize}px)`;
     
         el.textContent = text;
     
         results.appendChild(el);
     }
-    
-    
-    createResult(
-        "Winner: " + allPlayers[standings[0]].name +
-        " | Score: " + allPlayers[standings[0]].score,
-        90,
-        10
-    );
-    
 
-    for (let i = 1; i < standings.length; i++) {
+    let numWinners = 1;
+    if (allPlayers[standings[0]].score == allPlayers[standings[3]].score) {
+        numWinners = 4;
+    } else if (allPlayers[standings[0]].score == allPlayers[standings[2]].score) {
+        numWinners = 3;
+    } else if (allPlayers[standings[0]].score == allPlayers[standings[1]].score) {
+        numWinners = 2;
+    }
     
-        const topPos = 35 + 60 * i;
-    
+    if (numWinners == 1) {
         createResult(
-            allPlayers[standings[i]].name +
-            " | Score: " + allPlayers[standings[i]].score,
-            60,
-            topPos
+            "Winner: " + allPlayers[standings[0]].name +
+            " | Score: " + allPlayers[standings[0]].score,
+            90,
+            10
+        );
+        for (let i = 1; i < standings.length; i++) {
+            const topPos = 35 + 60 * i;
+            createResult(
+                allPlayers[standings[i]].name +
+                " | Score: " + allPlayers[standings[i]].score,
+                60,
+                topPos
+            );
+        }
+    } else if (numWinners == 2) {
+        createResult(
+            "Winners: " + allPlayers[standings[0]].name + " & " + allPlayers[standings[1]].name +
+            " | Score: " + allPlayers[standings[0]].score, 90, 10);
+        for (let i = 2; i < standings.length; i++) {        
+            const topPos = 35 + 60 * i;
+            createResult(
+                allPlayers[standings[i]].name +
+                " | Score: " + allPlayers[standings[i]].score,
+                40,
+                topPos
+            );
+        }
+    } else if (numWinners == 3) {
+        createResult(
+            "Winners: " + allPlayers[standings[0]].name + " & " + allPlayers[standings[1]].name + 
+            " & " + allPlayers[standings[2]].name +
+            " | Score: " + allPlayers[standings[0]].score,
+            90,
+            10
+        );
+        for (let i = 3; i < standings.length; i++) {        
+            const topPos = 35 + 60 * i;
+            createResult(
+                allPlayers[standings[i]].name +
+                " | Score: " + allPlayers[standings[i]].score,
+                40,
+                topPos
+            );
+        }
+    } else {
+        createResult(
+            "Winners: " + allPlayers[standings[0]].name + " & " + allPlayers[standings[1]].name + 
+            " & " + allPlayers[standings[2]].name + " & " + allPlayers[standings[3]].name +
+            " | Score: " + allPlayers[standings[0]].score,
+            80,
+            10
         );
     }
 }
+
+const Instructions = document.getElementById('Instructions');
+const Rules = document.getElementById('Rules');
+const Play = document.getElementById('Play');
+const Close = document.getElementById('Close');
+const Stats = document.getElementById('Stats');
+const Settings = document.getElementById('Settings');
+const email = document.getElementById('confirmEmail');
+const usernameE = document.getElementById('usernameEmail');
+const userE = document.getElementById('userEmail');
+const addE = document.getElementById('addEmail');
+const recoverP = document.getElementById('recoverPIN');
+const sendR = document.getElementById('sendRecovery');
+Close.style.display = 'none';
+const nextInstruction = document.getElementById('Next');
+const prevInstruction = document.getElementById('Previous');
+let divInstrInput = document.getElementById('instrText');
+let instr1 = document.createElement('span');
+let divRules = document.getElementById('rulesText');
+let ruleList = document.createElement('span');
+nextInstruction.classList.add('hidden1');
+prevInstruction.classList.add('hidden1');
+const printPlayers = document.getElementById('printPlayers');
+const printRounds = document.getElementById('printRounds');
+const printCategories = document.getElementById('printCategories');
+const menuBtn = document.getElementById('menu');
+const signUpBtn = document.getElementById('signUp');
+const logInBtn = document.getElementById('logIn');
+const editButtons = document.getElementById("editButtons");
+const X = document.getElementById("X");
+const createAccBtn = document.getElementById('createAccount');
+const uniqueUsername = document.getElementById('uniqueUsername');
+const displayNameInput = document.getElementById('displayNameInput');
+const PINInput = document.getElementById('PINInput');
+const finalPlay = document.getElementById('playGame');
+const colorPickerWrapper = document.getElementById('colorPickerWrapper');
+const colorPicker1 = document.getElementById('backgroundColor1');
+const colorPicker2 = document.getElementById('backgroundColor2');
+const printColor = document.getElementById('printColor');
+const uploadText = document.getElementById("uploadText");
+const uploadButton = document.getElementById("uploadButton");
 
 readyButton.addEventListener('click',()=>{
     submitPlayersAndStartGame();
@@ -1232,7 +1327,7 @@ function setupPlayerInputs() {
         pinInput.type="number";
         nameInput.id = "player" + i;
         pinInput.id="pin" + i;
-        nameInput.placeholder = "Enter name for player " + (i + 1);
+        nameInput.placeholder = "Enter username for player " + (i + 1);
         pinInput.placeholder="Enter PIN for player " + (i+1);
         const container = document.createElement("div");
         container.appendChild(nameInput);
@@ -1259,9 +1354,7 @@ async function checkPlayers() {
         }
 
         const storedPin = userSnap.data().PIN;
-        if (storedPin == enteredPin) {
-            alert("Correct login for " + username);
-        } else {
+        if (storedPin != enteredPin) {
             alert("Incorrect PIN for " + username);
         }
     }
@@ -1388,13 +1481,13 @@ async function createAcc(){
             }
             await setDoc(userRef, {
                 username: username,
+                email: "",
                 displayName: displayName,
                 PIN: PIN,
                 createdAt: new Date(),
                 gamesCompleted:0,
                 gamesWon:0,
-                wordsGuessed:0,
-                wordsExplained:0
+                totalPoints:0
               });
               alert("Account created!");
             } catch (error) {
@@ -1442,8 +1535,66 @@ Stats.addEventListener("click",()=>{
     showStatsFinal.style.display = 'inline-block';
     Close.style.display = 'inline-block';
   });
+
+  Settings.addEventListener("click",()=>{
+    Play.style.display = 'none';
+    Instructions.style.display = 'none';
+    Rules.style.display = 'none';
+    Stats.style.display = 'none';
+    Settings.style.display = 'none';
+    addE.style.display = 'inline-block';
+    recoverP.style.display = 'inline-block';
+    Close.style.display = 'inline-block';
+  });
+
+addE.addEventListener('click',() => {
+    addE.style.display = 'none';
+    recoverP.style.display = 'none';
+    email.style.display = 'inline-block';
+    usernameE.style.display = 'inline-block';
+    userE.style.display = 'inline-block';
+});
+
+recoverP.addEventListener('click',() => {
+    usernameE.style.display = 'inline-block';
+    addE.style.display = 'none';
+    recoverP.style.display = 'none';
+    sendR.style.display = 'inline-block';
+});
+
+email.addEventListener('click', async () => {
+    await updateDoc(doc(db, "user-accounts", usernameE.value), {
+        email: userE.value
+    });
+});
+
+sendR.addEventListener('click', async () => {
+    const userRef = doc(db, "user-accounts", usernameE.value);
+    const userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) {
+        alert("Account not found.");
+        return;
+    }
+    const data = userSnap.data();
+    const accPIN = data.PIN;
+    
+    if (data.email === "") {
+        alert("This account does not have an email associated with it. To add one, navigate back to the settings page.");
+    }
+    else {
+        const params = {
+            to_email: data.email,
+            message: accPIN
+        };
+        await emailjs.send("service_gy8yyjq", "template_gbrnwhs", params, "Ia87MGcCaj7tfXzTc");
+        alert(" Please check the inbox of the email associated with this account for information containing your PIN.");
+    }
+});
+
+
 Close.addEventListener('click', ()=>{
     Close.style.display = 'none';
+    document.getElementById("statsOutput").textContent = "";
     Play.style.display = 'inline-block';
     Instructions.style.display = 'inline-block';
     Rules.style.display = 'inline-block';
@@ -1451,6 +1602,12 @@ Close.addEventListener('click', ()=>{
     Settings.style.display = 'inline-block';
     userStats.style.display = 'none';
     showStatsFinal.style.display = 'none';
+    email.style.display = 'none';
+    usernameE.style.display = 'none';
+    userE.style.display = 'none';
+    addE.style.display = 'none';
+    recoverP.style.display = 'none';
+    sendR.style.display = 'none'
     nextInstruction.classList.remove('visible');
     prevInstruction.classList.remove('visible');
     nextInstruction.classList.add('hidden1');
