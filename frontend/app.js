@@ -952,6 +952,8 @@ geographyButton.addEventListener('click',()=>{
     countriesButton.style.display = 'inline-block';
     capitalsButton.style.display = 'inline-block';
     statesButton.style.display = 'inline-block';
+    backBtn.style.display = 'inline-block';
+
 })
 entertainmentButton.addEventListener('click',()=>{
     athleteButton.style.display = 'none';
@@ -963,7 +965,9 @@ entertainmentButton.addEventListener('click',()=>{
     tvButton.style.display = 'inline-block';
     moviesButton.style.display = 'inline-block';
     artistsButton.style.display = 'inline-block';
+    backBtn.style.display = 'inline-block';
 })
+
 backBtn.addEventListener('click',()=>{
     backBtn.style.display = 'none';
     beginGame.style.display = 'none';
@@ -987,7 +991,10 @@ backBtn.addEventListener('click',()=>{
     capitalsButton.style.display = 'none';
     statesButton.style.display = 'none';
     customList.style.display = 'none';
-    customListContainer.style.display = 'none';
+    customListContainer.style.display = 'none'; 
+    tvButton.style.display = 'none'; 
+    moviesButton.style.display = 'none'; 
+    artistsButton.style.display = 'none'; 
 })
 
 rdyButton.addEventListener('click',()=>{
@@ -1311,7 +1318,8 @@ countriesButton.addEventListener('click',()=>{
     statesButton.style.display = 'none';
     countriesButton.style.display = 'none';
     capitalsButton.style.display = 'none';
-    geopraphyButton.style.display = 'none';
+    geographyButton.style.display = 'none';
+
 });
 statesButton.addEventListener('click',()=>{
     category = listStates;
@@ -1327,7 +1335,7 @@ statesButton.addEventListener('click',()=>{
     statesButton.style.display = 'none';
     countriesButton.style.display = 'none';
     capitalsButton.style.display = 'none';
-    geopraphyButton.style.display = 'none';
+    geographyButton.style.display = 'none';
 });
 capitalsButton.addEventListener('click',()=>{
     category = listCapitals;
@@ -1343,7 +1351,7 @@ capitalsButton.addEventListener('click',()=>{
     statesButton.style.display = 'none';
     countriesButton.style.display = 'none';
     capitalsButton.style.display = 'none';
-    geopraphyButton.style.display = 'none';
+    geographyButton.style.display = 'none';
 });
 tvButton.addEventListener('click',()=>{
     category = listTVAnime;
@@ -1360,6 +1368,7 @@ tvButton.addEventListener('click',()=>{
     artistsButton.style.display = 'none';
     tvButton.style.display = 'none';
     entertainmentButton.style.display = 'none';
+
 });
 artistsButton.addEventListener('click',()=>{
     category = listArtistsBands;
