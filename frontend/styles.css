@@ -1,15 +1,24 @@
 HEAD
-body {
+html, body {
   margin: 0;
-  display: flex;
+  padding: 0;
+  /*display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 100vh;*/
+}
+
+/* {
+  outline: 1px solid red;
+}*/
+
+* {
+  box-sizing: border-box;
 }
 
 #app {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100dvh;
   background: #b3d7ff;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -280,14 +289,19 @@ ul {
 #player2 { order: 4; } /* bottom-left */
 
 
-.screen-instruction {
+#screen-instruction {
   text-align: center;       /* center the text horizontally */
-  font-size: 25px;          /* adjust size */
+  font-size: 20px;          /* adjust size */
   font-weight: bold;        /* optional emphasis */
   margin: 10px 0;           /* space around the text */
   color: #333;              /* dark gray color */
   align-items: center;
+}
 
+#instruction-text{
+  position: absolute;
+  top: 110px;
+  left: 0%;
 }
 
 #submitPlayers{
@@ -325,11 +339,6 @@ ul {
   text-align: left;
 }
 
-#instruction-text{
-  position: absolute; 
-  top: 30px;
-  right: 0%;
-}
 
 #categoryReady{
   position: absolute;
@@ -511,6 +520,12 @@ button {
 }
 
 #backDiv{
+  position: absolute;
+  right: 10%;
+  top: 10%;
+} 
+
+#helpDiv{
   position: absolute;
   right: 10%;
 }

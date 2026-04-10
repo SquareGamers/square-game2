@@ -29,8 +29,12 @@ var isReset = false;
 var currScreen = 1;
 const signUpBtn = document.getElementById('signUp');
 const logInBtn = document.getElementById('logIn');
-
 const goBack = document.getElementById('goBack');
+const helpBtn = document.getElementById('getHelp');
+const playerInputsDiv = document.getElementById("playerInputs");
+const submitBtn = document.getElementById("submitPlayers");
+const instructionText = document.getElementById("screen-instruction");
+instructionText.style.display = 'none';
 
 
 function showScreen(screenId, identifier1) {
@@ -49,6 +53,8 @@ function showScreen(screenId, identifier1) {
         logInBtn.style.display = 'none';
         signUpBtn.style.display = 'none';
         goBack.style.display = 'none';
+        playerInputsDiv.style.display = 'none';
+        submitBtn.style.display = 'none';
     }
     else if(screenId == "screen-2"){
         currScreen = 2;
@@ -59,6 +65,7 @@ function showScreen(screenId, identifier1) {
             signUpBtn.style.display = 'inline-block';
         }
         else if (identifier1 == 'change teams'){
+            instructionText.style.display = 'inline-block';
             logInBtn.style.display = 'none';
             signUpBtn.style.display = 'none';
             setupPlayerInputs();
@@ -343,10 +350,8 @@ const teamBtn = document.getElementById("teamBtn");
 const roundsBtn = document.getElementById("roundsBtn");
 const categoriesBtn = document.getElementById('categoriesBtn');
 const colorReady = document.getElementById("colorReady"); 
-const submitBtn = document.getElementById("submitPlayers");
 const startRounds = document.getElementById('startRounds');
 const newButton = document.getElementById("newWord");
-const playerInputsDiv = document.getElementById("playerInputs");
 const customList = document.getElementById('promptCustomList');
 const defCatBtn = document.getElementById('defaultCategory');
 const createCustListBtn = document.getElementById('createCustomList');
@@ -364,9 +369,9 @@ const Instructions = document.getElementById('Instructions');
 const Rules = document.getElementById('Rules');
 const Play = document.getElementById('Play');
 const Close = document.getElementById('Close');
+Close.style.display = 'none';
 const Stats = document.getElementById('Stats');
 const Settings = document.getElementById('Settings');
-Close.style.display = 'none';
 const nextInstruction = document.getElementById('Next');
 const prevInstruction = document.getElementById('Previous');
 let divRules = document.getElementById('rulesText');
@@ -1748,29 +1753,34 @@ sendR.addEventListener('click', async () => {
     }
 });
 
-
+let helpWanted = false; 
 Close.addEventListener('click', ()=>{
-    Close.style.display = 'none';
-    document.getElementById("statsOutput").textContent = "";
-    Play.style.display = 'inline-block';
-    Instructions.style.display = 'inline-block';
-    Rules.style.display = 'inline-block';
-    Stats.style.display = 'inline-block';
-    Settings.style.display = 'inline-block';
-    userStats.style.display = 'none';
-    showStatsFinal.style.display = 'none';
-    email.style.display = 'none';
-    usernameE.style.display = 'none';
-    userE.style.display = 'none';
-    addE.style.display = 'none';
-    recoverP.style.display = 'none';
-    sendR.style.display = 'none'
-    nextInstruction.classList.remove('visible');
-    prevInstruction.classList.remove('visible');
-    nextInstruction.classList.add('hidden1');
-    prevInstruction.classList.add('hidden1');
-    divInstrInput.innerHTML = "";
-    divRules.innerHTML = ""; 
+    if (helpWanted){
+
+    }
+    else{
+        Close.style.display = 'none';
+        document.getElementById("statsOutput").textContent = "";
+        Play.style.display = 'inline-block';
+        Instructions.style.display = 'inline-block';
+        Rules.style.display = 'inline-block';
+        Stats.style.display = 'inline-block';
+        Settings.style.display = 'inline-block';
+        userStats.style.display = 'none';
+        showStatsFinal.style.display = 'none';
+        email.style.display = 'none';
+        usernameE.style.display = 'none';
+        userE.style.display = 'none';
+        addE.style.display = 'none';
+        recoverP.style.display = 'none';
+        sendR.style.display = 'none'
+        nextInstruction.classList.remove('visible');
+        prevInstruction.classList.remove('visible');
+        nextInstruction.classList.add('hidden1');
+        prevInstruction.classList.add('hidden1');
+        divInstrInput.innerHTML = "";
+        divRules.innerHTML = ""; 
+    }
 });
 
 
@@ -1810,6 +1820,7 @@ logInBtn.addEventListener("click",()=>{
     setupPlayerInputs();
     logInBtn.style.display = 'none';
     signUpBtn.style.display = 'none';
+    instructionText.style.display = 'inline-block';
 });
 
 Play.addEventListener("click", () => {
@@ -1853,4 +1864,22 @@ goBack.addEventListener('click', ()=> {
     else{
         showScreen(`screen-${currScreen-1}`, "any");
     }
+}); 
+
+helpBtn.addEventListener('click', ()=> {
+    helpWanted = true; 
+    showScreen("screen-1", "screen-1");
+    Play.style.display = 'none';
+    Instructions.style.display = 'none';
+    Rules.style.display = 'none';
+    Stats.style.display = 'none';
+    Settings.style.display = 'none';
+    Close.style.display = 'inline-block';
+    divRules.innerHTML = "";
+    displayInstructions();
+    nextInstruction.classList.remove('hidden1');
+    prevInstruction.classList.remove('hidden1');
+    nextInstruction.classList.add('visible');
+    prevInstruction.classList.add('visible');
+    helpBtn.style.display = 'none';
 }); 
