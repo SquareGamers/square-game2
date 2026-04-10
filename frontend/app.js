@@ -222,6 +222,8 @@ function changeRoles() {
     for (let j = 0; j < 4; j++){
         document.getElementById(`cell-${j}`).innerHTML = `<strong>${document.getElementById("player" + j).value.trim()}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
     }
+
+    
 }
 
 let randomWords = [];
@@ -1266,46 +1268,76 @@ function setupPlayerInputs() {
   
 
 async function checkPlayers() {
+    let errors = [];
 
     for (let i = 0; i < 4; i++) {
 
         const username = document.getElementById("player" + i).value;
         const enteredPin = document.getElementById("pin" + i).value;
 
-        const userRef = doc(db, "user-accounts", username);
-        const userSnap = await getDoc(userRef);
-
-        if ((!userSnap.exists())) {
-            alert(username + " does not exist. You can still play, but your data will not be saved.");
+        if (!username) {
+            errors.push(`Player ${i + 1}: Missing username`);
             continue;
         }
 
-        const storedPin = userSnap.data().PIN;
-        if (storedPin != enteredPin) {
-            alert("Incorrect PIN for " + username);
+        if (username.toLowerCase() === "guest") {
+            continue;
+        }
+
+        const userRef = doc(db, "user-accounts", username);
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+            errors.push(`${username} does not exist`);
+            continue;
+        }
+
+        const userPin = userSnap.data().PIN;
+
+        if (enteredPin != userPin) {
+            errors.push(`${username}'s PIN is incorrect`);
         }
     }
+
+    // 🔥 After checking everyone
+    if (errors.length > 0) {
+        alert(errors.join("\n")); // show ALL errors at once
+        return false;
+    }
+
+    return true;
 }
 // show submit button
-submitBtn.addEventListener("click", () => {
+submitBtn.addEventListener("click", async () => {
     console.log('insubmitbtn');
-    checkPlayers();
-    submitBtn.style.display = "none";
-    playerInputsDiv.style.display = "none";
-    syncPlayersFromInputs();
-    printPlayers.style.display = 'inline-block';
-    printPlayers.innerHTML = "PLAYERS: " + allPlayers[playerKeys[0]].name + ", " + allPlayers[playerKeys[1]].name + ", " + allPlayers[playerKeys[2]].name + ", " + allPlayers[playerKeys[3]].name;
-    if (isReset){
-        renderMatrix();
-        showScreen('screen-game');
-        finalPlay.style.display = "inline-block";
-        redBtn.style.display = 'inline-block';
-        blackBtn.style.display = 'inline-block';
-    }
-    else{
-        showScreen('screen-pick-rounds');
+
+    const allVerified = await checkPlayers(); // ✅ WAIT for result
+
+    if (allVerified) {
+        submitBtn.style.display = "none";
+        playerInputsDiv.style.display = "none";
+
+        syncPlayersFromInputs();
+
+        printPlayers.style.display = 'inline-block';
+        printPlayers.innerHTML = "PLAYERS: " +
+            allPlayers[playerKeys[0]].name + ", " +
+            allPlayers[playerKeys[1]].name + ", " +
+            allPlayers[playerKeys[2]].name + ", " +
+            allPlayers[playerKeys[3]].name;
+
+        if (isReset) {
+            renderMatrix();
+            showScreen('screen-game');
+            finalPlay.style.display = "inline-block";
+            redBtn.style.display = 'inline-block';
+            blackBtn.style.display = 'inline-block';
+        } else {
+            showScreen('screen-pick-rounds');
+        }
     }
 });
+
 
 
 startRounds.addEventListener("click", () => {
