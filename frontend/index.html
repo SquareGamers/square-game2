@@ -22,10 +22,11 @@
       <p id = "printCategories" style="display:none">CATEGORY: </p>
     </div>
 
-    <script type="module" src="app.js"></script>
+    <div id="backDiv">
+      <button class="default-button" id ="goBack">BACK</button>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
-    <div id="screen-menu" class="screen">
+    <div id="screen-1" class="screen">
       <div id="menu-buttons">
         <button class = "menu-button" id="Play">Play</button>
         <button class="menu-button" id="Instructions">Instructions</button>
@@ -52,7 +53,7 @@
     </div>
 
       <!-- ENTER PLAYERS -->
-      <div id="screen-enter-players" class="screen">
+      <div id="screen-2" class="screen">
         <!-- INSTRUCTION TEXT -->
         <div class="screen-instruction">
           <p id="instruction-text">Enter the name of each Player. If there are more than 4 Players, combine into teams of 4 and enter combined names. Enter your names in the arrangement you are sitting.</p>
@@ -87,7 +88,7 @@
 
 <div id="playerInputs"></div>
 
-<div id="screen-sign-up" class="screen">
+<div id="screen-3" class="screen">
   <div class="scren-instruction">Don't have an account?</div>
   <p id="sign-up-text">Put in a unique username and display name!</p>
   <p\n></p>
@@ -109,7 +110,7 @@
 </div>
 
       <!-- PICK ROUNDS-->
-      <div id="screen-pick-rounds" class="screen">
+      <div id="screen-4" class="screen">
         <div class="screen-instruction">
           <p id="instruction-text-rounds">Enter in the number of rounds you would like to play. One full rotation is 4 rounds.</p>
         </div>
@@ -122,9 +123,9 @@
       </div>
 
       <!-- PICK COLOR-->
-      <div id="screen-pick-color" class="screen">
+      <div id="screen-5" class="screen">
         <label for="backgroundColor">Select Background Color:</label>
-        <input type="color" id="backgroundColor2" value="#ffffff">
+        <input type="color" id="backgroundColor2" value="#b3d7ff">
         <button class="default-button" id="resetColor">Reset Color</button>
         <button
           class="default-button"
@@ -134,7 +135,7 @@
       </div>
 
       <!-- PICK CATEGORY -->
-      <div id="screen-pick-category" class="screen">
+      <div id="screen-6" class="screen">
 
         <div id = "choose-your-category">
           <button class="default-button" id="defaultCategory">SELECT A DEFAULT CATEGORY</button>
@@ -205,7 +206,7 @@
         </div>
 
       <!-- GAME-->
-      <div id="screen-game" class="screen">
+      <div id="screen-7" class="screen">
 
         <div class="screen-instruction">
           <p id="instruction-text-rounds-ready">Find your name in the matrix. Turn the computer so that only the two EXPLAINERS can see it. Find your teammate: you will explain to them or guess from them. When instructed to switch, rotate CLOCKWISE. </p>
@@ -241,9 +242,9 @@
           <button class="default-button" id="categoriesBtn">CHANGE CATEGORIES</button>
           <button class ="default-button" id="X">X</button>
         </div>
-      </div>
-      
-      <div id="results"></div>
+        <div id="results"></div>
   </div>
+  <script type="module" src="app.js"></script>
+  <script src="app.test.js"></script>
 </body>
 </html>
