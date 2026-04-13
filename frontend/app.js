@@ -187,15 +187,17 @@ function renderMatrix(){
     });
 }
 
-function syncPlayersFromInputs() {
+async function syncPlayersFromInputs() {
     playerKeys = Object.keys(allPlayers);
-  
     for (let i = 0; i < 4; i++) {
       const input = document.getElementById("player" + i);
       const val = input?.value.trim();
-  
+      const userRef = doc(db, "user-accounts", val);
+      const userSnap = await getDoc(userRef);
+      const data = userSnap.data();
+      const dispName = data.displayName; 
       if (val) {
-        allPlayers[playerKeys[i]].name = val;
+        allPlayers[playerKeys[i]].name = dispName;
       }
     }
   }
@@ -1522,8 +1524,6 @@ submitBtn.addEventListener("click", () => {
     submitBtn.style.display = "none";
     playerInputsDiv.style.display = "none";
     syncPlayersFromInputs();
-    printPlayers.style.display = 'inline-block';
-    printPlayers.innerHTML = "PLAYERS: " + allPlayers[playerKeys[0]].name + ", " + allPlayers[playerKeys[1]].name + ", " + allPlayers[playerKeys[2]].name + ", " + allPlayers[playerKeys[3]].name;
     if (isReset){
         renderMatrix();
         showScreen('screen-7', "reset");
@@ -1618,7 +1618,7 @@ async function createAcc(){
     const PIN=PINInput.value;
 
         if (username === "") {
-          alert("Please enter a username");
+          alert("Please enter a username.");
           return;
         }
 
