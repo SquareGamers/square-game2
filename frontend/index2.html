@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Square Game :D</title>
+  <link rel="stylesheet" href="/styles.css">
+
+</head>
+<body style="background-color:rgb(243, 134, 152);">
+  <h1>Square Game Simulator</h1>
+  <h2>Menu</h2>
+
+  <pre id="out"></pre>
+
+  <script src="/app.js"></script>
+
+  <style>
+    .default-button {
+      background-color: pink;
+      color: black;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .highlighted-button {
+	    background-color: #F5278B;
+    	color: black;
+    	padding: 8px 15px;
+    	border: none;
+    	border-radius: 5px;
+    	font-weight: bold;
+    }
+
+    .red-button {
+      background-color: red;
+      color: black;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .highlighted-red-button {
+	    background-color: rgba(228, 7, 7, 0.525);
+    	color: black;
+    	padding: 8px 15px;
+    	border: none;
+    	border-radius: 5px;
+    	font-weight: bold;
+    }
+
+  </style>
+</body>
+</html>
+  <style>
+  button {
+    margin: 10px;
+    padding: 20px;
+    font-size:50px;
+  } 
+  </style>
+  <pre id="out"></pre>
+  <body>
+<button id="login">Sign in with Google</button>
+
+<script type="module" src="./app.js"></script>
+
+    <!-- Top bar -->
+    <div id="topBar" style="display:none; position:fixed; top:10px; right:10px;">
+      Logged in as <span id="userDisplay"></span>
+      <button onclick="logout()">Logout</button>
+    </div>
+    
+    <!-- Auth screen -->
+    <div id="auth">
+      <h2>Login / Register</h2>
+    
+      <input id="username" placeholder="username">
+      <input id="password" type="password" placeholder="password">
+    
+      <br><br>
+    
+      <button onclick="register()">Create Account</button>
+      <button onclick="login()">Login</button>
+    </div>
+    
+    <!-- Game -->
+    <div id="game" style="display:none;">
+      <h2>Game Screen</h2>
+    </div>
+    
+    <script src="game.js"></script>
+    </body>
+    
+  <div id = "play-button-container" style="width">
+    
+    <button class = "default-button" id="Play">Play</button>
+    <button class="default-button" id="Instructions">Instructions</button>
+    <button class="default-button" id="Stats">Stats</button>
+    <button class="default-button" id="Settings">Settings</button>
+    <button class="default-button" id="Register">Register</button>
+    <button class="default-button" id="Login">Login</button>
+  </div>
+  
+
+
+  
+
+ 
+    
+
+  <script>
+    const playButton = document.getElementById('Play');
+      playButton.addEventListener('click', () => {
+        window.location.href = "http://127.0.0.1:5000"; // or your URL
+      });
+    const Instructions=document.getElementById('Instructions');
+    const Play = document.getElementById('Play');
+    const heading1=document.querySelector('h1');
+    const heading2=document.querySelector('h2');
+
+
+    function displayInstructions(){
+  const instr1 = document.createElement('span');
+  const instrList=['First put in your group size',
+                'Put in all the names of the people playing',
+                'Once you have all your players in, you will be separated into two teams(don\'t worry these teams will change)',
+                'You and the person on your team will be racing against the guesser and answerer on the opposing team',
+                'Choose a mode: timed or manual',
+                'Choose a difficulty, get ready, and generate word',
+                'Start explaining!',
+                ' '
+                ];
+
+  instr1.id = 'instr1';
+  //instr1.textContent = 'First put in your group size and put in all the names of the people playing - Once you got all your players in you will be seperated in to two teams = You can then select the difficulty to play, the harder the difficulty the harder the words are to guess - After you select the difficulty you can press the start game button to start the game - The two teams will compete to guess the word with their teammates help(If agreeded on by both teams you can skip a word) - Whichever team guesses the word correctly first gets a point that you can assign by the button corresponding to your team located on the right hand side of the screen(you can see which team your on by your name on the left hand side) - You can keep on playing however long you want - After each point the teams switch creating new teams for each word - Once you are done you can press the end game button and the person with the most points wins - You get one point for each time your team guesses a correct word - Good luck and have fun playing';
+  instr1.style.position = 'absolute';
+  instr1.style.top = '50%';
+  instr1.style.fontSize='60px';
+  instr1.style.transition = 'all 0.5s ease';
+
+  document.body.appendChild(instr1);
+
+  const screenWidth=window.innerWidth;
+  const elementWidth = instr1.offsetWidth;
+  instr1.style.left = '50%';
+  instr1.style.transform = 'translate(-50%, -50%)';
+
+  
+  
+  let i=0;
+    function showNextInstruction(){
+    instr1.style.opacity=0;
+    setTimeout(()=>{
+      instr1.textContent=instrList[i];
+      instr1.style.opacity=1;
+      i++;
+      if (i < instrList.length) {
+        setTimeout(showNextInstruction, 2000); // next instruction after 2 seconds
+      }
+    }, 500);
+    }
+    showNextInstruction();
+  }
+
+
+Instructions.addEventListener('click',()=>{
+  Instructions.style.display='none';
+  heading1.style.display='none';
+  heading2.style.display='none';
+  displayInstructions();
+  playButton.style.top='200px';
+  playButton.style.left='50px';
+})
+
+
+  </script>
+</script>
+</body>
+
+</html>
