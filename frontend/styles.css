@@ -510,3 +510,7 @@ button {
   cursor: pointer;
 }
 
+#backDiv{
+  position: absolute;
+  right: 10%;
+}
