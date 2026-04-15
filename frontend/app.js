@@ -178,6 +178,12 @@ function renderMatrix(){
         cell.style.borderRadius = "8px";
         cell.style.top = "100px";
 
+        if (i === 0 || i === 3) {
+            cell.style.outline = "5px solid yellow";
+        } else {
+            cell.style.outline = "none";
+        }
+
         cell.innerHTML = `
         <strong>${p.name}</strong><br>
         ${p.id}<br>
@@ -299,18 +305,28 @@ function changeRoles() {
         // Step 3: Display sorted roles
         for (let i = 0; i < sortedRoles.length; i++) {
             allPlayers[playerKeys[i]].id = sortedRoles[i][0];
+    const cell = document.getElementById(`cell-${i}`);
+    const player = allPlayers[playerKeys[i]];
             if (allPlayers[playerKeys[i]].id === "RED GUESSER" || allPlayers[playerKeys[i]].id === "RED EXPLAINER") {
                 document.getElementById(`cell-${i}`).style.background = "red";
             }
             else{
                 document.getElementById(`cell-${i}`).style.background = "black";
             }
+            if (player.id.includes("EXPLAINER")) {
+                cell.style.outline = "5px solid yellow";
+            } else {
+                cell.style.outline = "none";
+            }
+            
         }
     }
     
     for (let j = 0; j < 4; j++){
         document.getElementById(`cell-${j}`).innerHTML = `<strong>${document.getElementById("player" + j).value.trim()}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
     }
+    
+
 }
 
 let word = null;
