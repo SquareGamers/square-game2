@@ -1498,29 +1498,62 @@ function setupPlayerInputs() {
   
 
 async function checkPlayers() {
-
+    let errors = [];
     for (let i = 0; i < 4; i++) {
 
         const username = document.getElementById("player" + i).value;
         const enteredPin = document.getElementById("pin" + i).value;
 
-        const userRef = doc(db, "user-accounts", username);
-        const userSnap = await getDoc(userRef);
-
-        if ((!userSnap.exists())) {
-            alert(username + " does not exist. You can still play, but your data will not be saved.");
+        if (!username) {
+            errors.push(`Player ${i + 1}: Missing username`);
             continue;
         }
 
-        const storedPin = userSnap.data().PIN;
-        if (storedPin != enteredPin) {
-            alert("Incorrect PIN for " + username);
+        if (username.toLowerCase() === "guest") {
+            continue;
+        }
+
+
+        const userRef = doc(db, "user-accounts", username);
+        const userSnap = await getDoc(userRef);
+
+
+        if (!userSnap.exists()) {
+            errors.push(`${username} does not exist`);
+            continue;
+        }
+
+
+        const userPin = userSnap.data().PIN;
+
+
+        if (enteredPin != userPin) {
+            errors.push(`${username}'s PIN is incorrect`);
         }
     }
+
+
+    // 🔥 After checking everyone
+    if (errors.length > 0) {
+        alert(errors.join("\n")); // show ALL errors at once
+        return false;
+    }
+
+
+    return true;
 }
+
+
 // show submit button
-submitBtn.addEventListener("click", () => {
-    checkPlayers();
+submitBtn.addEventListener("click", async () => {
+    const allVerified = await checkPlayers();
+
+    if (allVerified) {
+        submitBtn.style.display = "none";
+        playerInputsDiv.style.display = "none";
+    
+
+        syncPlayersFromInputs();
     submitBtn.style.display = "none";
     playerInputsDiv.style.display = "none";
     syncPlayersFromInputs();
@@ -1531,6 +1564,7 @@ submitBtn.addEventListener("click", () => {
     else{
         showScreen('screen-4', "normal");
     }
+}
 });
 
 
