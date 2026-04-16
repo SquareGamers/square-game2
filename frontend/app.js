@@ -1636,23 +1636,23 @@ startRounds.addEventListener("click", () => {
 
 function displayInstructions(){
     const instrList = ['The Square Game is a game of wit and speed',
-                'As an explainer, you will race your opponent (the person next to you) to each explain a word to your teammate (the person across from you)',
+                'As an explainer, you will race your opponent (the person next to you) to explain a word to your teammate (the person across from you)',
                 'Your objective is to get your partner to guess the word you see without saying the word (like Taboo)',
                 'As a guesser, your objective is to guess the word before your opponent (the person next to you) does',
                 'Teams will change every round as the computer rotates; keep an eye on who is friend or foe!',
                 'Before clicking PLAY, check out the rules tab to understand correct and incorrect explainership',
                 'Follow the instructions to input players, number of rounds, select a category, and confirm the start position',
                 'You may also create your own custom list instead of choosing from the given categories',
-                'After you have indicated all players understand their roles, click PLAY to begin',
-                'A word will appear, wait until it moves to the top of the screen to begin explaining',
+                'After you have all found your roles, click PLAY to begin',
+                'A word will appear, wait until the countdown reaches 0 to begin explaining',
                 'Whichever guesser, RED or BLACK, who guesses the word first wins a point for their team',
                 'Press RED WIN or BLACK WIN to give the two winning players one point each',
                 'If it is unknown who guessed first, or one explainer is unfamiliar with a word, use the SKIP WORD / TIE button',
-                'When prompted to SWITCH, rotate the computer CLOCKWISE to form new teams before the countdown ends, so your opponent becomes your teammate',
+                'The next round will begin with new teams; when all players understand their roles, click READY',
                 'Continue to rotate and gather points until the rounds finish',
-                'Whichever player has the most points at the end is the winner!',
-                'You may use the CHANGE TEAMS, CHANGE ROUNDS, and REPLAY buttons to edit gameplay and play again',
-                '[WIP] Check out the stats tab after the game to compare stats with your friends!',
+                'Whichever player(s) has(ve) the most points at the end is the winner!',
+                'You may use the REPLAY, CHANGE TEAMS, CHANGE ROUNDS, and CHANGE CATEGORIES buttons to edit gameplay and play again',
+                'Check out the stats tab after the game to compare stats with your friends!',
                 'Good Luck!'
                 ];
     instr1.style.position = 'absolute';
