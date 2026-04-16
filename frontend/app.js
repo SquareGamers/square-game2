@@ -1143,6 +1143,8 @@ resetBtn.addEventListener('click', () => {
 roundsBtn.addEventListener('click', () => {
     wordEl.style.display = 'none';
     showScreen('screen-4', "change rounds");
+    helpBtn.style.display = 'inline-block';
+    goBack.style.display = 'inline-block';
 });
 
 teamBtn.addEventListener('click', () => {
@@ -1150,11 +1152,15 @@ teamBtn.addEventListener('click', () => {
     editButtons.classList.remove("active");
     menuBtn.style.display = "inline-block";
     showScreen('screen-2', "change teams");
+    helpBtn.style.display = 'inline-block';
+    goBack.style.display = 'inline-block';
 });
 
 categoriesBtn.addEventListener('click', () => {
     wordEl.style.display = 'none';
     showScreen('screen-6', "change categories");
+    helpBtn.style.display = 'inline-block';
+    goBack.style.display = 'inline-block';
 });
     
 async function getStats(player) {
