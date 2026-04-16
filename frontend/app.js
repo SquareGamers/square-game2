@@ -35,6 +35,15 @@ const playerInputsDiv = document.getElementById("playerInputs");
 const submitBtn = document.getElementById("submitPlayers");
 const instructionText = document.getElementById("screen-instruction");
 instructionText.style.display = 'none';
+let helpWanted = false; 
+var wordEl = null; 
+const Instructions = document.getElementById('Instructions');
+const Rules = document.getElementById('Rules');
+const Play = document.getElementById('Play');
+const Close = document.getElementById('Close');
+Close.style.display = 'none';
+const Stats = document.getElementById('Stats');
+const Settings = document.getElementById('Settings');
 
 
 function showScreen(screenId, identifier1) {
@@ -42,30 +51,40 @@ function showScreen(screenId, identifier1) {
       screen.classList.remove("active");
     });
     document.getElementById(screenId).classList.add("active");
-    document.querySelectorAll(".screen").forEach(screen => {
-      screen.classList.remove("active");
-    });
     const target = document.getElementById(screenId);  
     target.classList.add("active");
     if(screenId == "screen-1"){
-        currScreen = 1;
+        if (helpWanted == false){
+            currScreen = 1;
+        }
         console.log("currently on " + currScreen);
+        Play.style.display = 'inline-block';
+        Instructions.style.display = 'inline-block';
+        Rules.style.display = 'inline-block';
+        Stats.style.display = 'inline-block';
+        Settings.style.display = 'inline-block';
         logInBtn.style.display = 'none';
         signUpBtn.style.display = 'none';
         goBack.style.display = 'none';
+        helpBtn.style.display = 'none';
         playerInputsDiv.style.display = 'none';
         submitBtn.style.display = 'none';
     }
     else if(screenId == "screen-2"){
         currScreen = 2;
         goBack.style.display = 'inline-block';
+        helpBtn.style.display = 'inline-block';
+        instructionText.style.display = 'none';
         console.log("currently on " + currScreen);
-        if(identifier1 == "log in"){
+        if(identifier1 == "log in" || identifier1 == "ok" || identifier1 == "any"){
             logInBtn.style.display = 'inline-block';
             signUpBtn.style.display = 'inline-block';
+            createAccBtn.style.display ='none';
+            uniqueUsername.style.display = 'none';
+            displayNameInput.style.display = 'none';
+            PINInput.style.display = 'none';
         }
         else if (identifier1 == 'change teams'){
-            instructionText.style.display = 'inline-block';
             logInBtn.style.display = 'none';
             signUpBtn.style.display = 'none';
             setupPlayerInputs();
@@ -81,8 +100,8 @@ function showScreen(screenId, identifier1) {
         else{
             createAccBtn.style.display ='none';
             uniqueUsername.style.display = 'none';
-            displayNameInput.style.display='none';
-            PINInput.style.display='none';
+            displayNameInput.style.display = 'none';
+            PINInput.style.display = 'none';
         }
     }
     else if(screenId == "screen-3"){
@@ -92,6 +111,7 @@ function showScreen(screenId, identifier1) {
         displayNameInput.style.display="inline-block";
         PINInput.style.display="inline-block";
         createAccBtn.style.display = 'inline-block';
+        instructionText.style.display = 'inline-block';
     }
     else if(screenId == "screen-4"){
         currScreen = 4;
@@ -112,17 +132,29 @@ function showScreen(screenId, identifier1) {
         currScreen = 5;
         console.log("currently on " + currScreen);
         setRounds();
+        CSPButton.style.display = 'none';
+        basicButton.style.display = 'none';
+        athleteButton.style.display = 'none';
+        foodDrinkButton.style.display = 'none';
+        geographyButton.style.display = 'none';
+        entertainmentButton.style.display = 'none';
+        customList.style.display = 'none';
+        customListContainer.style.display = 'none'; 
     }
     else if(screenId == "screen-6"){
         currScreen = 6;
         console.log("currently on " + currScreen);
-        wordEl.style.display = 'none';
+        if (wordEl != null){
+            wordEl.style.display = 'none';
+        }
         editButtons.classList.remove("active");
         menuBtn.style.display = "inline-block";
         defCatBtn.style.display = 'inline-block';
         createCustListBtn.style.display = 'inline-block';
         uploadButton.style.display = 'inline-block';
         uploadText.style.display = 'inline-block';
+        backBtn.style.display = 'none';
+        beginGame.style.display = 'none';
         clearResults();
         for (let key of playerKeys) { 
             const player = allPlayers[key]; 
@@ -365,13 +397,6 @@ userStats.style.display = 'none';
 showStatsFinal.style.display = 'none';
 const appBox = document.getElementById("app");
 const colorReset = document.getElementById('resetColor');
-const Instructions = document.getElementById('Instructions');
-const Rules = document.getElementById('Rules');
-const Play = document.getElementById('Play');
-const Close = document.getElementById('Close');
-Close.style.display = 'none';
-const Stats = document.getElementById('Stats');
-const Settings = document.getElementById('Settings');
 const nextInstruction = document.getElementById('Next');
 const prevInstruction = document.getElementById('Previous');
 let divRules = document.getElementById('rulesText');
@@ -413,7 +438,9 @@ function showWinner() {
     wordEl.style.display = 'none';
     document.getElementById("matrix").innerHTML = "";
     newButton.style.display = "none";
+    helpBtn.style.display = 'none';
     goBack.style.display = 'none';
+    rdyButton.style.display = 'none';
     displayText2.textContent = '';
     removeEl('myWord');
     
@@ -847,8 +874,6 @@ let listDrink = ["Spring Water", "Sparkling Water", "Mineral Water", "Whole Milk
 "Gatorade", "Protein Shake", "Smoothie", "Milkshake", "Kombucha", "Buttermilk", "Chai", "Hot Chocolate",
 "Coca-Cola", "Pepsi", "Sprite", "Fanta", "Dr Pepper", "7UP", "Mountain Dew", "Root Beer", "Ginger Ale", "Cream Soda"];
 
-var wordEl = null;
-
 function displayWord(word2){
     removeEl('myWord');
     removeEl('myNum');
@@ -1086,6 +1111,8 @@ resetBtn.addEventListener('click', () => {
     blackBtn.style.display = 'inline-block';
     finalPlay.style.display = 'inline-block';
     newButton.style.display = 'inline-block';
+    helpBtn.style.display = 'inline-block';
+    goBack.style.display = 'inline-block';
     clearResults();
     for (let key of playerKeys) { 
         const player = allPlayers[key]; 
@@ -1753,10 +1780,25 @@ sendR.addEventListener('click', async () => {
     }
 });
 
-let helpWanted = false; 
 Close.addEventListener('click', ()=>{
+    Close.style.display = 'none';
     if (helpWanted){
-
+        console.log("help wanted, current screen: " + currScreen);
+        showScreen(`screen-${currScreen}`, "ok");
+        helpBtn.style.display = "inline-block";
+        goBack.style.display = "inline-block";
+        email.style.display = 'none';
+        usernameE.style.display = 'none';
+        userE.style.display = 'none';
+        addE.style.display = 'none';
+        recoverP.style.display = 'none';
+        sendR.style.display = 'none'
+        nextInstruction.classList.remove('visible');
+        prevInstruction.classList.remove('visible');
+        nextInstruction.classList.add('hidden1');
+        prevInstruction.classList.add('hidden1');
+        divInstrInput.innerHTML = "";
+        divRules.innerHTML = ""; 
     }
     else{
         Close.style.display = 'none';
@@ -1857,6 +1899,7 @@ colorReset.addEventListener('click', () => {
 }); 
 
 goBack.addEventListener('click', ()=> {
+    helpWanted = false;
     if (currScreen == 4){
         console.log("going from screen 4 to screen 2");
         showScreen("screen-2", "log in");
@@ -1867,13 +1910,21 @@ goBack.addEventListener('click', ()=> {
 }); 
 
 helpBtn.addEventListener('click', ()=> {
+    console.log("running?");
     helpWanted = true; 
     showScreen("screen-1", "screen-1");
+    if (wordEl != null){
+        wordEl.style.display = 'none';
+    }
     Play.style.display = 'none';
     Instructions.style.display = 'none';
     Rules.style.display = 'none';
     Stats.style.display = 'none';
     Settings.style.display = 'none';
+    createAccBtn.style.display ='none';
+    uniqueUsername.style.display = 'none';
+    displayNameInput.style.display = 'none';
+    PINInput.style.display = 'none';
     Close.style.display = 'inline-block';
     divRules.innerHTML = "";
     displayInstructions();

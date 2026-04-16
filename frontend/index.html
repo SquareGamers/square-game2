@@ -12,7 +12,7 @@
 <body>
   <div id="app">
     <div id="selectionsContainer">
-      <p id = "selections">*OPEN MENU TO EDIT*<br>YOU HAVE CHOSEN: </p>
+      <p id = "selections">YOU HAVE CHOSEN: </p>
       <p id = "printPlayers" style="display:none">PLAYERS: </p>
       <p id = "printRounds" style="display:none">ROUNDS: </p>
       <p id = "printColor" style="display:none">COLOR: </p>
@@ -61,27 +61,27 @@
       <div id="screen-2" class="screen">
         <!-- INSTRUCTION TEXT -->
         <div id="screen-instruction">
-          <p id="instruction-text">Enter your name and pass phone to whoever is next to you. Repeat entering + passing until matrix is full. Group size > 4? Combine names to make 4 teams.</p>
+          <p id="instruction-text">Enter your name and pass phone to whoever is next to you. Repeat entering + passing until matrix is full.<br>Group size > 4? Combine names to make 4 teams.</p>
         </div>
 
-    <div class="inputs-wrapper">
-      <button
-        class="default-button"
-        id="submitPlayers"
-        style="display:none;">
-        Submit Players
-      </button>
-      <div id="playerInputs"></div>
-    </div>
-  </div>
+        <div class="inputs-wrapper">
+          <button
+            class="default-button"
+            id="submitPlayers"
+            style="display:none;">
+            Submit Players
+          </button>
+          <div id="playerInputs"></div>
+        </div>
+      </div>
   
-  <div id="log-ins">
-    <button
-      class="default-button"
-      id="signUp"
-      style="display:none;">
-      Sign Up
-    </button>
+      <div id="log-ins">
+        <button
+          class="default-button"
+          id="signUp"
+          style="display:none;">
+          Sign Up
+        </button>
 
         <button 
           class="default-button" 
@@ -91,11 +91,9 @@
         </button>
       </div> 
 
-<div id="playerInputs"></div>
-
 <div id="screen-3" class="screen">
-  <div class="scren-instruction">Don't have an account?</div>
-  <p id="sign-up-text">Put in a unique username and display name!</p>
+  <div class="screen-instruction"></div>
+  <p id="sign-up-text">Don't have an account?<br>Put in a unique username and display name!</p>
 </div>
 
 <div id="create-acc-css">
@@ -114,7 +112,7 @@
       <!-- PICK ROUNDS-->
       <div id="screen-4" class="screen">
         <div class="screen-instruction">
-          <p id="instruction-text-rounds">Enter in the number of rounds you would like to play. One full rotation is 4 rounds.</p>
+          <p id="instruction-text-rounds">Enter desired number of rounds. 1 rotation = 4 rounds.</p>
         </div>
         <input type="number" id="numRounds" placeholder="Enter number of rounds">
         <button
@@ -211,7 +209,7 @@
       <div id="screen-7" class="screen">
 
         <div class="screen-instruction">
-          <p id="instruction-text-rounds-ready">Find your name in the matrix. Turn the computer so that only the two EXPLAINERS can see it. Find your teammate: you will explain to them or guess from them. When instructed to switch, rotate CLOCKWISE. </p>
+          <p id="instruction-text-rounds-ready">Check your role, have the phone visible to the 2 EXPLAINERS, and then face your teammate. </p>
         </div>
 
         <!-- MATRIX (PERSISTENT DURING GAME) -->
