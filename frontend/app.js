@@ -217,6 +217,12 @@ function renderMatrix(){
         cell.style.borderRadius = "8px";
         cell.style.top = "100px";
 
+        if (i === 0 || i === 3) {
+            cell.style.outline = "5px solid yellow";
+        } else {
+            cell.style.outline = "none";
+        }
+
         cell.innerHTML = `
         <strong>${p.name}</strong><br>
         ${p.id}<br>
@@ -226,15 +232,17 @@ function renderMatrix(){
     });
 }
 
-function syncPlayersFromInputs() {
+async function syncPlayersFromInputs() {
     playerKeys = Object.keys(allPlayers);
-  
     for (let i = 0; i < 4; i++) {
       const input = document.getElementById("player" + i);
       const val = input?.value.trim();
-  
+      const userRef = doc(db, "user-accounts", val);
+      const userSnap = await getDoc(userRef);
+      const data = userSnap.data();
+      const dispName = data.displayName; 
       if (val) {
-        allPlayers[playerKeys[i]].name = val;
+        allPlayers[playerKeys[i]].name = dispName;
       }
     }
   }
@@ -336,18 +344,28 @@ function changeRoles() {
         // Step 3: Display sorted roles
         for (let i = 0; i < sortedRoles.length; i++) {
             allPlayers[playerKeys[i]].id = sortedRoles[i][0];
+    const cell = document.getElementById(`cell-${i}`);
+    const player = allPlayers[playerKeys[i]];
             if (allPlayers[playerKeys[i]].id === "RED GUESSER" || allPlayers[playerKeys[i]].id === "RED EXPLAINER") {
                 document.getElementById(`cell-${i}`).style.background = "red";
             }
             else{
                 document.getElementById(`cell-${i}`).style.background = "black";
             }
+            if (player.id.includes("EXPLAINER")) {
+                cell.style.outline = "5px solid yellow";
+            } else {
+                cell.style.outline = "none";
+            }
+            
         }
     }
     
     for (let j = 0; j < 4; j++){
         document.getElementById(`cell-${j}`).innerHTML = `<strong>${document.getElementById("player" + j).value.trim()}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
     }
+    
+
 }
 
 let word = null;
@@ -1528,34 +1546,65 @@ function setupPlayerInputs() {
   
 
 async function checkPlayers() {
-
+    let errors = [];
     for (let i = 0; i < 4; i++) {
 
         const username = document.getElementById("player" + i).value;
         const enteredPin = document.getElementById("pin" + i).value;
 
-        const userRef = doc(db, "user-accounts", username);
-        const userSnap = await getDoc(userRef);
-
-        if ((!userSnap.exists())) {
-            alert(username + " does not exist. You can still play, but your data will not be saved.");
+        if (!username) {
+            errors.push(`Player ${i + 1}: Missing username`);
             continue;
         }
 
-        const storedPin = userSnap.data().PIN;
-        if (storedPin != enteredPin) {
-            alert("Incorrect PIN for " + username);
+        if (username.toLowerCase() === "guest") {
+            continue;
+        }
+
+
+        const userRef = doc(db, "user-accounts", username);
+        const userSnap = await getDoc(userRef);
+
+
+        if (!userSnap.exists()) {
+            errors.push(`${username} does not exist`);
+            continue;
+        }
+
+
+        const userPin = userSnap.data().PIN;
+
+
+        if (enteredPin != userPin) {
+            errors.push(`${username}'s PIN is incorrect`);
         }
     }
+
+
+    // 🔥 After checking everyone
+    if (errors.length > 0) {
+        alert(errors.join("\n")); // show ALL errors at once
+        return false;
+    }
+
+
+    return true;
 }
+
+
 // show submit button
-submitBtn.addEventListener("click", () => {
-    checkPlayers();
+submitBtn.addEventListener("click", async () => {
+    const allVerified = await checkPlayers();
+
+    if (allVerified) {
+        submitBtn.style.display = "none";
+        playerInputsDiv.style.display = "none";
+    
+
+        syncPlayersFromInputs();
     submitBtn.style.display = "none";
     playerInputsDiv.style.display = "none";
     syncPlayersFromInputs();
-    printPlayers.style.display = 'inline-block';
-    printPlayers.innerHTML = "PLAYERS: " + allPlayers[playerKeys[0]].name + ", " + allPlayers[playerKeys[1]].name + ", " + allPlayers[playerKeys[2]].name + ", " + allPlayers[playerKeys[3]].name;
     if (isReset){
         renderMatrix();
         showScreen('screen-7', "reset");
@@ -1563,6 +1612,7 @@ submitBtn.addEventListener("click", () => {
     else{
         showScreen('screen-4', "normal");
     }
+}
 });
 
 
@@ -1650,7 +1700,7 @@ async function createAcc(){
     const PIN=PINInput.value;
 
         if (username === "") {
-          alert("Please enter a username");
+          alert("Please enter a username.");
           return;
         }
 
