@@ -1927,7 +1927,7 @@ logInBtn.addEventListener("click",()=>{
 Play.addEventListener("click", () => {
     console.log("going from screen 1 to screen 2");
     showScreen("screen-2", "log in");
-  }); 
+}); 
 
 document.getElementById("showStatsFinal").addEventListener("click", async () => {
     const squaregamer = userStats.value;
