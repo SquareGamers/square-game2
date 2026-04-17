@@ -29,8 +29,21 @@ var isReset = false;
 var currScreen = 1;
 const signUpBtn = document.getElementById('signUp');
 const logInBtn = document.getElementById('logIn');
-
 const goBack = document.getElementById('goBack');
+const helpBtn = document.getElementById('getHelp');
+const playerInputsDiv = document.getElementById("playerInputs");
+const submitBtn = document.getElementById("submitPlayers");
+const instructionText = document.getElementById("screen-instruction");
+instructionText.style.display = 'none';
+let helpWanted = false; 
+var wordEl = null; 
+const Instructions = document.getElementById('Instructions');
+const Rules = document.getElementById('Rules');
+const Play = document.getElementById('Play');
+const Close = document.getElementById('Close');
+Close.style.display = 'none';
+const Stats = document.getElementById('Stats');
+const Settings = document.getElementById('Settings');
 
 
 function showScreen(screenId, identifier1) {
@@ -38,25 +51,38 @@ function showScreen(screenId, identifier1) {
       screen.classList.remove("active");
     });
     document.getElementById(screenId).classList.add("active");
-    document.querySelectorAll(".screen").forEach(screen => {
-      screen.classList.remove("active");
-    });
     const target = document.getElementById(screenId);  
     target.classList.add("active");
     if(screenId == "screen-1"){
-        currScreen = 1;
+        if (helpWanted == false){
+            currScreen = 1;
+        }
         console.log("currently on " + currScreen);
+        Play.style.display = 'inline-block';
+        Instructions.style.display = 'inline-block';
+        Rules.style.display = 'inline-block';
+        Stats.style.display = 'inline-block';
+        Settings.style.display = 'inline-block';
         logInBtn.style.display = 'none';
         signUpBtn.style.display = 'none';
         goBack.style.display = 'none';
+        helpBtn.style.display = 'none';
+        playerInputsDiv.style.display = 'none';
+        submitBtn.style.display = 'none';
     }
     else if(screenId == "screen-2"){
         currScreen = 2;
         goBack.style.display = 'inline-block';
+        helpBtn.style.display = 'inline-block';
+        instructionText.style.display = 'none';
         console.log("currently on " + currScreen);
-        if(identifier1 == "log in"){
+        if(identifier1 == "log in" || identifier1 == "ok" || identifier1 == "any"){
             logInBtn.style.display = 'inline-block';
             signUpBtn.style.display = 'inline-block';
+            createAccBtn.style.display ='none';
+            uniqueUsername.style.display = 'none';
+            displayNameInput.style.display = 'none';
+            PINInput.style.display = 'none';
         }
         else if (identifier1 == 'change teams'){
             logInBtn.style.display = 'none';
@@ -74,8 +100,8 @@ function showScreen(screenId, identifier1) {
         else{
             createAccBtn.style.display ='none';
             uniqueUsername.style.display = 'none';
-            displayNameInput.style.display='none';
-            PINInput.style.display='none';
+            displayNameInput.style.display = 'none';
+            PINInput.style.display = 'none';
         }
     }
     else if(screenId == "screen-3"){
@@ -85,6 +111,7 @@ function showScreen(screenId, identifier1) {
         displayNameInput.style.display="inline-block";
         PINInput.style.display="inline-block";
         createAccBtn.style.display = 'inline-block';
+        instructionText.style.display = 'inline-block';
     }
     else if(screenId == "screen-4"){
         currScreen = 4;
@@ -105,17 +132,29 @@ function showScreen(screenId, identifier1) {
         currScreen = 5;
         console.log("currently on " + currScreen);
         setRounds();
+        CSPButton.style.display = 'none';
+        basicButton.style.display = 'none';
+        athleteButton.style.display = 'none';
+        foodDrinkButton.style.display = 'none';
+        geographyButton.style.display = 'none';
+        entertainmentButton.style.display = 'none';
+        customList.style.display = 'none';
+        customListContainer.style.display = 'none'; 
     }
     else if(screenId == "screen-6"){
         currScreen = 6;
         console.log("currently on " + currScreen);
-        wordEl.style.display = 'none';
+        if (wordEl != null){
+            wordEl.style.display = 'none';
+        }
         editButtons.classList.remove("active");
         menuBtn.style.display = "inline-block";
         defCatBtn.style.display = 'inline-block';
         createCustListBtn.style.display = 'inline-block';
         uploadButton.style.display = 'inline-block';
         uploadText.style.display = 'inline-block';
+        backBtn.style.display = 'none';
+        beginGame.style.display = 'none';
         clearResults();
         for (let key of playerKeys) { 
             const player = allPlayers[key]; 
@@ -177,6 +216,12 @@ function renderMatrix(){
         cell.style.textAlign = "center";
         cell.style.borderRadius = "8px";
         cell.style.top = "100px";
+
+        if (i === 0 || i === 3) {
+            cell.style.outline = "5px solid yellow";
+        } else {
+            cell.style.outline = "none";
+        }
 
         cell.innerHTML = `
         <strong>${p.dispName}</strong><br>
@@ -300,12 +345,20 @@ function changeRoles() {
         // Step 3: Display sorted roles
         for (let i = 0; i < sortedRoles.length; i++) {
             allPlayers[playerKeys[i]].id = sortedRoles[i][0];
+    const cell = document.getElementById(`cell-${i}`);
+    const player = allPlayers[playerKeys[i]];
             if (allPlayers[playerKeys[i]].id === "RED GUESSER" || allPlayers[playerKeys[i]].id === "RED EXPLAINER") {
                 document.getElementById(`cell-${i}`).style.background = "red";
             }
             else{
                 document.getElementById(`cell-${i}`).style.background = "black";
             }
+            if (player.id.includes("EXPLAINER")) {
+                cell.style.outline = "5px solid yellow";
+            } else {
+                cell.style.outline = "none";
+            }
+            
         }
     }
     
@@ -313,6 +366,8 @@ function changeRoles() {
         const p = allPlayers[playerKeys[j]];
         document.getElementById(`cell-${j}`).innerHTML = `<strong>${p.dispName}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
     }
+    
+
 }
 
 let word = null;
@@ -347,10 +402,8 @@ const teamBtn = document.getElementById("teamBtn");
 const roundsBtn = document.getElementById("roundsBtn");
 const categoriesBtn = document.getElementById('categoriesBtn');
 const colorReady = document.getElementById("colorReady"); 
-const submitBtn = document.getElementById("submitPlayers");
 const startRounds = document.getElementById('startRounds');
 const newButton = document.getElementById("newWord");
-const playerInputsDiv = document.getElementById("playerInputs");
 const customList = document.getElementById('promptCustomList');
 const defCatBtn = document.getElementById('defaultCategory');
 const createCustListBtn = document.getElementById('createCustomList');
@@ -364,13 +417,6 @@ userStats.style.display = 'none';
 showStatsFinal.style.display = 'none';
 const appBox = document.getElementById("app");
 const colorReset = document.getElementById('resetColor');
-const Instructions = document.getElementById('Instructions');
-const Rules = document.getElementById('Rules');
-const Play = document.getElementById('Play');
-const Close = document.getElementById('Close');
-const Stats = document.getElementById('Stats');
-const Settings = document.getElementById('Settings');
-Close.style.display = 'none';
 const nextInstruction = document.getElementById('Next');
 const prevInstruction = document.getElementById('Previous');
 let divRules = document.getElementById('rulesText');
@@ -412,7 +458,9 @@ function showWinner() {
     wordEl.style.display = 'none';
     document.getElementById("matrix").innerHTML = "";
     newButton.style.display = "none";
+    helpBtn.style.display = 'none';
     goBack.style.display = 'none';
+    rdyButton.style.display = 'none';
     displayText2.textContent = '';
     removeEl('myWord');
     
@@ -846,8 +894,6 @@ let listDrink = ["Spring Water", "Sparkling Water", "Mineral Water", "Whole Milk
 "Gatorade", "Protein Shake", "Smoothie", "Milkshake", "Kombucha", "Buttermilk", "Chai", "Hot Chocolate",
 "Coca-Cola", "Pepsi", "Sprite", "Fanta", "Dr Pepper", "7UP", "Mountain Dew", "Root Beer", "Ginger Ale", "Cream Soda"];
 
-var wordEl = null;
-
 function displayWord(word2){
     removeEl('myWord');
     removeEl('myNum');
@@ -1085,6 +1131,8 @@ resetBtn.addEventListener('click', () => {
     blackBtn.style.display = 'inline-block';
     finalPlay.style.display = 'inline-block';
     newButton.style.display = 'inline-block';
+    helpBtn.style.display = 'inline-block';
+    goBack.style.display = 'inline-block';
     clearResults();
     for (let key of playerKeys) { 
         const player = allPlayers[key]; 
@@ -1097,6 +1145,8 @@ resetBtn.addEventListener('click', () => {
 roundsBtn.addEventListener('click', () => {
     wordEl.style.display = 'none';
     showScreen('screen-4', "change rounds");
+    helpBtn.style.display = 'inline-block';
+    goBack.style.display = 'inline-block';
 });
 
 teamBtn.addEventListener('click', () => {
@@ -1104,11 +1154,15 @@ teamBtn.addEventListener('click', () => {
     editButtons.classList.remove("active");
     menuBtn.style.display = "inline-block";
     showScreen('screen-2', "change teams");
+    helpBtn.style.display = 'inline-block';
+    goBack.style.display = 'inline-block';
 });
 
 categoriesBtn.addEventListener('click', () => {
     wordEl.style.display = 'none';
     showScreen('screen-6', "change categories");
+    helpBtn.style.display = 'inline-block';
+    goBack.style.display = 'inline-block';
 });
     
 async function getStats(player) {
@@ -1500,29 +1554,62 @@ function setupPlayerInputs() {
   
 
 async function checkPlayers() {
-
+    let errors = [];
     for (let i = 0; i < 4; i++) {
 
         const username = document.getElementById("player" + i).value;
         const enteredPin = document.getElementById("pin" + i).value;
 
-        const userRef = doc(db, "user-accounts", username);
-        const userSnap = await getDoc(userRef);
-
-        if ((!userSnap.exists())) {
-            alert(username + " does not exist. You can still play, but your data will not be saved.");
+        if (!username) {
+            errors.push(`Player ${i + 1}: Missing username`);
             continue;
         }
 
-        const storedPin = userSnap.data().PIN;
-        if (storedPin != enteredPin) {
-            alert("Incorrect PIN for " + username);
+        if (username.toLowerCase() === "guest") {
+            continue;
+        }
+
+
+        const userRef = doc(db, "user-accounts", username);
+        const userSnap = await getDoc(userRef);
+
+
+        if (!userSnap.exists()) {
+            errors.push(`${username} does not exist`);
+            continue;
+        }
+
+
+        const userPin = userSnap.data().PIN;
+
+
+        if (enteredPin != userPin) {
+            errors.push(`${username}'s PIN is incorrect`);
         }
     }
+
+
+    // 🔥 After checking everyone
+    if (errors.length > 0) {
+        alert(errors.join("\n")); // show ALL errors at once
+        return false;
+    }
+
+
+    return true;
 }
+
+
 // show submit button
-submitBtn.addEventListener("click", () => {
-    checkPlayers();
+submitBtn.addEventListener("click", async () => {
+    const allVerified = await checkPlayers();
+
+    if (allVerified) {
+        submitBtn.style.display = "none";
+        playerInputsDiv.style.display = "none";
+    
+
+        syncPlayersFromInputs();
     submitBtn.style.display = "none";
     playerInputsDiv.style.display = "none";
     syncPlayersFromInputs();
@@ -1533,6 +1620,7 @@ submitBtn.addEventListener("click", () => {
     else{
         showScreen('screen-4', "normal");
     }
+}
 });
 
 
@@ -1550,23 +1638,23 @@ startRounds.addEventListener("click", () => {
 
 function displayInstructions(){
     const instrList = ['The Square Game is a game of wit and speed',
-                'As an explainer, you will race your opponent (the person next to you) to each explain a word to your teammate (the person across from you)',
+                'As an explainer, you will race your opponent (the person next to you) to explain a word to your teammate (the person across from you)',
                 'Your objective is to get your partner to guess the word you see without saying the word (like Taboo)',
                 'As a guesser, your objective is to guess the word before your opponent (the person next to you) does',
                 'Teams will change every round as the computer rotates; keep an eye on who is friend or foe!',
                 'Before clicking PLAY, check out the rules tab to understand correct and incorrect explainership',
                 'Follow the instructions to input players, number of rounds, select a category, and confirm the start position',
                 'You may also create your own custom list instead of choosing from the given categories',
-                'After you have indicated all players understand their roles, click PLAY to begin',
-                'A word will appear, wait until it moves to the top of the screen to begin explaining',
+                'After you have all found your roles, click PLAY to begin',
+                'A word will appear, wait until the countdown reaches 0 to begin explaining',
                 'Whichever guesser, RED or BLACK, who guesses the word first wins a point for their team',
                 'Press RED WIN or BLACK WIN to give the two winning players one point each',
                 'If it is unknown who guessed first, or one explainer is unfamiliar with a word, use the SKIP WORD / TIE button',
-                'When prompted to SWITCH, rotate the computer CLOCKWISE to form new teams before the countdown ends, so your opponent becomes your teammate',
+                'The next round will begin with new teams; when all players understand their roles, click READY',
                 'Continue to rotate and gather points until the rounds finish',
-                'Whichever player has the most points at the end is the winner!',
-                'You may use the CHANGE TEAMS, CHANGE ROUNDS, and REPLAY buttons to edit gameplay and play again',
-                '[WIP] Check out the stats tab after the game to compare stats with your friends!',
+                'Whichever player(s) has(ve) the most points at the end is the winner!',
+                'You may use the REPLAY, CHANGE TEAMS, CHANGE ROUNDS, and CHANGE CATEGORIES buttons to edit gameplay and play again',
+                'Check out the stats tab after the game to compare stats with your friends!',
                 'Good Luck!'
                 ];
     instr1.style.position = 'absolute';
@@ -1750,29 +1838,49 @@ sendR.addEventListener('click', async () => {
     }
 });
 
-
 Close.addEventListener('click', ()=>{
     Close.style.display = 'none';
-    document.getElementById("statsOutput").textContent = "";
-    Play.style.display = 'inline-block';
-    Instructions.style.display = 'inline-block';
-    Rules.style.display = 'inline-block';
-    Stats.style.display = 'inline-block';
-    Settings.style.display = 'inline-block';
-    userStats.style.display = 'none';
-    showStatsFinal.style.display = 'none';
-    email.style.display = 'none';
-    usernameE.style.display = 'none';
-    userE.style.display = 'none';
-    addE.style.display = 'none';
-    recoverP.style.display = 'none';
-    sendR.style.display = 'none'
-    nextInstruction.classList.remove('visible');
-    prevInstruction.classList.remove('visible');
-    nextInstruction.classList.add('hidden1');
-    prevInstruction.classList.add('hidden1');
-    divInstrInput.innerHTML = "";
-    divRules.innerHTML = ""; 
+    if (helpWanted){
+        console.log("help wanted, current screen: " + currScreen);
+        showScreen(`screen-${currScreen}`, "ok");
+        helpBtn.style.display = "inline-block";
+        goBack.style.display = "inline-block";
+        email.style.display = 'none';
+        usernameE.style.display = 'none';
+        userE.style.display = 'none';
+        addE.style.display = 'none';
+        recoverP.style.display = 'none';
+        sendR.style.display = 'none'
+        nextInstruction.classList.remove('visible');
+        prevInstruction.classList.remove('visible');
+        nextInstruction.classList.add('hidden1');
+        prevInstruction.classList.add('hidden1');
+        divInstrInput.innerHTML = "";
+        divRules.innerHTML = ""; 
+    }
+    else{
+        Close.style.display = 'none';
+        document.getElementById("statsOutput").textContent = "";
+        Play.style.display = 'inline-block';
+        Instructions.style.display = 'inline-block';
+        Rules.style.display = 'inline-block';
+        Stats.style.display = 'inline-block';
+        Settings.style.display = 'inline-block';
+        userStats.style.display = 'none';
+        showStatsFinal.style.display = 'none';
+        email.style.display = 'none';
+        usernameE.style.display = 'none';
+        userE.style.display = 'none';
+        addE.style.display = 'none';
+        recoverP.style.display = 'none';
+        sendR.style.display = 'none'
+        nextInstruction.classList.remove('visible');
+        prevInstruction.classList.remove('visible');
+        nextInstruction.classList.add('hidden1');
+        prevInstruction.classList.add('hidden1');
+        divInstrInput.innerHTML = "";
+        divRules.innerHTML = ""; 
+    }
 });
 
 
@@ -1812,6 +1920,7 @@ logInBtn.addEventListener("click",()=>{
     setupPlayerInputs();
     logInBtn.style.display = 'none';
     signUpBtn.style.display = 'none';
+    instructionText.style.display = 'inline-block';
 });
 
 Play.addEventListener("click", () => {
@@ -1848,6 +1957,7 @@ colorReset.addEventListener('click', () => {
 }); 
 
 goBack.addEventListener('click', ()=> {
+    helpWanted = false;
     if (currScreen == 4){
         console.log("going from screen 4 to screen 2");
         showScreen("screen-2", "log in");
@@ -1855,4 +1965,30 @@ goBack.addEventListener('click', ()=> {
     else{
         showScreen(`screen-${currScreen-1}`, "any");
     }
+}); 
+
+helpBtn.addEventListener('click', ()=> {
+    console.log("running?");
+    helpWanted = true; 
+    showScreen("screen-1", "screen-1");
+    if (wordEl != null){
+        wordEl.style.display = 'none';
+    }
+    Play.style.display = 'none';
+    Instructions.style.display = 'none';
+    Rules.style.display = 'none';
+    Stats.style.display = 'none';
+    Settings.style.display = 'none';
+    createAccBtn.style.display ='none';
+    uniqueUsername.style.display = 'none';
+    displayNameInput.style.display = 'none';
+    PINInput.style.display = 'none';
+    Close.style.display = 'inline-block';
+    divRules.innerHTML = "";
+    displayInstructions();
+    nextInstruction.classList.remove('hidden1');
+    prevInstruction.classList.remove('hidden1');
+    nextInstruction.classList.add('visible');
+    prevInstruction.classList.add('visible');
+    helpBtn.style.display = 'none';
 }); 
