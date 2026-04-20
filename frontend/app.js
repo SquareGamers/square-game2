@@ -1187,7 +1187,7 @@ async function getStats(player) {
 
 
 
-var category = "";
+var category = [];
 
 CSPButton.addEventListener('click',()=>{
     category = listCSP;
@@ -1523,8 +1523,11 @@ newButton.addEventListener('click',()=>{
     console.log("skip, round " + r);
 });
 
+let index = 0;
 function newWord(count1){
-        word = category[Math.floor(Math.random() * category.length)];
+        index = Math.floor(Math.random() * category.length);
+        word = category[index];
+        category.splice(index, 1);
         removeEl('myWord');
         removeEl('myNum');
         countdown(count1, word);
@@ -1926,7 +1929,7 @@ logInBtn.addEventListener("click",()=>{
 Play.addEventListener("click", () => {
     console.log("going from screen 1 to screen 2");
     showScreen("screen-2", "log in");
-  }); 
+}); 
 
 document.getElementById("showStatsFinal").addEventListener("click", async () => {
     const squaregamer = userStats.value;

@@ -1185,7 +1185,7 @@ async function getStats(player) {
 
 
 
-var category = "";
+var category = [];
 
 CSPButton.addEventListener('click',()=>{
     category = listCSP;
@@ -1521,8 +1521,11 @@ newButton.addEventListener('click',()=>{
     console.log("skip, round " + r);
 });
 
+let index = 0;
 function newWord(count1){
-        word = category[Math.floor(Math.random() * category.length)];
+        index = Math.floor(Math.random() * category.length);
+        word = category[index];
+        category.splice(index, 1);
         removeEl('myWord');
         removeEl('myNum');
         countdown(count1, word);
