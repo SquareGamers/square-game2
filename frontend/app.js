@@ -447,6 +447,11 @@ const usernameE = document.getElementById('usernameEmail');
 const userE = document.getElementById('userEmail');
 const addE = document.getElementById('addEmail');
 const recoverP = document.getElementById('recoverPIN');
+const changeP = document.getElementById('changePIN');
+const usernameP = document.getElementById('usernameP');
+const oldP = document.getElementById('oldPIN');
+const newP = document.getElementById('newPIN');
+const confirmReset = document.getElementById('confirmReset');
 const sendR = document.getElementById('sendRecovery');
 
 
@@ -1794,8 +1799,40 @@ Stats.addEventListener("click",()=>{
     Settings.style.display = 'none';
     addE.style.display = 'inline-block';
     recoverP.style.display = 'inline-block';
+    changeP.style.display = 'inline-block';
     Close.style.display = 'inline-block';
+    
   });
+  changeP.addEventListener('click',() => {
+    changeP.style.display = 'none';
+    addE.style.display = 'none';
+    recoverP.style.display = 'none';
+    usernameP.style.display = 'inline-block';
+    oldP.style.display = 'inline-block';
+    newP.style.display = 'inline-block';
+    confirmReset.style.display = 'inline-block';
+  });  
+
+confirmReset.addEventListener('click', async () => {
+    const userRef = doc(db, "user-accounts", usernameP.value);
+    const userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) {
+        alert("An account with that username was not found.");
+        return;
+    }
+    const data = userSnap.data();
+    const storedPIN = data.PIN;
+    const enteredPIN = oldP.value;
+    
+    if (storedPIN !== enteredPIN) {
+        alert("The old PIN you entered does not match the one on file. Please try again.");
+    } else {
+        await updateDoc(doc(db, "user-accounts", usernameP.value), {
+            PIN: newP.value
+        });
+        alert("Your PIN was successfully reset. You may now return to the menu.");
+    }
+});
 
 addE.addEventListener('click',() => {
     addE.style.display = 'none';
@@ -1876,7 +1913,12 @@ Close.addEventListener('click', ()=>{
         userE.style.display = 'none';
         addE.style.display = 'none';
         recoverP.style.display = 'none';
-        sendR.style.display = 'none'
+        sendR.style.display = 'none';
+        changeP.style.display = 'none';
+        usernameP.style.display = 'none';
+        oldP.style.display = 'none';
+        newP.style.display = 'none';
+        confirmReset.style.display = 'none';
         nextInstruction.classList.remove('visible');
         prevInstruction.classList.remove('visible');
         nextInstruction.classList.add('hidden1');
