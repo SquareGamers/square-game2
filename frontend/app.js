@@ -188,10 +188,10 @@ let num = 0;
 const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
 let roleKeys = Object.keys(allRoles);
 const allPlayers = {
-playerone: {name: "PLAYER ONE", score: 0, id: roleKeys[0]},
-playertwo: {name: "PLAYER TWO", score: 0, id: roleKeys[1]},
-playerthree: {name: "PLAYER THREE", score: 0, id: roleKeys[2]},
-playerfour: {name: "PLAYER FOUR", score: 0, id: roleKeys[3]}
+playerone: {name: "PLAYER ONE", score: 0, id: roleKeys[0], dispName: "Guest"},
+playertwo: {name: "PLAYER TWO", score: 0, id: roleKeys[1], dispName: "Guest"},
+playerthree: {name: "PLAYER THREE", score: 0, id: roleKeys[2], dispName: "Guest"},
+playerfour: {name: "PLAYER FOUR", score: 0, id: roleKeys[3], dispName: "Guest"}
 };
 let playerKeys = Object.keys(allPlayers);
 function renderMatrix(){
@@ -224,7 +224,7 @@ function renderMatrix(){
         }
 
         cell.innerHTML = `
-        <strong>${p.name}</strong><br>
+        <strong>${p.dispName}</strong><br>
         ${p.id}<br>
         Score: ${p.score}
         `;
@@ -236,13 +236,14 @@ async function syncPlayersFromInputs() {
     playerKeys = Object.keys(allPlayers);
     for (let i = 0; i < 4; i++) {
       const input = document.getElementById("player" + i);
-      const val = input?.value.trim();
+      const val = input?.value.trim(); 
       const userRef = doc(db, "user-accounts", val);
       const userSnap = await getDoc(userRef);
       const data = userSnap.data();
       const dispName = data.displayName; 
       if (val) {
-        allPlayers[playerKeys[i]].name = dispName;
+        allPlayers[playerKeys[i]].name = val;
+        allPlayers[playerKeys[i]].dispName = dispName;
       }
     }
   }
@@ -301,10 +302,10 @@ async function syncScore() {
 
         if (player.score > highestScore) {
             highestScore = player.score;
-            winners = [player.name]; // new top score → reset winners
+            winners = [player.dispName]; // new top score → reset winners
         } 
         else if (player.score === highestScore) {
-            winners.push(player.name); // tie → add to winners
+            winners.push(player.dispName); // tie → add to winners
         }
     }
 
@@ -362,7 +363,8 @@ function changeRoles() {
     }
     
     for (let j = 0; j < 4; j++){
-        document.getElementById(`cell-${j}`).innerHTML = `<strong>${document.getElementById("player" + j).value.trim()}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
+        const p = allPlayers[playerKeys[j]];
+        document.getElementById(`cell-${j}`).innerHTML = `<strong>${p.dispName}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
     }
     
 
@@ -445,6 +447,11 @@ const usernameE = document.getElementById('usernameEmail');
 const userE = document.getElementById('userEmail');
 const addE = document.getElementById('addEmail');
 const recoverP = document.getElementById('recoverPIN');
+const changeP = document.getElementById('changePIN');
+const usernameP = document.getElementById('usernameP');
+const oldP = document.getElementById('oldPIN');
+const newP = document.getElementById('newPIN');
+const confirmReset = document.getElementById('confirmReset');
 const sendR = document.getElementById('sendRecovery');
 
 
@@ -506,7 +513,7 @@ function showWinner() {
     
     if (numWinners == 1) {
         createResult(
-            "Winner: " + allPlayers[standings[0]].name +
+            "Winner: " + allPlayers[standings[0]].dispName +
             " | Score: " + allPlayers[standings[0]].score,
             90,
             10
@@ -514,7 +521,7 @@ function showWinner() {
         for (let i = 1; i < standings.length; i++) {
             const topPos = 35 + 60 * i;
             createResult(
-                allPlayers[standings[i]].name +
+                allPlayers[standings[i]].dispName +
                 " | Score: " + allPlayers[standings[i]].score,
                 60,
                 topPos
@@ -522,12 +529,12 @@ function showWinner() {
         }
     } else if (numWinners == 2) {
         createResult(
-            "Winners: " + allPlayers[standings[0]].name + " & " + allPlayers[standings[1]].name +
+            "Winners: " + allPlayers[standings[0]].dispName + " & " + allPlayers[standings[1]].dispName +
             " | Score: " + allPlayers[standings[0]].score, 90, 10);
         for (let i = 2; i < standings.length; i++) {        
             const topPos = 35 + 60 * i;
             createResult(
-                allPlayers[standings[i]].name +
+                allPlayers[standings[i]].dispName +
                 " | Score: " + allPlayers[standings[i]].score,
                 40,
                 topPos
@@ -535,8 +542,8 @@ function showWinner() {
         }
     } else if (numWinners == 3) {
         createResult(
-            "Winners: " + allPlayers[standings[0]].name + " & " + allPlayers[standings[1]].name + 
-            " & " + allPlayers[standings[2]].name +
+            "Winners: " + allPlayers[standings[0]].dispName + " & " + allPlayers[standings[1]].dispName + 
+            " & " + allPlayers[standings[2]].dispName +
             " | Score: " + allPlayers[standings[0]].score,
             90,
             10
@@ -544,7 +551,7 @@ function showWinner() {
         for (let i = 3; i < standings.length; i++) {        
             const topPos = 35 + 60 * i;
             createResult(
-                allPlayers[standings[i]].name +
+                allPlayers[standings[i]].dispName +
                 " | Score: " + allPlayers[standings[i]].score,
                 40,
                 topPos
@@ -552,8 +559,8 @@ function showWinner() {
         }
     } else {
         createResult(
-            "Winners: " + allPlayers[standings[0]].name + " & " + allPlayers[standings[1]].name + 
-            " & " + allPlayers[standings[2]].name + " & " + allPlayers[standings[3]].name +
+            "Winners: " + allPlayers[standings[0]].dispName + " & " + allPlayers[standings[1]].dispName + 
+            " & " + allPlayers[standings[2]].dispName + " & " + allPlayers[standings[3]].dispName +
             " | Score: " + allPlayers[standings[0]].score,
             80,
             10
@@ -1792,8 +1799,40 @@ Stats.addEventListener("click",()=>{
     Settings.style.display = 'none';
     addE.style.display = 'inline-block';
     recoverP.style.display = 'inline-block';
+    changeP.style.display = 'inline-block';
     Close.style.display = 'inline-block';
+    
   });
+  changeP.addEventListener('click',() => {
+    changeP.style.display = 'none';
+    addE.style.display = 'none';
+    recoverP.style.display = 'none';
+    usernameP.style.display = 'inline-block';
+    oldP.style.display = 'inline-block';
+    newP.style.display = 'inline-block';
+    confirmReset.style.display = 'inline-block';
+  });  
+
+confirmReset.addEventListener('click', async () => {
+    const userRef = doc(db, "user-accounts", usernameP.value);
+    const userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) {
+        alert("An account with that username was not found.");
+        return;
+    }
+    const data = userSnap.data();
+    const storedPIN = data.PIN;
+    const enteredPIN = oldP.value;
+    
+    if (storedPIN !== enteredPIN) {
+        alert("The old PIN you entered does not match the one on file. Please try again.");
+    } else {
+        await updateDoc(doc(db, "user-accounts", usernameP.value), {
+            PIN: newP.value
+        });
+        alert("Your PIN was successfully reset. You may now return to the menu.");
+    }
+});
 
 addE.addEventListener('click',() => {
     addE.style.display = 'none';
@@ -1874,7 +1913,12 @@ Close.addEventListener('click', ()=>{
         userE.style.display = 'none';
         addE.style.display = 'none';
         recoverP.style.display = 'none';
-        sendR.style.display = 'none'
+        sendR.style.display = 'none';
+        changeP.style.display = 'none';
+        usernameP.style.display = 'none';
+        oldP.style.display = 'none';
+        newP.style.display = 'none';
+        confirmReset.style.display = 'none';
         nextInstruction.classList.remove('visible');
         prevInstruction.classList.remove('visible');
         nextInstruction.classList.add('hidden1');
