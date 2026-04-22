@@ -32,7 +32,6 @@ const logInBtn = document.getElementById('logIn');
 const goBack = document.getElementById('goBack');
 const helpBtn = document.getElementById('getHelp');
 const playerInputsDiv = document.getElementById("playerInputs");
-const submitBtn = document.getElementById("submitPlayers");
 const instructionText = document.getElementById("screen-instruction");
 instructionText.style.display = 'none';
 let helpWanted = false; 
