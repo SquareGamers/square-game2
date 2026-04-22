@@ -141,6 +141,19 @@ function showScreen(screenId, identifier1) {
     else{
         console.log("none");
     }
+
+        const current = document.querySelector(".screen.active");
+        const next = document.getElementById(screenId);
+      
+        if (current === next) return;
+      
+        if (current) {
+          current.classList.remove("active");
+        }
+      
+        next.offsetHeight;
+
+next.classList.add("active");
   }
   
 showScreen("screen-1", "screen1");
@@ -184,29 +197,46 @@ function renderMatrix(){
             cell.style.outline = "none";
         }
 
-        cell.innerHTML = `
-        <strong>${p.name}</strong><br>
-        ${p.id}<br>
-        Score: ${p.score}
-        `;
+        if ((cell.textContent === "guest") || (cell.textContent === "Guest")) {
+            cell.innerHTML = `
+            <strong>${"Player " + i}</strong><br>
+            ${p.id}<br>
+            Score: ${p.score}
+            `;
+        } 
+        else {
+            cell.innerHTML = `
+            <strong>${p.name}</strong><br>
+            ${p.id}<br>
+            Score: ${p.score}
+            `;
+        }
         container5.appendChild(cell);
     });
 }
 
 async function syncPlayersFromInputs() {
     playerKeys = Object.keys(allPlayers);
+    console.log("inside sync players");
     for (let i = 0; i < 4; i++) {
-      const input = document.getElementById("player" + i);
-      const val = input?.value.trim();
-      const userRef = doc(db, "user-accounts", val);
-      const userSnap = await getDoc(userRef);
-      const data = userSnap.data();
-      const dispName = data.displayName; 
-      if (val) {
-        allPlayers[playerKeys[i]].name = dispName;
-      }
+        const input = document.getElementById("player" + i);
+        const val = input?.value.trim();
+        if (!val){
+            allPlayers[playerKeys[i]].name = "GUEST " + i; 
+            console.log(allPlayers[playerKeys[i]].name);
+        }
+        else{
+            if (val) {
+                const userRef = doc(db, "user-accounts", val); 
+                const userSnap = await getDoc(userRef);
+                const data = userSnap.data();
+                const dispName = data.displayName;
+                allPlayers[playerKeys[i]].name = dispName;
+                console.log(allPlayers[playerKeys[i]].name);
+            }
+        }
     }
-  }
+}
 
   function submitPlayersAndShowMatrix() {
     syncPlayersFromInputs();  // ✅ data
@@ -362,6 +392,7 @@ const roundsBtn = document.getElementById("roundsBtn");
 const categoriesBtn = document.getElementById('categoriesBtn');
 const colorReady = document.getElementById("colorReady"); 
 const submitBtn = document.getElementById("submitPlayers");
+const allGuests = document.getElementById("allGuests");
 const startRounds = document.getElementById('startRounds');
 const newButton = document.getElementById("newWord");
 const playerInputsDiv = document.getElementById("playerInputs");
@@ -860,8 +891,7 @@ let listDrink = ["Spring Water", "Sparkling Water", "Mineral Water", "Whole Milk
 "Gatorade", "Protein Shake", "Smoothie", "Milkshake", "Kombucha", "Buttermilk", "Chai", "Hot Chocolate",
 "Coca-Cola", "Pepsi", "Sprite", "Fanta", "Dr Pepper", "7UP", "Mountain Dew", "Root Beer", "Ginger Ale", "Cream Soda"];
 
-var wordEl = null;
-
+var wordEl = document.getElementById("word");
 function displayWord(word2){
     removeEl('myWord');
     removeEl('myNum');
@@ -886,8 +916,8 @@ function displayWord(word2){
         await delay(2000); // wait 2 seconds
         wordEl.textContent = word2;
         wordEl.style.top = '20px';
-        wordEl.style.fontSize='16px';
-        wordEl.style.left = (screenWidth/2)-(wordEl.offsetWidth/2) + "px";
+        wordEl.style.fontSize='50px';
+        wordEl.style.left = (screenWidth/2)-(wordEl.offsetWidth/2) + 50 + "px";
     }
     moveWord();
 }
@@ -1510,8 +1540,10 @@ function setupPlayerInputs() {
         playerInputsDiv.appendChild(container);
         }
     submitBtn.style.display = "inline-block";
+    allGuests.style.display="inline-block";
 }
   
+let guest = [false,false,false,false];
 
 async function checkPlayers() {
     let errors = [];
@@ -1526,6 +1558,7 @@ async function checkPlayers() {
         }
 
         if (username.toLowerCase() === "guest") {
+            guest[i]=true;
             continue;
         }
 
@@ -1563,13 +1596,25 @@ async function checkPlayers() {
 // show submit button
 submitBtn.addEventListener("click", async () => {
     const allVerified = await checkPlayers();
-
     if (allVerified) {
         submitBtn.style.display = "none";
         playerInputsDiv.style.display = "none";
-    
-
+        submitBtn.style.display = "none";
+        playerInputsDiv.style.display = "none";
         syncPlayersFromInputs();
+        if (isReset){
+            renderMatrix();
+            showScreen('screen-7', "reset");
+        }
+        else{
+            showScreen('screen-4', "normal");
+        }
+    }
+});
+
+allGuests.addEventListener("click",()=>{
+    submitBtn.style.display = "none";
+    playerInputsDiv.style.display = "none";
     submitBtn.style.display = "none";
     playerInputsDiv.style.display = "none";
     syncPlayersFromInputs();
@@ -1580,7 +1625,6 @@ submitBtn.addEventListener("click", async () => {
     else{
         showScreen('screen-4', "normal");
     }
-}
 });
 
 
