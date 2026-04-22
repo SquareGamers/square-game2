@@ -12,7 +12,7 @@
 <body>
   <div id="app">
     <div id="selectionsContainer">
-      <p id = "selections">*OPEN MENU TO EDIT*<br>YOU HAVE CHOSEN: </p>
+      <p id = "selections">YOU HAVE CHOSEN: </p>
       <p id = "printPlayers" style="display:none">PLAYERS: </p>
       <p id = "printRounds" style="display:none">ROUNDS: </p>
       <p id = "printColor" style="display:none">COLOR: </p>
@@ -25,6 +25,11 @@
     <div id="backDiv">
       <button class="default-button" id ="goBack">BACK</button>
     </div>
+
+    <div id="helpDiv">
+      <button class="default-button" id ="getHelp">HELP</button>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <div id="screen-1" class="screen">
       <div id="menu-buttons">
@@ -41,11 +46,15 @@
       <pre id="statsOutput"></pre>
       <input type="string" id="usernameEmail" placeholder="Username of the player" style="display:none;">
       <input type="string" id="userEmail" placeholder="Email for account recovery" style="display:none;">
+      <input type="string" id="usernameP" placeholder="Username of the player" style="display:none;">
+      <input type="string" id="oldPIN" placeholder="Old PIN" style="display:none;">
+      <input type="string" id="newPIN" placeholder="New PIN" style="display:none;">
       <button class="menu-button" id="addEmail" style="display:none;">Add an Email (for PIN recovery)</button>
       <button class="menu-button" id="recoverPIN" style="display:none;">Recover PIN</button>
+      <button class="menu-button" id="changePIN" style="display:none;">Change PIN</button>
       <button class="menu-button" id="confirmEmail" style="display:none;">Add Email</button>
       <button class="menu-button" id="sendRecovery" style="display:none;">Send Recovery Email</button>
-
+      <button class="menu-button" id="confirmReset" style="display:none;">Confirm Reset</button>
 
     </div>
         <div id="instrText"></div>
@@ -55,8 +64,8 @@
       <!-- ENTER PLAYERS -->
       <div id="screen-2" class="screen">
         <!-- INSTRUCTION TEXT -->
-        <div class="screen-instruction">
-          <p id="instruction-text">Enter the name of each Player. If there are more than 4 Players, combine into teams of 4 and enter combined names. Enter your names in the arrangement you are sitting.</p>
+        <div id="screen-instruction">
+          <p id="instruction-text">Enter your name and pass phone to whoever is next to you. Repeat entering + passing until matrix is full.<br>Group size > 4? Combine names to make 4 teams.</p>
         </div>
 
     <div class="inputs-wrapper">
@@ -77,13 +86,13 @@
     </div>
   </div>
   
-  <div id="log-ins">
-    <button
-      class="default-button"
-      id="signUp"
-      style="display:none;">
-      Sign Up
-    </button>
+      <div id="log-ins">
+        <button
+          class="default-button"
+          id="signUp"
+          style="display:none;">
+          Sign Up
+        </button>
 
         <button 
           class="default-button" 
@@ -93,14 +102,9 @@
         </button>
       </div> 
 
-<div id="playerInputs"></div>
-
 <div id="screen-3" class="screen">
-  <div class="scren-instruction">Don't have an account?</div>
-  <p id="sign-up-text">Put in a unique username and display name!</p>
-  <p\n></p>
-  <p id="sign-up-text">You will enter your username and PIN when logging in, and your display name will be shown in the game's matrix.</p>
-
+  <div class="screen-instruction"></div>
+  <p id="sign-up-text">Don't have an account?<br>Put in a unique username and display name!</p>
 </div>
 
 <div id="create-acc-css">
@@ -119,7 +123,7 @@
       <!-- PICK ROUNDS-->
       <div id="screen-4" class="screen">
         <div class="screen-instruction">
-          <p id="instruction-text-rounds">Enter in the number of rounds you would like to play. One full rotation is 4 rounds.</p>
+          <p id="instruction-text-rounds">Enter desired number of rounds. 1 rotation = 4 rounds.</p>
         </div>
         <input type="number" id="numRounds" placeholder="Enter number of rounds">
         <button
@@ -216,7 +220,7 @@
       <div id="screen-7" class="screen">
 
         <div class="screen-instruction">
-          <p id="instruction-text-rounds-ready">Find your name in the matrix. Turn the computer so that only the two EXPLAINERS can see it. Find your teammate: you will explain to them or guess from them. When instructed to switch, rotate CLOCKWISE. </p>
+          <p id="instruction-text-rounds-ready">Check your role, have the phone visible to the 2 EXPLAINERS, and then face your teammate. </p>
         </div>
 
         <!-- MATRIX (PERSISTENT DURING GAME) -->

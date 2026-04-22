@@ -1,15 +1,24 @@
 HEAD
-body {
+html, body {
   margin: 0;
-  display: flex;
+  padding: 0;
+  /*display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 100vh;*/
+}
+
+/* {
+  outline: 1px solid red;
+}*/
+
+* {
+  box-sizing: border-box;
 }
 
 #app {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100dvh;
   background: #b3d7ff;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -177,8 +186,8 @@ button { margin: 0; padding: 0}
   border-radius: 20px; /* makes corners rounded */
   padding: 10px; 
   position: absolute;
-  top: 45%;
-  left: 43%;  
+  top: 25%;
+  left: 45%;  
   display: flex;             /* 1. Enable Flexbox */
   flex-direction: column;
   justify-content: space-around; 
@@ -205,15 +214,29 @@ button { margin: 0; padding: 0}
 }
 
 #create-acc-css {
-    display: flex;
-    flex-direction: column;   /* stack children vertically */
-    align-items: center;      /* center horizontally */
-    justify-content: center;  /* center vertically */
-    text-align: center;       /* optional, centers text */
-    gap: 15px;
-    position:relative;
-    top: -200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  /* Critical additions */
+  position: absolute; 
+  top: 50%;           /* Use a visible percentage first to test */
+  left: 50%;          /* Center horizontally */
+  transform: translate(-50%, -50%); /* Keeps it perfectly centered */
+  
+  gap: 15px;
+  width: 100%;        /* Ensures it has width to center things */
 }
+
+#sign-up-text{
+  position: absolute;
+  font-weight: bold;        /* optional emphasis */
+  font-size: 20px;          /* adjust size */
+  top: 30%;
+  left: 38%;
+}
+
 #pickBtn {
   background-color: rgb(106, 106, 106);   /* button background */
   color: rgb(255, 255, 255);             /* text color */
@@ -290,7 +313,7 @@ ul {
 #displayText2{
   position: absolute;
   right: 50px;
-  top: 50px;
+  top: 60px;
   font-size: xx-large;
 }
 
@@ -329,25 +352,47 @@ ul {
 #player2 { order: 4; } /* bottom-left */
 
 
-.screen-instruction {
+#screen-instruction {
   text-align: center;       /* center the text horizontally */
-  font-size: 25px;          /* adjust size */
+  font-size: 20px;          /* adjust size */
   font-weight: bold;        /* optional emphasis */
   margin: 10px 0;           /* space around the text */
   color: #333;              /* dark gray color */
   align-items: center;
+}
 
+#instruction-text{
+  position: absolute;
+  top: 20%;
+  left: 18%;
+}
+
+#instruction-text-rounds{
+  position: absolute;
+  font-weight: bold;        /* optional emphasis */
+  font-size: 20px;          /* adjust size */
+  top: 30%;
+  left: 32%;
+}
+
+#instruction-text-rounds-ready{
+  position: absolute;
+  font-weight: bold;        /* optional emphasis */
+  font-size: 20px;          /* adjust size */
+  top: 25%;
+  left: 20%;
 }
 
 #submitPlayers{
   position: absolute;
-  top: 150px;
+  top: 100%;
+  left: 40%; 
 }
 
 .inputs-wrapper {
   position: absolute;        /* position relative to screen */
   top: 50%;                  /* vertical middle */
-  left: 50%;                 /* horizontal middle */
+  left: 48%;                 /* horizontal middle */
   transform: translate(-50%, -50%);  /* truly center it */
   display: flex;
   flex-direction: column;
@@ -388,11 +433,6 @@ ul {
   text-align: left;
 }
 
-#instruction-text{
-  position: absolute; 
-  top: 30px;
-  right: 0%;
-}
 
 #categoryReady{
   position: absolute;
@@ -574,6 +614,12 @@ button {
 }
 
 #backDiv{
+  position: absolute;
+  right: 10%;
+  top: 10%;
+} 
+
+#helpDiv{
   position: absolute;
   right: 10%;
 }
