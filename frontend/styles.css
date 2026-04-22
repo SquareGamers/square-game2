@@ -433,7 +433,7 @@ ul {
 
 #readyUp {
   position: absolute; 
-  top: 450px; 
+  top: 360px; 
   height: 75px; 
   width: 150px; 
 }
@@ -606,4 +606,22 @@ button {
   position: absolute;
   right: 10%;
   z-index: 9999;
+}
+
+#allGuests{
+  position: absolute;
+  top: 130%;
+  left: 28%;
+  width: 200px;
+}
+
+#uploadButton{
+  position: absolute;
+  top: 150%;
+  left: 45%;
+}
+
+#Return{
+  position: absolute;
+  top: -55%;
 }
