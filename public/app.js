@@ -32,7 +32,6 @@ const logInBtn = document.getElementById('logIn');
 const goBack = document.getElementById('goBack');
 const helpBtn = document.getElementById('getHelp');
 const playerInputsDiv = document.getElementById("playerInputs");
-const submitBtn = document.getElementById("submitPlayers");
 const instructionText = document.getElementById("screen-instruction");
 instructionText.style.display = 'none';
 let helpWanted = false; 
@@ -44,7 +43,8 @@ const Close = document.getElementById('Close');
 Close.style.display = 'none';
 const Stats = document.getElementById('Stats');
 const Settings = document.getElementById('Settings');
-
+const submitBtn = document.getElementById("submitPlayers");
+const allGuests = document.getElementById("allGuests");
 
 function showScreen(screenId, identifier1) {
     document.querySelectorAll(".screen").forEach(screen => {
@@ -69,6 +69,7 @@ function showScreen(screenId, identifier1) {
         helpBtn.style.display = 'none';
         playerInputsDiv.style.display = 'none';
         submitBtn.style.display = 'none';
+        allGuests.style.display = 'none';
     }
     else if(screenId == "screen-2"){
         currScreen = 2;
@@ -79,6 +80,7 @@ function showScreen(screenId, identifier1) {
         if(identifier1 == "log in" || identifier1 == "ok" || identifier1 == "any"){
             logInBtn.style.display = 'inline-block';
             signUpBtn.style.display = 'inline-block';
+            allGuests.style.display = 'none';
             createAccBtn.style.display ='none';
             uniqueUsername.style.display = 'none';
             displayNameInput.style.display = 'none';
@@ -180,6 +182,19 @@ function showScreen(screenId, identifier1) {
     else{
         console.log("none");
     }
+
+        const current = document.querySelector(".screen.active");
+        const next = document.getElementById(screenId);
+      
+        if (current === next) return;
+      
+        if (current) {
+          current.classList.remove("active");
+        }
+      
+        next.offsetHeight;
+
+next.classList.add("active");
   }
   
 showScreen("screen-1", "screen1");
@@ -224,7 +239,7 @@ function renderMatrix(){
         }
 
         cell.innerHTML = `
-        <strong>${p.dispName}</strong><br>
+        <strong>${p.name}</strong><br>
         ${p.id}<br>
         Score: ${p.score}
         `;
@@ -234,22 +249,28 @@ function renderMatrix(){
 
 async function syncPlayersFromInputs() {
     playerKeys = Object.keys(allPlayers);
+    console.log("inside sync players");
     for (let i = 0; i < 4; i++) {
-      const input = document.getElementById("player" + i);
-      const val = input?.value.trim(); 
-      const userRef = doc(db, "user-accounts", val);
-      const userSnap = await getDoc(userRef);
-      const data = userSnap.data();
-      const dispName = data.displayName; 
-      if (val) {
-        allPlayers[playerKeys[i]].name = val;
-        allPlayers[playerKeys[i]].dispName = dispName;
-      }
+        const input = document.getElementById("player" + i);
+        const val = input?.value.trim();
+        if (!val){
+            allPlayers[playerKeys[i]].name = "GUEST " + i; 
+            console.log(allPlayers[playerKeys[i]].name);
+        }
+        else{
+            if (val) {
+                const userRef = doc(db, "user-accounts", val); 
+                const userSnap = await getDoc(userRef);
+                const data = userSnap.data();
+                const dispName = data.displayName;
+                allPlayers[playerKeys[i]].name = dispName;
+                console.log(allPlayers[playerKeys[i]].name);
+            }
+        }
     }
-  }
+}
 
   function submitPlayersAndShowMatrix() {
-    syncPlayersFromInputs();  // ✅ data
     renderMatrix();           // ✅ UI
     document.getElementById("matrix-wrapper").classList.remove("hidden");
     document.getElementById("readyUp").classList.remove("hidden");
@@ -258,7 +279,6 @@ async function syncPlayersFromInputs() {
   }
 
   function submitPlayersAndStartGame() {
-    syncPlayersFromInputs();
     renderMatrix();
     document.getElementById("matrix-wrapper").classList.remove("hidden");
     document.getElementById("readyUp").classList.add("hidden");
@@ -364,7 +384,7 @@ function changeRoles() {
     
     for (let j = 0; j < 4; j++){
         const p = allPlayers[playerKeys[j]];
-        document.getElementById(`cell-${j}`).innerHTML = `<strong>${p.dispName}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
+        document.getElementById(`cell-${j}`).innerHTML = `<strong>${p.name}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
     }
     
 
@@ -923,8 +943,8 @@ function displayWord(word2){
         await delay(2000); // wait 2 seconds
         wordEl.textContent = word2;
         wordEl.style.top = '20px';
-        wordEl.style.fontSize='16px';
-        wordEl.style.left = (screenWidth/2)-(wordEl.offsetWidth/2) + "px";
+        wordEl.style.fontSize='50px';
+        wordEl.style.left = (screenWidth/2)-(wordEl.offsetWidth/2) + 50 + "px";
     }
     moveWord();
 }
@@ -1558,8 +1578,10 @@ function setupPlayerInputs() {
         playerInputsDiv.appendChild(container);
         }
     submitBtn.style.display = "inline-block";
+    allGuests.style.display="inline-block";
 }
   
+let guest = [false,false,false,false];
 
 async function checkPlayers() {
     let errors = [];
@@ -1574,6 +1596,7 @@ async function checkPlayers() {
         }
 
         if (username.toLowerCase() === "guest") {
+            guest[i]=true;
             continue;
         }
 
@@ -1611,13 +1634,25 @@ async function checkPlayers() {
 // show submit button
 submitBtn.addEventListener("click", async () => {
     const allVerified = await checkPlayers();
-
     if (allVerified) {
         submitBtn.style.display = "none";
         playerInputsDiv.style.display = "none";
-    
-
+        submitBtn.style.display = "none";
+        playerInputsDiv.style.display = "none";
         syncPlayersFromInputs();
+        if (isReset){
+            renderMatrix();
+            showScreen('screen-7', "reset");
+        }
+        else{
+            showScreen('screen-4', "normal");
+        }
+    }
+});
+
+allGuests.addEventListener("click",()=>{
+    submitBtn.style.display = "none";
+    playerInputsDiv.style.display = "none";
     submitBtn.style.display = "none";
     playerInputsDiv.style.display = "none";
     syncPlayersFromInputs();
@@ -1628,7 +1663,6 @@ submitBtn.addEventListener("click", async () => {
     else{
         showScreen('screen-4', "normal");
     }
-}
 });
 
 
@@ -2002,6 +2036,7 @@ colorReset.addEventListener('click', () => {
 }); 
 
 goBack.addEventListener('click', ()=> {
+    console.log("go back btn hit");
     helpWanted = false;
     if (currScreen == 4){
         console.log("going from screen 4 to screen 2");
@@ -2013,7 +2048,7 @@ goBack.addEventListener('click', ()=> {
 }); 
 
 helpBtn.addEventListener('click', ()=> {
-    console.log("running?");
+    console.log("help btn hit");
     helpWanted = true; 
     showScreen("screen-1", "screen-1");
     if (wordEl != null){
@@ -2037,3 +2072,4 @@ helpBtn.addEventListener('click', ()=> {
     prevInstruction.classList.add('visible');
     helpBtn.style.display = 'none';
 }); 
+console.log(goBack, helpBtn);

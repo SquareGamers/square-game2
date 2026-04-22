@@ -11,6 +11,8 @@
 
 <body>
   <div id="app">
+    <button class="default-button" id ="goBack">BACK</button>
+    <button class="default-button" id ="getHelp">HELP</button>
     <div id="selectionsContainer">
       <p id = "selections">YOU HAVE CHOSEN: </p>
       <p id = "printPlayers" style="display:none">PLAYERS: </p>
@@ -22,39 +24,31 @@
       <p id = "printCategories" style="display:none">CATEGORY: </p>
     </div>
 
-    <div id="backDiv">
-      <button class="default-button" id ="goBack">BACK</button>
-    </div>
-
-    <div id="helpDiv">
-      <button class="default-button" id ="getHelp">HELP</button>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <div id="screen-1" class="screen">
       <div id="menu-buttons">
-        <button class = "menu-button" id="Play">Play</button>
-        <button class="menu-button" id="Instructions">Instructions</button>
-        <button class="menu-button" id="Rules">Rules</button>
-        <button class="menu-button" id="Stats">Stats</button>
-        <button class="menu-button" id="Settings">Settings</button>
-        <button class="menu-button" id="Close">Close</button>
-        <button class="menu-button" id="Previous">Previous</button>
-        <button class="menu-button" id="Next">Next</button>
+        <button class = "default-button" id="Play">Play</button>
+        <button class="default-button" id="Instructions">Instructions</button>
+        <button class="default-button" id="Rules">Rules</button>
+        <button class="default-button" id="Stats">Stats</button>
+        <button class="default-button" id="Settings">Settings</button>
+        <button class="default-button" id="Close">Close</button>
+        <button class="default-button" id="Previous">Previous</button>
+        <button class="default-button" id="Next">Next</button>
         <input type="string" id="userStats" placeholder="Username of the player">
-      <button class="menu-button" id="showStatsFinal">Show Their Stats</button>
+      <button class="default-button" id="showStatsFinal">Show Their Stats</button>
       <pre id="statsOutput"></pre>
       <input type="string" id="usernameEmail" placeholder="Username of the player" style="display:none;">
       <input type="string" id="userEmail" placeholder="Email for account recovery" style="display:none;">
       <input type="string" id="usernameP" placeholder="Username of the player" style="display:none;">
       <input type="string" id="oldPIN" placeholder="Old PIN" style="display:none;">
       <input type="string" id="newPIN" placeholder="New PIN" style="display:none;">
-      <button class="menu-button" id="addEmail" style="display:none;">Add an Email (for PIN recovery)</button>
-      <button class="menu-button" id="recoverPIN" style="display:none;">Recover PIN</button>
-      <button class="menu-button" id="changePIN" style="display:none;">Change PIN</button>
-      <button class="menu-button" id="confirmEmail" style="display:none;">Add Email</button>
-      <button class="menu-button" id="sendRecovery" style="display:none;">Send Recovery Email</button>
-      <button class="menu-button" id="confirmReset" style="display:none;">Confirm Reset</button>
+      <button class="default-button" id="addEmail" style="display:none;">Add an Email (for PIN recovery)</button>
+      <button class="default-button" id="recoverPIN" style="display:none;">Recover PIN</button>
+      <button class="default-button" id="changePIN" style="display:none;">Change PIN</button>
+      <button class="default-button" id="confirmEmail" style="display:none;">Add Email</button>
+      <button class="default-button" id="sendRecovery" style="display:none;">Send Recovery Email</button>
+      <button class="default-button" id="confirmReset" style="display:none;">Confirm Reset</button>
 
     </div>
         <div id="instrText"></div>
@@ -68,16 +62,23 @@
           <p id="instruction-text">Enter your name and pass phone to whoever is next to you. Repeat entering + passing until matrix is full.<br>Group size > 4? Combine names to make 4 teams.</p>
         </div>
 
-        <div class="inputs-wrapper">
-          <button
-            class="default-button"
-            id="submitPlayers"
-            style="display:none;">
-            Submit Players
-          </button>
-          <div id="playerInputs"></div>
-        </div>
-      </div>
+    <div class="inputs-wrapper">
+      <button
+        class="default-button"
+        id="submitPlayers"
+        style="display:none;">
+        Submit Players
+      </button>
+
+      <button
+        class="default-button"
+        id="allGuests"
+        style="display:none;">
+        Press to Skip Log In (progress not saved)
+      </button>
+      <div id="playerInputs"></div>
+    </div>
+  </div>
   
       <div id="log-ins">
         <button
@@ -146,7 +147,7 @@
           <button class="default-button" id="createCustomList">CREATE CUSTOM LIST</button>
           <p id="uploadText">Or, upload a file that contains words separated such that one word is on each line of the file to ensure all words are counted correctly.</p>
           <input type="file" id="uploadList" accept=".txt,.csv,.log,.json,.md,.xml,.html" style="display:none;">
-          <label id="uploadButton" for="uploadList" class="menu-button">Upload File</label>
+          <label id="uploadButton" for="uploadList" class="default-button">Upload File</label>
         </div>
 
         <div id="button-container">
@@ -231,8 +232,8 @@
         <div id="game-ui">
           <p id="displayText2"></p>
 
-            <button class="default-button" id="redBtn">RED WIN</button>
-            <button class="default-button" id="blackBtn">BLACK WIN</button>
+            <button id="redBtn">RED WIN</button>
+            <button id="blackBtn">BLACK WIN</button>
 
             <button class ="default-button" id="menu">MENU</button>
             <button class="default-button" id="newWord">SKIP WORD / TIE</button>

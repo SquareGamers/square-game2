@@ -2,16 +2,13 @@ HEAD
 html, body {
   margin: 0;
   padding: 0;
-  /*display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;*/
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(-45deg, #6a5cff, #8f7bff, #4facfe, #00f2fe);
+  background-size: 400% 400%;
+  animation: gradientMove 10s ease infinite;
+  background: url("https://img.freepik.com/premium-photo/pixel-background-copy-space_1179130-401786.jpg?w=360") center/cover no-repeat;
 }
-
-/* {
-  outline: 1px solid red;
-}*/
-
 * {
   box-sizing: border-box;
 }
@@ -26,17 +23,44 @@ html, body {
   position: relative;
   overflow: hidden;
 }
+
+.screen {
+  background: transparent;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 button { margin: 0; padding: 0}
 
-.default-button {
-  background-color: pink;
-  color: black;
-  padding: 7px 7px;
-  border: none;
-  border-radius: 5px;
-  font-size: medium;
-  font-weight: bold;
-}
+  .default-button { 
+    background-color: pink;
+    color: black;
+    padding: 7px 7px;
+    border: none;
+    border-radius: 5px;
+    font-size: medium;
+    font-weight: bold;
+    background: linear-gradient(135deg, #6a5cff, #8f7bff);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  
+  /* hover = lift */
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+  }
+  
+  /* click = press down */
+  button:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  }
 
 #choose-your-category{
   position:absolute;
@@ -50,6 +74,7 @@ button { margin: 0; padding: 0}
   font-weight: bold;
   padding: 15px 15px;
   font-size: small;
+  z-index: 9999
 }
 
 #menu-buttons{
@@ -64,6 +89,7 @@ button { margin: 0; padding: 0}
   align-items: center;        /* Add this to vertically center */
   gap: 10px;                  /* Optional: adds spacing between buttons */
   padding: 20px;  
+  z-index: 9999
 }
 
 .highlighted-button {
@@ -261,6 +287,11 @@ ul {
   margin-top: 40px;
 }
 
+#wordEl{
+  text-align: center;
+  font-weight: bold;
+}
+
 #displayText2{
   position: absolute;
   right: 50px;
@@ -349,6 +380,20 @@ ul {
   flex-direction: column;
   gap: 12px;                 /* spacing between inputs + button */
   text-align: center;
+}
+
+.screen {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  position: absolute;
+  width: 100%;
+}
+
+.screen.active {
+  opacity: 1;
+  transform: translateY(0);
+  position: relative;
 }
 
 .cell {
@@ -472,7 +517,7 @@ button {
 }
 
 #editButtons {
-  position: absolute;
+  position: fixed;
   inset: 0; /* covers entire screen */
   display: flex;
   flex-direction: column;
@@ -550,13 +595,15 @@ button {
   cursor: pointer;
 }
 
-#backDiv{
+#goBack{
   position: absolute;
   right: 10%;
   top: 10%;
+  z-index: 9999;
 } 
 
-#helpDiv{
+#getHelp{
   position: absolute;
   right: 10%;
+  z-index: 9999;
 }

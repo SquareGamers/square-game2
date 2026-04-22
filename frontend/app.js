@@ -43,7 +43,8 @@ const Close = document.getElementById('Close');
 Close.style.display = 'none';
 const Stats = document.getElementById('Stats');
 const Settings = document.getElementById('Settings');
-
+const submitBtn = document.getElementById("submitPlayers");
+const allGuests = document.getElementById("allGuests");
 
 function showScreen(screenId, identifier1) {
     document.querySelectorAll(".screen").forEach(screen => {
@@ -68,6 +69,7 @@ function showScreen(screenId, identifier1) {
         helpBtn.style.display = 'none';
         playerInputsDiv.style.display = 'none';
         submitBtn.style.display = 'none';
+        allGuests.style.display = 'none';
     }
     else if(screenId == "screen-2"){
         currScreen = 2;
@@ -78,6 +80,7 @@ function showScreen(screenId, identifier1) {
         if(identifier1 == "log in" || identifier1 == "ok" || identifier1 == "any"){
             logInBtn.style.display = 'inline-block';
             signUpBtn.style.display = 'inline-block';
+            allGuests.style.display = 'none';
             createAccBtn.style.display ='none';
             uniqueUsername.style.display = 'none';
             displayNameInput.style.display = 'none';
@@ -236,7 +239,7 @@ function renderMatrix(){
         }
 
         cell.innerHTML = `
-        <strong>${p.dispName}</strong><br>
+        <strong>${p.name}</strong><br>
         ${p.id}<br>
         Score: ${p.score}
         `;
@@ -268,7 +271,6 @@ async function syncPlayersFromInputs() {
 }
 
   function submitPlayersAndShowMatrix() {
-    syncPlayersFromInputs();  // ✅ data
     renderMatrix();           // ✅ UI
     document.getElementById("matrix-wrapper").classList.remove("hidden");
     document.getElementById("readyUp").classList.remove("hidden");
@@ -277,7 +279,6 @@ async function syncPlayersFromInputs() {
   }
 
   function submitPlayersAndStartGame() {
-    syncPlayersFromInputs();
     renderMatrix();
     document.getElementById("matrix-wrapper").classList.remove("hidden");
     document.getElementById("readyUp").classList.add("hidden");
@@ -383,7 +384,7 @@ function changeRoles() {
     
     for (let j = 0; j < 4; j++){
         const p = allPlayers[playerKeys[j]];
-        document.getElementById(`cell-${j}`).innerHTML = `<strong>${p.dispName}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
+        document.getElementById(`cell-${j}`).innerHTML = `<strong>${p.name}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
     }
     
 
@@ -421,8 +422,6 @@ const teamBtn = document.getElementById("teamBtn");
 const roundsBtn = document.getElementById("roundsBtn");
 const categoriesBtn = document.getElementById('categoriesBtn');
 const colorReady = document.getElementById("colorReady"); 
-const submitBtn = document.getElementById("submitPlayers");
-const allGuests = document.getElementById("allGuests");
 const startRounds = document.getElementById('startRounds');
 const newButton = document.getElementById("newWord");
 const customList = document.getElementById('promptCustomList');
@@ -2037,6 +2036,7 @@ colorReset.addEventListener('click', () => {
 }); 
 
 goBack.addEventListener('click', ()=> {
+    console.log("go back btn hit");
     helpWanted = false;
     if (currScreen == 4){
         console.log("going from screen 4 to screen 2");
@@ -2048,7 +2048,7 @@ goBack.addEventListener('click', ()=> {
 }); 
 
 helpBtn.addEventListener('click', ()=> {
-    console.log("running?");
+    console.log("help btn hit");
     helpWanted = true; 
     showScreen("screen-1", "screen-1");
     if (wordEl != null){
@@ -2072,3 +2072,4 @@ helpBtn.addEventListener('click', ()=> {
     prevInstruction.classList.add('visible');
     helpBtn.style.display = 'none';
 }); 
+console.log(goBack, helpBtn);
