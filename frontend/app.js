@@ -16,9 +16,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
-
-console.log("Firebase initialized");
-
 auth.onAuthStateChanged(user => {
     if (user) {
       createUser(user.uid);
@@ -45,6 +42,7 @@ const Stats = document.getElementById('Stats');
 const Settings = document.getElementById('Settings');
 const submitBtn = document.getElementById("submitPlayers");
 const allGuests = document.getElementById("allGuests");
+const welcome = document.getElementById("welcome");
 
 function showScreen(screenId, identifier1) {
     document.querySelectorAll(".screen").forEach(screen => {
@@ -57,7 +55,6 @@ function showScreen(screenId, identifier1) {
         if (helpWanted == false){
             currScreen = 1;
         }
-        console.log("currently on " + currScreen);
         Play.style.display = 'inline-block';
         Instructions.style.display = 'inline-block';
         Rules.style.display = 'inline-block';
@@ -70,13 +67,13 @@ function showScreen(screenId, identifier1) {
         playerInputsDiv.style.display = 'none';
         submitBtn.style.display = 'none';
         allGuests.style.display = 'none';
+        welcome.style.display = 'inline-block';
     }
     else if(screenId == "screen-2"){
         currScreen = 2;
         goBack.style.display = 'inline-block';
         helpBtn.style.display = 'inline-block';
         instructionText.style.display = 'none';
-        console.log("currently on " + currScreen);
         if(identifier1 == "log in" || identifier1 == "ok" || identifier1 == "any"){
             logInBtn.style.display = 'inline-block';
             signUpBtn.style.display = 'inline-block';
@@ -108,7 +105,6 @@ function showScreen(screenId, identifier1) {
     }
     else if(screenId == "screen-3"){
         currScreen = 3;
-        console.log("currently on " + currScreen);
         uniqueUsername.style.display = 'inline-block';
         displayNameInput.style.display="inline-block";
         PINInput.style.display="inline-block";
@@ -117,7 +113,6 @@ function showScreen(screenId, identifier1) {
     }
     else if(screenId == "screen-4"){
         currScreen = 4;
-        console.log("currently on " + currScreen);
         editButtons.classList.remove("active");
         menuBtn.style.display = "inline-block";
         (document.getElementById('numRounds')).style.display = "inline-block";
@@ -132,7 +127,6 @@ function showScreen(screenId, identifier1) {
     }
     else if(screenId == "screen-5"){
         currScreen = 5;
-        console.log("currently on " + currScreen);
         setRounds();
         CSPButton.style.display = 'none';
         basicButton.style.display = 'none';
@@ -145,7 +139,6 @@ function showScreen(screenId, identifier1) {
     }
     else if(screenId == "screen-6"){
         currScreen = 6;
-        console.log("currently on " + currScreen);
         if (wordEl != null){
             wordEl.style.display = 'none';
         }
@@ -167,12 +160,12 @@ function showScreen(screenId, identifier1) {
     else if (screenId == "screen-7"){
         currScreen = 7;
         finalPlay.style.display = "inline-block";
-        console.log("currently on " + currScreen);
         readyButton.style.display = 'inline-block';
         newButton.style.display = 'inline-block';
         if (identifier1 == "reset"){
             redBtn.style.display = 'inline-block';
             blackBtn.style.display = 'inline-block';
+            rdyButton.style.display = 'inline-block';
         }
         else{
             console.log("normal route to display matrix");
@@ -181,27 +174,22 @@ function showScreen(screenId, identifier1) {
     else{
         console.log("none");
     }
-
-        const current = document.querySelector(".screen.active");
-        const next = document.getElementById(screenId);
-      
-        if (current === next) return;
-      
-        if (current) {
-          current.classList.remove("active");
-        }
-      
-        next.offsetHeight;
-
-next.classList.add("active");
+    const current = document.querySelector(".screen.active");
+    const next = document.getElementById(screenId);
+    if (current === next) return;
+    if (current) {
+        current.classList.remove("active");
+    }
+    next.offsetHeight;
+    next.classList.add("active");
   }
   
 showScreen("screen-1", "screen1");
 var numRounds = 0; 
 let num = 0; 
-const allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
+let allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
 let roleKeys = Object.keys(allRoles);
-const allPlayers = {
+let allPlayers = {
 playerone: {name: "PLAYER ONE", score: 0, id: roleKeys[0], dispName: "Guest"},
 playertwo: {name: "PLAYER TWO", score: 0, id: roleKeys[1], dispName: "Guest"},
 playerthree: {name: "PLAYER THREE", score: 0, id: roleKeys[2], dispName: "Guest"},
@@ -248,13 +236,11 @@ function renderMatrix(){
 
 async function syncPlayersFromInputs() {
     playerKeys = Object.keys(allPlayers);
-    console.log("inside sync players");
     for (let i = 0; i < 4; i++) {
         const input = document.getElementById("player" + i);
         const val = input?.value.trim();
         if (!val){
             allPlayers[playerKeys[i]].name = "GUEST " + i; 
-            console.log(allPlayers[playerKeys[i]].name);
         }
         else{
             if (val) {
@@ -263,7 +249,6 @@ async function syncPlayersFromInputs() {
                 const data = userSnap.data();
                 const dispName = data.displayName;
                 allPlayers[playerKeys[i]].name = dispName;
-                console.log(allPlayers[playerKeys[i]].name);
             }
         }
     }
@@ -380,13 +365,10 @@ function changeRoles() {
             
         }
     }
-    
     for (let j = 0; j < 4; j++){
         const p = allPlayers[playerKeys[j]];
         document.getElementById(`cell-${j}`).innerHTML = `<strong>${p.name}</strong><br>${allPlayers[playerKeys[j]].id}<br>Score: ${allPlayers[playerKeys[j]].score}`;
     }
-    
-
 }
 
 let word = null;
@@ -429,7 +411,7 @@ const createCustListBtn = document.getElementById('createCustomList');
 const customListContainer = document.getElementById('customListContainer');
 const beginGame = document.getElementById('categoryReady');
 const rdyButton = document.getElementById("readyRound");
-rdyButton.classList.add("hidden");
+rdyButton.style.display = 'none';
 const userStats = document.getElementById('userStats');
 const showStatsFinal = document.getElementById('showStatsFinal');
 userStats.style.display = 'none';
@@ -1070,7 +1052,7 @@ backBtn.addEventListener('click',()=>{
 
 rdyButton.addEventListener('click',()=>{
     newWord(true);
-    rdyButton.classList.add('hidden');
+    rdyButton.style.display = 'none';
 })
 
 
@@ -1117,7 +1099,7 @@ redBtn.addEventListener('click', function() {
     }
     else{
         num++;
-        rdyButton.classList.remove('hidden');
+        rdyButton.style.display = 'inline-block';;
         r++;
         displayText2.textContent = `ROUND ${r}`;
         updateScore("red");
@@ -1136,14 +1118,14 @@ blackBtn.addEventListener('click', function() {
     }
     else{
         num++;
-        rdyButton.classList.remove('hidden');
+        rdyButton.style.display = 'inline-block';;
         r++;
         displayText2.textContent = `ROUND ${r}`;
         updateScore("black");
         changeRoles();
     }
 });
-
+let z = 0;
 resetBtn.addEventListener('click', () => {
     wordEl.style.display = 'none';
     editButtons.classList.remove("active");
@@ -1155,12 +1137,17 @@ resetBtn.addEventListener('click', () => {
     helpBtn.style.display = 'inline-block';
     goBack.style.display = 'inline-block';
     clearResults();
+    allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
+    roleKeys = Object.keys(allRoles);
     for (let key of playerKeys) { 
         const player = allPlayers[key]; 
         player.score = 0;
+        player.id = roleKeys[z];
+        z++;
     }
     renderMatrix();
     r = 1; 
+    z = 0;
 });
 
 roundsBtn.addEventListener('click', () => {
@@ -1504,7 +1491,6 @@ uploadList.addEventListener("change", () => {
     reader.onload = function(e) {
         const text = e.target.result;
         category = text.split('\n').filter(line => line.trim() !== "");
-        console.log(category);
         uploadList.classList.remove('default-button');
         uploadList.classList.add('highlighted-button');
         beginGame.style.display = 'inline-block';
@@ -1532,7 +1518,6 @@ customList.addEventListener('click',()=>{
 
 finalPlay.addEventListener('click', ()=>{
     startRoundA();
-    console.log("numrounds " + numRounds);
     finalPlay.style.display = 'none';    
 });
 
@@ -1540,7 +1525,6 @@ newButton.addEventListener('click',()=>{
     if (r <= numRounds){
         newWord(false);
     }
-    console.log("skip, round " + r);
 });
 
 let index = 0;
@@ -1910,7 +1894,6 @@ sendR.addEventListener('click', async () => {
 Close.addEventListener('click', ()=>{
     Close.style.display = 'none';
     if (helpWanted){
-        console.log("help wanted, current screen: " + currScreen);
         showScreen(`screen-${currScreen}`, "ok");
         helpBtn.style.display = "inline-block";
         goBack.style.display = "inline-block";
@@ -1990,7 +1973,6 @@ createAccBtn.addEventListener("click",()=>{
 }); 
 
 logInBtn.addEventListener("click",()=>{
-    console.log("log in button clicked");
     setupPlayerInputs();
     logInBtn.style.display = 'none';
     signUpBtn.style.display = 'none';
@@ -1998,7 +1980,6 @@ logInBtn.addEventListener("click",()=>{
 });
 
 Play.addEventListener("click", () => {
-    console.log("going from screen 1 to screen 2");
     showScreen("screen-2", "log in");
 }); 
 
@@ -2025,16 +2006,14 @@ colorPicker2.addEventListener('input', function() {
 var isColorReset = false; 
 colorReset.addEventListener('click', () => {
     isColorReset = true; 
-    appBox.style.backgroundColor = "#b3d7ff";
-    colorPicker1.value = '#b3d7ff';
-    colorPicker2.value = '#b3d7ff';
+    appBox.style.backgroundColor = "transparent";
+    colorPicker1.value = '#FFFFFF';
+    colorPicker2.value = '#FFFFFF';
 }); 
 
 goBack.addEventListener('click', ()=> {
-    console.log("go back btn hit");
     helpWanted = false;
     if (currScreen == 4){
-        console.log("going from screen 4 to screen 2");
         showScreen("screen-2", "log in");
     }
     else{
@@ -2043,7 +2022,6 @@ goBack.addEventListener('click', ()=> {
 }); 
 
 helpBtn.addEventListener('click', ()=> {
-    console.log("help btn hit");
     helpWanted = true; 
     showScreen("screen-1", "screen-1");
     if (wordEl != null){
@@ -2067,4 +2045,3 @@ helpBtn.addEventListener('click', ()=> {
     prevInstruction.classList.add('visible');
     helpBtn.style.display = 'none';
 }); 
-console.log(goBack, helpBtn);

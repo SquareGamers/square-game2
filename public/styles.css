@@ -1,31 +1,46 @@
 HEAD
 html, body {
+  width: 100%;
+  height:100%;
   margin: 0;
   padding: 0;
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(-45deg, #6a5cff, #8f7bff, #4facfe, #00f2fe);
-  background-size: 400% 400%;
-  animation: gradientMove 10s ease infinite;
-  background: url("https://img.freepik.com/premium-photo/pixel-background-copy-space_1179130-401786.jpg?w=360") center/cover no-repeat;
 }
+
+body {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    font-family: 'YourFontName', 'Segoe UI';
+    font-weight: 400;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 * {
   box-sizing: border-box;
 }
 
+
 #app {
   width: 100%;
   height: 100dvh;
-  background: #b3d7ff;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   padding: 20px;
   position: relative;
   overflow: hidden;
-}
-
-.screen {
-  background: transparent;
 }
 
 @keyframes gradientMove {
@@ -37,14 +52,13 @@ html, body {
 button { margin: 0; padding: 0}
 
   .default-button { 
-    background-color: pink;
-    color: black;
     padding: 7px 7px;
-    border: none;
-    border-radius: 5px;
+    border: 2px;
+    border-radius: 2px;
     font-size: medium;
-    font-weight: bold;
-    background: linear-gradient(135deg, #6a5cff, #8f7bff);
+    font-weight: bolder;
+    font-family: 'YourFontName', 'Segoe UI';
+    background: transparent;
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -64,8 +78,8 @@ button { margin: 0; padding: 0}
 
 #choose-your-category{
   position:absolute;
-  top:40%;
-  left:28%;
+  top: 40%;
+  left: 32%;
 }
 
 .menu-button{
@@ -77,19 +91,24 @@ button { margin: 0; padding: 0}
   z-index: 9999
 }
 
-#menu-buttons{
+#menu-buttons {
   position: absolute; 
-  top: 40%; 
-  left: 28%;
-  width: 700px;
-  height: 100px;
-  display: flex;              /* Add this */
-  flex-direction: row;        /* Add this */
-  flex-wrap: wrap;            /* Add this to wrap to next line if needed */
-  align-items: center;        /* Add this to vertically center */
-  gap: 10px;                  /* Optional: adds spacing between buttons */
+  top: 30%; 
+  left: 45%;
+
+  width: 10%;
+  height: 10%;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  justify-content: center;  /* ⭐ centers horizontally */
+  align-items: center;      /* centers vertically */
+
+  gap: 10px;
   padding: 20px;  
-  z-index: 9999
+  z-index: 9999;
 }
 
 .highlighted-button {
@@ -200,13 +219,8 @@ button { margin: 0; padding: 0}
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
-  /* Critical additions */
-  position: absolute; 
-  top: 50%;           /* Use a visible percentage first to test */
-  left: 50%;          /* Center horizontally */
-  transform: translate(-50%, -50%); /* Keeps it perfectly centered */
-  
+  position: absolute;   
+  bottom: 35%;
   gap: 15px;
   width: 100%;        /* Ensures it has width to center things */
 }
@@ -294,22 +308,9 @@ ul {
 
 #displayText2{
   position: absolute;
-  right: 50px;
-  top: 60px;
+  top: 17%;
+  right: 5%;
   font-size: xx-large;
-}
-
-.screen {
-  display: none;
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.screen.active {
-  display: flex;
 }
 
 .hidden {
@@ -334,27 +335,33 @@ ul {
 #player2 { order: 4; } /* bottom-left */
 
 
+#welcome{
+  position: absolute;
+  right: 33%;
+  top: 10%;
+  font-size: xx-large;
+}
+
 #screen-instruction {
   text-align: center;       /* center the text horizontally */
   font-size: 20px;          /* adjust size */
   font-weight: bold;        /* optional emphasis */
   margin: 10px 0;           /* space around the text */
-  color: #333;              /* dark gray color */
   align-items: center;
 }
 
 #instruction-text{
   position: absolute;
   top: 20%;
-  left: 18%;
+  left: 20%;
 }
 
 #instruction-text-rounds{
   position: absolute;
   font-weight: bold;        /* optional emphasis */
   font-size: 20px;          /* adjust size */
-  top: 30%;
-  left: 32%;
+  top: 35%;
+  left: 34%;
 }
 
 #instruction-text-rounds-ready{
@@ -362,7 +369,7 @@ ul {
   font-weight: bold;        /* optional emphasis */
   font-size: 20px;          /* adjust size */
   top: 25%;
-  left: 20%;
+  left: 23%;
 }
 
 #submitPlayers{
@@ -383,17 +390,18 @@ ul {
 }
 
 .screen {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
-  position: absolute;
+  display: none;
   width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
 }
 
 .screen.active {
+  display: flex;
   opacity: 1;
-  transform: translateY(0);
-  position: relative;
 }
 
 .cell {
@@ -418,22 +426,22 @@ ul {
 
 #categoryReady{
   position: absolute;
-  top: 150px; 
+  top: 50%; 
   height: 75px; 
   width: 150px; 
 }
 
 #playGame{
   position: absolute; 
-  top: 400px; 
-  right: 550px;
+  bottom: 15%; 
+  right: 44%;
   height: 75px; 
   width: 150px; 
 }
 
 #readyUp {
   position: absolute; 
-  top: 360px; 
+  bottom: 20%; 
   height: 75px; 
   width: 150px; 
 }
@@ -479,20 +487,17 @@ button {
 
 #Close {
   position: absolute; 
-  top: 200px;
-  left: 80%;
+  bottom: -475%;
 }
 
 #Previous{
   position: absolute; 
-  top: 65px;
-  left: -150px;
+  left: -180%;
 }
 
 #Next{
   position: absolute; 
-  top: -15px;
-  left: -150px;
+  left: 220%;
 }
 
 #log-ins{
@@ -504,17 +509,6 @@ button {
   position: relative;
   top: -400px;
 } 
-
-#create-acc-css{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 15px;
-  position: relative;
-  top: -200px;
-}
 
 #editButtons {
   position: fixed;
@@ -572,17 +566,18 @@ button {
 #colorPickerWrapper {
   width: 70px;
   height: 50px;
-  padding: 6px;
-
-  background: rgba(255, 192, 203, 0.9); /* matches your pink theme */
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-
+  padding: 2px;
+  background: #000000; 
   display: flex;
   justify-content: center;
   align-items: center;
-
   cursor: pointer;
+}
+
+#backgroundColor {
+  top: 50%;
+  right: 50%;
+  font-weight: 600;
 }
 
 #backgroundColor1 {
@@ -624,4 +619,6 @@ button {
 #Return{
   position: absolute;
   top: -55%;
+  left: 10%;
+  width: 100px;
 }

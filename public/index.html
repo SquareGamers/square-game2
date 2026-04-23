@@ -26,6 +26,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <div id="screen-1" class="screen">
+      <p id = "welcome">WELCOME TO THE SQUARE GAME</p>
       <div id="menu-buttons">
         <button class = "default-button" id="Play">Play</button>
         <button class="default-button" id="Instructions">Instructions</button>
@@ -36,83 +37,81 @@
         <button class="default-button" id="Previous">Previous</button>
         <button class="default-button" id="Next">Next</button>
         <input type="string" id="userStats" placeholder="Username of the player">
-      <button class="default-button" id="showStatsFinal">Show Their Stats</button>
-      <pre id="statsOutput"></pre>
-      <input type="string" id="usernameEmail" placeholder="Username of the player" style="display:none;">
-      <input type="string" id="userEmail" placeholder="Email for account recovery" style="display:none;">
-      <input type="string" id="usernameP" placeholder="Username of the player" style="display:none;">
-      <input type="string" id="oldPIN" placeholder="Old PIN" style="display:none;">
-      <input type="string" id="newPIN" placeholder="New PIN" style="display:none;">
-      <button class="default-button" id="addEmail" style="display:none;">Add an Email (for PIN recovery)</button>
-      <button class="default-button" id="recoverPIN" style="display:none;">Recover PIN</button>
-      <button class="default-button" id="changePIN" style="display:none;">Change PIN</button>
-      <button class="default-button" id="confirmEmail" style="display:none;">Add Email</button>
-      <button class="default-button" id="sendRecovery" style="display:none;">Send Recovery Email</button>
-      <button class="default-button" id="confirmReset" style="display:none;">Confirm Reset</button>
-
+        <button class="default-button" id="showStatsFinal">Show Their Stats</button>
+        <pre id="statsOutput"></pre>
+        <input type="string" id="usernameEmail" placeholder="Username of the player" style="display:none;">
+        <input type="string" id="userEmail" placeholder="Email for account recovery" style="display:none;">
+        <input type="string" id="usernameP" placeholder="Username of the player" style="display:none;">
+        <input type="string" id="oldPIN" placeholder="Old PIN" style="display:none;">
+        <input type="string" id="newPIN" placeholder="New PIN" style="display:none;">
+        <button class="default-button" id="addEmail" style="display:none;">Add an Email (for PIN recovery)</button>
+        <button class="default-button" id="recoverPIN" style="display:none;">Recover PIN</button>
+        <button class="default-button" id="changePIN" style="display:none;">Change PIN</button>
+        <button class="default-button" id="confirmEmail" style="display:none;">Add Email</button>
+        <button class="default-button" id="sendRecovery" style="display:none;">Send Recovery Email</button>
+        <button class="default-button" id="confirmReset" style="display:none;">Confirm Reset</button>
+      </div>
+      <div id="instrText"></div>
+      <div id="rulesText"></div>
     </div>
-        <div id="instrText"></div>
-        <div id="rulesText"></div>
-    </div>
 
-      <!-- ENTER PLAYERS -->
-      <div id="screen-2" class="screen">
-        <!-- INSTRUCTION TEXT -->
-        <div id="screen-instruction">
-          <p id="instruction-text">Enter your name and pass phone to whoever is next to you. Repeat entering + passing until matrix is full.<br>Group size > 4? Combine names to make 4 teams.</p>
-        </div>
+    <!-- ENTER PLAYERS -->
+    <div id="screen-2" class="screen">
+      <!-- INSTRUCTION TEXT -->
+      <div id="screen-instruction">
+        <p id="instruction-text">Enter your name and pass phone to whoever is next to you. Repeat entering + passing until matrix is full.<br>Group size > 4? Combine names to make 4 teams.</p>
+      </div>
 
-    <div class="inputs-wrapper">
-      <button
-        class="default-button"
-        id="submitPlayers"
-        style="display:none;">
-        Submit Players
-      </button>
-
-      <button
-        class="default-button"
-        id="allGuests"
-        style="display:none;">
-        Press to Skip Log In (progress not saved)
-      </button>
-      <div id="playerInputs"></div>
-    </div>
-  </div>
-  
-      <div id="log-ins">
+      <div class="inputs-wrapper">
         <button
           class="default-button"
-          id="signUp"
+          id="submitPlayers"
           style="display:none;">
-          Sign Up
+          Submit Players
         </button>
 
-        <button 
-          class="default-button" 
-          id="logIn" 
+        <button
+          class="default-button"
+          id="allGuests"
           style="display:none;">
-          Log In
+          Press to Skip Log In (progress not saved)
         </button>
-      </div> 
+        <div id="playerInputs"></div>
+      </div>
+    </div>
+  
+    <div id="log-ins">
+      <button
+        class="default-button"
+        id="signUp"
+        style="display:none;">
+        Sign Up
+      </button>
 
-<div id="screen-3" class="screen">
-  <div class="screen-instruction"></div>
-  <p id="sign-up-text">Don't have an account?<br>Put in a unique username and display name!</p>
-</div>
+      <button 
+        class="default-button" 
+        id="logIn" 
+        style="display:none;">
+        Log In
+      </button>
+    </div> 
 
-<div id="create-acc-css">
-  <input type="text" id="uniqueUsername" placeholder="Enter a unique username" style = "display: none;">
-    <input type="text" id="displayNameInput" placeholder="Enter a display name" style = "display: none;">
-    <input type="number" id="PINInput" placeholder="Enter 4-digit PIN" style = "display: none;">
-
-  <button
-    class="default-button"
-    id="createAccount"
-    style = "display: none;">
-    Create Account
-  </button>
-</div>
+    <div id="screen-3" class="screen">
+      <div class="screen-instruction"></div>
+      <p id="sign-up-text">Don't have an account?<br>Put in a unique username and display name!</p>
+      
+      <div id="create-acc-css">
+        <input type="text" id="uniqueUsername" placeholder="Enter a unique username" style = "display: none;">
+          <input type="text" id="displayNameInput" placeholder="Enter a display name" style = "display: none;">
+          <input type="number" id="PINInput" placeholder="Enter 4-digit PIN" style = "display: none;">
+        <button
+          class="default-button"
+          id="createAccount"
+          style = "display: none;">
+          Create Account
+        </button>
+      </div>
+    </div>
 
       <!-- PICK ROUNDS-->
       <div id="screen-4" class="screen">
@@ -129,8 +128,8 @@
 
       <!-- PICK COLOR-->
       <div id="screen-5" class="screen">
-        <label for="backgroundColor">Select Background Color:</label>
-        <input type="color" id="backgroundColor2" value="#b3d7ff">
+        <p id="backgroundColor">Choose Solid Color [OPTIONAL]:</p>
+        <input type="color" id="backgroundColor2" value="#FFFFFF">
         <button class="default-button" id="resetColor">Reset Color</button>
         <button
           class="default-button"
@@ -183,31 +182,31 @@
             Return to Menu
           </button>
 
-          </div>
+        </div>
 
       
-          <div id="customListContainer" style="display:none;">
-            <p>SEPARATE BY COMMA AND SPACE (WORD, WORD, WORD)</p>
-            <textarea id="customList"></textarea>
-          </div>
-
-          <button class="default-button" id="promptCustomList"style="display:none;">
-            Make a Custom List
-          </button>
-
-          <div id="customListContainer" style="display:none;">
-            <p>SEPARATE BY COMMA AND SPACE (WORD, WORD, WORD)</p>
-            <textarea id="customList"></textarea>
-          </div>
-
-            <button
-              class="default-button"
-              id="categoryReady"
-            
-              style="display:none;">
-              BEGIN GAME
-            </button>
+        <div id="customListContainer" style="display:none;">
+          <p>SEPARATE BY COMMA AND SPACE (WORD, WORD, WORD)</p>
+          <textarea id="customList"></textarea>
         </div>
+
+        <button class="default-button" id="promptCustomList"style="display:none;">
+          Make a Custom List
+        </button>
+
+        <div id="customListContainer" style="display:none;">
+          <p>SEPARATE BY COMMA AND SPACE (WORD, WORD, WORD)</p>
+          <textarea id="customList"></textarea>
+        </div>
+
+        <button
+          class="default-button"
+          id="categoryReady"
+        
+          style="display:none;">
+          BEGIN GAME
+        </button>
+      </div>
 
       <!-- GAME-->
       <div id="screen-7" class="screen">
@@ -231,21 +230,21 @@
         <div id="game-ui">
           <p id="displayText2"></p>
 
-            <button id="redBtn">RED WIN</button>
-            <button id="blackBtn">BLACK WIN</button>
+          <button id="redBtn">RED WIN</button>
+          <button id="blackBtn">BLACK WIN</button>
 
-            <button class ="default-button" id="menu">MENU</button>
-            <button class="default-button" id="newWord">SKIP WORD / TIE</button>
-            <button class="default-button" id="playGame">PLAY</button>
-            <button class="default-button" id="readyRound">READY</button>
+          <button class ="default-button" id="menu">MENU</button>
+          <button class="default-button" id="newWord">SKIP WORD / TIE</button>
+          <button class="default-button" id="playGame">PLAY</button>
+          <button class="default-button" id="readyRound">READY</button>
 
-        <div id ="editButtons">
-          <button class="default-button" id="resetBtn">REPLAY</button>  
-          <button class="default-button" id="teamBtn">CHANGE TEAMS</button>
-          <button class="default-button" id="roundsBtn">CHANGE ROUNDS</button>
-          <button class="default-button" id="categoriesBtn">CHANGE CATEGORIES</button>
-          <button class ="default-button" id="X">X</button>
-        </div>
+          <div id ="editButtons">
+            <button class="default-button" id="resetBtn">REPLAY</button>  
+            <button class="default-button" id="teamBtn">CHANGE TEAMS</button>
+            <button class="default-button" id="roundsBtn">CHANGE ROUNDS</button>
+            <button class="default-button" id="categoriesBtn">CHANGE CATEGORIES</button>
+            <button class ="default-button" id="X">X</button>
+          </div>
         <div id="results"></div>
   </div>
   <script type="module" src="app.js"></script>
