@@ -318,10 +318,13 @@ ul {
 }
 
 #playerInputs {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* 2 columns */
+  display: flex;
+  position: absolute; 
   gap: 12px;
-  width: 300px; /* optional: keeps it square-ish */
+  width: 300px; 
+  flex-direction: row;
+  left: 25%;
+  bottom: 50%; 
 }
 
 #playerInputs input {
@@ -375,13 +378,20 @@ ul {
 #submitPlayers{
   position: absolute;
   top: 100%;
-  left: 40%; 
+  left: 0%; 
+}
+
+#allGuests{
+  position: absolute;
+  top: 130%;
+  right: 0%;
+  width: 200px;
 }
 
 .inputs-wrapper {
   position: absolute;        /* position relative to screen */
-  top: 50%;                  /* vertical middle */
-  left: 48%;                 /* horizontal middle */
+  top: 54%;                  /* vertical middle */
+  left: 54%;                 /* horizontal middle */
   transform: translate(-50%, -50%);  /* truly center it */
   display: flex;
   flex-direction: column;
@@ -393,7 +403,6 @@ ul {
   display: none;
   width: 100%;
   height: 100%;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   transition: all 0.3s ease;
@@ -603,13 +612,6 @@ button {
   z-index: 9999;
 }
 
-#allGuests{
-  position: absolute;
-  top: 130%;
-  left: 28%;
-  width: 200px;
-}
-
 #uploadButton{
   position: absolute;
   top: 150%;
@@ -621,4 +623,8 @@ button {
   top: -55%;
   left: 10%;
   width: 100px;
+}
+
+#game-ui{
+  flex-direction: column;
 }
