@@ -87,7 +87,6 @@ function showScreen(screenId, identifier1) {
             logInBtn.style.display = 'none';
             signUpBtn.style.display = 'none';
             setupPlayerInputs();
-            playerInputsDiv.style.display = 'grid';
             clearResults();
             for (let key of playerKeys) { 
                 const player = allPlayers[key]; 
@@ -165,7 +164,6 @@ function showScreen(screenId, identifier1) {
         if (identifier1 == "reset"){
             redBtn.style.display = 'inline-block';
             blackBtn.style.display = 'inline-block';
-            rdyButton.style.display = 'inline-block';
         }
         else{
             console.log("normal route to display matrix");
@@ -190,10 +188,10 @@ let num = 0;
 let allRoles = {"RED EXPLAINER": 4, "RED GUESSER": 5, "BLACK GUESSER": 6, "BLACK EXPLAINER": 7};
 let roleKeys = Object.keys(allRoles);
 let allPlayers = {
-playerone: {name: "PLAYER ONE", score: 0, id: roleKeys[0], dispName: "Guest"},
-playertwo: {name: "PLAYER TWO", score: 0, id: roleKeys[1], dispName: "Guest"},
-playerthree: {name: "PLAYER THREE", score: 0, id: roleKeys[2], dispName: "Guest"},
-playerfour: {name: "PLAYER FOUR", score: 0, id: roleKeys[3], dispName: "Guest"}
+playerone: {name: "PLAYER ONE", score: 0, id: roleKeys[0]},
+playertwo: {name: "PLAYER TWO", score: 0, id: roleKeys[1]},
+playerthree: {name: "PLAYER THREE", score: 0, id: roleKeys[2]},
+playerfour: {name: "PLAYER FOUR", score: 0, id: roleKeys[3]}
 };
 let playerKeys = Object.keys(allPlayers);
 function renderMatrix(){
@@ -240,15 +238,14 @@ async function syncPlayersFromInputs() {
         const input = document.getElementById("player" + i);
         const val = input?.value.trim();
         if (!val){
-            allPlayers[playerKeys[i]].name = "GUEST " + i; 
+            allPlayers[playerKeys[i]].name = "GUEST " + (i+1); 
         }
         else{
             if (val) {
                 const userRef = doc(db, "user-accounts", val); 
                 const userSnap = await getDoc(userRef);
                 const data = userSnap.data();
-                const dispName = data.displayName;
-                allPlayers[playerKeys[i]].name = dispName;
+                allPlayers[playerKeys[i]].name = data.displayName;
             }
         }
     }
@@ -306,10 +303,10 @@ async function syncScore() {
 
         if (player.score > highestScore) {
             highestScore = player.score;
-            winners = [player.dispName]; // new top score → reset winners
+            winners = [player.name]; // new top score → reset winners
         } 
         else if (player.score === highestScore) {
-            winners.push(player.dispName); // tie → add to winners
+            winners.push(player.name); // tie → add to winners
         }
     }
 
@@ -513,7 +510,7 @@ function showWinner() {
     
     if (numWinners == 1) {
         createResult(
-            "Winner: " + allPlayers[standings[0]].dispName +
+            "Winner: " + allPlayers[standings[0]].name +
             " | Score: " + allPlayers[standings[0]].score,
             90,
             10
@@ -521,7 +518,7 @@ function showWinner() {
         for (let i = 1; i < standings.length; i++) {
             const topPos = 35 + 60 * i;
             createResult(
-                allPlayers[standings[i]].dispName +
+                allPlayers[standings[i]].name +
                 " | Score: " + allPlayers[standings[i]].score,
                 60,
                 topPos
@@ -529,12 +526,12 @@ function showWinner() {
         }
     } else if (numWinners == 2) {
         createResult(
-            "Winners: " + allPlayers[standings[0]].dispName + " & " + allPlayers[standings[1]].dispName +
+            "Winners: " + allPlayers[standings[0]].name + " & " + allPlayers[standings[1]].name +
             " | Score: " + allPlayers[standings[0]].score, 90, 10);
         for (let i = 2; i < standings.length; i++) {        
             const topPos = 35 + 60 * i;
             createResult(
-                allPlayers[standings[i]].dispName +
+                allPlayers[standings[i]].name +
                 " | Score: " + allPlayers[standings[i]].score,
                 40,
                 topPos
@@ -542,8 +539,8 @@ function showWinner() {
         }
     } else if (numWinners == 3) {
         createResult(
-            "Winners: " + allPlayers[standings[0]].dispName + " & " + allPlayers[standings[1]].dispName + 
-            " & " + allPlayers[standings[2]].dispName +
+            "Winners: " + allPlayers[standings[0]].name + " & " + allPlayers[standings[1]].name + 
+            " & " + allPlayers[standings[2]].name +
             " | Score: " + allPlayers[standings[0]].score,
             90,
             10
@@ -551,7 +548,7 @@ function showWinner() {
         for (let i = 3; i < standings.length; i++) {        
             const topPos = 35 + 60 * i;
             createResult(
-                allPlayers[standings[i]].dispName +
+                allPlayers[standings[i]].name +
                 " | Score: " + allPlayers[standings[i]].score,
                 40,
                 topPos
@@ -559,8 +556,8 @@ function showWinner() {
         }
     } else {
         createResult(
-            "Winners: " + allPlayers[standings[0]].dispName + " & " + allPlayers[standings[1]].dispName + 
-            " & " + allPlayers[standings[2]].dispName + " & " + allPlayers[standings[3]].dispName +
+            "Winners: " + allPlayers[standings[0]].name + " & " + allPlayers[standings[1]].name + 
+            " & " + allPlayers[standings[2]].name + " & " + allPlayers[standings[3]].name +
             " | Score: " + allPlayers[standings[0]].score,
             80,
             10
@@ -1089,40 +1086,44 @@ function startRoundA(){
 }
 
 redBtn.addEventListener('click', function() {
-    if (r > numRounds-1){
-        updateScore("red");
-        showWinner();
-        syncScore();
-        r++;
-        redBtn.style.display = "none";
-        blackBtn.style.display = "none";
-    }
-    else{
-        num++;
-        rdyButton.style.display = 'inline-block';;
-        r++;
-        displayText2.textContent = `ROUND ${r}`;
-        updateScore("red");
-        changeRoles();
+    if (finalPlay.style.display === "none" && rdyButton.style.display === "none"){
+        if (r > numRounds-1){
+            updateScore("red");
+            showWinner();
+            syncScore();
+            r++;
+            redBtn.style.display = "none";
+            blackBtn.style.display = "none";
+        }
+        else{
+            num++;
+            rdyButton.style.display = 'inline-block';;
+            r++;
+            displayText2.textContent = `ROUND ${r}`;
+            updateScore("red");
+            changeRoles();
+        }
     }
 });
 
 blackBtn.addEventListener('click', function() {
-    if (r > numRounds-1){
-        updateScore("black");
-        showWinner();
-        syncScore();
-        r++;
-        redBtn.style.display = "none";
-        blackBtn.style.display = "none";
-    }
-    else{
-        num++;
-        rdyButton.style.display = 'inline-block';;
-        r++;
-        displayText2.textContent = `ROUND ${r}`;
-        updateScore("black");
-        changeRoles();
+    if (finalPlay.style.display === "none" && rdyButton.style.display === "none"){
+        if (r > numRounds-1){
+            updateScore("black");
+            showWinner();
+            syncScore();
+            r++;
+            redBtn.style.display = "none";
+            blackBtn.style.display = "none";
+        }
+        else{
+            num++;
+            rdyButton.style.display = 'inline-block';;
+            r++;
+            displayText2.textContent = `ROUND ${r}`;
+            updateScore("black");
+            changeRoles();
+        }
     }
 });
 let z = 0;
@@ -1539,7 +1540,7 @@ function newWord(count1){
 
 function setupPlayerInputs() {
     const playerInputsDiv = document.getElementById("playerInputs");
-    playerInputsDiv.style.display = "grid";
+    playerInputsDiv.style.display = "flex";
     playerInputsDiv.innerHTML = ""; // clear previous inputs
     // create input fields
     for (let i = 0; i < 4; i++) {
@@ -1618,7 +1619,7 @@ submitBtn.addEventListener("click", async () => {
         playerInputsDiv.style.display = "none";
         submitBtn.style.display = "none";
         playerInputsDiv.style.display = "none";
-        syncPlayersFromInputs();
+        await syncPlayersFromInputs();
         if (isReset){
             renderMatrix();
             showScreen('screen-7', "reset");
@@ -1629,12 +1630,12 @@ submitBtn.addEventListener("click", async () => {
     }
 });
 
-allGuests.addEventListener("click",()=>{
+allGuests.addEventListener("click", async()=>{
     submitBtn.style.display = "none";
     playerInputsDiv.style.display = "none";
     submitBtn.style.display = "none";
     playerInputsDiv.style.display = "none";
-    syncPlayersFromInputs();
+    await syncPlayersFromInputs();
     if (isReset){
         renderMatrix();
         showScreen('screen-7', "reset");
@@ -1725,8 +1726,8 @@ function showRules() {
 }
 async function createAcc(){
     const username = uniqueUsername.value;
-    const displayName=displayNameInput.value;
-    const PIN=PINInput.value;
+    const displayName = displayNameInput.value;
+    const PIN = PINInput.value; 
 
         if (username === "") {
           alert("Please enter a username.");
@@ -1970,6 +1971,10 @@ signUpBtn.addEventListener("click",()=>{
 
 createAccBtn.addEventListener("click",()=>{
     createAcc();
+    uniqueUsername.value = "";
+    displayNameInput.value = "";
+    PINInput.value = "";
+
 }); 
 
 logInBtn.addEventListener("click",()=>{
