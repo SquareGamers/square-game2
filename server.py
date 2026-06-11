@@ -80,7 +80,12 @@ class MiniFlask:
         start_response('404 Not Found', [('Content-Type','text/plain')])
         return [b'Not Found']
 
-    def run(self):
+    def run(self, host=None, port=None):
+        if host:
+            self.host = host
+        if port:
+            self.port = port
+
         print(f"Starting server at http://{self.host}:{self.port}")
         with make_server(self.host, self.port, self) as httpd:
             httpd.serve_forever()
@@ -89,4 +94,4 @@ class MiniFlask:
 app = MiniFlask(static_folder='frontend')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port=5000)

@@ -43,6 +43,14 @@ const Settings = document.getElementById('Settings');
 const submitBtn = document.getElementById("submitPlayers");
 const allGuests = document.getElementById("allGuests");
 const welcome = document.getElementById("welcome");
+const menuBtn = document.getElementById('menu');
+const originalMenuStyles = {
+    position: menuBtn.style.position,
+    top: menuBtn.style.top,
+    left: menuBtn.style.left,
+    right: menuBtn.style.right
+};
+
 
 function showScreen(screenId, identifier1) {
     document.querySelectorAll(".screen").forEach(screen => {
@@ -114,6 +122,10 @@ function showScreen(screenId, identifier1) {
         currScreen = 4;
         editButtons.classList.remove("active");
         menuBtn.style.display = "inline-block";
+        menuBtn.style.position = originalMenuStyles.position;
+        menuBtn.style.top = originalMenuStyles.top;
+        menuBtn.style.left = originalMenuStyles.left;
+        menuBtn.style.right = originalMenuStyles.right;
         (document.getElementById('numRounds')).style.display = "inline-block";
         startRounds.style.display = 'inline-block';
         clearResults();
@@ -143,6 +155,10 @@ function showScreen(screenId, identifier1) {
         }
         editButtons.classList.remove("active");
         menuBtn.style.display = "inline-block";
+        menuBtn.style.position = originalMenuStyles.position;
+        menuBtn.style.top = originalMenuStyles.top;
+        menuBtn.style.left = originalMenuStyles.left;
+        menuBtn.style.right = originalMenuStyles.right;
         defCatBtn.style.display = 'inline-block';
         createCustListBtn.style.display = 'inline-block';
         uploadButton.style.display = 'inline-block';
@@ -425,7 +441,6 @@ prevInstruction.classList.add('hidden1');
 const printPlayers = document.getElementById('printPlayers');
 const printRounds = document.getElementById('printRounds');
 const printCategories = document.getElementById('printCategories');
-const menuBtn = document.getElementById('menu');
 const editButtons = document.getElementById("editButtons");
 const X = document.getElementById("X");
 const createAccBtn = document.getElementById('createAccount');
@@ -450,6 +465,7 @@ const oldP = document.getElementById('oldPIN');
 const newP = document.getElementById('newPIN');
 const confirmReset = document.getElementById('confirmReset');
 const sendR = document.getElementById('sendRecovery');
+const waitOverlay = document.getElementById("waitOverlay");
 
 
 function clearResults() {
@@ -457,12 +473,12 @@ function clearResults() {
 }
 
 function showWinner() {
+    menuBtn.style.position = "absolute";
+    menuBtn.style.bottom = "10px";
     wordEl.style.display = 'none';
     document.getElementById("matrix").innerHTML = "";
     newButton.style.display = "none";
-    helpBtn.style.display = 'none';
     goBack.style.display = 'none';
-    rdyButton.style.display = 'none';
     displayText2.textContent = '';
     removeEl('myWord');
     
@@ -901,12 +917,15 @@ function displayWord(word2){
     removeEl('myNum');
     wordEl = document.createElement('span');
     wordEl.id = 'myWord';
+    wordEl.style.color = 'white';
     wordEl.style.top = '100px'; 
     wordEl.style.position = 'absolute';
-    wordEl.style.fontSize='60px';
+    wordEl.style.zIndex = "9999";
+    wordEl.style.fontSize='30px';
     wordEl.style.transition = 'all 0.5s ease';
     wordEl.textContent = "WAIT. NEXT WORD: " + word2;
     document.body.appendChild(wordEl);
+    waitOverlay.classList.add("active");
 
     function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -919,9 +938,11 @@ function displayWord(word2){
         wordEl.style.left = (screenWidth/2)-(wordEl.offsetWidth/2) + "px";
         await delay(2000); // wait 2 seconds
         wordEl.textContent = word2;
-        wordEl.style.top = '20px';
-        wordEl.style.fontSize='50px';
-        wordEl.style.left = (screenWidth/2)-(wordEl.offsetWidth/2) + 50 + "px";
+        wordEl.style.top = '5px';
+        wordEl.style.fontSize='30px';
+        wordEl.style.left = (screenWidth/2)-(wordEl.offsetWidth/2) + "px";
+        waitOverlay.classList.remove("active");
+
     }
     moveWord();
 }
@@ -1131,6 +1152,10 @@ resetBtn.addEventListener('click', () => {
     wordEl.style.display = 'none';
     editButtons.classList.remove("active");
     menuBtn.style.display = "inline-block";
+    menuBtn.style.position = originalMenuStyles.position;
+    menuBtn.style.top = originalMenuStyles.top;
+    menuBtn.style.left = originalMenuStyles.left;
+    menuBtn.style.right = originalMenuStyles.right;
     redBtn.style.display = 'inline-block';
     blackBtn.style.display = 'inline-block';
     finalPlay.style.display = 'inline-block';
@@ -1162,6 +1187,10 @@ teamBtn.addEventListener('click', () => {
     wordEl.style.display = 'none';
     editButtons.classList.remove("active");
     menuBtn.style.display = "inline-block";
+    menuBtn.style.position = originalMenuStyles.position;
+    menuBtn.style.top = originalMenuStyles.top;
+    menuBtn.style.left = originalMenuStyles.left;
+    menuBtn.style.right = originalMenuStyles.right;
     showScreen('screen-2', "change teams");
     helpBtn.style.display = 'inline-block';
     goBack.style.display = 'inline-block';
@@ -1963,6 +1992,10 @@ menuBtn.addEventListener('click', ()=>{
 X.addEventListener('click', ()=>{
     editButtons.classList.remove("active");
     menuBtn.style.display = "inline-block";
+    menuBtn.style.position = originalMenuStyles.position;
+    menuBtn.style.top = originalMenuStyles.top;
+    menuBtn.style.left = originalMenuStyles.left;
+    menuBtn.style.right = originalMenuStyles.right;
 });
 
 signUpBtn.addEventListener("click",()=>{

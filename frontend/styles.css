@@ -35,12 +35,9 @@ body {
 
 #app {
   width: 100%;
-  height: 100dvh;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes gradientMove {
@@ -62,6 +59,7 @@ button { margin: 0; padding: 0}
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    color: black;
   }
   
   /* hover = lift */
@@ -76,11 +74,6 @@ button { margin: 0; padding: 0}
     box-shadow: 0 3px 8px rgba(0,0,0,0.15);
   }
 
-#choose-your-category{
-  position:absolute;
-  top: 40%;
-  left: 32%;
-}
 
 .menu-button{
   background-color: pink;
@@ -92,23 +85,14 @@ button { margin: 0; padding: 0}
 }
 
 #menu-buttons {
-  position: absolute; 
-  top: 30%; 
-  left: 45%;
-
-  width: 10%;
-  height: 10%;
+  position: static;
 
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
 
-  justify-content: center;  /* ⭐ centers horizontally */
-  align-items: center;      /* centers vertically */
-
-  gap: 10px;
-  padding: 20px;  
-  z-index: 9999;
+  width: min(900px, 100%);
+  gap: 12px;
 }
 
 .highlighted-button {
@@ -148,8 +132,8 @@ button { margin: 0; padding: 0}
   border-radius: 8px;       /* rounded corners */
   cursor: pointer;          /* cursor changes on hover */
   position: absolute;
-  bottom: 50%;
-  right: 5px;
+  bottom: -3%;
+  right: 25px;
   width: 100px;             /* width of the button */
   height: 100px;            /* same as width to make it a circle */
   border-radius: 50%;        
@@ -169,8 +153,8 @@ button { margin: 0; padding: 0}
   border-radius: 0px;       /* rounded corners */
   cursor: pointer;          /* cursor changes on hover */
   position: absolute;
-  bottom: 50%;
-  right: 110px;
+  bottom: 33%;
+  right: 25px;
   width: 100px;             /* width of the button */
   height: 100px;            /* same as width to make it a circle */
   border-radius: 50%;        
@@ -179,19 +163,6 @@ button { margin: 0; padding: 0}
 /* Optional hover effect */
 #redBtn:hover {
   background-color: rgb(160, 0, 0);
-}
-
-#button-container {
-  width: 150px;       /* width of the container */
-  height: 100px;      /* height of the container */
-  border-radius: 20px; /* makes corners rounded */
-  padding: 10px; 
-  position: absolute;
-  top: 25%;
-  left: 45%;  
-  display: flex;             /* 1. Enable Flexbox */
-  flex-direction: column;
-  justify-content: space-around; 
 }
 
 #undo-buttons {
@@ -206,12 +177,9 @@ button { margin: 0; padding: 0}
 
 #log-ins {
   display: flex;
-  flex-direction: row;
-  gap: 15px;
   justify-content: center;
-  align-items: center;
-  position: relative;   /* or absolute if you prefer exact placement */
-  top: -400px;  
+  gap: 15px;
+  margin-top: 20px;
 }
 
 #create-acc-css {
@@ -298,19 +266,14 @@ ul {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 #wordEl{
   text-align: center;
   font-weight: bold;
-}
-
-#displayText2{
-  position: absolute;
-  top: 17%;
-  right: 5%;
-  font-size: xx-large;
+  position: absolute; 
+  z-index: 9999;
 }
 
 .hidden {
@@ -319,12 +282,12 @@ ul {
 
 #playerInputs {
   display: flex;
-  position: absolute; 
-  gap: 12px;
-  width: 300px; 
-  flex-direction: row;
-  left: 25%;
-  bottom: 50%; 
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+
+  width: 100%;
+  max-width: 900px;
 }
 
 #playerInputs input {
@@ -339,10 +302,11 @@ ul {
 
 
 #welcome{
-  position: absolute;
-  right: 33%;
-  top: 10%;
-  font-size: xx-large;
+  position: static;
+  text-align: center;
+  margin-top: 20px;
+  
+  /* font-size: xx-large; */
 }
 
 #screen-instruction {
@@ -353,56 +317,46 @@ ul {
   align-items: center;
 }
 
-#instruction-text{
-  position: absolute;
-  top: 20%;
-  left: 20%;
+#instruction-text,
+#instruction-text-rounds,
+#instruction-text-rounds-ready {
+  position: static;
+  text-align: center;
+  max-width: 900px;
+  font-weight: bold; 
+  font-size: 20px;
 }
 
-#instruction-text-rounds{
-  position: absolute;
-  font-weight: bold;        /* optional emphasis */
-  font-size: 20px;          /* adjust size */
-  top: 35%;
-  left: 34%;
-}
-
-#instruction-text-rounds-ready{
-  position: absolute;
-  font-weight: bold;        /* optional emphasis */
-  font-size: 20px;          /* adjust size */
-  top: 25%;
-  left: 23%;
-}
-
-#submitPlayers{
-  position: absolute;
-  top: 100%;
-  left: 0%; 
-}
-
-#allGuests{
-  position: absolute;
-  top: 130%;
-  right: 0%;
-  width: 200px;
-}
 
 .inputs-wrapper {
-  position: absolute;        /* position relative to screen */
-  top: 54%;                  /* vertical middle */
-  left: 54%;                 /* horizontal middle */
-  transform: translate(-50%, -50%);  /* truly center it */
   display: flex;
   flex-direction: column;
-  gap: 12px;                 /* spacing between inputs + button */
-  text-align: center;
+  align-items: center;
+  gap: 15px;
+
+  position: static;
+  transform: none;
+}
+
+#submitPlayers,
+#allGuests {
+  position: static;
+  width: 250px;
 }
 
 .screen {
   display: none;
   width: 100%;
-  height: 100%;
+  min-height: 100dvh;
+
+  flex-direction: column;
+  align-items: center;
+
+  gap: 20px;
+  padding: 20px;
+
+  overflow-y: auto;
+
   justify-content: center;
   align-items: center;
   transition: all 0.3s ease;
@@ -432,33 +386,40 @@ ul {
   text-align: left;
 }
 
+#choose-your-category,
+#button-container,
+#categoryReady {
+  position: static;
+}
 
-#categoryReady{
-  position: absolute;
-  top: 50%; 
-  height: 75px; 
-  width: 150px; 
+#button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(300px, 100%);
+  height: auto;
 }
 
 #playGame{
-  position: absolute; 
-  bottom: 15%; 
-  right: 44%;
-  height: 75px; 
-  width: 150px; 
+  position: static;
+  width: 200px;
+  height: 75px;
 }
 
 #readyUp {
-  position: absolute; 
-  bottom: 20%; 
-  height: 75px; 
-  width: 150px; 
+  position: static;
+  width: 200px;
+  height: 75px;
 }
 
-#newWord{
-  position: absolute; 
-  top: 25px; 
-  left: 20%;
+#displayText2 {
+  position: static;
+  text-align: center;
+  font-size: clamp(24px, 4vw, 48px);
+}
+
+#newWord {
+  position: static;
 }
 
 #promptCustomList{
@@ -480,8 +441,8 @@ ul {
 }
 button {
   margin: 10px;
-  padding: 20px;
-  font-size:50px;
+  padding: 10px 16px;
+  font-size: clamp(16px, 2vw, 24px);
 } 
 
 #instrText, #rulesText {
@@ -494,19 +455,9 @@ button {
   max-height: 80vh;          /* limit height to 80% of viewport */
 }
 
-#Close {
-  position: absolute; 
-  bottom: -475%;
-}
-
-#Previous{
-  position: absolute; 
-  left: -180%;
-}
-
-#Next{
-  position: absolute; 
-  left: 220%;
+#Previous,
+#Next, #Close {
+  display: none !important;
 }
 
 #log-ins{
@@ -515,8 +466,7 @@ button {
   gap: 15px;
   justify-content: center;
   align-items: center;
-  position: relative;
-  top: -400px;
+  position: static;
 } 
 
 #editButtons {
@@ -603,13 +553,11 @@ button {
   position: absolute;
   right: 10%;
   top: 10%;
-  z-index: 9999;
 } 
 
 #getHelp{
   position: absolute;
   right: 10%;
-  z-index: 9999;
 }
 
 #uploadButton{
@@ -627,4 +575,23 @@ button {
 
 #game-ui{
   flex-direction: column;
+}
+
+#waitOverlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+
+  z-index: 1000;
+}
+
+#waitOverlay.active {
+  opacity: 1;
 }
