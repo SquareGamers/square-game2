@@ -466,6 +466,8 @@ const newP = document.getElementById('newPIN');
 const confirmReset = document.getElementById('confirmReset');
 const sendR = document.getElementById('sendRecovery');
 const waitOverlay = document.getElementById("waitOverlay");
+const rulesDiv = document.getElementById("rulesDiv");
+const instrDiv = document.getElementById("instrDiv");
 
 
 function clearResults() {
@@ -1708,12 +1710,8 @@ function displayInstructions(){
                 'Check out the stats tab after the game to compare stats with your friends!',
                 'Good Luck!'
                 ];
-    instr1.style.position = 'absolute';
-    instr1.style.top = '50%';
     instr1.style.fontSize='40px';
     instr1.style.transition = 'all 0.5s ease';
-    instr1.style.left = '50%';
-    instr1.style.transform = 'translate(-50%, -50%)';
     divInstrInput.appendChild(instr1);
 
     let a = 0;
@@ -1801,6 +1799,7 @@ Instructions.addEventListener('click',()=>{
     Stats.style.display = 'none';
     Settings.style.display = 'none';
     Close.style.display = 'inline-block';
+    welcome.style.display = 'none';
     divRules.innerHTML = "";
     displayInstructions();
     nextInstruction.classList.remove('hidden1');
@@ -1816,6 +1815,7 @@ Instructions.addEventListener('click',()=>{
     Stats.style.display = 'none';
     Settings.style.display = 'none';
     Close.style.display = 'inline-block';
+    welcome.style.display = 'none';
     divInstrInput.innerHTML = "";
     nextInstruction.classList.remove('visible');
     prevInstruction.classList.remove('visible');
@@ -1832,6 +1832,7 @@ Stats.addEventListener("click",()=>{
     userStats.style.display = 'inline-block';
     showStatsFinal.style.display = 'inline-block';
     Close.style.display = 'inline-block';
+    welcome.style.display = 'none';
   });
 
   Settings.addEventListener("click",()=>{
@@ -1844,7 +1845,7 @@ Stats.addEventListener("click",()=>{
     recoverP.style.display = 'inline-block';
     changeP.style.display = 'inline-block';
     Close.style.display = 'inline-block';
-    
+    welcome.style.display = 'none';
   });
   changeP.addEventListener('click',() => {
     changeP.style.display = 'none';
@@ -2082,4 +2083,5 @@ helpBtn.addEventListener('click', ()=> {
     nextInstruction.classList.add('visible');
     prevInstruction.classList.add('visible');
     helpBtn.style.display = 'none';
+    welcome.style.display = 'none';
 }); 

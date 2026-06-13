@@ -126,17 +126,15 @@ button { margin: 0; padding: 0}
 #blackBtn {
   background-color: rgb(0, 0, 0);   /* button background */
   color: white;             /* text color */
-  font-size: 18px;          /* bigger text */
+  font-size: 12px;          /* bigger text */
   padding: 10px 20px;       /* space inside button */
   border: none;             /* remove border */
   border-radius: 8px;       /* rounded corners */
   cursor: pointer;          /* cursor changes on hover */
-  position: absolute;
-  bottom: -3%;
-  right: 25px;
-  width: 100px;             /* width of the button */
-  height: 100px;            /* same as width to make it a circle */
-  border-radius: 50%;        
+  width: 75px;             /* width of the button */
+  height: 75px;            /* same as width to make it a circle */
+  border-radius: 50%;       
+  position: static; 
 }
 
 /* Optional hover effect */
@@ -147,17 +145,15 @@ button { margin: 0; padding: 0}
 #redBtn {
   background-color: rgb(255, 0, 0);   /* button background */
   color: white;             /* text color */
-  font-size: 18px;          /* bigger text */
+  font-size: 12px;          /* bigger text */
   padding: 10px 20px;       /* space inside button */
   border: none;             /* remove border */
   border-radius: 0px;       /* rounded corners */
   cursor: pointer;          /* cursor changes on hover */
-  position: absolute;
-  bottom: 33%;
-  right: 25px;
-  width: 100px;             /* width of the button */
-  height: 100px;            /* same as width to make it a circle */
+  width: 75px;             /* width of the button */
+  height: 75px;            /* same as width to make it a circle */
   border-radius: 50%;        
+  position: static; 
 }
 
 /* Optional hover effect */
@@ -170,9 +166,7 @@ button { margin: 0; padding: 0}
   height: 100px;      
   border-radius: 20px; 
   padding: 10px; 
-  position: absolute;
-  bottom: 275px;
-  right: 275px;  
+  position: static; 
 }
 
 #log-ins {
@@ -187,18 +181,15 @@ button { margin: 0; padding: 0}
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: absolute;   
-  bottom: 35%;
+  position: static;   
   gap: 15px;
   width: 100%;        /* Ensures it has width to center things */
 }
 
 #sign-up-text{
-  position: absolute;
+  position: static;
   font-weight: bold;        /* optional emphasis */
   font-size: 20px;          /* adjust size */
-  top: 30%;
-  left: 38%;
 }
 
 #pickBtn {
@@ -209,9 +200,7 @@ button { margin: 0; padding: 0}
   border: none;             /* remove border */
   border-radius: 8px;       /* rounded corners */
   cursor: pointer;          /* cursor changes on hover */
-  position: absolute;
-  bottom: 50px;
-  right: 50%;
+  position: static;
   transform: translateX(-50%); /* adjust to center exactly */
   width: 300px;             /* width of the button */
   height: 100px;            /* same as width to make it a circle */   
@@ -244,14 +233,11 @@ ul {
 }
 
 #custRand{
-  position: absolute;
-  bottom: 25px;
+  position: static;
 }
 
 #customListContainer{
-  position: absolute;
-  bottom: 20%;
-  left: 40%;
+  position: static;
 }
 
 .player-row {
@@ -272,7 +258,7 @@ ul {
 #wordEl{
   text-align: center;
   font-weight: bold;
-  position: absolute; 
+  position: static; 
   z-index: 9999;
 }
 
@@ -415,7 +401,9 @@ ul {
 #displayText2 {
   position: static;
   text-align: center;
-  font-size: clamp(24px, 4vw, 48px);
+  font-size: clamp(18px, 4vw, 48px);
+  margin: 0;
+  padding: 0;
 }
 
 #newWord {
@@ -423,9 +411,7 @@ ul {
 }
 
 #promptCustomList{
-  position: absolute; 
-  bottom: 10%; 
-  left: 40%;
+  position: static; 
 }
 
 .hidden1 {
@@ -445,19 +431,26 @@ button {
   font-size: clamp(16px, 2vw, 24px);
 } 
 
-#instrText, #rulesText {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  width: 70%;                /* or 70%, adjust as needed */
-  max-height: 80vh;          /* limit height to 80% of viewport */
+.instrDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
 }
 
-#Previous,
-#Next, #Close {
-  display: none !important;
+#instrText {
+  max-width: 80%;
+  text-align: center;
+}
+
+.prevAndNext {
+  margin-top: 10px;
+}
+
+.rulesDiv{
+  max-width: 80%;
+  text-align: center;
 }
 
 #log-ins{
@@ -507,19 +500,7 @@ button {
 }
 
 #quit {
-  position: absolute;
-  top: 90px;
-  left: 50px;
-}
-
-#selectionsContainer {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  font-size: 14px;
+  position: static;
 }
 
 #colorPickerWrapper {
@@ -534,8 +515,6 @@ button {
 }
 
 #backgroundColor {
-  top: 50%;
-  right: 50%;
   font-weight: 600;
 }
 
@@ -549,32 +528,26 @@ button {
   cursor: pointer;
 }
 
-#goBack{
-  position: absolute;
-  right: 10%;
-  top: 10%;
+/* #goBack{
+  position: static;
 } 
 
 #getHelp{
-  position: absolute;
-  right: 10%;
-}
+  position: static;
+} */
 
 #uploadButton{
-  position: absolute;
-  top: 150%;
-  left: 45%;
+  position: static;
 }
 
 #Return{
-  position: absolute;
-  top: -55%;
-  left: 10%;
+  position: static;
   width: 100px;
 }
 
 #game-ui{
   flex-direction: column;
+  width: 100%;
 }
 
 #waitOverlay {
@@ -594,4 +567,59 @@ button {
 
 #waitOverlay.active {
   opacity: 1;
+}
+
+.belowButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* horizontal centering */
+  justify-content: center;  /* vertical centering (if height exists) */
+  width: 100%;
+}
+
+.optionsBtns {
+  display: flex;
+  justify-content: center;   /* 👈 centers the whole row */
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;           /* 👈 prevents breaking on small screens */
+}
+
+.matrix-area {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  width: 75%;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+#matrix-wrapper {
+  flex: 1;
+}
+
+.winButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.topBar {
+    position: relative;
+}
+
+#selectionsContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+#backButtons{
+  position: absolute; 
+  top: 0; 
+  right: 0;
+  z-index: 10;
 }
