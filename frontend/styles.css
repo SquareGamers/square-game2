@@ -277,8 +277,8 @@ ul {
 }
 
 #playerInputs input {
-  padding: 8px;
-  font-size: 14px;
+  padding: 4px;
+  font-size: 10px;
 }
 
 #player0 { order: 1; }
@@ -308,9 +308,9 @@ ul {
 #instruction-text-rounds-ready {
   position: static;
   text-align: center;
-  max-width: 900px;
+  max-width: 500px;
   font-weight: bold; 
-  font-size: 20px;
+  font-size: 10px;
 }
 
 
@@ -384,6 +384,7 @@ ul {
   gap: 10px;
   width: min(300px, 100%);
   height: auto;
+  align-items: center; /* Centers horizontally */
 }
 
 #playGame{
@@ -542,7 +543,6 @@ button {
 
 #Return{
   position: static;
-  width: 100px;
 }
 
 #game-ui{
@@ -622,4 +622,76 @@ button {
   top: 0; 
   right: 0;
   z-index: 10;
+}
+/* Compact iPhone landscape layout */
+@media (orientation: landscape) and (max-height: 500px) {
+  html,
+  body,
+  #app {
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .screen {
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+
+    gap: 8px;
+    padding:
+      max(10px, env(safe-area-inset-top))
+      max(16px, env(safe-area-inset-right))
+      max(10px, env(safe-area-inset-bottom))
+      max(16px, env(safe-area-inset-left));
+  }
+
+  .screen p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  /*welcome,
+  #instruction-text,
+  #instruction-text-rounds,
+  #instruction-text-rounds-ready,
+  #sign-up-text {
+    font-size: clamp(14px, 3vh, 20px);
+  }*/
+
+  .default-button,
+  .highlighted-button,
+  .red-button,
+  .highlighted-red-button {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  #menu-buttons,
+  #playerInputs,
+  .optionsBtns,
+  #choose-your-category {
+    gap: 8px;
+  }
+}
+
+#selectionsContainer {
+  left: max(16px, env(safe-area-inset-left));
+}
+
+#backButtons {
+  right: max(16px, env(safe-area-inset-right));
+}
+
+@media (orientation: landscape) {
+  #screen-7 {
+    padding-top: 52px;
+    padding-bottom: 12px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  #screen-6 {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 }
